@@ -2,7 +2,7 @@
 
 ```
 BinMenu is my answer to not being able to find a PowerShell menu that worked for me.
-I keep all my portable software in one folder. (C:\bin)
+I keep all my portable software in subfolders off one folder. (C:\bin)
 Well i needed a menu that reads it in even when the software changes.
 This is a first draft and is working on my machines with PowerShell Core 6.0.3.
 It Also will in the next release read in my scripts that are stored in that folder.
