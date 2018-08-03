@@ -33,4 +33,4 @@ Write-Output ($uri + $base64) >> $txtPath
 Write-Host "Done"
 
 #Usage: imgto64 <complete path to file.name>
-#[ FileVersion = 0.0.2 ]
+#[ FileVersion = 0.0.3 ]
