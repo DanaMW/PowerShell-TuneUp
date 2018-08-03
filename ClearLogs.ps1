@@ -2,4 +2,4 @@
 wevtutil el | Foreach-Object {wevtutil cl $_}
 
 #Run as admin
-#[ FileVersion 0.0.1 ]
+#[ FileVersion 0.0.2 ]
