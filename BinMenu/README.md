@@ -16,7 +16,7 @@ The file it creates you then edit.
 Take out the lines of the programs that YOU WANT. NOTE Leave in the programs you DONT WANT.
 Save that file as BinMenu.csv.
 Then edit BinMenuRW.ps1 And recomment the BREAK that you uncommented and save.
-Rerun BinMenuRW and it creates the BinMEnu.ini that BinMenu reads. 
+Rerun BinMenuRW and it creates the BinMenu.ini that BinMenu reads. 
 Run BinMenu.ps1 and ...
 There you are .. a custom menu with your current exe programs.
 
