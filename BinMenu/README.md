@@ -21,4 +21,4 @@ Run BinMenu.ps1 and ...
 There you are .. a custom menu with your current exe programs.
 
 ```
-Note: I have not tested it in a polder with spaces in the path yet. If you do ;et me know how it goes :)
+Note: I have not tested it in a folder with spaces in the path yet. If you do let me know how it goes :)
