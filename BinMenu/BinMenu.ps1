@@ -35,7 +35,7 @@ $c++
 $c++
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 68)
-$pa = ($a + 6)
+$pa = ($a + 10)
 #Draw the menu outline now.
 Clear-Host
 Write-Host $NormalLine
@@ -85,8 +85,37 @@ While ($i -le $Row[2]) {
     $i++
     $c++
     $c++
-    $L++
+    $l++
 }
+#Adding Built in menu
+$l++
+$l++
+#$l = $pa
+$w = 1
+[Console]::SetCursorPosition(0, $l)
+Write-Host $NormalLine
+Write-Host $SpacerLine
+Write-Host $SpacerLine
+Write-Host $SpacerLine
+$l++
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mA$ESC[91m]$ESC[36m" "Run any command directly"
+$l++
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mR$ESC[91m]$ESC[36m" "Reload the menu"
+$l++
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mQ$ESC[91m]$ESC[36m" "Quit BinMenu"
+$l = ($l - 2)
+$w = $Col[1]
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mW$ESC[91m]$ESC[36m" "Run the BinRW"
+$l++
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mP$ESC[91m]$ESC[36m" "Run a PowerShell Console"
+$l++
+[Console]::SetCursorPosition($w, $l)
+Write-host -NoNewLine "$ESC[91m[$ESC[97mC$ESC[91m]$ESC[36m" "Run VS Code (NewIDE"
 
 #Draw Menu End
 [Console]::SetCursorPosition(0, ($pa - 1))
@@ -154,11 +183,6 @@ Do {
             Write-Host -NoNewLine "                                                                                           "
             [Console]::SetCursorPosition(0, $pa)
             Start-Process "pwsh.exe" -Verb RunAs
-        }
-        "V" {
-            Write-Host -NoNewLine "                                                                                           "
-            [Console]::SetCursorPosition(0, $pa)
-            Start-Process "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe"
         }
         "Q" {
             Write-Host -NoNewLine "                                                                                           "
@@ -539,4 +563,4 @@ Do {
     } #switch
 } While ($True)
 
-#[ $FileVersion = 0.0.8 ]
+#[ $FileVersion = 0.1.0 ]
