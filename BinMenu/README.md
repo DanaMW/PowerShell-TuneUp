@@ -9,8 +9,9 @@ It Also will in the next release read in my scripts that are stored in that fold
 
 
 To use it place the two files in the desired folder.
-Open BinMenuRW.ps1 and change the "BASE" folder at the top, then,
-uncomment the "BREAK" (Comments show you where) then save and run it.
+Open with your text editor bot BinMenuRW.ps1 and BinMenu.ps1 and change the "BASE" folder at the top.
+Save BinMenu.ps1, then back to editing BinMenu.ps1.
+Uncomment the "BREAK" (Comments show you where) then save and run it.
 The file it creates you then edit.
 Take out the lines of the programs that YOU WANT. NOTE Leave in the programs you DONT WANT.
 Save that file as BinMenu.csv.
