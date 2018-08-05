@@ -79,4 +79,4 @@ if ($Filetest -eq $true) { Remove-Item –path $Filecsv }
 #Run the BinMenu.
 return
 
-#[ FileVersion = 0.0.5 ]
+#[ FileVersion = 0.1.6 ]

@@ -4,9 +4,13 @@ $Base = "C:\bin"
 $Fileini = "$Base\" + "BinMenu.ini"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
-    Write-Host "The File $Fileini missing Check this out!"
+    Write-Host "The File $Fileini missing Check into this!"
+    Write-Host "You fix this by running the BinMenuRW.ps1 file creator"
     break
 }
+$Filetmp = "$Base\" + "BinTemp.del"
+$Filetest = Test-Path -path $Filetmp
+if ($Filetest -eq $true) { Remove-Item –path $Filetxt }
 Set-Location $Base
 $ESC = [char]27
 $NormalLine = "$ESC[31m#=====================================================================================================#$ESC[37m"
@@ -39,7 +43,7 @@ Write-Host $FancyLine
 Write-Host $NormalLine
 $i = 1
 While ($i -le $a) { Write-Host $SpacerLine; $i++ }
-#Fill in the menu options.
+#Fill in the users menu options.
 #Start Reading Col 1
 $l = 5
 $c = 0
@@ -85,38 +89,71 @@ While ($i -le $Row[2]) {
 $l++
 $l++
 #$l = $pa
-$w = 1
+$w = [int]$Col[0]
 [Console]::SetCursorPosition(0, $l)
 Write-Host $NormalLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
+$d = @("A", "R", "Q", "W", "P", "C")
+$f = @("Run any command directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ")
+$w = [int]$Col[0]
 $l++
-[Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mA$ESC[91m]$ESC[36m" "Run any command directly"
+$c = 0
+while ($c -le 5) {
+    [Console]::SetCursorPosition($w, $l)
+    $tmp = $d[$c]
+    Write-host -NoNewLine "$ESC[31m[$ESC[37m$tmp$ESC[31m]$ESC[36m" $f[$c]
+    if ($c -eq 2) { $l = [int]($l - 2); $w = [int]$Col[1]; $c++; }
+    else { $l++; $c++ }
+}
+[Console]::SetCursorPosition(0, $l)
+$NormalLine
 $l++
+$FixLine
+#Reading In PowerShell Scripts
+Get-ChildItem -file $Base -Filter *.ps1| % { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
+$w = 0
+$i = 1
+$c = 0
+$doh = 0
+$cmd = " - "
+$roll = @(Get-Content -Path $Filetmp).Count
+$tmp = ($roll / 8)
+$i = 1
 [Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mR$ESC[91m]$ESC[36m" "Reload the menu"
-$l++
-[Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mQ$ESC[91m]$ESC[36m" "Quit BinMenu"
-$l = ($l - 2)
-$w = $Col[1]
-[Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mW$ESC[91m]$ESC[36m" "Run the BinRW"
-$l++
-[Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mP$ESC[91m]$ESC[36m" "Run a PowerShell Console"
-$l++
-[Console]::SetCursorPosition($w, $l)
-Write-host -NoNewLine "$ESC[91m[$ESC[97mC$ESC[91m]$ESC[36m" "Run VS Code (NewIDE"
+While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
+$i = 1
+$w = 1
+while ($i -le $roll) {
+    $LineR = [string](Get-Content $Filetmp)[$i]
+    if ($c -le 6) {
+        $UserScripts = [string]($UserScripts + $LineR + $cmd)
+        $i++
+        $c++
+    }
+    else {
 
+        $UserScripts = [string]($UserScripts + $LineR)
+        $i++
+        $c = 0
+        [Console]::SetCursorPosition($w, $l)
+        Write-host -NoNewLine "$ESC[31m[$ESC[37mScripts$ESC[31m]$ESC[32m" $UserScripts
+        $UserScripts = ""
+        $doh++
+        $l++
+
+    }
+}
+$w = 0
+$pa = ($pa + $doh)
+$Filetest = Test-Path -path $Filetmp
+if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 #Draw Menu End
-[Console]::SetCursorPosition(0, ($pa - 1))
+[Console]::SetCursorPosition($w, $pa)
 Write-Host $NormalLine
-[Console]::SetCursorPosition(0, $pa)
-FixLine
-
+$pa = ($pa + 1)
+[Console]::SetCursorPosition($w, $pa)
 #Now the Menu select functions.
 $menu = @"
 $ESC[36m[$ESC[31m Make a selection$ESC[36m ]$ESC[37m
@@ -140,41 +177,52 @@ Function FixLine {
     Write-Host -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa)
     Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($pa + 1))
+    Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($pa + 2))
+    Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($pa + 3))
+    Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, $pa)
+    Write-Host -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa)
 }
-Function TheCommand {
-    [cmdletbinding()]
-    Param(
-        [Parameter(Position = 0, Mandatory = $True)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Cmd
-    )
-    Write-Host $_ $CMD
-    $Line2 = (Select-String -Pattern "$Cmd" $Fileini)
-    $cow = $line2 -split "="
-    Start-Process $cow[1] -Verb RunAs
-}
+FixLine
+
+#Function TheCommand {
+#    [Parameter(Mandatory = $False, ParameterSetName = 'IntCom')]
+#    [ValidateNotNullOrEmpty()]
+#    $IntCom = $_
+#    Write-Host $IntCom
+#    $TC = (Select-String -Pattern $IntCom $Fileini)
+#    $cmd = $TC -split "="
+#    Start-Process $cmd[1] -Verb RunAs
+#}
+#TheCommand
 
 Do {
     #Switch
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            $CMD1 = Read-Host 'Exact Command Line [Enter to cancel]'
+            $CMD1 = Read-Host "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
             if ($CMD1 -ne '') {
                 FixLine
-                $CMD2 = Read-Host 'Run As ADMIN? (Y for Yes anything else for NO)'
+                $CMD2 = Read-Host "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m][($ESC[37mQ$ESC[31m)$ESC[37muit, $ESC[31m($ESC[37mY$ESC[31m)$ESC[37mes $ESC[31m($ESC[37mN$ESC[31m)$ESC[37mo$ESC[31m]$ESC[37m"
                 FixLine
-                if ($CMD2 -eq 'Y') { & Start-Process pwsh "$CMD1" -Verb RunAs }
-                else { & "$CMD1" }
+                if ($CMD2 -ne 'Q') {
+                    if ($CMD2 -eq 'Y') { & "Start-Process" "$CMD1" "-Verb RunAs" }
+                    if ($CMD2 -eq 'N') { & "$CMD" }
+                    else { & "$CMD1" }
+                }
             }
             FixLine
         }
-        "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; FixLine ; return }
+        "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "W" { Start-Process "pwsh.exe" "c:\bin\BinMenuRW.ps1" -Verb RunAs; FixLine; return }
-        "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs }
+        "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        "Q" { FixLine; Return }
+        "Q" { Clear-Host; Return }
         "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "3" { FixLine; $Line2 = (Select-String -Pattern "3B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
@@ -217,12 +265,14 @@ Do {
         "40" { FixLine; $Line2 = (Select-String -Pattern "40B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         Default {
             FixLine
-            #[Console]::SetCursorPosition(0, $pa)
-            Write-Host -NoNewLine "Invalid Choice. Try again."
+            Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again." -ForgroundColor yellow
             Start-Sleep -milliseconds 1500
             FixLine
         }
     } #switch
 } While ($True)
 
-#[ $FileVersion = 0.1.3 ]
+$Filetest = Test-Path -path $Filetmp
+if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
+
+#[ $FileVersion = 0.1.6 ]
