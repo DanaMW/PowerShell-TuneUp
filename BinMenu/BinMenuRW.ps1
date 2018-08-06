@@ -1,3 +1,4 @@
+#FileVersion = 0.1.7
 Clear-Host
 #Setup Base Folder.
 $Base = "C:\bin\"
@@ -78,5 +79,3 @@ if ($Filetest -eq $true) { Remove-Item –path $Filecsv }
 
 #Run the BinMenu.
 return
-
-#[ FileVersion = 0.1.6 ]

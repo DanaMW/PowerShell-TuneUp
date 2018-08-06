@@ -1,9 +1,10 @@
+#FileVersion = 0.0.1
 Param([String]$path)
 
 [bool]$valid = ($path -ne "")
 if ($valid) {
     [String[]]$elements = $path.split(".")
-    [int]$max = $elements.Count -1
+    [int]$max = $elements.Count - 1
     [String]$ext = $elements[$max]
     [String]$uri = "data:image/$($ext);base64,"
     $elements[$max] = "txt"
@@ -31,6 +32,3 @@ Write-Host "Converting $path"
 Write-Host "Writing $txtPath"
 Write-Output ($uri + $base64) >> $txtPath
 Write-Host "Done"
-
-#Usage: imgto64 <complete path to file.name>
-#[ FileVersion = 0.0.3 ]

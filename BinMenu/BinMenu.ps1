@@ -1,3 +1,18 @@
+#FileVersion = 0.1.7
+<#
+.SYNOPSIS
+        BinMenu
+        Created By: Dana Meli
+        Created Date: August, 2018
+        Last Modified Date: August 06, 2018
+.DESCRIPTION
+        This script is designed to create a menu of all exe files in subfolders off a set base.
+        It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
+.EXAMPLE
+        BinMenu.ps1
+.NOTES
+        Still under development.
+#>
 Clear-Host
 #All the setup stuff
 $Base = "C:\bin"
@@ -112,7 +127,7 @@ $NormalLine
 $l++
 $FixLine
 #Reading In PowerShell Scripts
-Get-ChildItem -file $Base -Filter *.ps1| % { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
+Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
 $w = 0
 $i = 1
 $c = 0
@@ -211,7 +226,7 @@ Do {
                 $CMD2 = Read-Host "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m][($ESC[37mQ$ESC[31m)$ESC[37muit, $ESC[31m($ESC[37mY$ESC[31m)$ESC[37mes $ESC[31m($ESC[37mN$ESC[31m)$ESC[37mo$ESC[31m]$ESC[37m"
                 FixLine
                 if ($CMD2 -ne 'Q') {
-                    if ($CMD2 -eq 'Y') { & "Start-Process" "$CMD1" "-Verb RunAs" }
+                    if ($CMD2 -eq 'Y') { & Start-Process "$CMD1" -Verb RunAs }
                     if ($CMD2 -eq 'N') { & "$CMD" }
                     else { & "$CMD1" }
                 }
@@ -265,7 +280,7 @@ Do {
         "40" { FixLine; $Line2 = (Select-String -Pattern "40B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         Default {
             FixLine
-            Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again." -ForgroundColor yellow
+            Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -milliseconds 1500
             FixLine
         }
@@ -274,5 +289,3 @@ Do {
 
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
-
-#[ $FileVersion = 0.1.6 ]

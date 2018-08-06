@@ -1,4 +1,5 @@
-﻿$txtfile = 'C:\bin\check-prof.ini'
+#FileVersion = 0.0.4
+$txtfile = 'C:\bin\check-prof.ini'
 $ESC = [char]27
 $Filetest = Test-Path -path $txtfile
 if ($Filetest -eq $true) {
@@ -7,9 +8,8 @@ if ($Filetest -eq $true) {
 }
 #Save below 2 line very useful amd both working
 #$Profile | Format-List -Force | Out-String -Stream| % {New-Variable "prof$i" $_ ; $i++}
-$Profile | Format-List -Force | Out-String| % {$carrydata = $_}
+$Profile | Format-List -Force | Out-String| ForEach-Object {$carrydata = $_}
 $carrydata | Format-List | Out-file $txtfile
-
 #Fixing the File before we move on
 $i = 3
 $reader = [System.IO.File]::OpenText($txtfile)
@@ -108,5 +108,5 @@ $l++
 [Console]::SetCursorPosition(0, $l)
 [Console]::SetCursorPosition(0, $l)
 Write-Host ""
-
-#[ FileVersion = 0.0.3 ]
+$Filetest = Test-Path -path $txtfile
+if ($Filetest -eq $true) { Remove-Item -Path $txtfile }
