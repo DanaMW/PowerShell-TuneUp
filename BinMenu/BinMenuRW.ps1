@@ -1,4 +1,4 @@
-#FileVersion = 0.1.7
+#FileVersion = 0.1.8
 Clear-Host
 #Setup Base Folder.
 $Base = "C:\bin\"

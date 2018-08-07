@@ -1,4 +1,3 @@
-#FileVersion = 0.1.7
 <#
 .SYNOPSIS
         BinMenu
@@ -13,6 +12,7 @@
 .NOTES
         Still under development.
 #>
+#FileVersion = 0.1.8
 Clear-Host
 #All the setup stuff
 $Base = "C:\bin"
@@ -148,7 +148,6 @@ while ($i -le $roll) {
         $c++
     }
     else {
-
         $UserScripts = [string]($UserScripts + $LineR)
         $i++
         $c = 0
