@@ -8,19 +8,28 @@
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
 .EXAMPLE
-        BinMenu.ps1
+        BinMenu.ps1 -Base [<PathToAFolder>]
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.1.8
+#FileVersion = 0.2.0
+param([string]$Base)
+Function Get-ScriptDir {
+    Split-Path -parent $PSCommandPath
+}
 Clear-Host
-#All the setup stuff
+<# Set The BASE folder here or the script will use current by default #>
 $Base = "C:\bin"
-$Fileini = "$Base\" + "BinMenu.ini"
+if ($Base -eq "") { $Base = Get-ScriptDir }
+$tmp = $base.lenght
+if ($($base.substring($tmp)) -ne "\") { $base = $base + "\" }
+$Fileini = "$Base" + "BinMenu.ini"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
-    Write-Host "The File $Fileini missing Check into this!"
-    Write-Host "You fix this by running the BinMenuRW.ps1 file creator"
+    Write-Host "The File $Fileini missing. Can ot continue."
+    Write-Host "Running BinMenuRW.ps1 file creator"
+    Start-Process pwsh.exe "BinMenuRW.ps1" -Make $True
+    return
     break
 }
 $Filetmp = "$Base\" + "BinTemp.del"
@@ -170,7 +179,7 @@ $pa = ($pa + 1)
 [Console]::SetCursorPosition($w, $pa)
 #Now the Menu select functions.
 $menu = @"
-$ESC[36m[$ESC[31m Make a selection$ESC[36m ]$ESC[37m
+$ESC[31m[$ESC[37m Make a selection$ESC[31m ]$ESC[37m
 "@
 Function Invoke-Menu {
     [cmdletbinding()]
@@ -219,21 +228,18 @@ Do {
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            $CMD1 = Read-Host "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            $CMD1 = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
             if ($CMD1 -ne '') {
                 FixLine
-                $CMD2 = Read-Host "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m][($ESC[37mQ$ESC[31m)$ESC[37muit, $ESC[31m($ESC[37mY$ESC[31m)$ESC[37mes $ESC[31m($ESC[37mN$ESC[31m)$ESC[37mo$ESC[31m]$ESC[37m"
+                Read-Host -Prompt "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m] To run as admin use R reload menu then run this again."
                 FixLine
-                if ($CMD2 -ne 'Q') {
-                    if ($CMD2 -eq 'Y') { & Start-Process "$CMD1" -Verb RunAs }
-                    if ($CMD2 -eq 'N') { & "$CMD" }
-                    else { & "$CMD1" }
-                }
+                & "$CMD1"
+                FixLine
             }
             FixLine
         }
         "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "W" { Start-Process "pwsh.exe" "c:\bin\BinMenuRW.ps1" -Verb RunAs; FixLine; return }
+        "W" { Start-Process "pwsh.exe" "c:\bin\BinMenuRW.ps1" -Verb RunAs; Clear-Host; return }
         "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "Q" { Clear-Host; Return }
