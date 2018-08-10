@@ -23,3 +23,4 @@ your script files.
 # Clearlogs
 ``
 This clears most to all of your windows logs for you.
+```
