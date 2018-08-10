@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.0
+#FileVersion = 0.2.1
 param([string]$Base)
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -47,6 +47,7 @@ try {
     while ($null -ne $Reader.ReadLine()) { $LineCount++ }
 }
 Finally { $Reader.Close() }
+
 #Setting up positioning
 $temp = [int]($LineCount / 2)
 $a = [int]($temp / 3 + 1)
@@ -58,6 +59,7 @@ $c++
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 68)
 $pa = ($a + 10)
+
 #Draw the menu outline now.
 Clear-Host
 Write-Host $NormalLine
@@ -141,43 +143,59 @@ $w = 0
 $i = 1
 $c = 0
 $doh = 0
-$cmd = " - "
+$cmd1 = "$ESC[32m[$ESC[37m"
+$cmd2 = "$ESC[32m][$ESC[37m"
+$cmd3 = "$ESC[32m]"
 $roll = @(Get-Content -Path $Filetmp).Count
-$tmp = ($roll / 8)
+$tmp = [int]($roll / 8)
+$tmp = [int][Math]::Ceiling($tmp)
 $i = 1
 [Console]::SetCursorPosition($w, $l)
 While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
 $i = 1
 $w = 1
+$UserScripts = $cmd1
 while ($i -le $roll) {
+
     $LineR = [string](Get-Content $Filetmp)[$i]
-    if ($c -le 6) {
-        $UserScripts = [string]($UserScripts + $LineR + $cmd)
+    if ($c -lt 7) {
+        if ($LineR -ne "") { $UserScripts = [string]($UserScripts + $LineR + $cmd2) }
+        else { $UserScripts = [string]($UserScripts + $LineR) }
         $i++
         $c++
     }
     else {
+        $i++
+        $c = 0
+        $UserScripts = [string]($UserScripts + $LineR)
+        [Console]::SetCursorPosition($w, $l)
+        Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" ($UserScripts + $cmd3)
+        $UserScripts = $cmd1
+        $doh++
+        $l++
+    }
+    if ($i -gt $roll) {
         $UserScripts = [string]($UserScripts + $LineR)
         $i++
         $c = 0
         [Console]::SetCursorPosition($w, $l)
-        Write-host -NoNewLine "$ESC[31m[$ESC[37mScripts$ESC[31m]$ESC[32m" $UserScripts
+        Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" $UserScripts
         $UserScripts = ""
-        $doh++
-        $l++
-
+       $doh++
+       $l++
     }
 }
+<# Here i do the cleanup and reorder math #>
 $w = 0
 $pa = ($pa + $doh)
-$Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
-#Draw Menu End
+<# Then we draw the last line on the Menu #>
 [Console]::SetCursorPosition($w, $pa)
 Write-Host $NormalLine
-$pa = ($pa + 1)
-[Console]::SetCursorPosition($w, $pa)
-#Now the Menu select functions.
+$pa++
+$FixLine
+
+<# All done fucking around now we just line up the tasks and work #>
+<# Now we do the Menu trigger, sorta functions and all the triggers #>
 $menu = @"
 $ESC[31m[$ESC[37m Make a selection$ESC[31m ]$ESC[37m
 "@
@@ -243,6 +261,18 @@ Do {
         "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "Q" { Clear-Host; Return }
+        "SCRIPTS" {
+            FixLine
+            $CMD1 = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            if ($CMD1 -ne '') {
+                FixLine
+                Read-Host -Prompt "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m] To run as admin use R reload menu then run this again."
+                FixLine
+                & "$CMD1"
+                FixLine
+            }
+            FixLine
+        }
         "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "3" { FixLine; $Line2 = (Select-String -Pattern "3B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }

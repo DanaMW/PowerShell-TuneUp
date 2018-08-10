@@ -14,11 +14,8 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.0
+#FileVersion = 0.2.1
 param([bool]$Make, [string]$Base, [string]$Editor)
-Function Get-ScriptDir {
-    Split-Path -parent $PSCommandPath
-}
 
 if ($Make -eq "" -or $Make -eq $false) { $MakeActive = $False }
 if ($Make -ne "" -and $Make -eq $true) { $MakeActive = $True  }
@@ -66,7 +63,7 @@ Import-Csv -Path $Filetxt | Sort-Object -Property "Foldername" | Export-Csv -NoT
 <# This is where, if toggled the make INI file routine is done. While manual before,
 it should be all automatic for the most part now.#>
 if ($MakeActive -eq $True) {
-    #Clear-Host
+    Clear-Host
     Write-Host "Here we are going create a file. In this edit you will remove the"
     Write-Host "Complete line and the space created of the file name your want TO KEEP"
     Write-Host "Or show in your copy of the menu. Dont leave line spaces, move the line below"
