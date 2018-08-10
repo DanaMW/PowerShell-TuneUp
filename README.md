@@ -21,6 +21,6 @@ Feed it a filename of a image file and it feeds you back the base64 info ready t
 your script files.
 ```
 # Clearlogs
-``
+```
 This clears most to all of your windows logs for you.
 ```
