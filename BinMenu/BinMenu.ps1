@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.1
+#FileVersion = 0.2.2
 param([string]$Base)
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -179,10 +179,12 @@ while ($i -le $roll) {
         $i++
         $c = 0
         [Console]::SetCursorPosition($w, $l)
-        Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" $UserScripts
+        if ($UserScripts -ne $cmd1) {
+            Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" $UserScripts
+            $doh++
+            $l++
+        }
         $UserScripts = ""
-       $doh++
-       $l++
     }
 }
 <# Here i do the cleanup and reorder math #>
