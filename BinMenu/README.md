@@ -19,8 +19,7 @@ Take out the lines of the programs that YOU WANT. NOTE Leave in the programs you
 Save that file then back at the run window hit enter. It automaticlly runs BinMenuRW.
 It runs it with not parameters. You can do that at any time yourself to adjust for any manual edits.
 It should then run BinMenu.ps1 and ...
-There you are .. a custom menu with your current exe programs.
-
+There you are, a custom menu with your current exe programs and ps1 scripts.
 ```
 Note: I have not tested it in a folder with spaces in the path yet, but I assume it should work.
 Since I am new to PowerShell as I learn more I keep improving it.
