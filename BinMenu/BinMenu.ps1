@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 06, 2018
+        Last Modified Date: August 11, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.2
+#FileVersion = 0.2.6
 param([string]$Base)
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -32,9 +32,9 @@ if ($Filetest -ne $true) {
     return
     break
 }
-$Filetmp = "$Base\" + "BinTemp.del"
+$Filetmp = "$Base" + "\BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetxt }
+if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
 $ESC = [char]27
 $NormalLine = "$ESC[31m#=====================================================================================================#$ESC[37m"
@@ -47,20 +47,16 @@ try {
     while ($null -ne $Reader.ReadLine()) { $LineCount++ }
 }
 Finally { $Reader.Close() }
-
-#Setting up positioning
+<# Setting up positioning #>
 $temp = [int]($LineCount / 2)
 $a = [int]($temp / 3 + 1)
 $temp = [int]($a)
 $b = [int]($temp * 2)
-$c = [int]($LineCount - $a - $b)
-$c++
-$c++
+$c = [int]($LineCount / 2)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 68)
-$pa = ($a + 10)
-
-#Draw the menu outline now.
+$pa = ($a + 5)
+<# Draw the menu outline now. #>
 Clear-Host
 Write-Host $NormalLine
 Write-Host $FancyLine
@@ -69,75 +65,49 @@ Write-Host $FancyLine
 Write-Host $NormalLine
 $i = 1
 While ($i -le $a) { Write-Host $SpacerLine; $i++ }
-#Fill in the users menu options.
-#Start Reading Col 1
+<# Fill in the users menu options from file. #>
 $l = 5
 $c = 0
 $w = 1
 $i = 1
-While ($i -le $Row[0]) {
+$work = [int]($linecount / 2)
+While ($i -le $work) {
     $Line = (Get-Content $Fileini)[$c]
     $moo = $line -split "="
     [Console]::SetCursorPosition($w, $l)
     Write-host -NoNewLine "$ESC[31m[$ESC[37m$i$ESC[31m]$ESC[36m" $moo[1]
+    if ($i -eq $Row[0]) {$l = [int]4; $w = [int]$Col[1]  }
+    if ($i -eq $Row[1]) {$l = [int]4; $w = [int]$Col[2]  }
     $i++
     $c++
     $c++
     $L++
 }
-#Start Reading Col 2
-$l = 5
-$w = $Col[1]
-While ($i -le $Row[1]) {
-    $Line = (Get-Content $Fileini)[$c]
-    $moo = $line -split "="
-    [Console]::SetCursorPosition($w, $l)
-    Write-host -NoNewLine "$ESC[31m[$ESC[37m$i$ESC[31m]$ESC[36m" $moo[1]
-    $i++
-    $c++
-    $c++
-    $L++
-}
-#Start Reading Col 3
-$l = 5
-$w = $Col[2]
-While ($i -le $Row[2]) {
-    $Line = (Get-Content $Fileini)[$c]
-    $moo = $line -split "="
-    [Console]::SetCursorPosition($w, $l)
-    Write-host -NoNewLine "$ESC[31m[$ESC[37m$i$ESC[31m]$ESC[36m" $moo[1]
-    $i++
-    $c++
-    $c++
-    $l++
-}
-#Adding Built in menu
-$l++
-$l++
-#$l = $pa
-$w = [int]$Col[0]
-[Console]::SetCursorPosition(0, $l)
+<# Adding Built in menu options #>
+[Console]::SetCursorPosition(0, $pa)
 Write-Host $NormalLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
-$d = @("A", "R", "Q", "W", "P", "C")
-$f = @("Run any command directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ")
+Write-Host $NormalLine
+$pa = $($pa + 5)
+$l = $($l + 4)
+$d = @("A", "R", "Q", "W", "P", "C", "S", "-", "-")
+$f = @("Run any command directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a script", "Not Used", "Not Used")
 $w = [int]$Col[0]
 $l++
 $c = 0
-while ($c -le 5) {
+while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     $tmp = $d[$c]
     Write-host -NoNewLine "$ESC[31m[$ESC[37m$tmp$ESC[31m]$ESC[36m" $f[$c]
-    if ($c -eq 2) { $l = [int]($l - 2); $w = [int]$Col[1]; $c++; }
-    else { $l++; $c++ }
+    if ($c -eq 2) { $l = [int]($l - 3); $w = [int]$Col[1] }
+    if ($c -eq 5) { $l = [int]($l - 3); $w = [int]$Col[2] }
+    $l++
+    $c++
 }
-[Console]::SetCursorPosition(0, $l)
-$NormalLine
 $l++
-$FixLine
-#Reading In PowerShell Scripts
+<# Reading In PowerShell Scripts #>
 Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
 $w = 0
 $i = 1
@@ -159,7 +129,8 @@ while ($i -le $roll) {
 
     $LineR = [string](Get-Content $Filetmp)[$i]
     if ($c -lt 7) {
-        if ($LineR -ne "") { $UserScripts = [string]($UserScripts + $LineR + $cmd2) }
+        if ($LineR -ne "" -and $i -lt ($roll - 1)) { $UserScripts = [string]($UserScripts + $LineR + $cmd2) }
+        elseif ($LineR -ne "" -and $i -ge ($roll - 1)) { $UserScripts = [string]($UserScripts + $LineR + $cmd3) }
         else { $UserScripts = [string]($UserScripts + $LineR) }
         $i++
         $c++
@@ -169,7 +140,7 @@ while ($i -le $roll) {
         $c = 0
         $UserScripts = [string]($UserScripts + $LineR)
         [Console]::SetCursorPosition($w, $l)
-        Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" ($UserScripts + $cmd3)
+        Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" ($UserScripts + $cmd3)
         $UserScripts = $cmd1
         $doh++
         $l++
@@ -180,7 +151,7 @@ while ($i -le $roll) {
         $c = 0
         [Console]::SetCursorPosition($w, $l)
         if ($UserScripts -ne $cmd1) {
-            Write-host -NoNewLine "$ESC[31m[$ESC[32mScripts$ESC[31m]$ESC[32m" $UserScripts
+            Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" $UserScripts
             $doh++
             $l++
         }
@@ -188,6 +159,8 @@ while ($i -le $roll) {
     }
 }
 <# Here i do the cleanup and reorder math #>
+$Filetest = Test-Path -path $Filetmp
+if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 $w = 0
 $pa = ($pa + $doh)
 <# Then we draw the last line on the Menu #>
@@ -195,12 +168,18 @@ $pa = ($pa + $doh)
 Write-Host $NormalLine
 $pa++
 $FixLine
-
 <# All done fucking around now we just line up the tasks and work #>
 <# Now we do the Menu trigger, sorta functions and all the triggers #>
-$menu = @"
-$ESC[31m[$ESC[37m Make a selection$ESC[31m ]$ESC[37m
-"@
+function Test-Administrator {
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent();
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$principal = [Security.Principal.WindowsPrincipal] $identity
+if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    $menu = "$ESC[31m[$ESC[37mAdmin$ESC[31m][$ESC[37mMake a selection$ESC[31m]$ESC[37m"
+}
+else { $menu = "$ESC[31m[$ESC[37mMake a selection$ESC[31m]$ESC[37m" }
 Function Invoke-Menu {
     [cmdletbinding()]
     Param(
@@ -231,7 +210,6 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pa)
 }
 FixLine
-
 #Function TheCommand {
 #    [Parameter(Mandatory = $False, ParameterSetName = 'IntCom')]
 #    [ValidateNotNullOrEmpty()]
@@ -248,12 +226,15 @@ Do {
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            $CMD1 = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
-            if ($CMD1 -ne '') {
+            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            if ($cmd -ne '') {
                 FixLine
-                Read-Host -Prompt "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m] To run as admin use R reload menu then run this again."
-                FixLine
-                & "$CMD1"
+                if ($cmd -match "ps1") {
+                    Start-Process "pwsh.exe" -Argumentlist "$cmd" -Verb RunAs
+                }
+                else {
+                    Start-Process "$cmd" -Verb RunAs
+                }
                 FixLine
             }
             FixLine
@@ -263,14 +244,14 @@ Do {
         "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "Q" { Clear-Host; Return }
-        "SCRIPTS" {
+        "SCRIPT" {
             FixLine
-            $CMD1 = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
-            if ($CMD1 -ne '') {
+            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[37mWhat script to run? $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            if ($cmd -ne '') {
                 FixLine
-                Read-Host -Prompt "$ESC[31m[$ESC[37mRun as ADMIN?$ESC[31m] To run as admin use R reload menu then run this again."
-                FixLine
-                & "$CMD1"
+                $tmp = ".ps1"
+                if ($cmd -ne "$cmd$tmp") { $cmd = "$cmd$tmp" }
+                Start-Process "pwsh.exe" -Argumentlist "$cmd" -Verb RunAs
                 FixLine
             }
             FixLine
@@ -315,6 +296,8 @@ Do {
         "38" { FixLine; $Line2 = (Select-String -Pattern "38B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "39" { FixLine; $Line2 = (Select-String -Pattern "39B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "40" { FixLine; $Line2 = (Select-String -Pattern "40B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "41" { FixLine; $Line2 = (Select-String -Pattern "41B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "42" { FixLine; $Line2 = (Select-String -Pattern "42B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         Default {
             FixLine
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."

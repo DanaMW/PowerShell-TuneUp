@@ -14,7 +14,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.2
+#FileVersion = 0.2.6
 param([bool]$Make, [string]$Base, [string]$Editor)
 
 if ($Make -eq "" -or $Make -eq $false) { $MakeActive = $False }
@@ -22,13 +22,13 @@ if ($Make -ne "" -and $Make -eq $true) { $MakeActive = $True  }
 else { $MakeActive = $false }
 
 <# If you want to set BASE and/or EDITOR in the file do it HERE or include on command line. #>
-$Base = "C:\bin\"
+$Base = "C:\bin"
 $Editor = "C:\bin\NPP\Notepad++.exe"
 #$Editor = "code.exe"
 <#################################################>
 if ($Base -eq "") { $Base = Get-ScriptDir }
 $tmp = ($($base).Length - 1)
-if ($($base.substring($tmp)) -ne '\') { $base = $base + "\" }
+if ($($base.substring($tmp)) -ne '\') { $base = $("$base" + "\") }
 $ScriptName = $MyInvocation.MyCommand.Name
 
 #Let us begin
@@ -96,23 +96,21 @@ try {
     $Exlist = Import-Csv $FileExc | Select-Object name
     Import-Csv $Filecsv | Foreach-Object {
 
-        # These are excludes to allow it to not error. (Add them Below)
-        if ($_.name -match "notepad\+\+") { return }
-        if ($_.name -eq "[.exe") { return }
-        #end excludes
-
-        if ($Exlist -match $_.name) {
+        $tmpname = [Regex]::Escape($_.name)
+        if ($Exlist -match $tmpname) {
             return
         }
-        $NameFix = $_.name
+        $tmpname = $tmpname -replace "\\", ""
+        if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
+        $NameFix = $tmpname
         $NameFix = $NameFix.tolower()
         $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
         $NameFix = $NameFix.replace(".exe", "")
         Write-Host "Adding to Menu: " $NameFix
         $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
-        #$Writer.WriteLine("[" + $i + "A]=" + $_.name.replace(".exe", ""))
+        <# $Writer.WriteLine("[" + $i + "A]=" + $_.name.replace(".exe", "")) #>
         $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
-        #export-Csv -Path $FileMen -Append -Delimiter ", " -InputObject $_
+        <# export-Csv -Path $FileMen -Append -Delimiter ", " -InputObject $_ #>
         $i++
     }
 }
