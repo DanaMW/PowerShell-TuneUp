@@ -1,110 +1,89 @@
+#FileVerson = 0.1.0
 <#
 .SYNOPSIS
-        ScripConvert
+        StartUpDelay
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 10, 2018
+        Last Modified Date: August 06, 2018
 .DESCRIPTION
-        This script places quotes on each sode of a css file for use in tampermonkey.
+        This is just a way to delay the startup of programs in your startups.
+        You look up your startups in the task manager and as you add them here you disable them there.
+        You would place a shortcut for this script in C:\Users\$UserName\Start Menu\Programs\Startup\
 .EXAMPLE
-        AddQuotes -File [<complete path to a file>] -OutFile {<File to write>}
+        You look up your startups in the task manager and as you add them here you disable them there.
+        You would place a shortcut for this script in C:\Users\$UserName\Start Menu\Programs\Startup\
 .NOTES
         Still under development.
 #>
 #FileVersion = 0.1.0
-param([string]$File, [string]$OutFile)
-if ($File -eq "") {
-    Write-Host ""
-    Write-Host "You fucked up and didnt include -File [<FileToRead>]"
-    Write-Host "Take your hand off your dick, try again and type right."
-    return
+#Your Settings Here
+$addto = "C:\bin\StartUpDelay.NOT"
+$Filetest = Test-Path -path $addto
+if ($Filetest -eq $true) {
+    Write-Host "The File $addto Is present."
+    Write-Host "This indicates we need to exit."
+    Write-Host "Remove $addto to allow this to run."
+    break
 }
-else {
-    $InFile = $File
-    $Filetest = Test-Path -path $InFile
-    if ($Filetest -ne $true) {
-        Write-Host ""
-        Write-Host "You fucked up, The file you specified $InFile is not there."
-        Write-Host "Put the drugs down and try again."
-        return
-    }
-}
-if ($OutFile -eq "") {
-    $tmp1 = $(Get-Item $File ).DirectoryName
-    $tmp2 = $(Get-Item $File ).Basename
-    $OutFile = "$tmp1" + "\" + "$tmp2"
-    $OutFile = $OutFile -Replace ".user", ""
-    $OutFile = "$OutFile" + ".user.js"
+$StartDelay = 10
+$Delay = 3
+#End
+$C = 1
+& Write-Output "Holding startup for $StartDelay seconds per your setting."
+Start-Sleep -s $StartDelay
+& Write-Output ""
+& Write-Output "#==================================#"
+& Write-Output "|-<Running Startup Delay Launcher>-|"
+& Write-Output "#==================================#"
+
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting uGet Download Manage"
+& Set-Location "C:\bin\uget\bin\"
+& Start-Process -FilePath "C:\bin\uget\bin\uget.exe"
+& Set-Location "$Env:HOME"
+
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting Redragon Gaming Mouse"
+& Set-Location "C:\Program Files (x86)\REDRAGON\Gaming Mouse\"
+& Start-Process -FilePath "C:\Program Files (x86)\REDRAGON\Gaming Mouse\hid.exe"
+& Set-Location "$Env:HOME"
+
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting OneDrive"
+& Set-Location "C:\Users\Dana\AppData\Local\Microsoft\OneDrive\"
+& Start-Process -FilePath "C:\Users\Dana\AppData\Local\Microsoft\OneDrive\OneDrive.exe"
+& Set-Location "$Env:HOME"
+
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting Console Emulater"
+& Set-Location "C:\bin\ConEmu"
+& Start-Process -FilePath "C:\bin\ConEmu\ConEmu64.exe"
+& Set-Location "$Env:HOME"
+
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting Ditto"
+& Set-Location "C:\bin\Ditto"
+& Start-Process -FilePath "C:\bin\Ditto\Ditto.exe"
+& Set-Location "$Env:HOME"
+
+if ($env:Userdomain -eq "TINMAN") {
+    $C++
+    Start-Sleep -s $Delay
+    & Write-Output " [$C] Starting Sound Blaster Control Panel"
+    & Set-Location "c:\Program Files (x86)\Creative\Sound Blaster Audigy Fx\Sound Blaster Audigy Fx Control Panel\"
+    & Start-Process -FilePath "c:\Program Files (x86)\Creative\Sound Blaster Audigy Fx\Sound Blaster Audigy Fx Control Panel\SBAdgyFx.exe"
+    & Set-Location "$Env:HOME"
 }
 
-$HU0 = "// "
-$HU1 = "// ==UserScript=="
-$HU2 = Get-ChildItem $File | Get-Content | Select-String -pattern "@name"
-$HU3 = Get-ChildItem $File | Get-Content | Select-String -pattern "@namespace"
-$HU4 = Get-ChildItem $File | Get-Content | Select-String -pattern "@Version"
-$HU5 = Get-ChildItem $File | Get-Content | Select-String -pattern "@description"
-$HU6 = Get-ChildItem $File | Get-Content | Select-String -pattern "@author"
-$HU7 = "// ==/UserScript=="
-
-$HU2 = $($HU2 -replace "\* @", "@")
-$HU3 = $($HU3 -replace "\* @", "@")
-$HU4 = $($HU4 -replace "\* @", "@")
-$HU3 = $($HU5 -replace "\* @", "@")
-$HU6 = $($HU6 -replace "\* @", "@")
-
-$HU2 = $($HU0 + $HU2)
-$HU3 = $($HU0 + $HU3)
-$HU4 = $($HU0 + $HU4)
-$HU5 = $($HU0 + $HU5)
-$HU6 = $($HU0 + $HU6)
-$HU8 = '(function() {var css = "";'
-$HU9 = 'css += ['
-$HU10 = ']'
-$HU11 = '})();'
-$Lines = 0
-try {
-    $Counter = New-Object IO.StreamReader $File
-    while ($null -ne $Counter.ReadLine()) { $Lines++ }
-}
-Finally { $Counter.Close() }
-$c = 0
-$reader = [System.IO.File]::OpenText($File)
-$writer = [System.IO.file]::CreateText($OutFile)
-try {
-    $Writer.WriteLine([string]"$HU1")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU2")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU3")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU4")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU5")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU6")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU7")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU8")
-    $Writer.WriteLine([string]"$HU9")
-    $c - 8
-    while ($c -le $lines) {
-        $line = $reader.ReadLine()
-        if ($null -eq $line) { break }
-        if ($Line -match "@") {
-            $c++
-        }
-        else {
-            $Line = $Line -replace '"', "'"
-            $Line = $('"' + "$Line" + '",')
-            $Writer.WriteLine([string]"$Line")
-            $c++
-        }
-    }
-}
-finally {
-    $Writer.WriteLine([string]"$HU10")
-    $Writer.WriteLine([string]"$HU11")
-    $Writer.close()
-    $Reader.close()
-}
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting RainMeter"
+& Set-Location "C:\Program Files\Rainmeter\"
+& Start-Process -FilePath "C:\Program Files\Rainmeter\Rainmeter.exe"
+& Set-Location "$Env:HOME"
+exit
+return
