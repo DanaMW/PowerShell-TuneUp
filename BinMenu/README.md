@@ -23,4 +23,4 @@ There you are .. a custom menu with your current exe programs.
 
 ```
 Note: I have not tested it in a folder with spaces in the path yet, but I assume it should work.
-Since I am new to PowerShell as I learn more I keep inproving it.
+Since I am new to PowerShell as I learn more I keep improving it.
