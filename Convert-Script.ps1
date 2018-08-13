@@ -60,33 +60,33 @@ $HU4 = $($HU0 + $HU4)
 $HU5 = $($HU0 + $HU5)
 $HU6 = $($HU0 + $HU6)
 <# Upper String #>
-$HU8 = '(function() {var css = "";'
-$HU9 = 'css += ['
+$HU8 = "(function() {var css = '';"
+$HU9 = "css += ["
 <# Lower String #>
-$HU10 = '].join("\n");'
-$HU11 = 'if (typeof GM_addStyle != "undefined") {'
-$HU12 = '    GM_addStyle(css);'
-$HU13 = '}'
-$HU14 = 'else if (typeof PRO_addStyle != "undefined") {'
-$HU15 = 'PRO_addStyle(css);'
-$HU16 = '}'
-$HU17 = 'else if (typeof addStyle != "undefined") {'
-$HU18 = '    addStyle(css);'
-$HU19 = '}'
-$HU20 = 'else {'
-$HU21 = '     var node = document.createElement("style");'
-$HU22 = '    node.type = "text/css";'
-$HU23 = '    node.appendChild(document.createTextNode(css));'
-$HU24 = '    var heads = document.getElementsByTagName("head");'
-$HU25 = '    if (heads.length > 0) {'
-$HU26 = '        heads[0].appendChild(node);'
-$HU27 = '    }'
-$HU28 = '    else {'
-$HU29 = '        // no head yet, stick it whereever'
-$HU30 = '      document.documentElement.appendChild(node);'
-$HU31 = '     }'
-$HU32 = '}'
-$HU33 = ' })();'
+$HU10 = "].join('\n');"
+$HU11 = "if (typeof GM_addStyle != 'undefined') {"
+$HU12 = "    GM_addStyle(css);"
+$HU13 = "}"
+$HU14 = "else if (typeof PRO_addStyle != 'undefined') {"
+$HU15 = "PRO_addStyle(css);"
+$HU16 = "}"
+$HU17 = "else if (typeof addStyle != 'undefined') {"
+$HU18 = "    addStyle(css);"
+$HU19 = "}"
+$HU20 = "else {"
+$HU21 = "     var node = document.createElement('style');"
+$HU22 = "    node.type = 'text/css';"
+$HU23 = "    node.appendChild(document.createTextNode(css));"
+$HU24 = "    var heads = document.getElementsByTagName('head');"
+$HU25 = "    if (heads.length > 0) {"
+$HU26 = "        heads[0].appendChild(node);"
+$HU27 = "    }"
+$HU28 = "    else {"
+$HU29 = "        // no head yet, stick it whereever"
+$HU30 = "      document.documentElement.appendChild(node);"
+$HU31 = "     }"
+$HU32 = "}"
+$HU33 = "})();"
 $Lines = 0
 try {
     $Counter = New-Object IO.StreamReader $File
