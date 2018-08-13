@@ -14,6 +14,9 @@ Bin Menu is a simple console based menu that reads in what exe's are in the sub-
 ```
 That is my CSS to JS converter for use on Tampermonkey and Edge browser. Very simply,
 it copies over most of the header to UserScript amnd puts quotes outside of the script.
+It also added the rest of the required JS and will work in its current form.
+You will need to edit the header and remove a Bracket in quotes in the bottom.
+(That one pared with the removed @Moz*, Dont forget to add an // @include <url to match>)
 ```
 # Imageto64
 ```
