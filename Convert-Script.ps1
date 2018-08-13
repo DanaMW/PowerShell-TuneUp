@@ -17,7 +17,7 @@
 param([string]$File, [string]$OutFile)
 if ($File -eq "") {
     Write-Host ""
-    Write-Host "You fucked up and didnt include -File [<FileToRead>]"
+    Write-Host "You fu@ed up and didnt include -File [<FileToRead>]"
     Write-Host "Take your hand off your dick, try again and type right."
     return
 }
@@ -26,7 +26,7 @@ else {
     $Filetest = Test-Path -path $InFile
     if ($Filetest -ne $true) {
         Write-Host ""
-        Write-Host "You fucked up, The file you specified $InFile is not there."
+        Write-Host "You fu@ked up, The file you specified $InFile is not there."
         Write-Host "Put the drugs down and try again."
         return
     }
