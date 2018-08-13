@@ -5,12 +5,13 @@
         Created Date: August, 2018
         Last Modified Date: August 12, 2018
 .DESCRIPTION
-        This script places quotes on each sode of a css file for use in tampermonkey.
+        This script places quotes on each side of a css file for use in tampermonkey.
         Along with a couple other things required to make it work.
 .EXAMPLE
-        Script-Convert -File [<complete path to a file>] -OutFile {<File to write>}
+        Script-Convert -File [<complete path to a css file>] -OutFile {<File to write>}
 .NOTES
-        You will need to edit out a few lines, like the bracket at the bottom.
+        You will need to edit The header, and remove a bracket in quotes at the bottom.
+        If you dont specify a outfile it creates it next to the original.
 #>
 #FileVersion = 0.1.5
 param([string]$File, [string]$OutFile)
