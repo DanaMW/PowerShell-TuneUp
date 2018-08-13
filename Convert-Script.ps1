@@ -127,8 +127,6 @@ try {
             $c++
         }
     }
-}
-finally {
     $Writer.WriteLine([string]"$HU10")
     $Writer.WriteLine([string]"$HU11")
     $Writer.WriteLine([string]"$HU12")
@@ -153,6 +151,8 @@ finally {
     $Writer.WriteLine([string]"$HU31")
     $Writer.WriteLine([string]"$HU32")
     $Writer.WriteLine([string]"$HU33")
+}
+finally {
     $Writer.close()
     $Reader.close()
 }
