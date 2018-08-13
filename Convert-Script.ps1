@@ -11,7 +11,7 @@
         Script-Convert -File [<complete path to a css file>] -OutFile {<File to write>}
 .NOTES
         You will need to edit The header, and remove a bracket in quotes at the bottom.
-        If you dont specify a outfile it creates it next to the original.
+        If you dont specify an outfile it is created next to the original.
 #>
 #FileVersion = 0.1.5
 param([string]$File, [string]$OutFile)
