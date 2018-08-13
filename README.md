@@ -10,7 +10,7 @@ Hope they help someone else. Enjoy.
 Bin Menu is a simple console based menu that reads in what exe's are in the sub-folders and which
 *PS1's are in it and lists them on a menu for you.
 ```
-# ScriptConverter
+# Convert-Script
 ```
 That is my CSS to JS converter for use on Tampermonkey and Edge browser. Very simply,
 it copies over most of the header to UserScript amnd puts quotes outside of the script.
