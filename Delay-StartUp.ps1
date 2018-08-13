@@ -1,10 +1,9 @@
-#FileVerson 0.0.7
 <#
 .SYNOPSIS
-        StartUpDelay
+        Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 06, 2018
+        Last Modified Date: August 12, 2018
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -15,22 +14,31 @@
 .NOTES
         Still under development.
 #>
+#FileVersion = 0.1.2
 #Your Settings Here
-$StartDelay = 30
-$Delay = 10
+$addto = "C:\bin\Delay-StartUp.NOT"
+$Filetest = Test-Path -path $addto
+if ($Filetest -eq $true) {
+    Write-Host "The File $addto Is present."
+    Write-Host "This indicates we need to exit."
+    Write-Host "Remove $addto to allow this to run."
+    break
+}
+$StartDelay = 10
+$Delay = 3
 #End
 $C = 1
 & Write-Output "Holding startup for $StartDelay seconds per your setting."
 Start-Sleep -s $StartDelay
 & Write-Output ""
 & Write-Output "#==================================#"
-& Write-Output "|-<Running Startup Delay Launcher>-|"
+& Write-Output "|-<Running Delay-Startup Launcher>-|"
 & Write-Output "#==================================#"
 
-Start-Sleep -s $Delay
+<# Start-Sleep -s $Delay (Skipping the first one) #>
 & Write-Output " [$C] Starting uGet Download Manage"
 & Set-Location "C:\bin\uget\bin\"
-& Start-Process -FilePath "C:\bin\uget\bin\uget.exe"
+& Start-Process -FilePath "C:\bin\uget\bin\uget.exe" -ArgumentList "--Quiet"
 & Set-Location "$Env:HOME"
 
 $C++
@@ -44,14 +52,14 @@ $C++
 Start-Sleep -s $Delay
 & Write-Output " [$C] Starting OneDrive"
 & Set-Location "C:\Users\Dana\AppData\Local\Microsoft\OneDrive\"
-& Start-Process -FilePath "C:\Users\Dana\AppData\Local\Microsoft\OneDrive\OneDrive.exe"
+& Start-Process -FilePath "C:\Users\Dana\AppData\Local\Microsoft\OneDrive\OneDrive.exe" -Argumentlist "/Background"
 & Set-Location "$Env:HOME"
 
 $C++
 Start-Sleep -s $Delay
-& Write-Output " [$C]  Starting Console Emulater"
+& Write-Output " [$C] Starting Console Emulater"
 & Set-Location "C:\bin\ConEmu"
-& Start-Process -FilePath "C:\bin\ConEmu\ConEmu64.exe"
+& Start-Process -FilePath "C:\bin\ConEmu\ConEmu64.exe" -ArgumentList "-Min"
 & Set-Location "$Env:HOME"
 
 $C++
@@ -78,5 +86,3 @@ Start-Sleep -s $Delay
 & Set-Location "$Env:HOME"
 exit
 return
-
-#[ FileVerson 0.0.7 ]
