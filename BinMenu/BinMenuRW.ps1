@@ -14,7 +14,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.6
+#FileVersion = 0.2.8
 param([bool]$Make, [string]$Base, [string]$Editor)
 
 if ($Make -eq "" -or $Make -eq $false) { $MakeActive = $False }
@@ -93,14 +93,16 @@ Write-Host "Time to read in valid menu entries..."
 $writer = [System.IO.file]::CreateText($FileMen)
 $i = 1
 try {
-    $Exlist = Import-Csv $FileExc | Select-Object name
+    $Exlist = Import-Csv $FileExc | Select-Object FullName
+    $ExList = $ExList -replace "@{FullName=", ""
+    $ExList = $ExList -replace "}", ""
     Import-Csv $Filecsv | Foreach-Object {
 
-        $tmpname = [Regex]::Escape($_.name)
+        $tmpname = [Regex]::Escape($_.fullname)
         if ($Exlist -match $tmpname) {
             return
         }
-        $tmpname = $tmpname -replace "\\", ""
+        $tmpname = $_.name -replace "\\", ""
         if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
         $NameFix = $tmpname
         $NameFix = $NameFix.tolower()
