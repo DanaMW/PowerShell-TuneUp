@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.6
+#FileVersion = 0.2.8
 param([string]$Base)
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -49,7 +49,7 @@ try {
 Finally { $Reader.Close() }
 <# Setting up positioning #>
 $temp = [int]($LineCount / 2)
-$a = [int]($temp / 3 + 1)
+$a = [int]($temp / 3)
 $temp = [int]($a)
 $b = [int]($temp * 2)
 $c = [int]($LineCount / 2)
@@ -91,11 +91,11 @@ Write-Host $SpacerLine
 Write-Host $SpacerLine
 Write-Host $NormalLine
 $pa = $($pa + 5)
-$l = $($l + 4)
+[Console]::SetCursorPosition(0, $pa)
+$l = $($pa - 4)
 $d = @("A", "R", "Q", "W", "P", "C", "S", "-", "-")
 $f = @("Run any command directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a script", "Not Used", "Not Used")
 $w = [int]$Col[0]
-$l++
 $c = 0
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
@@ -106,24 +106,26 @@ while ($c -le 8) {
     $l++
     $c++
 }
-$l++
+[Console]::SetCursorPosition(0, $pa)
 <# Reading In PowerShell Scripts #>
 Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
 $w = 0
 $i = 1
 $c = 0
-$doh = 0
 $cmd1 = "$ESC[32m[$ESC[37m"
 $cmd2 = "$ESC[32m][$ESC[37m"
 $cmd3 = "$ESC[32m]"
 $roll = @(Get-Content -Path $Filetmp).Count
 $tmp = [int]($roll / 8)
 $tmp = [int][Math]::Ceiling($tmp)
+$l = $pa
 $i = 1
 [Console]::SetCursorPosition($w, $l)
 While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
 $i = 1
 $w = 1
+$pa = ($pa + $tmp)
+[Console]::SetCursorPosition(0, $pa)
 $UserScripts = $cmd1
 while ($i -le $roll) {
 
@@ -142,7 +144,6 @@ while ($i -le $roll) {
         [Console]::SetCursorPosition($w, $l)
         Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" ($UserScripts + $cmd3)
         $UserScripts = $cmd1
-        $doh++
         $l++
     }
     if ($i -gt $roll) {
@@ -152,7 +153,6 @@ while ($i -le $roll) {
         [Console]::SetCursorPosition($w, $l)
         if ($UserScripts -ne $cmd1) {
             Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" $UserScripts
-            $doh++
             $l++
         }
         $UserScripts = ""
@@ -162,9 +162,8 @@ while ($i -le $roll) {
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 $w = 0
-$pa = ($pa + $doh)
 <# Then we draw the last line on the Menu #>
-[Console]::SetCursorPosition($w, $pa)
+[Console]::SetCursorPosition(0, $pa)
 Write-Host $NormalLine
 $pa++
 $FixLine
@@ -230,11 +229,16 @@ Do {
             if ($cmd -ne '') {
                 FixLine
                 if ($cmd -match "ps1") {
-                    Start-Process "pwsh.exe" -Argumentlist "$cmd" -Verb RunAs
+                    FixLine
+                    $temp = $cmd -split ' '
+                    $cmd = $cmd.trimstart($temp[0])
+                    $cmd1 = $temp[0] -replace '.ps1', ''
+                    $tmp = ".ps1"
+                    $cmd1 = $($cmd1 + $tmp)
+                    Start-Process "pwsh.exe" -Argumentlist "$cmd1 $cmd" -Verb RunAs
+                    FixLine
                 }
-                else {
-                    Start-Process "$cmd" -Verb RunAs
-                }
+                else { Start-Process "$cmd" -Verb RunAs }
                 FixLine
             }
             FixLine
@@ -244,14 +248,17 @@ Do {
         "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "Q" { Clear-Host; Return }
-        "SCRIPT" {
+        "S" {
             FixLine
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[37mWhat script to run? $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
             if ($cmd -ne '') {
                 FixLine
+                $temp = $cmd -split ' '
+                $cmd = $cmd.trimstart($temp[0])
+                $cmd1 = $temp[0] -replace '.ps1', ''
                 $tmp = ".ps1"
-                if ($cmd -ne "$cmd$tmp") { $cmd = "$cmd$tmp" }
-                Start-Process "pwsh.exe" -Argumentlist "$cmd" -Verb RunAs
+                $cmd1 = $($cmd1 + $tmp)
+                Start-Process "pwsh.exe" -Argumentlist "$cmd1 $cmd" -Verb RunAs
                 FixLine
             }
             FixLine
