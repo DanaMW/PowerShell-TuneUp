@@ -14,7 +14,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.8
+#FileVersion = 0.3.0
 param([bool]$Make, [string]$Base, [string]$Editor)
 
 if ($Make -eq "" -or $Make -eq $false) { $MakeActive = $False }

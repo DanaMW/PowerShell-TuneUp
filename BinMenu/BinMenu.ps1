@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.2.8
+#FileVersion = 0.3.0
 param([string]$Base)
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -37,10 +37,10 @@ $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
 $ESC = [char]27
-$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[37m"
-$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[37m"
-$TitleLine = "$ESC[31m#======================================<$ESC[36m[ $ESC[37mMy Bin Folder Menu $ESC[36m]$ESC[31m>=======================================#$ESC[37m"
-$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[37m"
+$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
+$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
+$TitleLine = "$ESC[31m#======================================<$ESC[96m[ $ESC[97mMy Bin Folder Menu $ESC[96m]$ESC[31m>=======================================#$ESC[97m"
+$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
 $LineCount = 0
 try {
     $Reader = New-Object IO.StreamReader $Fileini
@@ -75,7 +75,7 @@ While ($i -le $work) {
     $Line = (Get-Content $Fileini)[$c]
     $moo = $line -split "="
     [Console]::SetCursorPosition($w, $l)
-    Write-host -NoNewLine "$ESC[31m[$ESC[37m$i$ESC[31m]$ESC[36m" $moo[1]
+    Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
     if ($i -eq $Row[0]) {$l = [int]4; $w = [int]$Col[1]  }
     if ($i -eq $Row[1]) {$l = [int]4; $w = [int]$Col[2]  }
     $i++
@@ -83,6 +83,11 @@ While ($i -le $work) {
     $c++
     $L++
 }
+<# Version Add Area #>
+$FV = "Version 0.3.0"
+[Console]::SetCursorPosition(10, 1)
+Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[361m]$ESC[31m"
+<# End Version Area #>
 <# Adding Built in menu options #>
 [Console]::SetCursorPosition(0, $pa)
 Write-Host $NormalLine
@@ -93,71 +98,59 @@ Write-Host $NormalLine
 $pa = $($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 $l = $($pa - 4)
-$d = @("A", "R", "Q", "W", "P", "C", "S", "-", "-")
-$f = @("Run any command directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a script", "Not Used", "Not Used")
+$d = @("E", "R", "Q", "W", "P", "C", "S", "A", "I")
+$f = @("Run an EXE directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a PS1 script", "Alarm Clock", "System Information")
 $w = [int]$Col[0]
 $c = 0
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     $tmp = $d[$c]
-    Write-host -NoNewLine "$ESC[31m[$ESC[37m$tmp$ESC[31m]$ESC[36m" $f[$c]
+    Write-host -NoNewLine "$ESC[31m[$ESC[97m$tmp$ESC[31m]$ESC[95m" $f[$c]
     if ($c -eq 2) { $l = [int]($l - 3); $w = [int]$Col[1] }
     if ($c -eq 5) { $l = [int]($l - 3); $w = [int]$Col[2] }
     $l++
     $c++
 }
+<#
+ This whole function below needs to be re-written because it SUCKS
+#>
 [Console]::SetCursorPosition(0, $pa)
 <# Reading In PowerShell Scripts #>
-Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | Out-File $Filetmp
-$w = 0
-$i = 1
-$c = 0
-$cmd1 = "$ESC[32m[$ESC[37m"
-$cmd2 = "$ESC[32m][$ESC[37m"
-$cmd3 = "$ESC[32m]"
+$cmd1 = "$ESC[92m[$ESC[97m"
+#$cmd2 = "$ESC[92m][$ESC[97m"
+$cmd3 = "$ESC[92m]"
+Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
 $roll = @(Get-Content -Path $Filetmp).Count
 $tmp = [int]($roll / 8)
 $tmp = [int][Math]::Ceiling($tmp)
+$w = 0
 $l = $pa
 $i = 1
 [Console]::SetCursorPosition($w, $l)
 While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
-$i = 1
-$w = 1
 $pa = ($pa + $tmp)
-[Console]::SetCursorPosition(0, $pa)
-$UserScripts = $cmd1
+$i = 0
+$w = 1
+$c = 0
+$t = 1
+[Console]::SetCursorPosition($w, $pa)
 while ($i -le $roll) {
-
-    $LineR = [string](Get-Content $Filetmp)[$i]
-    if ($c -lt 7) {
-        if ($LineR -ne "" -and $i -lt ($roll - 1)) { $UserScripts = [string]($UserScripts + $LineR + $cmd2) }
-        elseif ($LineR -ne "" -and $i -ge ($roll - 1)) { $UserScripts = [string]($UserScripts + $LineR + $cmd3) }
-        else { $UserScripts = [string]($UserScripts + $LineR) }
-        $i++
-        $c++
-    }
-    else {
-        $i++
-        $c = 0
-        $UserScripts = [string]($UserScripts + $LineR)
+    while ($t -le $tmp) {
+        $t++
+        $c = 1
+        $UserScripts = ""
+        while ($c -le 8) {
+            $LineR = [string](Get-Content $Filetmp)[$i]
+            $i++
+            $UserScripts = ($UserScripts + $LineR)
+            $c++
+        }
         [Console]::SetCursorPosition($w, $l)
-        Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" ($UserScripts + $cmd3)
-        $UserScripts = $cmd1
+        Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
         $l++
     }
-    if ($i -gt $roll) {
-        $UserScripts = [string]($UserScripts + $LineR)
-        $i++
-        $c = 0
-        [Console]::SetCursorPosition($w, $l)
-        if ($UserScripts -ne $cmd1) {
-            Write-host -NoNewLine "$ESC[31m[$ESC[32mScript$ESC[31m]$ESC[32m" $UserScripts
-            $l++
-        }
-        $UserScripts = ""
-    }
 }
+
 <# Here i do the cleanup and reorder math #>
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
@@ -172,27 +165,6 @@ $FixLine
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-}
-$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-$principal = [Security.Principal.WindowsPrincipal] $identity
-if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    $menu = "$ESC[31m[$ESC[37mAdmin$ESC[31m][$ESC[37mMake a selection$ESC[31m]$ESC[37m"
-}
-else { $menu = "$ESC[31m[$ESC[37mMake a selection$ESC[31m]$ESC[37m" }
-Function Invoke-Menu {
-    [cmdletbinding()]
-    Param(
-        [Parameter(Position = 0, Mandatory = $True, HelpMessage = "I have no idea how to help you.")]
-        [ValidateNotNullOrEmpty()]
-        [string]$Menu,
-        [Parameter(Position = 1)]
-        [ValidateNotNullOrEmpty()]
-        [Alias("cls")]
-        [switch]$ClearScreen
-    )
-    $menuPrompt += $menu
-    FixLine
-    Read-Host -Prompt $menuprompt
 }
 Function FixLine {
     Write-Host -NoNewLine "                                                                                                       "
@@ -209,6 +181,32 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pa)
 }
 FixLine
+$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$principal = [Security.Principal.WindowsPrincipal] $identity
+if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    <# Version Add Area #>
+    [Console]::SetCursorPosition(79, 1)
+    Write-host -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[31m"
+    [Console]::SetCursorPosition(0, $pa)
+    <# End Version Area #>
+}
+Fixline
+$menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
+Function Invoke-Menu {
+    [cmdletbinding()]
+    Param(
+        [Parameter(Position = 0, Mandatory = $True, HelpMessage = "I have no idea how to help you.")]
+        [ValidateNotNullOrEmpty()]
+        [string]$Menu,
+        [Parameter(Position = 1)]
+        [ValidateNotNullOrEmpty()]
+        [Alias("cls")]
+        [switch]$ClearScreen
+    )
+    $menuPrompt += $menu
+    FixLine
+    Read-Host -Prompt $menuprompt
+}
 #Function TheCommand {
 #    [Parameter(Mandatory = $False, ParameterSetName = 'IntCom')]
 #    [ValidateNotNullOrEmpty()]
@@ -219,13 +217,12 @@ FixLine
 #    Start-Process $cmd[1] -Verb RunAs
 #}
 #TheCommand
-
 Do {
     #Switch
     Switch (Invoke-Menu -menu $menu -clear) {
-        "A" {
+        "E" {
             FixLine
-            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[37mExact Command Line $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mExact Command Line $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
                 if ($cmd -match "ps1") {
@@ -250,7 +247,7 @@ Do {
         "Q" { Clear-Host; Return }
         "S" {
             FixLine
-            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[37mWhat script to run? $ESC[31m($ESC[37mEnter to Cancel$ESC[31m)]$ESC[37m"
+            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
                 $temp = $cmd -split ' '
@@ -263,6 +260,8 @@ Do {
             }
             FixLine
         }
+        "A" { Start-Process "pwsh.exe" "c:\bin\Alarm-Clock.ps1" -Verb RunAs; Clear-Host; return }
+        "I" { Start-Process "pwsh.exe" "c:\bin\System-Info.ps1" -Verb RunAs; Clear-Host; return }
         "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "3" { FixLine; $Line2 = (Select-String -Pattern "3B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
