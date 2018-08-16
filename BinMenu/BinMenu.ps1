@@ -12,8 +12,8 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.3.0
 param([string]$Base)
+$FileVersion = "0.3.1"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -83,11 +83,6 @@ While ($i -le $work) {
     $c++
     $L++
 }
-<# Version Add Area #>
-$FV = "Version 0.3.0"
-[Console]::SetCursorPosition(10, 1)
-Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[361m]$ESC[31m"
-<# End Version Area #>
 <# Adding Built in menu options #>
 [Console]::SetCursorPosition(0, $pa)
 Write-Host $NormalLine
@@ -181,15 +176,30 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pa)
 }
 FixLine
+<# Here We do the infomation overlays #>
+<# Administrator Add Area #>
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    <# Version Add Area #>
-    [Console]::SetCursorPosition(79, 1)
+    [Console]::SetCursorPosition(78, 1)
     Write-host -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[31m"
     [Console]::SetCursorPosition(0, $pa)
-    <# End Version Area #>
 }
+<# Version Add Area #>
+$FV = ("Version: " + $FileVersion)
+[Console]::SetCursorPosition(10, 1)
+Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
+[Console]::SetCursorPosition(0, $pa)
+<# Menu Title Area #>
+[Console]::SetCursorPosition(3, 4)
+Write-host -NoNewLine "$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m"
+[Console]::SetCursorPosition(0, $pa)
+[Console]::SetCursorPosition(3, 19)
+Write-host -NoNewLine "$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m"
+[Console]::SetCursorPosition(0, $pa)
+[Console]::SetCursorPosition(3, 23)
+Write-host -NoNewLine "$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m"
+[Console]::SetCursorPosition(0, $pa)
 Fixline
 $menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {
