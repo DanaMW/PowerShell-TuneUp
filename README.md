@@ -6,6 +6,7 @@ If you have improvements to them please share them with me, thats what this is a
 Hope they help someone else. Enjoy.
 ```
 # BinMenu
+<img src="/img/ShowBinMenu.png" alt="BinMenu"/>
 ```
 Bin Menu is a simple console based menu that reads in what exe's are in the sub-folders and which
 *PS1's are in it and lists them on a menu for you.
