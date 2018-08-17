@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.3.1"
+$FileVersion = "0.3.2"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -36,6 +36,8 @@ $Filetmp = "$Base" + "\BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
+<# Toggle this to $False if you DONT want to read in ps1 scripts, $True is you do. #>
+$ScriptRead = $True
 $ESC = [char]27
 $NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
 $FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
@@ -106,54 +108,54 @@ while ($c -le 8) {
     $l++
     $c++
 }
-<#
- This whole function below needs to be re-written because it SUCKS
-#>
+
 [Console]::SetCursorPosition(0, $pa)
-<# Reading In PowerShell Scripts #>
-$cmd1 = "$ESC[92m[$ESC[97m"
-#$cmd2 = "$ESC[92m][$ESC[97m"
-$cmd3 = "$ESC[92m]"
-Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
-$roll = @(Get-Content -Path $Filetmp).Count
-$tmp = [int]($roll / 8)
-$tmp = [int][Math]::Ceiling($tmp)
-$w = 0
-$l = $pa
-$i = 1
-[Console]::SetCursorPosition($w, $l)
-While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
-$pa = ($pa + $tmp)
-$i = 0
-$w = 1
-$c = 0
-$t = 1
-[Console]::SetCursorPosition($w, $pa)
-while ($i -le $roll) {
-    while ($t -le $tmp) {
-        $t++
-        $c = 1
-        $UserScripts = ""
-        while ($c -le 8) {
-            $LineR = [string](Get-Content $Filetmp)[$i]
-            $i++
-            $UserScripts = ($UserScripts + $LineR)
-            $c++
+<# Reading In PowerShell Scripts IF $ScriptRead is $true #>
+if ($scriptRead -eq $true) {
+    $cmd1 = "$ESC[92m[$ESC[97m"
+    $cmd3 = "$ESC[92m]"
+    Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
+    $roll = @(Get-Content -Path $Filetmp).Count
+    $tmp = [int]($roll / 8)
+    $tmp = [int][Math]::Ceiling($tmp)
+    $w = 0
+    $l = $pa
+    $i = 1
+    [Console]::SetCursorPosition($w, $l)
+    While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
+    $pa = ($pa + $tmp)
+    $i = 0
+    $w = 1
+    $c = 0
+    $t = 1
+    [Console]::SetCursorPosition($w, $pa)
+    while ($i -le $roll) {
+        while ($t -le $tmp) {
+            $t++
+            $c = 1
+            $UserScripts = ""
+            while ($c -le 8) {
+                $LineR = [string](Get-Content $Filetmp)[$i]
+                $i++
+                $UserScripts = ($UserScripts + $LineR)
+                $c++
+            }
+            [Console]::SetCursorPosition($w, $l)
+            Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
+            $l++
         }
-        [Console]::SetCursorPosition($w, $l)
-        Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
-        $l++
     }
 }
-
 <# Here i do the cleanup and reorder math #>
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 $w = 0
-<# Then we draw the last line on the Menu #>
-[Console]::SetCursorPosition(0, $pa)
-Write-Host $NormalLine
-$pa++
+<# Then we draw the last line on the Menu id $ScriptRead is $True #>
+if ($ScriptRead -eq $true) {
+    [Console]::SetCursorPosition(0, $pa)
+    Write-Host $NormalLine
+    $pa++
+}
 $FixLine
 <# All done fucking around now we just line up the tasks and work #>
 <# Now we do the Menu trigger, sorta functions and all the triggers #>
@@ -197,9 +199,11 @@ Write-host -NoNewLine "$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m"
 [Console]::SetCursorPosition(3, 19)
 Write-host -NoNewLine "$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
-[Console]::SetCursorPosition(3, 23)
-Write-host -NoNewLine "$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m"
-[Console]::SetCursorPosition(0, $pa)
+if ($ScriptRead -eq $true) {
+    [Console]::SetCursorPosition(3, 23)
+    Write-host -NoNewLine "$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m"
+    [Console]::SetCursorPosition(0, $pa)
+}
 Fixline
 $menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {

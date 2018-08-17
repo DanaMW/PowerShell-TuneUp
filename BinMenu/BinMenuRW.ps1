@@ -15,7 +15,7 @@
         Still under development.
 #>
 param([bool]$Make, [string]$Base, [string]$Editor)
-$FileVersion = "0.3.1"
+$FileVersion = "0.3.2"
 if ($Make -eq "" -or $Make -eq $false) { $MakeActive = $False }
 if ($Make -ne "" -and $Make -eq $true) { $MakeActive = $True  }
 else { $MakeActive = $false }
