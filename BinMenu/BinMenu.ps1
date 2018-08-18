@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.4.0"
+$FileVersion = "0.4.1"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -235,12 +235,11 @@ Function MyMaker {
     try {
         Import-Csv $Filecsv | Foreach-Object {
             $tmpname = [Regex]::Escape($_.fullname)
-            if ($tmpname -match "git") { return }
-            if ($tmpname -match "wscc") { return }
-            $Decidep = "Do you want to use $tmpname (Y-N)?"
+            if ($tmpname -match "git" -and $tmpname -ne "c:\\bin\\git\\bin\\bash\.exe") { return }
+            if ($tmpname -match "wscc" -and $tmpname -ne "C:\\bin\\wscc\\wscc\.exe") { return }
+            $Decidep = "Do you want to use $_.name (Y N)[Enter is No]"
             $Decide = Read-Host -Prompt $Decidep
             if ($Decide -eq "Y") {
-                #Write-host "Saving the file" $_.name
                 $tmpname = $_.name -replace "\\", ""
                 if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
                 $NameFix = $tmpname
@@ -363,6 +362,14 @@ Do {
         "40" { FixLine; $Line2 = (Select-String -Pattern "40B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "41" { FixLine; $Line2 = (Select-String -Pattern "41B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "42" { FixLine; $Line2 = (Select-String -Pattern "42B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "43" { FixLine; $Line2 = (Select-String -Pattern "43B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "44" { FixLine; $Line2 = (Select-String -Pattern "44B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "45" { FixLine; $Line2 = (Select-String -Pattern "45B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "46" { FixLine; $Line2 = (Select-String -Pattern "46B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "47" { FixLine; $Line2 = (Select-String -Pattern "47B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "48" { FixLine; $Line2 = (Select-String -Pattern "48B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "49" { FixLine; $Line2 = (Select-String -Pattern "49B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "50" { FixLine; $Line2 = (Select-String -Pattern "50B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         Default {
             FixLine
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
