@@ -16,3 +16,5 @@ Note: I have not tested it in a folder with spaces in the path yet, but I assume
 Since I am new to PowerShell as I learn more I keep improving it.
 
 Many updates faster functions and reads. Now you can toggle the PS1 script reads-in $True or $False. Anyway love me some PowerShell.
+
+<img src="/img/ShowBinMenu.png" alt="BinMenu"/>
