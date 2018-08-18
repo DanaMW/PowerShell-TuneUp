@@ -4,24 +4,15 @@
 BinMenu is my answer to not being able to find a PowerShell menu that worked for me.
 I keep all my portable software in subfolders off one folder. (C:\bin)
 Well i needed a menu that reads it in even when the software changes.
-This is a tuned up first draft and is working on my machines with PowerShell Core 6.0.3.
-In this update it scans the folder and lists all the *.PS1 scripts files for you.
-Use the A of SCRIPT menu option to run scripts. A include the ps1 extension.
-No need to if you typoe SCRIPT.
+This is a tuned up second draft and is working pretty on my machines with
+PowerShell Core 6.0.X.
 
-
-To use it place the two files in the desired folder.
-Open with your text editor both BinMenuRW.ps1 and BinMenu.ps1 and change the "BASE" folder at the top.
-Save them then run BinMenuRW.ps1 -MAKE [<1> or <$True>](Required to make)
-You can optionally include -BASE [<BaseFolder>] -Editor [<FullPathToYourPreferredEditor>]
-The file it creates you should automaticlly edit.
-Take out the lines of the programs that YOU WANT. NOTE Leave in the programs you DONT WANT.
-Save that file then back at the run window hit enter. It automaticlly runs BinMenuRW.
-It runs it with not parameters. You can do that at any time yourself to adjust for any manual edits.
-It should then run BinMenu.ps1 and ...
-There you are, a custom menu with your current exe programs and ps1 scripts.
+To use it place BinMenu.ps1 desired folder. Run it aloneor with parameter -Base [<BaseFolder>]
+A couple settings in the file are $Base, $editor and $ScriptRead $True or $False. (Do or dont read in the 
+list of PS1 scripts in the folder. The ini can easily be edited once created.
+It will auto create on run or there is a menu option to run it.
 ```
 Note: I have not tested it in a folder with spaces in the path yet, but I assume it should work.
 Since I am new to PowerShell as I learn more I keep improving it.
 
-Many updates faster functions and reads. Now you can toggle the script reads $True or $False. Anyway love me some PowerShell.
+Many updates faster functions and reads. Now you can toggle the PS1 script reads-in $True or $False. Anyway love me some PowerShell.

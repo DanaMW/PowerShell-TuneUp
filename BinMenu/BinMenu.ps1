@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.3.2"
+$FileVersion = "0.4.0"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -27,22 +27,24 @@ $Fileini = "$Base" + "BinMenu.ini"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
     Write-Host "The File $Fileini missing. Can ot continue."
-    Write-Host "Running BinMenuRW.ps1 file creator"
-    Start-Process pwsh.exe "BinMenuRW.ps1" -Make $True
-    return
-    break
+    Write-Host "We are boing to run the INI creator now"
+    MyMaker
 }
 $Filetmp = "$Base" + "\BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
 <# Toggle this to $False if you DONT want to read in ps1 scripts, $True is you do. #>
+$Editor = "C:\Bin\NPP\NotePad++.exe"
 $ScriptRead = $True
 $ESC = [char]27
 $NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
 $FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
 $TitleLine = "$ESC[31m#======================================<$ESC[96m[ $ESC[97mMy Bin Folder Menu $ESC[96m]$ESC[31m>=======================================#$ESC[97m"
 $SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
+$ProgramLine = "$ESC[31m#==$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
+$Menu1Line = "$ESC[31m#==$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m====================================================================================#$ESC[97m"
+$ScriptLine = "$ESC[31m#==$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
 $LineCount = 0
 try {
     $Reader = New-Object IO.StreamReader $Fileini
@@ -64,7 +66,7 @@ Write-Host $NormalLine
 Write-Host $FancyLine
 Write-Host $TitleLine
 Write-Host $FancyLine
-Write-Host $NormalLine
+Write-Host $ProgramLine
 $i = 1
 While ($i -le $a) { Write-Host $SpacerLine; $i++ }
 <# Fill in the users menu options from file. #>
@@ -87,16 +89,17 @@ While ($i -le $work) {
 }
 <# Adding Built in menu options #>
 [Console]::SetCursorPosition(0, $pa)
-Write-Host $NormalLine
+Write-Host $Menu1Line
 Write-Host $SpacerLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
-Write-Host $NormalLine
+if ($ScriptRead -eq $true) { Write-Host $ScriptLine }
+else { Write-Host $NormalLine }
 $pa = $($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 $l = $($pa - 4)
 $d = @("E", "R", "Q", "W", "P", "C", "S", "A", "I")
-$f = @("Run an EXE directly", "Reload BinMenu", "Quit BinMenu", "Run BinMenuRW", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a PS1 script", "Alarm Clock", "System Information")
+$f = @("Run an EXE directly", "Reload BinMenu", "Quit BinMenu", "Run INI Maker", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a PS1 script", "Edit BinMenu.ini", "System Information")
 $w = [int]$Col[0]
 $c = 0
 while ($c -le 8) {
@@ -178,8 +181,7 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pa)
 }
 FixLine
-<# Here We do the infomation overlays #>
-<# Administrator Add Area #>
+<# Here We do the Administrator overlay #>
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
@@ -192,18 +194,6 @@ $FV = ("Version: " + $FileVersion)
 [Console]::SetCursorPosition(10, 1)
 Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
-<# Menu Title Area #>
-[Console]::SetCursorPosition(3, 4)
-Write-host -NoNewLine "$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m"
-[Console]::SetCursorPosition(0, $pa)
-[Console]::SetCursorPosition(3, 19)
-Write-host -NoNewLine "$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m"
-[Console]::SetCursorPosition(0, $pa)
-if ($ScriptRead -eq $true) {
-    [Console]::SetCursorPosition(3, 23)
-    Write-host -NoNewLine "$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m"
-    [Console]::SetCursorPosition(0, $pa)
-}
 Fixline
 $menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {
@@ -220,6 +210,61 @@ Function Invoke-Menu {
     $menuPrompt += $menu
     FixLine
     Read-Host -Prompt $menuprompt
+}
+Function MyMaker {
+    Clear-Host
+    <# Setting up INI File.#>
+    $Filetest = Test-Path -path $FileINI
+    if ($Filetest -eq $true) { Remove-Item –path $FileINI }
+    $FileTXT = ("$Base" + "BinMenu.txt")
+    $Filetest = Test-Path -path $FileTXT
+    if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
+    $FileCSv = ("$Base" + "BinMenu.csv")
+    $Filetest = Test-Path -path $FileCSV
+    if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
+    <# Reads in all valid (runable exe ) entries from your base folder. #>
+    Write-host $fileVersion "Reading in directory" $Base
+    Get-ChildItem -Path "$Base" -Recurse -Include *.exe | Select-Object `
+    @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
+    Name,
+    FullName ` | Export-Csv -path $FileTXT -NoTypeInformation
+    Write-host "Writing raw files info, Reread and sorting file names, Exporting all file names"
+    Import-Csv -Path $FileTXT | Sort-Object -Property "Foldername" | Export-Csv -NoTypeInformation $FileCSV
+    $writer = [System.IO.file]::CreateText($FileINI)
+    $i = 1
+    try {
+        Import-Csv $Filecsv | Foreach-Object {
+            $tmpname = [Regex]::Escape($_.fullname)
+            if ($tmpname -match "git") { return }
+            if ($tmpname -match "wscc") { return }
+            $Decidep = "Do you want to use $tmpname (Y-N)?"
+            $Decide = Read-Host -Prompt $Decidep
+            if ($Decide -eq "Y") {
+                #Write-host "Saving the file" $_.name
+                $tmpname = $_.name -replace "\\", ""
+                if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
+                $NameFix = $tmpname
+                $NameFix = $NameFix.tolower()
+                $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
+                $NameFix = $NameFix.replace(".exe", "")
+                Write-Host "Adding to Menu: " $NameFix
+                $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
+                <# $Writer.WriteLine("[" + $i + "A]=" + $_.name.replace(".exe", "")) #>
+                $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
+                <# export-Csv -Path $FileMen -Append -Delimiter ", " -InputObject $_ #>
+                $i++
+                return
+            }
+            else { return }
+        }
+    }
+    finally { $writer.close() }
+    Write-Host "Done Writing EXE files to the Menu ini."
+    Write-Host ""
+    $Filetest = Test-Path -path $FileTXT
+    if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
+    $Filetest = Test-Path -path $FileCSV
+    if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
 }
 #Function TheCommand {
 #    [Parameter(Mandatory = $False, ParameterSetName = 'IntCom')]
@@ -255,7 +300,7 @@ Do {
             FixLine
         }
         "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "W" { Start-Process "pwsh.exe" "c:\bin\BinMenuRW.ps1" -Verb RunAs; Clear-Host; return }
+        "W" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "Q" { Clear-Host; Return }
@@ -274,7 +319,7 @@ Do {
             }
             FixLine
         }
-        "A" { Start-Process "pwsh.exe" "c:\bin\Alarm-Clock.ps1" -Verb RunAs; Clear-Host; return }
+        "A" { FixLine; Start-Process $editor -ArgumentList $FileINI -Verb RunAs; FixLine }
         "I" { Start-Process "pwsh.exe" "c:\bin\System-Info.ps1" -Verb RunAs; Clear-Host; return }
         "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
