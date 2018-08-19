@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.4.1"
+$FileVersion = "0.4.3"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -24,27 +24,31 @@ if ($Base -eq "") { $Base = Get-ScriptDir }
 $tmp = $base.lenght
 if ($($base.substring($tmp)) -ne "\") { $base = $base + "\" }
 $Fileini = "$Base" + "BinMenu.ini"
-$Filetest = Test-Path -path $Fileini
-if ($Filetest -ne $true) {
-    Write-Host "The File $Fileini missing. Can ot continue."
-    Write-Host "We are boing to run the INI creator now"
-    MyMaker
-}
 $Filetmp = "$Base" + "\BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
 <# Toggle this to $False if you DONT want to read in ps1 scripts, $True is you do. #>
+$IAmWho = $env:USERDOMAIN
 $Editor = "C:\Bin\NPP\NotePad++.exe"
 $ScriptRead = $True
 $ESC = [char]27
+$Filetest = Test-Path -path $Fileini
+if ($Filetest -ne $true) {
+    Write-Host "The File $Fileini is missing. Can not continue without it."
+    Write-Host "We are going to run the INI creator function now"
+    Read-Host -Prompt "[Enter to continue]"
+    $NoINI = $true
+    My-Maker
+}
+Clear-Host
 $NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
 $FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
-$TitleLine = "$ESC[31m#======================================<$ESC[96m[ $ESC[97mMy Bin Folder Menu $ESC[96m]$ESC[31m>=======================================#$ESC[97m"
+$TitleLine = "$ESC[31m#======================================<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[31m>=======================================#$ESC[97m"
 $SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
-$ProgramLine = "$ESC[31m#==$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
-$Menu1Line = "$ESC[31m#==$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m====================================================================================#$ESC[97m"
-$ScriptLine = "$ESC[31m#==$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
+$ProgramLine = "$ESC[31m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
+$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
+$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 $LineCount = 0
 try {
     $Reader = New-Object IO.StreamReader $Fileini
@@ -195,7 +199,7 @@ $FV = ("Version: " + $FileVersion)
 Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
-$menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
+$menu = "$ESC[31m[$ESC[96m$IAmWho$ESC[31m][$ESC[97mMake a selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {
     [cmdletbinding()]
     Param(
@@ -237,14 +241,14 @@ Function MyMaker {
             $tmpname = [Regex]::Escape($_.fullname)
             if ($tmpname -match "git" -and $tmpname -ne "c:\\bin\\git\\bin\\bash\.exe") { return }
             if ($tmpname -match "wscc" -and $tmpname -ne "C:\\bin\\wscc\\wscc\.exe") { return }
-            $Decidep = "Do you want to use $_.name (Y N)[Enter is No]"
+            $tmpname = $_.name -replace "\\", ""
+            if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
+            $NameFix = $tmpname
+            $NameFix = $NameFix.tolower()
+            $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
+            $Decidep = "Add to BinMenu [" + "$_.fullname" + "][" + "$NameFix" + "(Y N)[Enter is No]"
             $Decide = Read-Host -Prompt $Decidep
             if ($Decide -eq "Y") {
-                $tmpname = $_.name -replace "\\", ""
-                if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
-                $NameFix = $tmpname
-                $NameFix = $NameFix.tolower()
-                $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
                 $NameFix = $NameFix.replace(".exe", "")
                 Write-Host "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
@@ -264,6 +268,10 @@ Function MyMaker {
     if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
+}
+if ($NoINI) {
+    $NoINI = $false
+    MyMaker
 }
 #Function TheCommand {
 #    [Parameter(Mandatory = $False, ParameterSetName = 'IntCom')]
