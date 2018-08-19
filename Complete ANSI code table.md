@@ -1,2 +1,1 @@
-<img src="/img/Complete Ansi code table.png">
-<img src="/img/ShowBinMenu.png" alt="ANSICodes"/>
+<img src="/img/The entire table of ANSI color codes .png" alt="ANSICodes"/>
