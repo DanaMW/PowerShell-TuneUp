@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.4.3"
+$FileVersion = "0.4.4"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -33,6 +33,7 @@ $IAmWho = $env:USERDOMAIN
 $Editor = "C:\Bin\NPP\NotePad++.exe"
 $ScriptRead = $True
 $ESC = [char]27
+$host.ui.RawUI.WindowTitle = "BinMenu v.$FileVersion on $IAmWho"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
     Write-Host "The File $Fileini is missing. Can not continue without it."
@@ -115,7 +116,6 @@ while ($c -le 8) {
     $l++
     $c++
 }
-
 [Console]::SetCursorPosition(0, $pa)
 <# Reading In PowerShell Scripts IF $ScriptRead is $true #>
 if ($scriptRead -eq $true) {
@@ -123,7 +123,7 @@ if ($scriptRead -eq $true) {
     $cmd3 = "$ESC[92m]"
     Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
     $roll = @(Get-Content -Path $Filetmp).Count
-    $tmp = [int]($roll / 8)
+    $tmp = ($roll / 8)
     $tmp = [int][Math]::Ceiling($tmp)
     $w = 0
     $l = $pa
@@ -199,7 +199,7 @@ $FV = ("Version: " + $FileVersion)
 Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
-$menu = "$ESC[31m[$ESC[96m$IAmWho$ESC[31m][$ESC[97mMake a selection$ESC[31m]$ESC[97m"
+$menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {
     [cmdletbinding()]
     Param(
@@ -246,7 +246,7 @@ Function MyMaker {
             $NameFix = $tmpname
             $NameFix = $NameFix.tolower()
             $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
-            $Decidep = "Add to BinMenu [" + "$_.fullname" + "][" + "$NameFix" + "(Y N)[Enter is No]"
+            $Decidep = "Add to BinMenu [" + $_.fullname + "][" + $NameFix + "(Y N)[Enter is No]"
             $Decide = Read-Host -Prompt $Decidep
             if ($Decide -eq "Y") {
                 $NameFix = $NameFix.replace(".exe", "")
