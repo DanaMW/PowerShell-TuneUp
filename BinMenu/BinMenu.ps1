@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.4.4"
+$FileVersion = "0.4.5"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -136,7 +136,7 @@ if ($scriptRead -eq $true) {
     $c = 0
     $t = 1
     [Console]::SetCursorPosition($w, $pa)
-    while ($i -le $roll) {
+    while ($i -lt $roll) {
         while ($t -le $tmp) {
             $t++
             $c = 1
