@@ -14,21 +14,25 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.1.2
+#FileVersion = 0.1.4
 #Your Settings Here
 $addto = "C:\bin\Delay-StartUp.NOT"
 $Filetest = Test-Path -path $addto
 if ($Filetest -eq $true) {
+    Write-Host ""
     Write-Host "The File $addto Is present."
     Write-Host "This indicates we need to exit."
     Write-Host "Remove $addto to allow this to run."
+    Write-Host ""
     break
 }
-$StartDelay = 10
-$Delay = 3
+$StartDelay = 0
+$Delay = 2
 #End
 $C = 1
-& Write-Output "Holding startup for $StartDelay seconds per your setting."
+if ($StartDelay -ne 0 -or $StartDelay -ne "") {
+    & Write-Output "Holding startup for $StartDelay seconds per your setting."
+}
 Start-Sleep -s $StartDelay
 & Write-Output ""
 & Write-Output "#==================================#"
@@ -84,5 +88,12 @@ Start-Sleep -s $Delay
 & Set-Location "C:\Program Files\Rainmeter\"
 & Start-Process -FilePath "C:\Program Files\Rainmeter\Rainmeter.exe"
 & Set-Location "$Env:HOME"
-exit
+
+$C++
+Start-Sleep -s $Delay
+& Write-Output " [$C] Starting BinMenu"
+& Set-Location "C:\bin\"
+& Start-Process -FilePath "pwsh.exe" -ArgumentList "C:\bin\BinMenu.ps1"
+& Set-Location "$Env:HOME"
+Exit
 return
