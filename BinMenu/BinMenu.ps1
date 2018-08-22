@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.5.0"
+$FileVersion = "0.5.1"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -58,13 +58,21 @@ try {
 Finally { $Reader.Close() }
 <# Setting up positioning #>
 $temp = [int]($LineCount / 2)
-$a = [int]($temp / 3)
+$a = ($temp / 3)
+$a = [int][Math]::Ceiling($a)
 $temp = [int]($a)
 $b = [int]($temp * 2)
 $c = [int]($LineCount / 2)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 68)
 $pa = ($a + 5)
+Write-host "Linecount" $linecount
+Write-host "A" $a
+Write-host "Temp" $temp
+Write-host "B" $b
+Write-host "C" $c
+Write-host "Row" $row
+#break
 <# Draw the menu outline now. #>
 Clear-Host
 Write-Host $NormalLine
