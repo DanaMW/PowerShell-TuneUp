@@ -14,7 +14,7 @@
 .NOTES
         Still under development.
 #>
-#FileVersion = 0.1.4
+#FileVersion = 0.1.5
 #Your Settings Here
 $addto = "C:\bin\Delay-StartUp.NOT"
 $Filetest = Test-Path -path $addto
