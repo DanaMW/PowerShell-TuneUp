@@ -29,3 +29,8 @@ your script files.
 ```
 This clears most to all of your windows logs for you.
 ```
+# System-Info
+```
+A simple system information example containing how to expand a
+looped composed ($var + #) variable, and how to  draw out
+simple info using Get-CimInstance.
