@@ -29,7 +29,7 @@ your script files.
 ```
 This clears most to all of your windows logs for you.
 ```
-# System-Info
+# Get-SysInfo
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
 ```
