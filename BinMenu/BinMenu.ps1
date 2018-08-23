@@ -13,10 +13,27 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.5.2"
+$FileVersion = "0.5.3"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
+<# #######[Set-ConWin]###[Window Resizer]############################## #>
+$tmpWidth = 104
+$tmpHeight = 37
+if ($tmpWidth -eq "") { $tmpWidth = 107 }
+if ($tmpHeight -eq "") { $tmpHeight = 45 }
+$pshost = get-host
+$pswindow = $pshost.ui.rawui
+$newsize = $pswindow.buffersize
+$newsize.height = 2000
+$tmp = ($tmpWidth * 2)
+$newsize.width = $tmp
+$pswindow.buffersize = $newsize
+$newsize = ($pswindow.windowsize)
+$newsize.height = $tmpHeight
+$newsize.width = $tmpWidth
+$pswindow.windowsize = $newsize
+<# ################################################################ #>
 Clear-Host
 <# Set The BASE folder here or the script will use current by default #>
 $Base = "C:\bin"
@@ -289,6 +306,23 @@ Function MySysInf {
     $tline = "$ESC[31m| $ESC[37m#=-=-=-=-=-=-=-=-=-=-=-<$ESC[36m[$ESC[37mSystem Information$ESC[36m]$ESC[31m$ESC[37m>=-=-=-=-=-=-=-=-=-=-=#$ESC[31m |$ESC[37m"
     $sline = "$ESC[31m| $ESC[37m| $ESC[31m|                                                             $ESC[31m| $ESC[37m|$ESC[31m |$ESC[37m"
     $host.ui.RawUI.WindowTitle = "System Information v." + $FileVersion
+    <# #######[Set-ConWin]###[Window Resizer]############################## #>
+    $tmpWidth = 72
+    $tmpHeight = 48
+    if ($tmpWidth -eq "") { $tmpWidth = 107 }
+    if ($tmpHeight -eq "") { $tmpHeight = 45 }
+    $pshost = get-host
+    $pswindow = $pshost.ui.rawui
+    $newsize = $pswindow.buffersize
+    $newsize.height = 2000
+    $tmp = ($tmpWidth * 2)
+    $newsize.width = $tmp
+    $pswindow.buffersize = $newsize
+    $newsize = ($pswindow.windowsize)
+    $newsize.height = $tmpHeight
+    $newsize.width = $tmpWidth
+    $pswindow.windowsize = $newsize
+    <# ################################################################ #>
     $Base = "C:\bin\"
     Get-CimInstance Win32_OperatingSystem | Format-List
     Clear-Host

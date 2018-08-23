@@ -8,7 +8,7 @@ This is a tuned up second draft and is working pretty on my machines with
 PowerShell Core 6.0.X.
 
 To use it place BinMenu.ps1 desired folder. Run it alone or with parameter -Base [<BaseFolder>]
-A couple settings in the file are $Base, $editor and $ScriptRead $True or $False. (Do or dont read in the 
+A couple settings in the file are $Base, $editor and $ScriptRead $True or $False. (Do or dont read in the
 list of PS1 scripts in the folder). The ini can easily be edited once created to add custom programs.
 It will auto create the needed INI on run or there is a menu option to run it. Just say yes or no to each.
 
@@ -17,5 +17,6 @@ Since I am new to PowerShell as I learn more I keep improving it.
 Many updates faster functions and reads. Now you can toggle the PS1 script reads-in $True or $False.
 Anyway love me some PowerShell.
 Update: My new SysInfo is also built into the BinMenu now as a function.
+Update: Added window resize.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
