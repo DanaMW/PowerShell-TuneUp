@@ -6,12 +6,12 @@ If you have improvements to them please share them with me, thats what this is a
 Hope they help someone else. Enjoy.
 ```
 # BinMenu
-<img src="/img/ShowBinMenu.png" alt="BinMenu"/>
-
 ```
 Bin Menu is a simple console based menu that reads in what exe's are in the sub-folders and which
 *PS1's are in it and lists them on a menu for you.
 ```
+<img src="/img/ShowBinMenu.png" alt="BinMenu"/>
+
 # Convert-Script
 ```
 That is my CSS to JS converter for use on Tampermonkey and Edge browser. Very simply,
@@ -30,15 +30,14 @@ your script files.
 This clears most to all of your windows logs for you.
 ```
 # Get-SysInfo
-<img src="/img/ShowSysInfo.png" alt="SysInfo"/>
-
 ```
 A simple system information example containing how to expand a
 looped composed ($var + #) variable, and how to  draw out
 simple info using Get-CimInstance.
 ```
-# Set-ConWin
+<img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
+# Set-ConWin
 ```
 My script paste-in that allows the console buffer and window to
 be resized. I tried 3 or 4 from others and they didnt work so I
