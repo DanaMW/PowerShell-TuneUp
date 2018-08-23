@@ -30,6 +30,8 @@ your script files.
 This clears most to all of your windows logs for you.
 ```
 # System-Info
+<img src="/img/ShowSysInfo.png" alt="SysInfo"/>
+
 ```
 A simple system information example containing how to expand a
 looped composed ($var + #) variable, and how to  draw out
