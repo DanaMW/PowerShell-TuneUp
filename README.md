@@ -38,7 +38,10 @@ looped composed ($var + #) variable, and how to  draw out
 simple info using Get-CimInstance.
 ```
 # Set-ConWin
+
+```
 My script paste-in that allows the console buffer and window to
 be resized. I tried 3 or 4 from others and they didnt work so I
 put this together amd use it because it simply works.
 (Going to turn it into a Function soon)
+```
