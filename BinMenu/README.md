@@ -11,10 +11,11 @@ To use it place BinMenu.ps1 desired folder. Run it aloneor with parameter -Base 
 A couple settings in the file are $Base, $editor and $ScriptRead $True or $False. (Do or dont read in the 
 list of PS1 scripts in the folder. The ini can easily be edited once created.
 It will auto create on run or there is a menu option to run it.
-```
+
 Note: I have not tested it in a folder with spaces in the path yet, but I assume it should work.
 Since I am new to PowerShell as I learn more I keep improving it.
-
-Many updates faster functions and reads. Now you can toggle the PS1 script reads-in $True or $False. Anyway love me some PowerShell.
-
+Many updates faster functions and reads. Now you can toggle the PS1 script reads-in $True or $False.
+Anyway love me some PowerShell.
+Update: My new SysInfo is also built intop the BinMenu now as a function.
+```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
