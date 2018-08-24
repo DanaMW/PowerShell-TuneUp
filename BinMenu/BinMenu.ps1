@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 11, 2018
+        Last Modified Date: August 24, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.5.4"
+$FileVersion = "0.5.5"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -126,8 +126,8 @@ else { Write-Host $NormalLine }
 $pa = $($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 $l = $($pa - 4)
-$d = @("E", "R", "Q", "W", "P", "C", "S", "A", "I")
-$f = @("Run an EXE directly", "Reload BinMenu", "Quit BinMenu", "Run INI Maker", "Run a PowerShell console", "Run VS Code (New IDE) ", "Run a PS1 script", "Edit BinMenu.ini", "System Information")
+$d = @("A", "B", "C", "D", "E", "F", "G", "H", "Q")
+$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit BinMenu.ini", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
 $w = [int]$Col[0]
 $c = 0
 while ($c -le 8) {
@@ -222,7 +222,7 @@ $FV = ("Version: " + $FileVersion)
 Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
-$menu = "$ESC[31m[$ESC[97mMake a selection$ESC[31m]$ESC[97m"
+$menu = "$ESC[31m[$ESC[97mMake A Selection$ESC[31m]$ESC[97m"
 Function Invoke-Menu {
     [cmdletbinding()]
     Param(
@@ -426,6 +426,10 @@ Function TheCommand {
 Do {
     #Switch
     Switch (Invoke-Menu -menu $menu -clear) {
+        "A" { FixLine; Start-Process $editor -ArgumentList $FileINI -Verb RunAs; FixLine }
+        "B" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "E" {
             FixLine
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mExact Command Line $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
@@ -446,12 +450,8 @@ Do {
             }
             FixLine
         }
-        "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "W" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "C" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
-        "P" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        "Q" { Clear-Host; Return }
-        "S" {
+        "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
+        "G" {
             FixLine
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
@@ -466,8 +466,7 @@ Do {
             }
             FixLine
         }
-        "A" { FixLine; Start-Process $editor -ArgumentList $FileINI -Verb RunAs; FixLine }
-        "I" {
+        "H" {
             FixLine
             MySysInf
             Clear-Host
@@ -475,6 +474,7 @@ Do {
             Clear-Host
             return
         }
+        "Q" { Clear-Host; Return }
         "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
         "3" { FixLine; $Line2 = (Select-String -Pattern "3B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
