@@ -13,12 +13,21 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "0.5.5"
+$FileVersion = "Version: 0.6.0"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
+Function MyConfig {
+    $tmp = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
+    $tmp = ($tmp -replace ".ps1", ".json")
+    $tmp
+}
+$ConfigFile = MyConfig
+try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
+catch { Write-Error -Message "The Base configuration file is missing!" -Stop }
+if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" -Stop }
 <# #[Set-ConWin]#[Window Resizer]# #>
-$tmpHeight = 37
+$tmpHeight = 40
 $tmpWidth = 104
 if ($tmpWidth -eq "") { $tmpWidth = 107 }
 if ($tmpHeight -eq "") { $tmpHeight = 45 }
@@ -34,25 +43,45 @@ $newsize.height = $tmpHeight
 $newsize.width = $tmpWidth
 $pswindow.windowsize = $newsize
 Clear-Host
-<# Set The BASE folder here or the script will use current by default #>
-$Base = "C:\bin"
-if ($Base -eq "") { $Base = Get-ScriptDir }
-$tmp = $base.lenght
-if ($($base.substring($tmp)) -ne "\") { $base = $base + "\" }
+$Base = [String]($Config.basic.Base)
+if ($Base -eq "") {
+    Write-Error "Config Read did not work out. Using current folder."
+    Start-Sleep-s 5
+    $Base = Get-ScriptDir
+}
+$tmp = $base.length
+if ($base.substring(($tmp - 1)) -ne "\") { $base = $base + "\" }
 $Fileini = "$Base" + "BinMenu.ini"
-$Filetmp = "$Base" + "\BinTemp.del"
+$Filetmp = "$Base" + "BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
-<# Toggle this to $False if you DONT want to read in ps1 scripts, $True is you do. #>
 $IAmWho = $env:USERDOMAIN
-$Editor = "C:\Bin\NPP\NotePad++.exe"
-$ScriptRead = $True
+$Editor = [string]($Config.basic.Editor)
+$ScriptRead = [bool]($Config.basic.ScriptRead)
+$MenuAdds = [bool]($Config.basic.MenuAdds)
+$AddCount = [int]($Config.AddItems.count)
+Function DBFiles {
+    Write-Host "Configfile: " $ConfigFile
+    Write-Host "Config " $config
+    Write-Host "FileVersion " $FileVersion
+    Write-Host "Base " $Base
+    Write-Host "ScriptRead " $ScriptRead
+    Write-Host "MenuAdds " $MenuAdds
+    Write-Host "Fileini " $Fileini
+    Write-Host "FileTmp " $filetmp
+    Write-Host "Editor " $Editor
+    Write-Host "AddCount " $AddCount
+    Write-Host ($Config.AddItems[0].command)
+    $pop = Read-host -prompt "[Enter]"
+    #break
+}
+#DBFiles
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "BinMenu v.$FileVersion on $IAmWho"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
-    Write-Host "The File $Fileini is missing. Can not continue without it."
+    Write-Host "The File $Fileini is missing. We Can not continue without it."
     Write-Host "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
     $NoINI = $true
@@ -72,6 +101,31 @@ try {
     while ($null -ne $Reader.ReadLine()) { $LineCount++ }
 }
 Finally { $Reader.Close() }
+if ($MenuAdds = $True) {
+    Write-Host "Adding User Added Files to the INI"
+    $temp = [int]($LineCount / 2)
+    $temp1 = ($temp - 1)
+    $temp2 = ($temp + 1)
+    $k = $($Config.AddItems[0].name)
+    $t = $(Select-String -Pattern $k $Fileini)
+    if ($null -eq $t) {
+        $J = 0
+        while ($j -le ($AddCount - 1)) {
+            $value1 = "[" + $temp2 + "A]=" + [string]($Config.AddItems[$j].name)
+            (Add-Content $fileini $value1)[$temp1]
+            $temp1++
+            $value2 = "[" + $temp2 + "B]=" + [string]($Config.AddItems[$j].command)
+            (Add-Content $fileini $value2)[$temp1]
+            $temp1++; $j++; $Temp2++
+        }
+    }
+}
+$LineCount = 0
+try {
+    $Reader = New-Object IO.StreamReader $Fileini
+    while ($null -ne $Reader.ReadLine()) { $LineCount++ }
+}
+Finally { $Reader.Close() }
 <# Setting up positioning #>
 $temp = [int]($LineCount / 2)
 $a = ($temp / 3)
@@ -82,12 +136,17 @@ $c = [int]($LineCount / 2)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 68)
 $pa = ($a + 5)
-Write-host "Linecount" $linecount
-Write-host "A" $a
-Write-host "Temp" $temp
-Write-host "B" $b
-Write-host "C" $c
-Write-host "Row" $row
+Function DBVariables {
+    Write-host "Linecount" $linecount
+    Write-host "A" $a
+    Write-host "Temp" $temp
+    Write-host "B" $b
+    Write-host "C" $c
+    Write-host "Row" $row
+    $pop = Read-host -prompt "[Enter]"
+    #break
+}
+#DBVariables
 <# Draw the menu outline now. #>
 Clear-Host
 Write-Host $NormalLine
@@ -104,10 +163,12 @@ $w = 1
 $i = 1
 $work = [int]($linecount / 2)
 While ($i -le $work) {
-    $Line = (Get-Content $Fileini)[$c]
-    $moo = $line -split "="
-    [Console]::SetCursorPosition($w, $l)
-    Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
+    if ($i -le $work) {
+        $Line = (Get-Content $Fileini)[$c]
+        $moo = $line -split "="
+        [Console]::SetCursorPosition($w, $l)
+        Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
+    }
     if ($i -eq $Row[0]) {$l = [int]4; $w = [int]$Col[1]  }
     if ($i -eq $Row[1]) {$l = [int]4; $w = [int]$Col[2]  }
     $i++
@@ -121,13 +182,13 @@ Write-Host $Menu1Line
 Write-Host $SpacerLine
 Write-Host $SpacerLine
 Write-Host $SpacerLine
-if ($ScriptRead -eq $true) { Write-Host $ScriptLine }
+if ($ScriptRead -eq "$True") { Write-Host $ScriptLine }
 else { Write-Host $NormalLine }
 $pa = $($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 $l = $($pa - 4)
 $d = @("A", "B", "C", "D", "E", "F", "G", "H", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit BinMenu.ini", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
+$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit INI and JSON", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
 $w = [int]$Col[0]
 $c = 0
 while ($c -le 8) {
@@ -141,7 +202,7 @@ while ($c -le 8) {
 }
 [Console]::SetCursorPosition(0, $pa)
 <# Reading In PowerShell Scripts IF $ScriptRead is $true #>
-if ($scriptRead -eq $true) {
+if ($scriptRead -eq "$true") {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd3 = "$ESC[92m]"
     Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
@@ -217,9 +278,8 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
     [Console]::SetCursorPosition(0, $pa)
 }
 <# Version Add Area #>
-$FV = ("Version: " + $FileVersion)
 [Console]::SetCursorPosition(10, 1)
-Write-host -NoNewLine "$ESC[96m[$ESC[33m$FV$ESC[36m]$ESC[31m"
+Write-host -NoNewLine "$ESC[96m[$ESC[33m$FileVersion$ESC[36m]$ESC[31m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
 $menu = "$ESC[31m[$ESC[97mMake A Selection$ESC[31m]$ESC[97m"
@@ -294,124 +354,6 @@ if ($NoINI) {
     $NoINI = $false
     MyMaker
 }
-Function MySysInf {
-    $FileVersion = "0.1.6"
-    $ESC = [char]27
-    $nline = "$ESC[31m#=====================================================================#$ESC[37m"
-    $dline = "$ESC[31m| $ESC[37m| $ESC[31m#=============================================================$ESC[31m# $ESC[37m| $ESC[31m|"
-    $fline = "$ESC[31m| $ESC[37m#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-# $ESC[31m| $ESC[37m"
-    $tline = "$ESC[31m| $ESC[37m#=-=-=-=-=-=-=-=-=-=-=-<$ESC[36m[$ESC[37mSystem Information$ESC[36m]$ESC[31m$ESC[37m>=-=-=-=-=-=-=-=-=-=-=#$ESC[31m |$ESC[37m"
-    $sline = "$ESC[31m| $ESC[37m| $ESC[31m|                                                             $ESC[31m| $ESC[37m|$ESC[31m |$ESC[37m"
-    $host.ui.RawUI.WindowTitle = "System Information Version " + $FileVersion
-    <# #[Set-ConWin]#[Window Resizer]# #>
-    $tmpHeight = "46"
-    $tmpWidth = "72"
-    if ($tmpWidth -eq "") { $tmpWidth = "107" }
-    if ($tmpHeight -eq "") { $tmpHeight = "45" }
-    $pshost = (get-host)
-    $pswindow = ($pshost.ui.rawui)
-    $newsize = ($pswindow.buffersize)
-    $newsize.height = "2000"
-    $tmp = ($tmpWidth * 2)
-    $newsize.width = "$tmp"
-    $pswindow.buffersize = ($newsize)
-    $newsize = ($pswindow.windowsize)
-    $newsize.height = ($tmpHeight)
-    $newsize.width = ($tmpWidth)
-    $pswindow.windowsize = ($newsize)
-    $Base = "C:\bin\"
-    Get-CimInstance Win32_OperatingSystem | Format-List
-    Clear-Host
-    $computerSystem = (Get-CimInstance CIM_ComputerSystem)
-    $computerBIOS = (Get-CimInstance CIM_BIOSElement)
-    $computerOS = (Get-CimInstance CIM_OperatingSystem)
-    $computerCPU = (Get-CimInstance CIM_Processor)
-    $computerHDD1 = (Get-CimInstance Win32_LogicalDisk -Filter "DeviceID = 'C:'")
-    $computerHDD2 = (Get-CimInstance Win32_LogicalDisk -Filter "DeviceID = 'D:'")
-    $Net1 = $(Get-NetAdapter)[0] | Select-Object -Property name, InterfaceDescription, Status, LinkSpeed
-    $Net2 = $(Get-NetAdapter)[1] | Select-Object -Property name, InterfaceDescription, Status, LinkSpeed
-    $Net3 = $(Get-NetAdapter)[2] | Select-Object -Property name, InterfaceDescription, Status, LinkSpeed
-    $Net4 = $(Get-NetAdapter)[3] | Select-Object -Property name, InterfaceDescription, Status, LinkSpeed
-    $tt = "$ESC[31m[$ESC[37m"
-    $Con11 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net1.name)
-    $Con12 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($net1.InterfaceDescription)
-    if ($net1.Status -eq "Not Present") { $N1tmp = "Disabled"}
-    else { $N1tmp = ($net1.Status) }
-    $Con13 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N1tmp)
-    $Con14 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($net1.LinkSpeed)
-    $Con21 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net2.name)
-    $Con22 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($net2.InterfaceDescription)
-    if ($net2.Status -eq "Not Present") { $N2tmp = "Disabled"}
-    else { $N2tmp = ($net2.Status) }
-    $Con23 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N2tmp)
-    $Con24 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($net2.LinkSpeed)
-    $Con31 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net3.name)
-    $Con32 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($net3.InterfaceDescription)
-    if ($net3.Status -eq "Not Present") { $N3tmp = "Disabled"}
-    else { $N3tmp = ($net3.Status) }
-    $Con33 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N3tmp)
-    $Con34 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($net3.LinkSpeed)
-    $Con41 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($net4.name)
-    $Con42 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net4.InterfaceDescription)
-    if ($net4.Status -eq "Not Present") { $N4tmp = "Disabled"}
-    else { $N4tmp = ($net4.Status) }
-    $Con43 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N4tmp)
-    $Con44 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($net4.LinkSpeed)
-    $inf0 = "$tt" + "System Information for$ESC[31m]$ESC[37m: $ESC[36m" + $computerSystem.Name
-    $inf1 = "$tt" + "Manufacturer$ESC[31m]$ESC[37m: $ESC[36m" + $computerSystem.Manufacturer
-    $inf2 = "$tt" + "Model$ESC[31m]$ESC[37m: $ESC[36m" + $computerSystem.Model
-    $inf3 = "$tt" + "Serial Number$ESC[31m]$ESC[37m: $ESC[36m" + $computerBIOS.SerialNumber
-    $inf4 = "$tt" + "CPU$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.Name
-    $inf5 = "$tt" + "CPU$ESC[31m][$ESC[37mClock Speed$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.maxClockSpeed + "$ESC[37mMHz"
-    $inf6 = "$tt" + "CPU$ESC[31m][$ESC[37mCores$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.numberOfCores
-    $inf7 = "$tt" + "CPU$ESC[31m][$ESC[37mLogical Processors$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.NumberOfLogicalProcessors
-    $inf8 = "$tt" + "CPU$ESC[31m][$ESC[37mDescription$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.description
-    $inf9 = "$tt" + "CPU$ESC[31m][$ESC[37mSocket$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.socketDesignation
-    $inf10 = "$tt" + "CPU$ESC[31m][$ESC[37mStatus$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.status
-    $inf11 = "$tt" + "CPU$ESC[31m][$ESC[37mManufacturer$ESC[31m]$ESC[37m: $ESC[36m" + $computerCPU.manufacturer
-    $inf12 = "$tt" + "HDD$ESC[31m][$ESC[37mC:$ESC[31m][$ESC[37mCapacity$ESC[31m]$ESC[37m: $ESC[36m" + "{0:N2}" -f ($computerHDD1.Size / 1GB) + "$ESC[37mGB"
-    $inf13 = "$tt" + "HDD$ESC[31m][$ESC[37mC:$ESC[31m][$ESC[37mSpace...$ESC[31m]$ESC[37m: $ESC[36m" + "{0:P2}" -f ($computerHDD1.FreeSpace / $computerHDD1.Size) + " $ESC[31m[$ESC[37mFree$ESC[31m]$ESC[37m: $ESC[36m" + "{0:N2}" -f ($computerHDD1.FreeSpace / 1GB) + "$ESC[37mGB"
-    $inf14 = "$tt" + "HDD$ESC[31m][$ESC[37mD:$ESC[31m][$ESC[37mCapacity$ESC[31m]$ESC[37m: $ESC[36m" + "{0:N2}" -f ($computerHDD2.Size / 1GB) + "$ESC[37mGB"
-    $inf15 = "$tt" + "HDD$ESC[31m][$ESC[37mD:$ESC[31m][$ESC[37mSpace...$ESC[31m]$ESC[37m: $ESC[36m" + "{0:P2}" -f ($computerHDD2.FreeSpace / $computerHDD2.Size) + " $ESC[31m[$ESC[37mFree$ESC[31m]$ESC[37m: $ESC[36m" + "{0:N2}" -f ($computerHDD2.FreeSpace / 1GB) + "$ESC[37mGB"
-    $inf16 = "$tt" + "System RAM.$ESC[31m]$ESC[37m: $ESC[36m" + "{0:N2}" -f ($computerSystem.TotalPhysicalMemory / 1GB) + "$ESC[37mGB"
-    $inf17 = "$tt" + "OS$ESC[31m][$ESC[37mSystem.$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.caption)
-    $inf18 = "$tt" + "OS$ESC[31m][$ESC[37mVersion$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.Version)
-    $inf19 = "$tt" + "User logged$ESC[31m]$ESC[37m: $ESC[36m" + ($computerSystem.UserName)
-    $inf20 = "$tt" + "Last Reboot$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.LastBootUpTime)
-    Write-Host $nline
-    $tline
-    $dline
-    $i = 0
-    while ($i -le 36) { Write-Host $sline ; $i++ }
-    $dline
-    $fline
-    $nline
-    $l = 3
-    $n = 00
-    while ($l -lt 24) {
-        [Console]::SetCursorPosition(6, $l)
-        $tmp = '$' + 'inf' + "$n"
-        Write-Host -NoNewLine ($ExecutionContext.InvokeCommand.ExpandString($tmp))
-        $n++
-        $l++
-    }
-    $p = 1
-    $c = 1
-    $n = 00
-    while ($l -lt 50) {
-        [Console]::SetCursorPosition(6, $l)
-        $tmp = '$' + 'Con' + "$p" + "$c"
-        Write-Host -NoNewLine ($ExecutionContext.InvokeCommand.ExpandString($tmp))
-        $c++
-        $n++
-        $l++
-        if ($c -eq 5) { $c = 1; $p++ }
-    }
-    [Console]::SetCursorPosition(0, 0)
-    Write-Host -NoNewLine $nline
-    [Console]::SetCursorPosition(0, 43)
-    $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue$ESC[31m]$ESC[37m"
-}
 Function TheCommand {
     Param([string]$IntCom)
     if ($IntCom -eq "") {
@@ -421,16 +363,15 @@ Function TheCommand {
     }
     $moo = (Select-String -Pattern $IntCom $Fileini)
     $cow = $moo -split "="
-    Start-Process $cow[1] -Verb RunAs
+    if (((Get-Item $cow[1]) -is [System.IO.DirectoryInfo]) -eq $True) {
+        Invoke-Item $cow[1]
+    }
+    else { Start-Process $cow[1] -Verb RunAs }
 }
 Do {
     #Switch
     Switch (Invoke-Menu -menu $menu -clear) {
-        "A" { FixLine; Start-Process $editor -ArgumentList $FileINI -Verb RunAs; FixLine }
-        "B" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        "E" {
+        "A" {
             FixLine
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mExact Command Line $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
@@ -450,6 +391,14 @@ Do {
             }
             FixLine
         }
+        "B" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
+        "E" {
+             FixLine
+             $tmp = "$FileINI $ConfigFile"
+              Start-Process $editor -ArgumentList $tmp -Verb RunAs; FixLine
+        }
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
             FixLine
@@ -466,65 +415,58 @@ Do {
             }
             FixLine
         }
-        "H" {
-            FixLine
-            MySysInf
-            Clear-Host
-            Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs
-            Clear-Host
-            return
-        }
+        "H" { Start-Process "pwsh.exe" "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine }
         "Q" { Clear-Host; Return }
-        "1" { FixLine; $Line2 = (Select-String -Pattern "1B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "2" { FixLine; $Line2 = (Select-String -Pattern "2B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "3" { FixLine; $Line2 = (Select-String -Pattern "3B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "4" { FixLine; $Line2 = (Select-String -Pattern "4B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "5" { FixLine; $Line2 = (Select-String -Pattern "5B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "6" { FixLine; $Line2 = (Select-String -Pattern "6B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "7" { FixLine; $Line2 = (Select-String -Pattern "7B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "8" { FixLine; $Line2 = (Select-String -Pattern "8B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "9" { FixLine; $Line2 = (Select-String -Pattern "9B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "10" { FixLine; $Line2 = (Select-String -Pattern "10B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "11" { FixLine; $Line2 = (Select-String -Pattern "11B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "12" { FixLine; $Line2 = (Select-String -Pattern "12B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "13" { FixLine; $Line2 = (Select-String -Pattern "13B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "14" { FixLine; $Line2 = (Select-String -Pattern "14B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "15" { FixLine; $Line2 = (Select-String -Pattern "15B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "16" { FixLine; $Line2 = (Select-String -Pattern "16B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "17" { FixLine; $Line2 = (Select-String -Pattern "17B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "18" { FixLine; $Line2 = (Select-String -Pattern "18B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "19" { FixLine; $Line2 = (Select-String -Pattern "19B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "20" { FixLine; $Line2 = (Select-String -Pattern "20B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "21" { FixLine; $Line2 = (Select-String -Pattern "21B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "22" { FixLine; $Line2 = (Select-String -Pattern "22B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "23" { FixLine; $Line2 = (Select-String -Pattern "23B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "24" { FixLine; $Line2 = (Select-String -Pattern "24B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "25" { FixLine; $Line2 = (Select-String -Pattern "25B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "26" { FixLine; $Line2 = (Select-String -Pattern "26B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "27" { FixLine; $Line2 = (Select-String -Pattern "27B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "28" { FixLine; $Line2 = (Select-String -Pattern "28B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "29" { FixLine; $Line2 = (Select-String -Pattern "29B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "30" { FixLine; $Line2 = (Select-String -Pattern "30B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "31" { FixLine; $Line2 = (Select-String -Pattern "31B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "32" { FixLine; $Line2 = (Select-String -Pattern "32B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "33" { FixLine; $Line2 = (Select-String -Pattern "33B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "34" { FixLine; $Line2 = (Select-String -Pattern "34B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "35" { FixLine; $Line2 = (Select-String -Pattern "35B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "36" { FixLine; $Line2 = (Select-String -Pattern "36B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "37" { FixLine; $Line2 = (Select-String -Pattern "37B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "38" { FixLine; $Line2 = (Select-String -Pattern "38B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "39" { FixLine; $Line2 = (Select-String -Pattern "39B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "40" { FixLine; $Line2 = (Select-String -Pattern "40B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "41" { FixLine; $Line2 = (Select-String -Pattern "41B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "42" { FixLine; $Line2 = (Select-String -Pattern "42B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "43" { FixLine; $Line2 = (Select-String -Pattern "43B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "44" { FixLine; $Line2 = (Select-String -Pattern "44B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "45" { FixLine; $Line2 = (Select-String -Pattern "45B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "46" { FixLine; $Line2 = (Select-String -Pattern "46B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "47" { FixLine; $Line2 = (Select-String -Pattern "47B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "48" { FixLine; $Line2 = (Select-String -Pattern "48B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "49" { FixLine; $Line2 = (Select-String -Pattern "49B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
-        "50" { FixLine; $Line2 = (Select-String -Pattern "50B" $Fileini); $cow = $line2 -split "="; Start-Process $cow[1] -Verb RunAs; FixLine }
+        "1" { FixLine; TheCommand -IntCom "1B" ; FixLine }
+        "2" { FixLine; TheCommand -IntCom "2B" ; FixLine }
+        "3" { FixLine; TheCommand -IntCom "3B" ; FixLine }
+        "4" { FixLine; TheCommand -IntCom "4B" ; FixLine }
+        "5" { FixLine; TheCommand -IntCom "5B" ; FixLine }
+        "6" { FixLine; TheCommand -IntCom "6B" ; FixLine }
+        "7" { FixLine; TheCommand -IntCom "7B" ; FixLine }
+        "8" { FixLine; TheCommand -IntCom "8B" ; FixLine }
+        "9" { FixLine; TheCommand -IntCom "9B" ; FixLine }
+        "10" { FixLine; TheCommand -IntCom "10B" ; FixLine }
+        "11" { FixLine; TheCommand -IntCom "11B" ; FixLine }
+        "12" { FixLine; TheCommand -IntCom "12B" ; FixLine }
+        "13" { FixLine; TheCommand -IntCom "13B" ; FixLine }
+        "14" { FixLine; TheCommand -IntCom "14B" ; FixLine }
+        "15" { FixLine; TheCommand -IntCom "15B" ; FixLine }
+        "16" { FixLine; TheCommand -IntCom "16B" ; FixLine }
+        "17" { FixLine; TheCommand -IntCom "17B" ; FixLine }
+        "18" { FixLine; TheCommand -IntCom "18B" ; FixLine }
+        "19" { FixLine; TheCommand -IntCom "19B" ; FixLine }
+        "20" { FixLine; TheCommand -IntCom "20B" ; FixLine }
+        "21" { FixLine; TheCommand -IntCom "21B" ; FixLine }
+        "22" { FixLine; TheCommand -IntCom "22B" ; FixLine }
+        "23" { FixLine; TheCommand -IntCom "23B" ; FixLine }
+        "24" { FixLine; TheCommand -IntCom "24B" ; FixLine }
+        "25" { FixLine; TheCommand -IntCom "25B" ; FixLine }
+        "26" { FixLine; TheCommand -IntCom "26B" ; FixLine }
+        "27" { FixLine; TheCommand -IntCom "27B" ; FixLine }
+        "28" { FixLine; TheCommand -IntCom "28B" ; FixLine }
+        "29" { FixLine; TheCommand -IntCom "29B" ; FixLine }
+        "30" { FixLine; TheCommand -IntCom "30B" ; FixLine }
+        "31" { FixLine; TheCommand -IntCom "31B" ; FixLine }
+        "32" { FixLine; TheCommand -IntCom "32B" ; FixLine }
+        "33" { FixLine; TheCommand -IntCom "33B" ; FixLine }
+        "34" { FixLine; TheCommand -IntCom "34B" ; FixLine }
+        "35" { FixLine; TheCommand -IntCom "35B" ; FixLine }
+        "36" { FixLine; TheCommand -IntCom "36B" ; FixLine }
+        "37" { FixLine; TheCommand -IntCom "37B" ; FixLine }
+        "38" { FixLine; TheCommand -IntCom "38B" ; FixLine }
+        "39" { FixLine; TheCommand -IntCom "39B" ; FixLine }
+        "40" { FixLine; TheCommand -IntCom "40B" ; FixLine }
+        "41" { FixLine; TheCommand -IntCom "41B" ; FixLine }
+        "42" { FixLine; TheCommand -IntCom "42B" ; FixLine }
+        "43" { FixLine; TheCommand -IntCom "43B" ; FixLine }
+        "44" { FixLine; TheCommand -IntCom "44B" ; FixLine }
+        "45" { FixLine; TheCommand -IntCom "45B" ; FixLine }
+        "46" { FixLine; TheCommand -IntCom "46B" ; FixLine }
+        "47" { FixLine; TheCommand -IntCom "47B" ; FixLine }
+        "48" { FixLine; TheCommand -IntCom "48B" ; FixLine }
+        "49" { FixLine; TheCommand -IntCom "49B" ; FixLine }
+        "50" { FixLine; TheCommand -IntCom "50B" ; FixLine }
         Default {
             FixLine
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."

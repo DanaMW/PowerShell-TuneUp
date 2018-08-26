@@ -1,0 +1,47 @@
+{
+    "_Info": [
+        "This is the JSON based Configuration for BinMenu",
+        "AddItems Are your items not in the base that you",
+        "Want added to the menu for you every time."
+    ],
+    "InternalInfo": {
+        "Project": "BinMenu",
+        "Modified": "08/26/2018",
+        "Author": "Dana Meli <danamw@gmail.com",
+        "Support": "https://github.com/danamw/PowerShell-tuneup",
+        "License": "MIT"
+    },
+    "Basic": {
+        "_Base": "The starting folder that BinMenu reads from. End with \\",
+        "Base": "C:\\bin",
+        "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
+        "ScriptRead": 1,
+        "_Editor": "Defines a text editor to use from BinMenu",
+        "Editor": "C:\\bin\\NPP\\NotePad++.exe",
+        "_MenuAdds": "[bool] Determines if the menu adds are used or not",
+        "MenuAdds": 1,
+        "_Future": "Extra value not used yet.",
+        "Future": "$null"
+    },
+    "AddItems": [{
+            "Name": "Regedit",
+            "Command": "C:\\Windows\\regedit.exe"
+        },
+        {
+            "Name": "Clean Manager",
+            "Command": "C:\\Windows\\System32\\cleanmgr.exe"
+        },
+        {
+            "Name": "Process Manager",
+            "Command": "C:\\bin\\wscc\\SysInternals Suite\\procexp64.exe"
+        },
+        {
+            "Name": "My Downloads",
+            "Command": "D:\\Downloads"
+        },
+        {
+            "Name": "My Bin",
+            "Command": "D:\\bin"
+        }
+    ]
+}

@@ -18,5 +18,11 @@ Many updates faster functions and reads. Now you can toggle the PS1 script reads
 Anyway love me some PowerShell.
 Update: My new SysInfo is also built into the BinMenu now as a function.
 Update: Added window resize.
+Update: Now reads config from a json file.
+Update: Can load directories.
+Update: Moved SysInfo to its own file.
+Update: can define user file/folder adds to be appended to the menu after the folders are loaded.
+    You add those in the BinMenu.jsom file as you will see.
+Update: can toggle Menu adss on off and Script reads On off.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
