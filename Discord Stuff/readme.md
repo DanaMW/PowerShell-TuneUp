@@ -2,7 +2,8 @@
 
 ## Discord-Whook
 ```
-This is a simple WebHook message to yor discord server. Enter a webhook URL in it and send messages from your server to your channel
+This is a simple WebHook message to yor discord server. Enter a webhook URL in it
+that you get from your server and send messages from your home or remote servers to your channel
 ```
 ## Discord-Embed
 ```
