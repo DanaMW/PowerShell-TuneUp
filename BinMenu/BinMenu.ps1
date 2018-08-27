@@ -33,21 +33,21 @@ if (!($Config)) {
     Write-Error -Message "The Base configuration file is missing!" -Stop
 }
 <# #[Set-ConWin]#[Window Resizer]# #>
-$WinWidth = [int32]($Config.basic.WinWidth)
-$WinHeight = [int32]($Config.basic.WinHeight)
-$BuffWidth = [int32]($Config.basic.BuffWidth)
-$BuffHeight = [int32]($Config.basic.BuffHeight)
-if ($WinWidth -eq "") { $WinWidth = 104 }
-if ($WinHeight -eq "") { $WinHeight = 40 }
+[int]$WinWidth = ($Config.basic.WinWidth)
+[int]$WinHeight = ($Config.basic.WinHeight)
+[int]$BuffWidth = ($Config.basic.BuffWidth)
+[int]$BuffHeight = ($Config.basic.BuffHeight)
+#if ($WinWidth -eq "") { $WinWidth = 104 }
+#if ($WinHeight -eq "") { $WinHeight = 40 }
 $pshost = get-host
 $pswindow = $pshost.ui.rawui
 $newsize = $pswindow.buffersize
-$newsize.height = 2000 #[int]($BuffHeight)
-$newsize.width = 250 #[int]($BuffWidth)
+[int]$newsize.height = 2000 #($BuffHeight)
+[int]$newsize.width = 250 #($BuffWidth)
 $pswindow.buffersize = $newsize
 $newsize = $pswindow.windowsize
-$newsize.height = 30 #[int]($WinHeight)
-$newsize.width = 104 #[int]($WinWidth)
+[int]$newsize.height = ($WinHeight) #30
+[int]$newsize.width = ($WinWidth) #104
 $pswindow.windowsize = $newsize
 Clear-Host
 $Base = [String]($Config.basic.Base)
@@ -63,11 +63,12 @@ $Filetmp = "$Base" + "BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
+$host.ui.RawUI.WindowTitle = "BinMenu v.$FileVersion on $IAmWho"
 $IAmWho = $env:USERDOMAIN
-$Editor = [string]($Config.basic.Editor)
-$ScriptRead = [bool]($Config.basic.ScriptRead)
-$MenuAdds = [bool]($Config.basic.MenuAdds)
-$AddCount = [int]($Config.AddItems.count)
+[string]$Editor = ($Config.basic.Editor)
+[bool]$ScriptRead = ($Config.basic.ScriptRead)
+[bool]$MenuAdds = ($Config.basic.MenuAdds)
+[int]$AddCount = ($Config.AddItems.count)
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
     Write-Host "Config " $config
@@ -92,7 +93,6 @@ Function DBFiles {
 }
 #DBFiles
 $ESC = [char]27
-$host.ui.RawUI.WindowTitle = "BinMenu v.$FileVersion on $IAmWho"
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
     Write-Host "The File $Fileini is missing. We Can not continue without it."

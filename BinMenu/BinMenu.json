@@ -20,13 +20,13 @@
         "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
         "_MenuAdds": "[bool] Determines if the menu adds are used or not",
         "MenuAdds": 1,
-        "_WinHeight": "How tall to draw the window.Not Working",
-        "WinHeight": 40,
-        "_WinWidth": "How wide to draw the window.Not Working",
+        "_WinHeight": "How tall to draw the window.",
+        "WinHeight": 30,
+        "_WinWidth": "How wide to draw the window.",
         "WinWidth": 104,
-        "_BuffHeight": "How tall to make the Buffer.Not Working",
+        "_BuffHeight": "How tall to make the Buffer.",
         "BuffHeight": 2000,
-        "_BuffWidth": "How wide to make the Buffer.Not Working",
+        "_BuffWidth": "How wide to make the Buffer.",
         "BuffWidth": 250
     },
     "AddItems": [{
@@ -52,6 +52,10 @@
         {
             "Name": "My Home",
             "Command": "C:\\Users\\Dana"
+        },
+        {
+            "Name": "Examples",
+            "Command": "c:\\Users\\Dana\\.vscode\\extensions\\ms-vscode.powershell-1.8.3\\examples"
         }
     ]
 }
