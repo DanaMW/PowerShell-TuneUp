@@ -1,4 +1,4 @@
-#FileVersion = 0.0.4
+$FileVersion = 0.0.4
 $txtfile = 'C:\bin\check-prof.ini'
 $ESC = [char]27
 $Filetest = Test-Path -path $txtfile

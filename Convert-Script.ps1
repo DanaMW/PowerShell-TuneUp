@@ -13,8 +13,8 @@
         You will need to edit The header, and remove a bracket in quotes at the bottom.
         If you dont specify an outfile it is created next to the original.
 #>
-#FileVersion = 0.1.5
 param([string]$File, [string]$OutFile)
+$FileVersion = 0.1.5
 if ($File -eq "") {
     Write-Host ""
     Write-Host "You fu@ed up and didnt include -File [<FileToRead>]"

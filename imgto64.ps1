@@ -1,4 +1,4 @@
-#FileVersion = 0.0.1
+$FileVersion = 0.0.1
 Param([String]$path)
 
 [bool]$valid = ($path -ne "")

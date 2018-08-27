@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$Base)
-$FileVersion = "Version: 0.6.0"
+$FileVersion = "Version: 0.6.2"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -23,24 +23,31 @@ Function MyConfig {
     $tmp
 }
 $ConfigFile = MyConfig
-try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
-catch { Write-Error -Message "The Base configuration file is missing!" -Stop }
-if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" -Stop }
+try {
+    $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json
+}
+catch {
+    Write-Error -Message "The Base configuration file is missing!" -Stop
+}
+if (!($Config)) {
+    Write-Error -Message "The Base configuration file is missing!" -Stop
+}
 <# #[Set-ConWin]#[Window Resizer]# #>
-$tmpHeight = 40
-$tmpWidth = 104
-if ($tmpWidth -eq "") { $tmpWidth = 107 }
-if ($tmpHeight -eq "") { $tmpHeight = 45 }
+$WinWidth = [int32]($Config.basic.WinWidth)
+$WinHeight = [int32]($Config.basic.WinHeight)
+$BuffWidth = [int32]($Config.basic.BuffWidth)
+$BuffHeight = [int32]($Config.basic.BuffHeight)
+if ($WinWidth -eq "") { $WinWidth = 104 }
+if ($WinHeight -eq "") { $WinHeight = 40 }
 $pshost = get-host
 $pswindow = $pshost.ui.rawui
 $newsize = $pswindow.buffersize
-$newsize.height = 2000
-$tmp = ($tmpWidth * 2)
-$newsize.width = $tmp
+$newsize.height = 2000 #[int]($BuffHeight)
+$newsize.width = 250 #[int]($BuffWidth)
 $pswindow.buffersize = $newsize
 $newsize = $pswindow.windowsize
-$newsize.height = $tmpHeight
-$newsize.width = $tmpWidth
+$newsize.height = 30 #[int]($WinHeight)
+$newsize.width = 104 #[int]($WinWidth)
 $pswindow.windowsize = $newsize
 Clear-Host
 $Base = [String]($Config.basic.Base)
@@ -72,8 +79,15 @@ Function DBFiles {
     Write-Host "FileTmp " $filetmp
     Write-Host "Editor " $Editor
     Write-Host "AddCount " $AddCount
+    Write-Host "WinWidth " $WinWidth
+    Write-Host "WinHeight " $WinHeight
+    Write-Host "BuffWidth " $BuffWidth
+    Write-Host "BuffHeight " $BuffHeight
+    Write-Host ($Config.AddItems[0].name)
     Write-Host ($Config.AddItems[0].command)
     $pop = Read-host -prompt "[Enter]"
+    if ($pop -eq "") { $pop = " " }
+    if ($null -ne $pop) { Remove-Variable $pop }
     #break
 }
 #DBFiles
@@ -106,18 +120,20 @@ if ($MenuAdds = $True) {
     $temp = [int]($LineCount / 2)
     $temp1 = ($temp - 1)
     $temp2 = ($temp + 1)
-    $k = $($Config.AddItems[0].name)
-    $t = $(Select-String -Pattern $k $Fileini)
-    if ($null -eq $t) {
-        $J = 0
-        while ($j -le ($AddCount - 1)) {
+    $J = 0
+    while ($j -le ($AddCount - 1)) {
+        $k = $($Config.AddItems[$j].name)
+        $t = $(Select-String -Pattern $k $Fileini)
+        if ($null -eq $t) {
             $value1 = "[" + $temp2 + "A]=" + [string]($Config.AddItems[$j].name)
             (Add-Content $fileini $value1)[$temp1]
             $temp1++
             $value2 = "[" + $temp2 + "B]=" + [string]($Config.AddItems[$j].command)
             (Add-Content $fileini $value2)[$temp1]
-            $temp1++; $j++; $Temp2++
+            $temp1++
+            $Temp2++
         }
+        $j++
     }
 }
 $LineCount = 0
@@ -144,6 +160,8 @@ Function DBVariables {
     Write-host "C" $c
     Write-host "Row" $row
     $pop = Read-host -prompt "[Enter]"
+    if ($pop -eq "") { $pop = " " }
+    if ($null -ne $pop) { Remove-Variable $pop }
     #break
 }
 #DBVariables
@@ -188,7 +206,7 @@ $pa = $($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 $l = $($pa - 4)
 $d = @("A", "B", "C", "D", "E", "F", "G", "H", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit INI and JSON", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
+$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit INI, JSON and ps1", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
 $w = [int]$Col[0]
 $c = 0
 while ($c -le 8) {
@@ -363,9 +381,10 @@ Function TheCommand {
     }
     $moo = (Select-String -Pattern $IntCom $Fileini)
     $cow = $moo -split "="
-    if (((Get-Item $cow[1]) -is [System.IO.DirectoryInfo]) -eq $True) {
-        Invoke-Item $cow[1]
-    }
+    #Write-Host $cow[1]
+    #Write-Host (Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true
+    #$pop = Read-host -prompt "[Enter]"
+    if ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true) { Invoke-Item $cow[1] }
     else { Start-Process $cow[1] -Verb RunAs }
 }
 Do {
@@ -395,9 +414,9 @@ Do {
         "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "E" {
-             FixLine
-             $tmp = "$FileINI $ConfigFile"
-              Start-Process $editor -ArgumentList $tmp -Verb RunAs; FixLine
+            FixLine
+            $tmp = "$FileINI $ConfigFile c:\bin\BinMenu.ps1"
+            Start-Process $editor -ArgumentList $tmp -Verb RunAs; FixLine
         }
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
@@ -417,6 +436,7 @@ Do {
         }
         "H" { Start-Process "pwsh.exe" "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine }
         "Q" { Clear-Host; Return }
+		"R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "1" { FixLine; TheCommand -IntCom "1B" ; FixLine }
         "2" { FixLine; TheCommand -IntCom "2B" ; FixLine }
         "3" { FixLine; TheCommand -IntCom "3B" ; FixLine }
@@ -467,6 +487,55 @@ Do {
         "48" { FixLine; TheCommand -IntCom "48B" ; FixLine }
         "49" { FixLine; TheCommand -IntCom "49B" ; FixLine }
         "50" { FixLine; TheCommand -IntCom "50B" ; FixLine }
+        "51" { FixLine; TheCommand -IntCom "51B" ; FixLine }
+        "52" { FixLine; TheCommand -IntCom "52B" ; FixLine }
+        "53" { FixLine; TheCommand -IntCom "53B" ; FixLine }
+        "54" { FixLine; TheCommand -IntCom "54B" ; FixLine }
+        "55" { FixLine; TheCommand -IntCom "55B" ; FixLine }
+        "56" { FixLine; TheCommand -IntCom "56B" ; FixLine }
+        "57" { FixLine; TheCommand -IntCom "57B" ; FixLine }
+        "58" { FixLine; TheCommand -IntCom "58B" ; FixLine }
+        "59" { FixLine; TheCommand -IntCom "59B" ; FixLine }
+        "60" { FixLine; TheCommand -IntCom "60B" ; FixLine }
+        "61" { FixLine; TheCommand -IntCom "61B" ; FixLine }
+        "62" { FixLine; TheCommand -IntCom "62B" ; FixLine }
+        "63" { FixLine; TheCommand -IntCom "63B" ; FixLine }
+        "64" { FixLine; TheCommand -IntCom "64B" ; FixLine }
+        "65" { FixLine; TheCommand -IntCom "65B" ; FixLine }
+        "66" { FixLine; TheCommand -IntCom "66B" ; FixLine }
+        "67" { FixLine; TheCommand -IntCom "67B" ; FixLine }
+        "68" { FixLine; TheCommand -IntCom "68B" ; FixLine }
+        "69" { FixLine; TheCommand -IntCom "69B" ; FixLine }
+        "70" { FixLine; TheCommand -IntCom "70B" ; FixLine }
+        "71" { FixLine; TheCommand -IntCom "71B" ; FixLine }
+        "72" { FixLine; TheCommand -IntCom "72B" ; FixLine }
+        "73" { FixLine; TheCommand -IntCom "73B" ; FixLine }
+        "74" { FixLine; TheCommand -IntCom "74B" ; FixLine }
+        "75" { FixLine; TheCommand -IntCom "75B" ; FixLine }
+        "76" { FixLine; TheCommand -IntCom "76B" ; FixLine }
+        "77" { FixLine; TheCommand -IntCom "77B" ; FixLine }
+        "78" { FixLine; TheCommand -IntCom "78B" ; FixLine }
+        "79" { FixLine; TheCommand -IntCom "79B" ; FixLine }
+        "80" { FixLine; TheCommand -IntCom "80B" ; FixLine }
+        "81" { FixLine; TheCommand -IntCom "81B" ; FixLine }
+        "82" { FixLine; TheCommand -IntCom "82B" ; FixLine }
+        "83" { FixLine; TheCommand -IntCom "83B" ; FixLine }
+        "84" { FixLine; TheCommand -IntCom "84B" ; FixLine }
+        "85" { FixLine; TheCommand -IntCom "85B" ; FixLine }
+        "86" { FixLine; TheCommand -IntCom "86B" ; FixLine }
+        "87" { FixLine; TheCommand -IntCom "87B" ; FixLine }
+        "88" { FixLine; TheCommand -IntCom "88B" ; FixLine }
+        "89" { FixLine; TheCommand -IntCom "89B" ; FixLine }
+        "90" { FixLine; TheCommand -IntCom "90B" ; FixLine }
+        "91" { FixLine; TheCommand -IntCom "91B" ; FixLine }
+        "92" { FixLine; TheCommand -IntCom "92B" ; FixLine }
+        "93" { FixLine; TheCommand -IntCom "93B" ; FixLine }
+        "94" { FixLine; TheCommand -IntCom "94B" ; FixLine }
+        "95" { FixLine; TheCommand -IntCom "95B" ; FixLine }
+        "96" { FixLine; TheCommand -IntCom "96B" ; FixLine }
+        "97" { FixLine; TheCommand -IntCom "97B" ; FixLine }
+        "98" { FixLine; TheCommand -IntCom "98B" ; FixLine }
+        "99" { FixLine; TheCommand -IntCom "99B" ; FixLine }
         Default {
             FixLine
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
