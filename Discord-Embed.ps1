@@ -1,7 +1,7 @@
-FileVersion = Version: 0.0.4
 param([string]$MyArgs)
+$FileVersion = "Version: 0.0.4"
 if ($myargs -eq "") {
-    $hookUrl = 'https://discordapp.com/api/webhooks/471880135226949633/vTOjAukMsQlrXmRD-lY_3KiQdZi602GZksE7qnywDXLHi3qOefMWkf6GhT_AFGulH6nb'
+    $hookUrl = 'https://discordapp.com/api/webhooks/Your Webhook Url here'
     $title0 = $Env:USERDOMAIN
     $title = $title0.substring(0, 1).toupper() + $title0.substring(1).tolower()
 
