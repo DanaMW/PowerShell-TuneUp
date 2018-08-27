@@ -46,5 +46,5 @@ put this together and use it because it simply works.
 ```
 # Discord Stuff
 ```
-Here is whjjere I set any Discord related powershell script i have.
+Here is where I put any Discord related powershell script stuff.
 ```
