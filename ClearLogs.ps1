@@ -1,6 +1,6 @@
 Param([bool]$loud)
 #Start-Process -Verb RunAs -FilePath "c:\Windows\System32\wevtutil.exe" -ArgumentList "el | Foreach-Object {wevtutil cl $_}"
-$FileVersion = "0.0.5"
+$FileVersion = "Version: 0.0.5"
 Write-Host ""
 Write-Host "Running ClearWindows Logs " $FileVersion
 $i = 0

@@ -14,7 +14,7 @@
         If you dont specify an outfile it is created next to the original.
 #>
 param([string]$File, [string]$OutFile)
-$FileVersion = 0.1.5
+$FileVersion = "Version: 0.1.5"
 if ($File -eq "") {
     Write-Host ""
     Write-Host "You fu@ed up and didnt include -File [<FileToRead>]"

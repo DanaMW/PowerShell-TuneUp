@@ -1,4 +1,4 @@
-$FileVersion = "0.0.3"
+$FileVersion = "Version: 0.0.3"
 $host.ui.RawUI.WindowTitle = "System Information Version " + $FileVersion
 <# #[Set-ConWin]#[Window Resizer]# #>
 $tmpWidth = "107"

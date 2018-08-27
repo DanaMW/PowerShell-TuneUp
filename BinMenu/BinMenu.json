@@ -6,7 +6,7 @@
     ],
     "InternalInfo": {
         "Project": "BinMenu",
-        "Modified": "08/26/2018",
+        "Modified": "08/25/2018",
         "Author": "Dana Meli <danamw@gmail.com",
         "Support": "https://github.com/danamw/PowerShell-tuneup",
         "License": "MIT"
@@ -15,13 +15,19 @@
         "_Base": "The starting folder that BinMenu reads from. End with \\",
         "Base": "C:\\bin",
         "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
-        "ScriptRead": 1,
+        "ScriptRead": 0,
         "_Editor": "Defines a text editor to use from BinMenu",
-        "Editor": "C:\\bin\\NPP\\NotePad++.exe",
+        "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
         "_MenuAdds": "[bool] Determines if the menu adds are used or not",
         "MenuAdds": 1,
-        "_Future": "Extra value not used yet.",
-        "Future": "$null"
+        "_WinHeight": "How tall to draw the window.Not Working",
+        "WinHeight": 40,
+        "_WinWidth": "How wide to draw the window.Not Working",
+        "WinWidth": 104,
+        "_BuffHeight": "How tall to make the Buffer.Not Working",
+        "BuffHeight": 2000,
+        "_BuffWidth": "How wide to make the Buffer.Not Working",
+        "BuffWidth": 250
     },
     "AddItems": [{
             "Name": "Regedit",
@@ -41,7 +47,11 @@
         },
         {
             "Name": "My Bin",
-            "Command": "D:\\bin"
+            "Command": "C:\\bin"
+        },
+        {
+            "Name": "My Home",
+            "Command": "C:\\Users\\Dana"
         }
     ]
 }

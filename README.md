@@ -44,3 +44,7 @@ be resized. I tried 3 or 4 from others and they didnt work so I
 put this together and use it because it simply works.
 (Going to turn it into a Function soon)
 ```
+# Discord Stuff
+```
+Here is whjjere I set any Discord related powershell script i have.
+```
