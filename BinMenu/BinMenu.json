@@ -21,13 +21,13 @@
         "_MenuAdds": "[bool] Determines if the menu adds are used or not",
         "MenuAdds": 1,
         "_WinHeight": "How tall to draw the window.",
-        "WinHeight": 30,
+        "WinHeight": 32,
         "_WinWidth": "How wide to draw the window.",
         "WinWidth": 104,
         "_BuffHeight": "How tall to make the Buffer.",
-        "BuffHeight": 2000,
+        "BuffHeight": 32,
         "_BuffWidth": "How wide to make the Buffer.",
-        "BuffWidth": 250
+        "BuffWidth": 104
     },
     "AddItems": [{
             "Name": "Regedit",
