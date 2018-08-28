@@ -48,3 +48,9 @@ put this together and use it because it simply works.
 ```
 Here is where I put any Discord related powershell script stuff.
 ```
+# Google
+```
+This is my console script example that sends your search to Google
+in the browser. You can add -IMAGE, -VIDEO or -NEWS to the begining
+or end of the line to go directly to those search pages.
+```

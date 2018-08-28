@@ -24,5 +24,7 @@ Update: Moved SysInfo to its own file.
 Update: can define user file/folder adds to be appended to the menu after the folders are loaded.
     You add those in the BinMenu.jsom file as you will see.
 Update: can toggle Menu adss on off and Script reads On off.
+Update: Added setting DBug and SortMethod for ScriptRead. Corrected many small scripting methods
+    concerning Intergers.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

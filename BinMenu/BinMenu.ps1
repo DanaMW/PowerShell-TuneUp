@@ -12,8 +12,8 @@
 .NOTES
         Still under development.
 #>
-param([string]$Base)
-$FileVersion = "Version: 0.6.2"
+$FileVersion = "Version: 0.6.5"
+$host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
@@ -37,17 +37,15 @@ if (!($Config)) {
 [int]$WinHeight = ($Config.basic.WinHeight)
 [int]$BuffWidth = ($Config.basic.BuffWidth)
 [int]$BuffHeight = ($Config.basic.BuffHeight)
-#if ($WinWidth -eq "") { $WinWidth = 104 }
-#if ($WinHeight -eq "") { $WinHeight = 40 }
 $pshost = get-host
 $pswindow = $pshost.ui.rawui
 $newsize = $pswindow.buffersize
-[int]$newsize.height = 2000 #($BuffHeight)
-[int]$newsize.width = 250 #($BuffWidth)
+[int]$newsize.height = ($BuffHeight)
+[int]$newsize.width = ($BuffWidth)
 $pswindow.buffersize = $newsize
 $newsize = $pswindow.windowsize
-[int]$newsize.height = ($WinHeight) #30
-[int]$newsize.width = ($WinWidth) #104
+[int]$newsize.height = ($WinHeight)
+[int]$newsize.width = ($WinWidth)
 $pswindow.windowsize = $newsize
 Clear-Host
 $Base = [String]($Config.basic.Base)
@@ -63,42 +61,42 @@ $Filetmp = "$Base" + "BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
-$host.ui.RawUI.WindowTitle = "BinMenu v.$FileVersion on $IAmWho"
-$IAmWho = $env:USERDOMAIN
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
+[bool]$SortMethod = ($Config.basic.SortMethod)
+[bool]$DBug = ($Config.basic.DBug)
 [int]$AddCount = ($Config.AddItems.count)
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
-    Write-Host "Config " $config
-    Write-Host "FileVersion " $FileVersion
-    Write-Host "Base " $Base
-    Write-Host "ScriptRead " $ScriptRead
-    Write-Host "MenuAdds " $MenuAdds
-    Write-Host "Fileini " $Fileini
-    Write-Host "FileTmp " $filetmp
-    Write-Host "Editor " $Editor
-    Write-Host "AddCount " $AddCount
-    Write-Host "WinWidth " $WinWidth
-    Write-Host "WinHeight " $WinHeight
-    Write-Host "BuffWidth " $BuffWidth
-    Write-Host "BuffHeight " $BuffHeight
-    Write-Host ($Config.AddItems[0].name)
-    Write-Host ($Config.AddItems[0].command)
-    $pop = Read-host -prompt "[Enter]"
-    if ($pop -eq "") { $pop = " " }
-    if ($null -ne $pop) { Remove-Variable $pop }
-    #break
+    Write-Host "Config: " $config
+    Write-Host "FileVersion: " $FileVersion
+    Write-Host "Base: " $Base
+    Write-Host "ScriptRead: " $ScriptRead
+    Write-Host "MenuAdds: " $MenuAdds
+    Write-Host "Fileini: " $Fileini
+    Write-Host "FileTmp: " $filetmp
+    Write-Host "Editor: " $Editor
+    Write-Host "AddCount: " $AddCount
+    Write-Host "WinWidth: " $WinWidth
+    Write-Host "WinHeight: " $WinHeight
+    Write-Host "BuffWidth: " $BuffWidth
+    Write-Host "BuffHeight: " $BuffHeight
+    Write-Host "SortMethod: " $SortMethod
+    Write-Host "DBug: " $DBug
+    Write-Host "Example: " ($Config.AddItems[0].name)
+    Write-Host "Example: " ($Config.AddItems[0].command)
+    $pop = Read-host -prompt "[Enter To Continue]"
+    if (!($pop)) { Write-Host "Error"}z
 }
-#DBFiles
+if ($DBug -eq "$True") { DBFile }
 $ESC = [char]27
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
     Write-Host "The File $Fileini is missing. We Can not continue without it."
     Write-Host "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
-    $NoINI = $true
+    [bool]$NoINI = $True
     My-Maker
 }
 Clear-Host
@@ -109,7 +107,7 @@ $SpacerLine = "$ESC[31m|                                                        
 $ProgramLine = "$ESC[31m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 $Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
 $ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
-$LineCount = 0
+[int]$LineCount = 0
 try {
     $Reader = New-Object IO.StreamReader $Fileini
     while ($null -ne $Reader.ReadLine()) { $LineCount++ }
@@ -136,22 +134,22 @@ if ($MenuAdds = $True) {
         $j++
     }
 }
-$LineCount = 0
+[int]$LineCount = 0
 try {
     $Reader = New-Object IO.StreamReader $Fileini
     while ($null -ne $Reader.ReadLine()) { $LineCount++ }
 }
 Finally { $Reader.Close() }
 <# Setting up positioning #>
-$temp = [int]($LineCount / 2)
-$a = ($temp / 3)
-$a = [int][Math]::Ceiling($a)
-$temp = [int]($a)
-$b = [int]($temp * 2)
-$c = [int]($LineCount / 2)
+[int]$temp = ($LineCount / 2)
+[int]$a = ($temp / 3)
+[int]$a = [int][Math]::Ceiling($a)
+[int]$temp = ($a)
+[int]$b = ($temp * 2)
+[int]$c = ($LineCount / 2)
 $Row = @($a, $b, $c)
-$Col = @(1, 34, 68)
-$pa = ($a + 5)
+$Col = @(1, 34, 69)
+[int]$pa = ($a + 5)
 Function DBVariables {
     Write-host "Linecount" $linecount
     Write-host "A" $a
@@ -160,11 +158,9 @@ Function DBVariables {
     Write-host "C" $c
     Write-host "Row" $row
     $pop = Read-host -prompt "[Enter]"
-    if ($pop -eq "") { $pop = " " }
-    if ($null -ne $pop) { Remove-Variable $pop }
-    #break
+    if (!($pop)) { Write-Host "Error"}
 }
-#DBVariables
+if ($DBug -eq "$True") { DBVariables }
 <# Draw the menu outline now. #>
 Clear-Host
 Write-Host $NormalLine
@@ -172,14 +168,14 @@ Write-Host $FancyLine
 Write-Host $TitleLine
 Write-Host $FancyLine
 Write-Host $ProgramLine
-$i = 1
+[int]$i = 1
 While ($i -le $a) { Write-Host $SpacerLine; $i++ }
 <# Fill in the users menu options from file. #>
-$l = 5
-$c = 0
-$w = 1
-$i = 1
-$work = [int]($linecount / 2)
+[int]$l = 5
+[int]$c = 0
+[int]$w = $col[0]
+[int]$i = 1
+[int]$work = ($linecount / 2)
 While ($i -le $work) {
     if ($i -le $work) {
         $Line = (Get-Content $Fileini)[$c]
@@ -187,8 +183,8 @@ While ($i -le $work) {
         [Console]::SetCursorPosition($w, $l)
         Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
     }
-    if ($i -eq $Row[0]) {$l = [int]4; $w = [int]$Col[1]  }
-    if ($i -eq $Row[1]) {$l = [int]4; $w = [int]$Col[2]  }
+    if ($i -eq $Row[0]) { [int]$l = 4; [int]$w = $Col[1]  }
+    if ($i -eq $Row[1]) { [int]$l = 4; [int]$w = $Col[2]  }
     $i++
     $c++
     $c++
@@ -202,46 +198,47 @@ Write-Host $SpacerLine
 Write-Host $SpacerLine
 if ($ScriptRead -eq "$True") { Write-Host $ScriptLine }
 else { Write-Host $NormalLine }
-$pa = $($pa + 5)
+[int]$pa = ($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
-$l = $($pa - 4)
+[int]$l = ($pa - 4)
 $d = @("A", "B", "C", "D", "E", "F", "G", "H", "Q")
 $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit INI, JSON and ps1", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
-$w = [int]$Col[0]
-$c = 0
+[int]$w = $Col[0]
+[int]$c = 0
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     $tmp = $d[$c]
     Write-host -NoNewLine "$ESC[31m[$ESC[97m$tmp$ESC[31m]$ESC[95m" $f[$c]
-    if ($c -eq 2) { $l = [int]($l - 3); $w = [int]$Col[1] }
-    if ($c -eq 5) { $l = [int]($l - 3); $w = [int]$Col[2] }
+    if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
+    if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
     $l++
     $c++
 }
 [Console]::SetCursorPosition(0, $pa)
 <# Reading In PowerShell Scripts IF $ScriptRead is $true #>
-if ($scriptRead -eq "$true") {
+if ($scriptRead -eq "$True") {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd3 = "$ESC[92m]"
-    Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp
-    $roll = @(Get-Content -Path $Filetmp).Count
-    $tmp = ($roll / 8)
-    $tmp = [int][Math]::Ceiling($tmp)
-    $w = 0
-    $l = $pa
-    $i = 1
+    if ($SortMethod -eq "$True") { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    else { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    [int]$roll = @(Get-Content -Path $Filetmp).Count
+    [int]$tmp = ($roll / 8)
+    [int]$tmp = [int][Math]::Ceiling($tmp)
+    [int]$w = 0
+    [int]$l = $pa
+    [int]$i = 1
     [Console]::SetCursorPosition($w, $l)
     While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
-    $pa = ($pa + $tmp)
-    $i = 0
-    $w = 1
-    $c = 0
-    $t = 1
+    [int]$pa = ($pa + $tmp)
+    [int]$i = 0
+    [int]$w = $col[0]
+    [int]$c = 0
+    [int]$t = 1
     [Console]::SetCursorPosition($w, $pa)
     while ($i -lt $roll) {
         while ($t -le $tmp) {
             $t++
-            $c = 1
+            [int]$c = 1
             $UserScripts = ""
             while ($c -le 8) {
                 $LineR = [string](Get-Content $Filetmp)[$i]
@@ -258,7 +255,7 @@ if ($scriptRead -eq "$true") {
 <# Here i do the cleanup and reorder math #>
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
-$w = 0
+[int]$w = 0
 <# Then we draw the last line on the Menu id $ScriptRead is $True #>
 if ($ScriptRead -eq $true) {
     [Console]::SetCursorPosition(0, $pa)
@@ -336,7 +333,7 @@ Function MyMaker {
     Write-host "Writing raw files info, Reread and sorting file names, Exporting all file names"
     Import-Csv -Path $FileTXT | Sort-Object -Property "Foldername" | Export-Csv -NoTypeInformation $FileCSV
     $writer = [System.IO.file]::CreateText($FileINI)
-    $i = 1
+    [int]$i = 1
     try {
         Import-Csv $Filecsv | Foreach-Object {
             $tmpname = [Regex]::Escape($_.fullname)
@@ -369,7 +366,7 @@ Function MyMaker {
     if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
 }
 if ($NoINI) {
-    $NoINI = $false
+    [bool]$NoINI = $False
     MyMaker
 }
 Function TheCommand {

@@ -6,7 +6,7 @@
     ],
     "InternalInfo": {
         "Project": "BinMenu",
-        "Modified": "08/25/2018",
+        "Modified": "08/28/2018",
         "Author": "Dana Meli <danamw@gmail.com",
         "Support": "https://github.com/danamw/PowerShell-tuneup",
         "License": "MIT"
@@ -15,19 +15,23 @@
         "_Base": "The starting folder that BinMenu reads from. End with \\",
         "Base": "C:\\bin",
         "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
-        "ScriptRead": 0,
+        "ScriptRead": 1,
         "_Editor": "Defines a text editor to use from BinMenu",
         "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
         "_MenuAdds": "[bool] Determines if the menu adds are used or not",
         "MenuAdds": 1,
         "_WinHeight": "How tall to draw the window.",
-        "WinHeight": 32,
+        "WinHeight": 39,
+		"_SortMethod": "How to sort Scripts. 0-Alphabetical 1-Random.(Random fits better)",
+        "SortMethod": 1,
         "_WinWidth": "How wide to draw the window.",
         "WinWidth": 104,
         "_BuffHeight": "How tall to make the Buffer.",
-        "BuffHeight": 32,
+        "BuffHeight": 39,
         "_BuffWidth": "How wide to make the Buffer.",
-        "BuffWidth": 104
+        "BuffWidth": 104,
+		"_DBug": "My Internal script debug information.",
+        "DBug": 0
     },
     "AddItems": [{
             "Name": "Regedit",
@@ -54,7 +58,7 @@
             "Command": "C:\\Users\\Dana"
         },
         {
-            "Name": "Examples",
+            "Name": "Some VC Examples",
             "Command": "c:\\Users\\Dana\\.vscode\\extensions\\ms-vscode.powershell-1.8.3\\examples"
         }
     ]
