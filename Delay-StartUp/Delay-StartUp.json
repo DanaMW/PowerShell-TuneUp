@@ -1,0 +1,86 @@
+{
+    "_Info": [
+        "This is the JSON based Configuration for Delay-StartUp",
+        "RunItems are your Startup items you are delaying",
+        "HostOnly is defined as the only host you want it to run on."
+    ],
+    "InternalInfo": {
+        "Project": "Delay-StartUp",
+        "Modified": "08/29/2018",
+        "Author": "Dana Meli <danamw@gmail.com",
+        "Support": "https://github.com/danamw/PowerShell-tuneup",
+        "License": "MIT"
+    },
+    "Basic": {
+        "_Base": "[string] The starting folder that Delay-StartUp reads from.",
+        "Base": "C:\\bin",
+        "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
+        "StartDelay": 0,
+        "_Delay": "[int] Defines the delay between each program run.",
+        "Delay": 2,
+        "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
+        "Prevent": 0,
+        "_DBug": "My internal script checks",
+        "DBug": 0
+
+    },
+    "RunItems": [{
+            "Name": "uGet Download Manager",
+            "HostOnly": "",
+            "RunPath": "C:\\bin\\uget\\bin\\uget.exe",
+            "Argument": "--Quiet"
+        },
+        {
+            "Name": "Redragon Gaming Mouse",
+            "HostOnly": "",
+            "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "OneDrive",
+            "HostOnly": "",
+            "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+            "Argument": "/background"
+        },
+        {
+            "Name": "Console Emulater",
+            "HostOnly": "",
+            "RunPath": "C:\\bin\\ConEmu\\ConEmu64.exe",
+            "Argument": "-Min"
+        },
+        {
+            "Name": "Ditto",
+            "HostOnly": "",
+            "RunPath": "C:\\bin\\Ditto\\Ditto.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "Sound Blaster Control Panel",
+            "HostOnly": "TINMAN",
+            "RunPath": "c:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "IDT PC Audio",
+            "HostOnly": "TORCHLIGHT",
+            "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "Beats64",
+            "HostOnly": "TORCHLIGHT",
+            "RunPath": "C:\\Program Files\\IDT\\WDM\\beats64.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "RainMeter",
+            "RunPath": "C:\\Program Files\\Rainmeter\\Rainmeter.exe",
+            "Argument": ""
+        },
+        {
+            "Name": "BinMenu",
+            "RunPath": "C:\\Program Files\\PowerShell\\6.0.4\\pwsh.exe",
+            "Argument": "C:\\bin\\BinMenu.ps1"
+        }
+    ]
+}
