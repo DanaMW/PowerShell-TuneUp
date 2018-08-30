@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 24, 2018
+        Last Modified Date: August 30, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,17 +12,17 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.6.5"
+$FileVersion = "Version: 0.6.6"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
 }
 Function MyConfig {
-    $tmp = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
-    $tmp = ($tmp -replace ".ps1", ".json")
-    $tmp
+    $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
+    $MyConfig = ($MyConfig -replace ".ps1", ".json")
+    $MyConfig
 }
-$ConfigFile = MyConfig
+[string]$ConfigFile = MyConfig
 try {
     $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json
 }
@@ -48,16 +48,15 @@ $newsize = $pswindow.windowsize
 [int]$newsize.width = ($WinWidth)
 $pswindow.windowsize = $newsize
 Clear-Host
-$Base = [String]($Config.basic.Base)
+[string]$Base = ($Config.basic.Base)
 if ($Base -eq "") {
     Write-Error "Config Read did not work out. Using current folder."
-    Start-Sleep-s 5
+    Start-Sleep -s 5
     $Base = Get-ScriptDir
 }
-$tmp = $base.length
-if ($base.substring(($tmp - 1)) -ne "\") { $base = $base + "\" }
-$Fileini = "$Base" + "BinMenu.ini"
-$Filetmp = "$Base" + "BinTemp.del"
+if ($base.substring(($base.length - 1)) -ne "\") { $base = $base + "\" }
+[string]$Fileini = "$Base" + "BinMenu.ini"
+[String]$Filetmp = "$Base" + "BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
@@ -86,10 +85,9 @@ Function DBFiles {
     Write-Host "DBug: " $DBug
     Write-Host "Example: " ($Config.AddItems[0].name)
     Write-Host "Example: " ($Config.AddItems[0].command)
-    $pop = Read-host -prompt "[Enter To Continue]"
-    if (!($pop)) { Write-Host "Error"}z
+    Read-host -prompt "[Enter To Continue]"
 }
-if ($DBug -eq "$True") { DBFile }
+if ($DBug -eq "$True") { DBFiles }
 $ESC = [char]27
 $Filetest = Test-Path -path $Fileini
 if ($Filetest -ne $true) {
@@ -207,7 +205,7 @@ $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShe
 [int]$c = 0
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
-    $tmp = $d[$c]
+    [string]$tmp = $d[$c]
     Write-host -NoNewLine "$ESC[31m[$ESC[97m$tmp$ESC[31m]$ESC[95m" $f[$c]
     if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
     if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
@@ -378,8 +376,8 @@ Function TheCommand {
     }
     $moo = (Select-String -Pattern $IntCom $Fileini)
     $cow = $moo -split "="
-    #Write-Host $cow[1]
-    #Write-Host (Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true
+    #Write-Host ($cow[1])
+    #Write-Host ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true)
     #$pop = Read-host -prompt "[Enter]"
     if ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true) { Invoke-Item $cow[1] }
     else { Start-Process $cow[1] -Verb RunAs }
@@ -389,31 +387,24 @@ Do {
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mExact Command Line $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                if ($cmd -match "ps1") {
-                    FixLine
-                    $temp = $cmd -split ' '
-                    $cmd = $cmd.trimstart($temp[0])
-                    $cmd1 = $temp[0] -replace '.ps1', ''
-                    $tmp = ".ps1"
-                    $cmd1 = $($cmd1 + $tmp)
-                    Start-Process "pwsh.exe" -Argumentlist "$cmd1 $cmd" -Verb RunAs
-                    FixLine
-                }
-                else { Start-Process "$cmd" -Verb RunAs }
+                #FixCommand -IntLet $cmd -UpCk "EXE"
+                $cmd1 = $cmd -replace ".exe", ""
+                $tcmd = ".exe"
+                $cmd = "$cmd1$tcmd"
+                Start-Process "$cmd" -Verb RunAs
                 FixLine
             }
-            FixLine
         }
         "B" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "E" {
             FixLine
-            $tmp = "$FileINI $ConfigFile c:\bin\BinMenu.ps1"
-            Start-Process $editor -ArgumentList $tmp -Verb RunAs; FixLine
+            Start-Process $editor -ArgumentList "$FileINI $ConfigFile c:\bin\BinMenu.ps1" -Verb RunAs
+            FixLine
         }
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
@@ -421,19 +412,27 @@ Do {
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                $temp = $cmd -split ' '
-                $cmd = $cmd.trimstart($temp[0])
-                $cmd1 = $temp[0] -replace '.ps1', ''
-                $tmp = ".ps1"
-                $cmd1 = $($cmd1 + $tmp)
-                Start-Process "pwsh.exe" -Argumentlist "$cmd1 $cmd" -Verb RunAs
+                $cmd = $cmd -split " "
+                if($cmd.count -gt 1) {
+                    $cmd1 = $cmd[0]
+                    $cmd = $cmd.trimstart($cmd1)
+                    $tcmd = ".ps1"
+                    $cmd1 = "$cmd1$tcmd"
+                    $cmd = "$cmd1 $cmd"
+                }
+                else {
+                    $cmd = $cmd -replace ".ps1", ""
+                    $tcmd = ".ps1"
+                    $cmd = "$cmd$tcmd"
+                }
+                start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                 FixLine
             }
             FixLine
         }
         "H" { Start-Process "pwsh.exe" "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine }
         "Q" { Clear-Host; Return }
-		"R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "1" { FixLine; TheCommand -IntCom "1B" ; FixLine }
         "2" { FixLine; TheCommand -IntCom "2B" ; FixLine }
         "3" { FixLine; TheCommand -IntCom "3B" ; FixLine }
