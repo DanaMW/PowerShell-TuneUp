@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.6.6"
+$FileVersion = "Version: 0.6.8"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -20,17 +20,18 @@ Function Get-ScriptDir {
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
+    $MyConfig = $MyConfig.trimstart(" ")
     $MyConfig
 }
-[string]$ConfigFile = MyConfig
+$ConfigFile = MyConfig
 try {
-    $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json
+    $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
 }
 catch {
-    Write-Error -Message "The Base configuration file is missing!" -Stop
+    Write-Error -Message "The Base configuration file is missing!"
 }
 if (!($Config)) {
-    Write-Error -Message "The Base configuration file is missing!" -Stop
+    Write-Error -Message "The Base configuration file is missing!"
 }
 <# #[Set-ConWin]#[Window Resizer]# #>
 [int]$WinWidth = ($Config.basic.WinWidth)
@@ -40,15 +41,15 @@ if (!($Config)) {
 $pshost = get-host
 $pswindow = $pshost.ui.rawui
 $newsize = $pswindow.buffersize
-[int]$newsize.height = ($BuffHeight)
-[int]$newsize.width = ($BuffWidth)
+$newsize.height = $BuffHeight
+$newsize.width = $BuffWidth
 $pswindow.buffersize = $newsize
 $newsize = $pswindow.windowsize
-[int]$newsize.height = ($WinHeight)
-[int]$newsize.width = ($WinWidth)
+$newsize.height = $WinHeight
+$newsize.width = $WinWidth
 $pswindow.windowsize = $newsize
 Clear-Host
-[string]$Base = ($Config.basic.Base)
+$Base = ($Config.basic.Base)
 if ($Base -eq "") {
     Write-Error "Config Read did not work out. Using current folder."
     Start-Sleep -s 5
@@ -65,7 +66,9 @@ Set-Location $Base
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$SortMethod = ($Config.basic.SortMethod)
 [bool]$DBug = ($Config.basic.DBug)
+[int]$SPLine = ($Config.basic.SPLine)
 [int]$AddCount = ($Config.AddItems.count)
+
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
     Write-Host "Config: " $config
@@ -139,15 +142,15 @@ try {
 }
 Finally { $Reader.Close() }
 <# Setting up positioning #>
-[int]$temp = ($LineCount / 2)
-[int]$a = ($temp / 3)
-[int]$a = [int][Math]::Ceiling($a)
-[int]$temp = ($a)
-[int]$b = ($temp * 2)
-[int]$c = ($LineCount / 2)
+$temp = ($LineCount / 2)
+$a = ($temp / 3)
+$a = [int][Math]::Ceiling($a)
+$temp = $a
+$b = ($temp * 2)
+$c = ($LineCount / 2)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 69)
-[int]$pa = ($a + 5)
+$pa = ($a + 5)
 Function DBVariables {
     Write-host "Linecount" $linecount
     Write-host "A" $a
@@ -220,7 +223,7 @@ if ($scriptRead -eq "$True") {
     if ($SortMethod -eq "$True") { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     else { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     [int]$roll = @(Get-Content -Path $Filetmp).Count
-    [int]$tmp = ($roll / 8)
+    [int]$tmp = ($roll / $SPLine)
     [int]$tmp = [int][Math]::Ceiling($tmp)
     [int]$w = 0
     [int]$l = $pa
@@ -238,7 +241,7 @@ if ($scriptRead -eq "$True") {
             $t++
             [int]$c = 1
             $UserScripts = ""
-            while ($c -le 8) {
+            while ($c -le $SPLine) {
                 $LineR = [string](Get-Content $Filetmp)[$i]
                 $i++
                 $UserScripts = ($UserScripts + $LineR)
@@ -413,7 +416,7 @@ Do {
             if ($cmd -ne '') {
                 FixLine
                 $cmd = $cmd -split " "
-                if($cmd.count -gt 1) {
+                if ($cmd.count -gt 1) {
                     $cmd1 = $cmd[0]
                     $cmd = $cmd.trimstart($cmd1)
                     $tcmd = ".ps1"

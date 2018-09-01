@@ -1,10 +1,10 @@
-$FileVersion = "Version: 0.0.3"
-$host.ui.RawUI.WindowTitle = "System Information Version " + $FileVersion
+$FileVersion = "Version: 0.0.4"
+$host.ui.RawUI.WindowTitle = "Set-ConWin $FileVersion"
 <# #[Set-ConWin]#[Window Resizer]# #>
-$tmpWidth = "107"
-$tmpHeight = "45"
-if ($tmpWidth -eq "") { $tmpWidth = "107"}
-if ($tmpHeight -eq "") { $tmpHeight = "45"}
+$BuffWidth = "107"
+$BuffHeight = "45"
+$WinWidth = "107"
+$WinHeight = "45"
 $pshost = (get-host)
 $pswindow = ($pshost.ui.rawui)
 $newsize = ($pswindow.buffersize)
