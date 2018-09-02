@@ -31,5 +31,7 @@ Update: Added new $SortMethod for scripts can sort 0-Alphabetical 1-Random 2-Len
     Added $SortDir so you can sort them HORZ or VERT (In rows or columns).
     $SPLine for how many scripts to list in a line when Horizonal. $ExtraLine handles Vertical.
     AddItems can ow also be a Directory and explorer will open them.
+Update: Added the ability to include a argument to command lines of read in and additems.
+    That allows for you to call one program to run another and opens up almost anything.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
