@@ -17,18 +17,20 @@
         Still under development.
 #>
 Param([bool]$Profile)
-$FileVersion = "Version: 0.0.2"
-if (!($Profile)) {
+$FileVersion = "Version: 0.0.4"
+if ($Profile -eq "" -or $Profile -eq 0) {
     & "C:\Program Files\Firefox Developer Edition\Firefox.exe"
 }
-[int]$c = (Get-ChildItem -Path "C:\Users\Dana\AppData\Roaming\Mozilla\Firefox\Profiles").count
-$Profs = (Get-ChildItem -Path "C:\Users\Dana\AppData\Roaming\Mozilla\Firefox\Profiles").name
-$Profs = $Profs -split " "
-$i = 0
-while ($i -lt $c) {
-    Write-Host "[$i]" $Profs[$i]
-    $i++
+if ($Profile -eq 1) {
+    [int]$c = (Get-ChildItem -Path "C:\Users\Dana\AppData\Roaming\Mozilla\Firefox\Profiles").count
+    $Profs = (Get-ChildItem -Path "C:\Users\Dana\AppData\Roaming\Mozilla\Firefox\Profiles").name
+    $Profs = $Profs -split " "
+    $i = 0
+    while ($i -lt $c) {
+        Write-Host "[$i]" $Profs[$i]
+        $i++
+    }
+    $Pop = Read-Host -Prompt "[Pick A Profile Number]"
+    if (($pop)) { & "C:\Program Files\Firefox Developer Edition\Firefox.exe" -P "$Profs[$pop]" }
+    else { & "C:\Program Files\Firefox Developer Edition\Firefox.exe" -P }
 }
-$Pop = Read-Host -Prompt "[Pick A Profile Number]"
-if (($pop)) { & "C:\Program Files\Firefox Developer Edition\Firefox.exe -P $Profs[$pop]" }
-else { & "C:\Program Files\Firefox Developer Edition\Firefox.exe -P" }
