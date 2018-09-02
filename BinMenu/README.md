@@ -26,5 +26,10 @@ Update: can define user file/folder adds to be appended to the menu after the fo
 Update: can toggle Menu adss on off and Script reads On off.
 Update: Added setting DBug and SortMethod for ScriptRead. Corrected many small scripting methods
     concerning Intergers.
+Update: Added new $SortMethod for scripts can sort 0-Alphabetical 1-Random 2-Length of scriptname.
+    Added $ExtraLine so you can add lines to the Vertical script sort to fit them to your liking.
+    Added $SortDir so you can sort them HORZ or VERT (In rows or columns).
+    $SPLine for how many scripts to list in a line when Horizonal. $ExtraLine handles Vertical.
+    AddItems can ow also be a Directory and explorer will open them.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

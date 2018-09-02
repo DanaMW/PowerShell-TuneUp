@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.6.8"
+$FileVersion = "Version: 0.7.0"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -64,30 +64,34 @@ Set-Location $Base
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
-[bool]$SortMethod = ($Config.basic.SortMethod)
+[int]$SortMethod = ($Config.basic.SortMethod)
+[string]$SortDir = ($Config.basic.SortDir)
+[int]$ExtraLine = ($Config.basic.ExtraLine)
+if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { $SortMethod = 0 }
 [bool]$DBug = ($Config.basic.DBug)
 [int]$SPLine = ($Config.basic.SPLine)
 [int]$AddCount = ($Config.AddItems.count)
-
 Function DBFiles {
-    Write-Host "Configfile: " $ConfigFile
-    Write-Host "Config: " $config
-    Write-Host "FileVersion: " $FileVersion
-    Write-Host "Base: " $Base
-    Write-Host "ScriptRead: " $ScriptRead
-    Write-Host "MenuAdds: " $MenuAdds
-    Write-Host "Fileini: " $Fileini
-    Write-Host "FileTmp: " $filetmp
-    Write-Host "Editor: " $Editor
-    Write-Host "AddCount: " $AddCount
-    Write-Host "WinWidth: " $WinWidth
-    Write-Host "WinHeight: " $WinHeight
-    Write-Host "BuffWidth: " $BuffWidth
-    Write-Host "BuffHeight: " $BuffHeight
-    Write-Host "SortMethod: " $SortMethod
-    Write-Host "DBug: " $DBug
-    Write-Host "Example: " ($Config.AddItems[0].name)
-    Write-Host "Example: " ($Config.AddItems[0].command)
+    Write-Host "Configfile: $ConfigFile"
+    Write-Host "Config: $config"
+    Write-Host "FileVersion: $FileVersion"
+    Write-Host "Base: $Base"
+    Write-Host "ScriptRead: $ScriptRead"
+    Write-Host "MenuAdds: $MenuAdds"
+    Write-Host "Fileini: $Fileini"
+    Write-Host "FileTmp: $filetmp"
+    Write-Host "Editor: $Editor"
+    Write-Host "AddCount: $AddCount"
+    Write-Host "WinWidth: $WinWidth"
+    Write-Host "WinHeight: $WinHeight"
+    Write-Host "BuffWidth: $BuffWidth"
+    Write-Host "BuffHeight: $BuffHeight"
+    Write-Host "SortMethod: $SortMethod"
+    Write-Host "SortDir: $SortDir"
+    Write-Host "ExtraLine: $ExtraLine"
+    Write-Host "DBug: $DBug"
+    Write-Host "Example: ($Config.AddItems[0].name)"
+    Write-Host "Example: ($Config.AddItems[0].command)"
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
@@ -152,6 +156,13 @@ $Row = @($a, $b, $c)
 $Col = @(1, 34, 69)
 $pa = ($a + 5)
 Function DBVariables {
+    Write-Host "Vline $Vline"
+    Write-Host "L $l"
+    Write-Host "roll $roll"
+    Write-Host "tmp $tmp"
+    Write-Host "I $i"
+    Write-Host "W $w"
+    Write-Host "T $t"
     Write-host "Linecount" $linecount
     Write-host "A" $a
     Write-host "Temp" $temp
@@ -220,14 +231,20 @@ while ($c -le 8) {
 if ($scriptRead -eq "$True") {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd3 = "$ESC[92m]"
-    if ($SortMethod -eq "$True") { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
-    else { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 0) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 1) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 2) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object length | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     [int]$roll = @(Get-Content -Path $Filetmp).Count
+    if ($ExtraLine -gt 0) { $roll = ($roll + $ExtraLine) }
     [int]$tmp = ($roll / $SPLine)
     [int]$tmp = [int][Math]::Ceiling($tmp)
     [int]$w = 0
     [int]$l = $pa
     [int]$i = 1
+    if ($ExtraLine -gt 0) {
+        [int]$tmp = ($tmp + $ExtraLine)
+       #[int]$pa = ($pa + $ExtraLine)
+    }
     [Console]::SetCursorPosition($w, $l)
     While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
     [int]$pa = ($pa + $tmp)
@@ -236,20 +253,50 @@ if ($scriptRead -eq "$True") {
     [int]$c = 0
     [int]$t = 1
     [Console]::SetCursorPosition($w, $pa)
-    while ($i -lt $roll) {
-        while ($t -le $tmp) {
-            $t++
-            [int]$c = 1
-            $UserScripts = ""
-            while ($c -le $SPLine) {
-                $LineR = [string](Get-Content $Filetmp)[$i]
-                $i++
-                $UserScripts = ($UserScripts + $LineR)
-                $c++
+    if ($SortDir -eq "HORZ") {
+        while ($i -lt $roll) {
+            while ($t -le $tmp) {
+                $t++
+                [int]$c = 1
+                $UserScripts = ""
+                while ($c -le $SPLine) {
+                    $LineR = [string](Get-Content $Filetmp)[$i]
+                    $i++
+                    $UserScripts = ($UserScripts + $LineR)
+                    $c++
+                }
+                [Console]::SetCursorPosition($w, $l)
+                Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
+                $l++
             }
-            [Console]::SetCursorPosition($w, $l)
-            Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
-            $l++
+        }
+    }
+    if ($SortDir -eq "VERT") {
+        [int]$Vline = $tmp
+        [int]$tmp = ($roll / $tmp)
+        [int]$i = 0
+        [int]$w = $col[0]
+        [int]$c = 0
+        [int]$t = 1
+        [int]$d = 1
+        If ($DBug -eq "$True") { DBVariables }
+        while ($i -lt $roll) {
+            while ($d -le $Vline) {
+                $d++
+                $LineV = [string](Get-Content $Filetmp)[$i]
+                [Console]::SetCursorPosition($w, $l)
+                Write-host -NoNewLine $LineV
+                $i++
+                $l++
+                if ($LineV.length -gt $c) { $c = $lineV.length }
+                if ($d -eq ($Vline + 1)) {
+                    if ($LineV.length -gt $c) { $c = $lineV.length }
+                    [int]$w = ($w + $c - 15)
+                    [int]$l = ($l - $Vline)
+                    if ($i -lt $roll) { [int]$d = 1 }
+                    $c = ""
+                }
+            }
         }
     }
 }
