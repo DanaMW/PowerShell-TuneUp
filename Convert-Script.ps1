@@ -3,7 +3,7 @@
         Convert-Script
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: August 12, 2018
+        Last Modified Date: September 02, 2018
 .DESCRIPTION
         This script places quotes on each side of a css file for use in tampermonkey.
         Along with a couple other things required to make it work.
@@ -11,13 +11,13 @@
         Script-Convert -File [<complete path to a css file>] -OutFile {<File to write>}
 .NOTES
         You will need to edit The header, and remove a bracket in quotes at the bottom.
-        If you dont specify an outfile it is created next to the original.
+        If you dont specify a outfile it creates it next to the original.
 #>
 param([string]$File, [string]$OutFile)
 $FileVersion = "Version: 0.1.5"
 if ($File -eq "") {
     Write-Host ""
-    Write-Host "You fu@ed up and didnt include -File [<FileToRead>]"
+    Write-Host "You fucked up and didnt include -File [<FileToRead>]"
     Write-Host "Take your hand off your dick, try again and type right."
     return
 }
@@ -26,7 +26,7 @@ else {
     $Filetest = Test-Path -path $InFile
     if ($Filetest -ne $true) {
         Write-Host ""
-        Write-Host "You fu@ked up, The file you specified $InFile is not there."
+        Write-Host "You fucked up, The file you specified $InFile is not there."
         Write-Host "Put the drugs down and try again."
         return
     }
@@ -38,121 +38,113 @@ if ($OutFile -eq "") {
     $OutFile = $OutFile -Replace ".user", ""
     $OutFile = "$OutFile" + ".user.js"
 }
-
-$HU0 = "// "
-$HU1 = "// ==UserScript=="
+$Filetest = Test-Path -path $OutFile
+if ($Filetest -eq $true) { Remove-Item –path $OutFile }
+Write-Host "Convert-Script $FileVersion is begining"
+Write-Host "Reading File: $File and Writing File: $OutFile"
+$HU0 = [string]"// "
+$HU1 = [string]"// ==UserScript=="
 $HU2 = Get-ChildItem $File | Get-Content | Select-String -pattern "@name"
 $HU3 = Get-ChildItem $File | Get-Content | Select-String -pattern "@namespace"
 $HU4 = Get-ChildItem $File | Get-Content | Select-String -pattern "@Version"
 $HU5 = Get-ChildItem $File | Get-Content | Select-String -pattern "@description"
 $HU6 = Get-ChildItem $File | Get-Content | Select-String -pattern "@author"
-$HU7 = "// ==/UserScript=="
-
-$HU2 = $($HU2 -replace "\* @", "@")
-$HU3 = $($HU3 -replace "\* @", "@")
-$HU4 = $($HU4 -replace "\* @", "@")
-$HU3 = $($HU5 -replace "\* @", "@")
-$HU6 = $($HU6 -replace "\* @", "@")
-
-$HU2 = $($HU0 + $HU2)
-$HU3 = $($HU0 + $HU3)
-$HU4 = $($HU0 + $HU4)
-$HU5 = $($HU0 + $HU5)
-$HU6 = $($HU0 + $HU6)
+$HU7 = [string]"// ==/UserScript=="
+$HU2 = [string]$($HU2 -replace "\* @", "@")
+$HU3 = [string]$($HU3 -replace "\* @", "@")
+$HU4 = [string]$($HU4 -replace "\* @", "@")
+$HU3 = [string]$($HU5 -replace "\* @", "@")
+$HU6 = [string]$($HU6 -replace "\* @", "@")
+$HU2 = [string]$($HU0 + $HU2)
+$HU3 = [string]$($HU0 + $HU3)
+$HU4 = [string]$($HU0 + $HU4)
+$HU5 = [string]$($HU0 + $HU5)
+$HU6 = [string]$($HU0 + $HU6)
 <# Upper String #>
-$HU8 = "(function() {var css = '';"
-$HU9 = "css += ["
+$HU8 = [string]"(function() {var css = '';"
+$HU9 = [string]"css += ["
 <# Lower String #>
-$HU10 = "].join('\n');"
-$HU11 = "if (typeof GM_addStyle != 'undefined') {"
-$HU12 = "    GM_addStyle(css);"
-$HU13 = "}"
-$HU14 = "else if (typeof PRO_addStyle != 'undefined') {"
-$HU15 = "PRO_addStyle(css);"
-$HU16 = "}"
-$HU17 = "else if (typeof addStyle != 'undefined') {"
-$HU18 = "    addStyle(css);"
-$HU19 = "}"
-$HU20 = "else {"
-$HU21 = "     var node = document.createElement('style');"
-$HU22 = "    node.type = 'text/css';"
-$HU23 = "    node.appendChild(document.createTextNode(css));"
-$HU24 = "    var heads = document.getElementsByTagName('head');"
-$HU25 = "    if (heads.length > 0) {"
-$HU26 = "        heads[0].appendChild(node);"
-$HU27 = "    }"
-$HU28 = "    else {"
-$HU29 = "        // no head yet, stick it whereever"
-$HU30 = "      document.documentElement.appendChild(node);"
-$HU31 = "     }"
-$HU32 = "}"
-$HU33 = "})();"
-$Lines = 0
-try {
-    $Counter = New-Object IO.StreamReader $File
-    while ($null -ne $Counter.ReadLine()) { $Lines++ }
-}
-Finally { $Counter.Close() }
-$c = 0
-$reader = [System.IO.File]::OpenText($File)
-$writer = [System.IO.file]::CreateText($OutFile)
-try {
-    $Writer.WriteLine([string]"$HU1")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU2")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU3")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU4")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU5")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU6")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU7")
-    $line = $reader.ReadLine()
-    $Writer.WriteLine([string]"$HU8")
-    $Writer.WriteLine([string]"$HU9")
-    $c = 8
-    while ($c -le $lines) {
-        $line = $reader.ReadLine()
-        if ($null -eq $line) { break }
-        if ($Line -match "@") {
-            $c++
-        }
-        else {
-            $Line = $Line -replace '"', "'"
-            $Line = $('"' + "$Line" + '",')
-            $Writer.WriteLine([string]"$Line")
-            $c++
-        }
+$HU10 = [string]"].join('\n');"
+$HU11 = [string]"if (typeof GM_addStyle != 'undefined') {"
+$HU12 = [string]"    GM_addStyle(css);"
+$HU13 = [string]"}"
+$HU14 = [string]"else if (typeof PRO_addStyle != 'undefined') {"
+$HU15 = [string]"PRO_addStyle(css);"
+$HU16 = [string]"}"
+$HU17 = [string]"else if (typeof addStyle != 'undefined') {"
+$HU18 = [string]"    addStyle(css);"
+$HU19 = [string]"}"
+$HU20 = [string]"else {"
+$HU21 = [string]"     var node = document.createElement('style');"
+$HU22 = [string]"    node.type = 'text/css';"
+$HU23 = [string]"    node.appendChild(document.createTextNode(css));"
+$HU24 = [string]"    var heads = document.getElementsByTagName('head');"
+$HU25 = [string]"    if (heads.length > 0) {"
+$HU26 = [string]"        heads[0].appendChild(node);"
+$HU27 = [string]"    }"
+$HU28 = [string]"    else {"
+$HU29 = [string]"        // no head yet, stick it whereever"
+$HU30 = [string]"      document.documentElement.appendChild(node);"
+$HU31 = [string]"     }"
+$HU32 = [string]"}"
+$HU33 = [string]"})();"
+[int]$Lines = 0
+[int]$lines = (Get-content $File).count
+[int]$rc = 0
+#[int]$wc = 0
+#Read-Host -Prompt "$HU1 $HU2"
+#[$wc]; $wc++
+(Add-Content $OutFile $HU1)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU2)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU3)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU4)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU5)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU6)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU7)
+$line = (Get-content $File)[$rc]; $rc++
+(Add-Content $OutFile $HU8)
+(Add-Content $OutFile $HU9)
+#[int]$c = 8
+while ($rc -le $lines) {
+    $line = (Get-content $File)[$rc]
+    if ($null -eq $line) { break }
+    if ($Line -match "@") {
+        $rc++
     }
-    $Writer.WriteLine([string]"$HU10")
-    $Writer.WriteLine([string]"$HU11")
-    $Writer.WriteLine([string]"$HU12")
-    $Writer.WriteLine([string]"$HU13")
-    $Writer.WriteLine([string]"$HU14")
-    $Writer.WriteLine([string]"$HU15")
-    $Writer.WriteLine([string]"$HU16")
-    $Writer.WriteLine([string]"$HU17")
-    $Writer.WriteLine([string]"$HU18")
-    $Writer.WriteLine([string]"$HU19")
-    $Writer.WriteLine([string]"$HU20")
-    $Writer.WriteLine([string]"$HU21")
-    $Writer.WriteLine([string]"$HU22")
-    $Writer.WriteLine([string]"$HU23")
-    $Writer.WriteLine([string]"$HU24")
-    $Writer.WriteLine([string]"$HU25")
-    $Writer.WriteLine([string]"$HU26")
-    $Writer.WriteLine([string]"$HU27")
-    $Writer.WriteLine([string]"$HU28")
-    $Writer.WriteLine([string]"$HU29")
-    $Writer.WriteLine([string]"$HU30")
-    $Writer.WriteLine([string]"$HU31")
-    $Writer.WriteLine([string]"$HU32")
-    $Writer.WriteLine([string]"$HU33")
+    else {
+        $Line = $Line -replace '"', "'"
+        $Line = $('"' + "$Line" + '",')
+        (Add-Content $OutFile $Line)
+        $rc++
+    }
 }
-finally {
-    $Writer.close()
-    $Reader.close()
-}
+(Add-Content $OutFile $HU10)
+(Add-Content $OutFile $HU11)
+(Add-Content $OutFile $HU12)
+(Add-Content $OutFile $HU13)
+(Add-Content $OutFile $HU14)
+(Add-Content $OutFile $HU15)
+(Add-Content $OutFile $HU16)
+(Add-Content $OutFile $HU17)
+(Add-Content $OutFile $HU18)
+(Add-Content $OutFile $HU19)
+(Add-Content $OutFile $HU20)
+(Add-Content $OutFile $HU21)
+(Add-Content $OutFile $HU22)
+(Add-Content $OutFile $HU23)
+(Add-Content $OutFile $HU24)
+(Add-Content $OutFile $HU25)
+(Add-Content $OutFile $HU26)
+(Add-Content $OutFile $HU27)
+(Add-Content $OutFile $HU28)
+(Add-Content $OutFile $HU29)
+(Add-Content $OutFile $HU30)
+(Add-Content $OutFile $HU31)
+(Add-Content $OutFile $HU32)
+(Add-Content $OutFile $HU33)
