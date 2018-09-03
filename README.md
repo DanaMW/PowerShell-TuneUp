@@ -14,6 +14,7 @@ Bin Menu is a simple console based menu that reads in what exe's are in the sub-
 
 # Convert-Script
 ```
+Current State is NOT WORKING - I'm working to fix it up as you read this.
 That is my CSS to JS converter for use on Tampermonkey and Edge browser. Very simply,
 it copies over most of the header to UserScript and puts quotes outside of the script.
 It also added the rest of the required JS and will work in its current form.
