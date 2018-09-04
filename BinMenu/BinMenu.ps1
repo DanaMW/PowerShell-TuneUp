@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 01, 2018
+        Last Modified Date: September 03, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.1"
+$FileVersion = "Version: 0.7.3"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -35,31 +35,7 @@ if (!($Config)) {
     Write-Error -Message "The Base configuration file is missing!"
     break
 }
-<# #[Set-ConWin]#[Window Resizer]# #>
-[int]$WinWidth = [int]($Config.basic.WinWidth)
-[int]$WinHeight = [int]($Config.basic.WinHeight)
-[int]$BuffWidth = [int]($Config.basic.BuffWidth)
-[int]$BuffHeight = [int]($Config.basic.BuffHeight)
-$pshost = get-host
-$pswindow = $pshost.ui.rawui
-$newsize = $pswindow.buffersize
-$newsize.height = [int]$BuffHeight
-$newsize.width = [int]$BuffWidth
-$pswindow.buffersize = $newsize
-$newsize = $pswindow.windowsize
-$newsize.height = [int]$WinHeight
-$newsize.width = [int]$WinWidth
-$pswindow.windowsize = $newsize
-<# End of the Window size routine #>
-Clear-Host
-[string]$Base = ($Config.basic.Base)
-if ($Base -eq "") { [string]$Base = Get-ScriptDir }
-if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
-[string]$Fileini = "$Base" + "BinMenu.ini"
-[String]$Filetmp = "$Base" + "BinTemp.del"
-$Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
-Set-Location $Base
+<# #[Config File read in]# #>
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
@@ -69,7 +45,35 @@ Set-Location $Base
 if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
 [bool]$DBug = ($Config.basic.DBug)
 [int]$SPLine = ($Config.basic.SPLine)
+[bool]$WPosition = ($Config.basic.WPosition)
 [int]$AddCount = ($Config.AddItems.count)
+<# #[Set-ConWin]#[Window Resizer]# #>
+if ($WPosition -eq "$True") {
+    [int]$WinWidth = [int]($Config.basic.WinWidth)
+    [int]$WinHeight = [int]($Config.basic.WinHeight)
+    [int]$BuffWidth = [int]($Config.basic.BuffWidth)
+    [int]$BuffHeight = [int]($Config.basic.BuffHeight)
+    $pshost = get-host
+    $pswindow = $pshost.ui.rawui
+    $newsize = $pswindow.buffersize
+    $newsize.height = [int]$BuffHeight
+    $newsize.width = [int]$BuffWidth
+    $pswindow.buffersize = $newsize
+    $newsize = $pswindow.windowsize
+    $newsize.height = [int]$WinHeight
+    $newsize.width = [int]$WinWidth
+    $pswindow.windowsize = $newsize
+    <# End of the Window size routine #>
+}
+Clear-Host
+[string]$Base = ($Config.basic.Base)
+if ($Base -eq "") { [string]$Base = Get-ScriptDir }
+if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
+[string]$Fileini = "$Base" + "BinMenu.ini"
+[String]$Filetmp = "$Base" + "BinTemp.del"
+$Filetest = Test-Path -path $Filetmp
+if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
+Set-Location $Base
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
     Write-Host "Config: " $config
@@ -88,6 +92,7 @@ Function DBFiles {
     Write-Host "SortMethod: " $SortMethod
     Write-Host "SortDir: " $SortDir
     Write-Host "ExtraLine: " $ExtraLine
+    Write-Host "WPosition: " $WPosition
     Write-Host "DBug: " $DBug
     Write-Host "Example: " ($Config.AddItems[0].name)
     Write-Host "Example: " ($Config.AddItems[0].command)
@@ -113,11 +118,7 @@ Clear-Host
 [string]$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
 [string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
-try {
-    $Reader = New-Object IO.StreamReader $Fileini
-    while ($null -ne $Reader.ReadLine()) { $LineCount++ }
-}
-Finally { $Reader.Close() }
+[int]$lineCount = (Get-content $Fileini).count
 if ($MenuAdds = [bool]"1") {
     Write-Host "Adding User Added Files to the INI"
     [int]$temp = ($LineCount / 3)
@@ -147,11 +148,7 @@ if ($MenuAdds = [bool]"1") {
     }
 }
 [int]$LineCount = 0
-try {
-    $Reader = New-Object IO.StreamReader $Fileini
-    while ($null -ne $Reader.ReadLine()) { $LineCount++ }
-}
-Finally { $Reader.Close() }
+[int]$lineCount = (Get-content $Fileini).count
 <# Setting up positioning #>
 $temp = ($LineCount / 3)
 $a = ($temp / 3)
@@ -450,10 +447,19 @@ Do {
             $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                $cmd1 = $cmd -replace ".exe", ""
-                $tcmd = ".exe"
-                $cmd = "$cmd1$tcmd"
-                Start-Process "$cmd" -Verb RunAs
+                $cmd = $cmd -split " "
+                if (($cmd.count) -gt 1) {
+                    $cmd1 = $cmd[0]
+                    $tcmd = ".exe"
+                    $cmd1 = "$cmd1$tcmd"
+                    $cmd = "$cmd1 $cmd"
+                }
+                else {
+                    $cmd = $cmd -replace ".ps1", ""
+                    $tcmd = ".exe"
+                    $cmd = "$cmd$tcmd"
+                }
+                start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                 FixLine
             }
         }
@@ -472,9 +478,8 @@ Do {
             if ($cmd -ne '') {
                 FixLine
                 $cmd = $cmd -split " "
-                if ($cmd.count -gt 1) {
+                if (($cmd.count) -gt 1) {
                     $cmd1 = $cmd[0]
-                    $cmd = $cmd.trimstart($cmd1)
                     $tcmd = ".ps1"
                     $cmd1 = "$cmd1$tcmd"
                     $cmd = "$cmd1 $cmd"
@@ -492,6 +497,7 @@ Do {
         "H" { Start-Process "pwsh.exe" "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine }
         "Q" { Clear-Host; Return }
         "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "Z" { Start-Process "pwsh.exe" "c:\bin\BMSM.ps1" -Verb RunAs; FixLine }
         "1" { FixLine; TheCommand -IntCom "[1B]" -Argue "[1C]" ; FixLine }
         "2" { FixLine; TheCommand -IntCom "[2B]" -Argue "[2C]" ; FixLine }
         "3" { FixLine; TheCommand -IntCom "[3B]" -Argue "[3C]" ; FixLine }
