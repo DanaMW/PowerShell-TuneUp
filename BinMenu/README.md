@@ -34,6 +34,6 @@ Update: Added new $SortMethod for scripts can sort 0-Alphabetical 1-Random 2-Len
 Update: Added the ability to include a argument to command lines of read in and additems.
     That allows for you to call one program to run another and opens up almost anything.
 Update created a BinMenu Settings Manager. All settings of BinMenu can be set changed or removed from it.
-    I created it as a function but in its own file for now key Z from bunmenu to use ot.
+    I created it as a function but in its own file for now key Z from bunmenu to use it.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
