@@ -1,19 +1,25 @@
 while (1) {
-    $FileVersion = "Version: 0.1.1"
+    $FileVersion = "Version: 0.1.4"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
-        $MyConfig = "C:\bin\BinMenu.json"
+        $Script:MyConfig = "C:\bin\BinMenu.json"
         $MyConfig
     }
-    $ConfigFile = MyConfig
-    try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
-    catch { Write-Error -Message "The Base configuration file is missing!" }
-    if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
-    [int]$BuffHeight = 42
-    [int]$BuffWidth = 100
-    [int]$WinHeight = 42
-    [int]$WinWidth = 100
+    $Script:ConfigFile = MyConfig
+    try {
+        $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
+    }
+    catch {
+        Write-Error -Message "The Base configuration file is missing!"
+    }
+    if (!($Config)) {
+        Write-Error -Message "The Base configuration file is missing!"
+    }
+    [int]$BuffHeight = 49
+    [int]$BuffWidth = 90
+    [int]$WinHeight = 49
+    [int]$WinWidth = 90
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
@@ -24,33 +30,38 @@ while (1) {
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
     $pswindow.windowsize = $newsize
-    $ESC = [char]27
-    [string]$NormalLine = "$ESC[91m#=================================================================================================#$ESC[97m"
-    [string]$TitleLine = "$ESC[91m|$ESC[97m-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
+    $Script:ESC = [char]27
+    [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
+    [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-==$ESC[91m|$ESC[97m"
     [string]$LeftLine = "$ESC[31m|"
     [string]$RightLine = "$ESC[31m|"
     Function FuckOff {
-        #param([string]$Fixer, [string]$blah, [string]$boop)
         PrettyLine
         Write-Host $blah
         [Console]::SetCursorPosition($w, ($pp + 1))
-        $Global:Fixer = Read-Host -Prompt $boop
+        $Script:Fixer = Read-Host -Prompt $boop
         PrettyLine
         $Fixer
     }
+    Function Stop {
+        $Stop = Read-Host -Prompt "[Enter]"
+        $Stop
+    }
+    Function Show {
+        $Show = Write-Host $Show
+        $Show
+    }
     Function PrettyLine {
-        [Console]::SetCursorPosition($w, $pp)
-        Write-Host "                                                                                                         "
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Write-Host "                                                                                                         "
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        Write-Host "                                                                                                         "
+        [Console]::SetCursorPosition($w, $pp); Write-Host "                                                                                                         "
+        [Console]::SetCursorPosition($w, ($pp + 1)); Write-Host "                                                                                                         "
+        [Console]::SetCursorPosition($w, ($pp + 2)); Write-Host "                                                                                                         "
         [Console]::SetCursorPosition($w, $pp)
     }
     Clear-Host
     Write-Host $NormalLine
     Write-Host $TitleLine
     Write-Host $NormalLine
+    [string]$Edit = "C:\bin\NPP\NotePad++.exe"
     [string]$Base = $Config.basic.Base
     [bool]$ScriptRead = $Config.basic.ScriptRead
     [string]$Editor = $Config.basic.Editor
@@ -67,31 +78,30 @@ while (1) {
     [int]$w = 1
     [int]$l = 3
     [int]$v = 3
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.........$ESC[93mBase Folder$ESC[97m: $ESC[91m" $Base; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m.....$ESC[93mRead in Scripts$ESC[97m: $ESC[91m" $ScriptRead; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDefined Editor$ESC[97m: $ESC[91m" $Editor; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m.....$ESC[93mUse Add Entries$ESC[97m: $ESC[91m" $MenuAdds; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m.........$ESC[93mSort Method$ESC[97m: $ESC[91m" $SortMethod; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m...............$ESC[93mDebug$ESC[97m: $ESC[91m" $DBug; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m....$ESC[93mScripts Per Line$ESC[97m: $ESC[91m" $SpLine; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m.$ESC[93mUse Win Positioning$ESC[97m: $ESC[91m" $WPosition; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m........$ESC[93mWindow Width$ESC[97m: $ESC[91m" $WinWidth; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m.......$ESC[93mWindow Height$ESC[97m: $ESC[91m" $WinHeight; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m........$ESC[93mBuffer Width$ESC[97m: $ESC[91m" $BuffWidth; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m.......$ESC[93mBuffer Height$ESC[97m: $ESC[91m" $BuffHeight; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[36m.$ESC[95mNumber of file Additions$ESC[97m: $ESC[95m" $AddCount; $l++
-    [int]$o = 113
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.........$ESC[93mBase Folder$ESC[97m:$ESC[97m" $Base; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m.....$ESC[93mRead in Scripts$ESC[97m:$ESC[97m" $ScriptRead; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDefined Editor$ESC[97m:$ESC[97m" $Editor; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m.....$ESC[93mUse Add Entries$ESC[97m:$ESC[97m" $MenuAdds; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m.........$ESC[93mSort Method$ESC[97m:$ESC[97m" $SortMethod; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m...............$ESC[93mDebug$ESC[97m:$ESC[97m" $DBug; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m....$ESC[93mScripts Per Line$ESC[97m:$ESC[97m" $SpLine; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m.$ESC[93mUse Win Positioning$ESC[97m:$ESC[97m" $WPosition; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m........$ESC[93mWindow Width$ESC[97m:$ESC[97m" $WinWidth; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m.......$ESC[93mWindow Height$ESC[97m:$ESC[97m" $WinHeight; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m........$ESC[93mBuffer Width$ESC[97m:$ESC[97m" $BuffWidth; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m.......$ESC[93mBuffer Height$ESC[97m:$ESC[97m" $BuffHeight; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m] $ESC[96mWill load $AddCount entries into your editor. There you can Add, Remove or alter."; $l++
     [int]$i = 0
     while ($i -lt $AddCount) {
         $it1 = ($Config.AddItems[$i].name)
-        $it2 = ($Config.AddItems[$i].Command)
-        $it3 = ($Config.AddItems[$i].argument)
-        [Console]::SetCursorPosition($w, $l); Write-Host "$ESC[91m[$ESC[97m$o$ESC[91m]$ESC[96m........\.......$ESC[93mName$ESC[97m: $ESC[91m" $It1; $l++
-        [Console]::SetCursorPosition($w, $l); Write-Host "              $ESC[96m\...$ESC[93mCommand$ESC[97m: $ESC[91m" $It2
-        if ($it3 -ne "") { $l++; [Console]::SetCursorPosition($w, $l); Write-Host "               $ESC[96m\.$ESC[93mArgument$ESC[97m: $ESC[91m" $It3 }
+        #$it2 = ($Config.AddItems[$i].Command)
+        #$it3 = ($Config.AddItems[$i].argument)
+        if ($it3 -eq "") { $it3 = "$ESC[91m[$ESC[96mNo Argument$ESC[91m]" }
+        [Console]::SetCursorPosition($w, $l); Write-Host "    $ESC[93mName$ESC[97m:$ESC[97m" $It1; $l++
+        #[Console]::SetCursorPosition($w, $l); Write-Host " $ESC[93mCommand$ESC[97m:$ESC[96m" $It2; $l++
+        #[Console]::SetCursorPosition($w, $l); Write-Host "$ESC[93mArgument$ESC[97m:$ESC[96m" $It3; $l++
         $i++
-        $o++
-        $l++
+        #$o++
     }
     [int]$pp = $l
     [int]$w = 0
@@ -101,12 +111,14 @@ while (1) {
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Write-host -NoNewline $LeftLine; $v++ }
     [int]$v = 3
     [int]$u = ($pp - 2)
-    [int]$w = 98
+    [int]$w = 88
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Write-host -NoNewline $RightLine; $v++ }
     [int]$w = 0
-    [Console]::SetCursorPosition($w, $pp); PrettyLine
-    [Console]::SetCursorPosition($w, $pp);
+    [Console]::SetCursorPosition($w, $pp)
+    PrettyLine
+    [Console]::SetCursorPosition($w, $pp)
     $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
+
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
@@ -173,7 +185,8 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
-                $Global:Fixer = $BuffWidth
+                $Config.basic.BuffWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinWidth = $Fixer
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
@@ -189,7 +202,8 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
-                $Global:Fixer = $BuffHeight
+                $Config.basic.BuffHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinHeight = $Fixer
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
@@ -205,7 +219,8 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
-                $Global:Fixer = ($WinWidth + 1)
+                $Config.basic.WinWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffWidth = $Fixer
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
@@ -221,25 +236,66 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
-                $Global:Fixer = ($WinHeight + 1)
+                $Config.basic.WinHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffHeight = $Fixer
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
-    if ($pop -eq "112") { return }
-    if ($pop -eq "113") { return }
-    if ($pop -eq "114") { return }
-    if ($pop -eq "115") { return }
-    if ($pop -eq "116") { return }
-    if ($pop -eq "117") { return }
-    if ($pop -eq "118") { return }
-    if ($pop -eq "119") { return }
-    if ($pop -eq "120") { return }
-    if ($pop -eq "X") {
-        PrettyLine
-        Start-Process "pwsh.exe" -ArgumentList "C:\bin\BMSM.ps1"
-        return
+    if ($pop -eq "112") {
+
+        $FixFile = "C:\bin\bmsm.1"
+        $CopFile = "C:\bin\bmsm.2"
+        $Difftxt = "C:\bin\bmsm.diff"
+        $Filetest = Test-Path -path $FixFile
+        if ($Filetest -eq "$true") { Clear-Content -Path $FixFile }
+        $Filetest = Test-Path -path $CopFile
+        if ($Filetest -eq "$true") { Clear-Content -Path $CopFile }
+        $Filetest = Test-Path -path $Difftxt
+        if ($Filetest -eq "$true") { Clear-Content -Path $Difftxt }
+        $i = 0
+        while ($i -lt $AddCount) {
+            $ItIs1 = ($Config.AddItems[$i].name)
+            $ItIs2 = ($Config.AddItems[$i].Command)
+            $ItIs3 = ($Config.AddItems[$i].argument)
+            if ($ItIs3 -eq "") { $ItIs3 = "[No Argument]" }
+            (Add-Content $FixFile $ItIs1)
+            (Add-Content $FixFile $ItIs2)
+            (Add-Content $FixFile $ItIs3)
+            $I++
+        }
+        Function Eyes {
+            $eyes = Write-Host $eyes
+            Write-Host -Promp "[Enter]"
+            $eyes
+        }
+        Copy-Item -Path "$FixFile" -Destination "$CopFile"
+        & Start-Process "$edit" -ArgumentList "$FixFile" -Verb RunAs
+        Read-Host -Prompt "Time to Edit The file, Hit Enter When Done "
+        Compare-Object (Get-Content $FixFile) (Get-Content $CopFile) | Format-List | Out-File $Difftxt
+        Clear-Content -Path $FixFile
+        Select-String -AllMatches -SimpleMatch "InputObject" $Difftxt | Out-String -Stream | Out-File $FixFile
+        Clear-Content -Path $Difftxt
+        $FileCount = (Get-content $FixFile).count
+        $Script:fc = 0
+        while ($fc -lt $FileCount) {
+            $line1 = (Get-content $FixFile)[$fc]
+            if ($Line1 -eq "") { $fc++ }
+            else {
+                $Moo = $Line1 -Split " : "
+                [string]$cow = $moo[1]
+                Write-Host "Writing $cow to file $difftst"
+                (Add-Content $Difftxt $cow)
+                $fc++
+            }
+        }
+        Write-Host "Made It Out"
+        Read-Host -Prompt "ENTER"
+        $
+        Filetest = Test-Path -path $FixFile
+        if ($Filetest -eq $true) { Remove-Item -path $FixFile }
     }
+    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "C:\bin\BMSM.ps1"; return }
     if ($pop -eq "Q") { return }
 }
