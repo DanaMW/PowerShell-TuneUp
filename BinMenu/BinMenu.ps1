@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.3"
+$FileVersion = "Version: 0.7.5"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function Get-ScriptDir {
     Split-Path -parent $PSCommandPath
@@ -36,6 +36,7 @@ if (!($Config)) {
     break
 }
 <# #[Config File read in]# #>
+[string]$Base = ($Config.basic.Base)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
@@ -66,7 +67,6 @@ if ($WPosition -eq "$True") {
     <# End of the Window size routine #>
 }
 Clear-Host
-[string]$Base = ($Config.basic.Base)
 if ($Base -eq "") { [string]$Base = Get-ScriptDir }
 if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
 [string]$Fileini = "$Base" + "BinMenu.ini"
@@ -119,8 +119,8 @@ Clear-Host
 [string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
 [int]$lineCount = (Get-content $Fileini).count
-if ($MenuAdds = [bool]"1") {
-    Write-Host "Adding User Added Files to the INI"
+if ($MenuAdds -eq "$True") {
+    Write-Host "Adding MenuAdds Items"
     [int]$temp = ($LineCount / 3)
     [int]$temp1 = ($temp - 1)
     [int]$temp2 = ($temp + 1)
@@ -136,15 +136,30 @@ if ($MenuAdds = [bool]"1") {
             (Add-Content $fileini $value2)[$temp1]
             $temp1++
             [string]$value3 = "[" + $temp2 + "C]=" + ($Config.AddItems[$j].argument)
-            if (!($value3)) {
-                $value3 = "$null"
-                (Add-Content $fileini $value3)[$temp1]
-            }
-            else { (Add-Content $fileini $value3)[$temp1] }
+            (Add-Content $fileini $value3)[$temp1]
             $temp1++
             $Temp2++
         }
         $j++
+    }
+}
+if ($MenuAdds -ne "$False") {
+    Write-Host "Removing MenuAdds Items"
+    $wow = ($Config.AddItems[0].name)
+    if (($wow)) {
+        $name = "=" + ($Config.AddItems[0].name)
+        [int]$it = (Select-String -SimpleMatch $name $Fileini).linenumber
+        if (($it)) {
+            $it = ($it -1)
+            $q = 0
+            While ($q -lt $it) {
+                $tr = (Get-Content $fileini)[$q]
+                (Add-Content ./BinMenu.no $tr)
+                $q++
+            }
+            Remove-Item $Fileini
+            Rename-Item -Path ./BinMenu.no -NewName $fileini
+        }
     }
 }
 [int]$LineCount = 0
@@ -218,8 +233,8 @@ else { Write-Host $NormalLine }
 [int]$pa = ($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 [int]$l = ($pa - 4)
-$d = @("A", "B", "C", "D", "E", "F", "G", "H", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Edit INI, JSON and ps1", "Run VS Code (New IDE)", "Run a PS1 script", "System Information", "Quit BinMenu")
+$d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
+$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "System Informatio", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
 [int]$w = $Col[0]
 [int]$c = 0
 while ($c -le 8) {
@@ -463,12 +478,12 @@ Do {
                 FixLine
             }
         }
-        "B" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "B" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         "E" {
             FixLine
-            Start-Process $editor -ArgumentList "$FileINI $ConfigFile c:\bin\BinMenu.ps1" -Verb RunAs
+            Start-Process "pwsh.exe" -ArguMentList "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine
             FixLine
         }
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
@@ -494,10 +509,9 @@ Do {
             }
             FixLine
         }
-        "H" { Start-Process "pwsh.exe" "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine }
         "Q" { Clear-Host; Return }
-        "R" { Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "Z" { Start-Process "pwsh.exe" "c:\bin\BMSM.ps1" -Verb RunAs; FixLine }
+        "R" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "Z" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BMSM.ps1" -Verb RunAs; FixLine }
         "1" { FixLine; TheCommand -IntCom "[1B]" -Argue "[1C]" ; FixLine }
         "2" { FixLine; TheCommand -IntCom "[2B]" -Argue "[2C]" ; FixLine }
         "3" { FixLine; TheCommand -IntCom "[3B]" -Argue "[3C]" ; FixLine }
