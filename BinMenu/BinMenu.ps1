@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 03, 2018
+        Last Modified Date: September 08, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,11 +12,10 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.5"
+$FileVersion = "Version: 0.7.6"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
-Function Get-ScriptDir {
-    Split-Path -parent $PSCommandPath
-}
+Write-Host (Split-Path -parent $PSCommandPath)
+Set-Location (Split-Path -parent $PSCommandPath)
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
@@ -67,7 +66,7 @@ if ($WPosition -eq "$True") {
     <# End of the Window size routine #>
 }
 Clear-Host
-if ($Base -eq "") { [string]$Base = Get-ScriptDir }
+if ($Base -eq "") { [string]$Base = (Split-Path -parent $PSCommandPath) }
 if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
 [string]$Fileini = "$Base" + "BinMenu.ini"
 [String]$Filetmp = "$Base" + "BinTemp.del"
@@ -459,24 +458,18 @@ Do {
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                $cmd = $cmd -split " "
-                if (($cmd.count) -gt 1) {
-                    $cmd1 = $cmd[0]
-                    $tcmd = ".exe"
-                    $cmd1 = "$cmd1$tcmd"
-                    $cmd = "$cmd1 $cmd"
-                }
-                else {
-                    $cmd = $cmd -replace ".ps1", ""
-                    $tcmd = ".exe"
-                    $cmd = "$cmd$tcmd"
-                }
-                start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                [string]$cmd = $cmd -replace ".ps1", ""
+                [string]$tcmd = ".exe"
+                [string]$cmd = "$cmd$tcmd"
+                #[string]$cmd = "$cmd $cmd1"
+                start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
                 FixLine
             }
+            FixLine
         }
         "B" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
@@ -489,21 +482,14 @@ Do {
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
             FixLine
-            $cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                $cmd = $cmd -split " "
-                if (($cmd.count) -gt 1) {
-                    $cmd1 = $cmd[0]
-                    $tcmd = ".ps1"
-                    $cmd1 = "$cmd1$tcmd"
-                    $cmd = "$cmd1 $cmd"
-                }
-                else {
-                    $cmd = $cmd -replace ".ps1", ""
-                    $tcmd = ".ps1"
-                    $cmd = "$cmd$tcmd"
-                }
+                $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                [string]$cmd = $cmd -replace ".ps1", ""
+                [string]$tcmd = ".ps1"
+                [string]$cmd = "$cmd$tcmd"
+                [string]$cmd = "$cmd $cmd1"
                 start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                 FixLine
             }
