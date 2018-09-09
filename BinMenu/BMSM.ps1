@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.1.7"
+    $FileVersion = "Version: 0.1.9"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -255,56 +255,75 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "114") {
-
         $FixFile = "C:\bin\bmsm.1"
-        $CopFile = "C:\bin\bmsm.2"
         $Difftxt = "C:\bin\bmsm.diff"
         $Filetest = Test-Path -path $FixFile
         if ($Filetest -eq "$true") { Clear-Content -Path $FixFile }
-        $Filetest = Test-Path -path $CopFile
-        if ($Filetest -eq "$true") { Clear-Content -Path $CopFile }
         $Filetest = Test-Path -path $Difftxt
         if ($Filetest -eq "$true") { Clear-Content -Path $Difftxt }
         $i = 0
         while ($i -lt $AddCount) {
-            $ItIs1 = ($Config.AddItems[$i].name)
-            $ItIs2 = ($Config.AddItems[$i].Command)
-            $ItIs3 = ($Config.AddItems[$i].argument)
-            if ($ItIs3 -eq "") { $ItIs3 = "[No Argument]" }
+            [string]$ItIs1 = ($Config.AddItems[$i].name)
+            [string]$ItIs2 = ($Config.AddItems[$i].Command)
+            [string]$ItIs3 = ($Config.AddItems[$i].argument)
+            if ($ItIs3 -eq "") { [string]$ItIs3 = "[No Argument]" }
             (Add-Content $FixFile $ItIs1)
             (Add-Content $FixFile $ItIs2)
             (Add-Content $FixFile $ItIs3)
             $I++
         }
-        Copy-Item -Path "$FixFile" -Destination "$CopFile"
         & Start-Process "$editor" -ArgumentList "$FixFile" -Verb RunAs
-        Read-Host -Prompt "Time to Edit The file, Hit Enter When Done "
-
-        Compare-Object (Get-Content $FixFile) (Get-Content $CopFile) | Format-List | Out-File $Difftxt
-        Clear-Content -Path $FixFile
-        Select-String -AllMatches -SimpleMatch "InputObject" $Difftxt | Out-String -Stream | Out-File $FixFile
-        Clear-Content -Path $Difftxt
-        $FileCount = (Get-content $FixFile).count
-        $Script:fc = 0
-        while ($fc -lt $FileCount) {
-            $line1 = (Get-content $FixFile)[$fc]
-            if ($Line1 -eq "") { $fc++ }
-            else {
-                $Moo = $Line1 -Split " : "
-                [string]$cow = $moo[1]
-                Write-Host "Writing $cow to file $difftst"
-                (Add-Content $Difftxt $cow)
-                $fc++
-            }
+        Read-Host -Prompt "Time to Edit The file, Hit Enter When Done"
+        [int]$LCount = 0
+        [int]$lCount = (Get-content $FixFile).count
+        $LMath = ($LCount / 3)
+        [int]$lc = 0
+        [int]$wc = 0
+        $HoldCount = $AddCount
+        while ($wc -lt $HoldCount) {
+            [string]$LLine1 = ""
+            $Config.AddItems[$wc].Name = $LLine1
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [string]$LLine2 = ""
+            $Config.AddItems[$wc].Command = $LLine2
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [string]$LLine3 = ""
+            $Config.AddItems[$wc].Argument = $LLine3
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $wc++
         }
-        Write-Host "Made It Out"
-        Read-Host -Prompt "ENTER"
+        [int]$LCount = 0
+        [int]$lCount = (Get-content $FixFile).count
+        [int]$lc = 0
+        [int]$wc = 0
+        while ($lc -lt $LCount) {
+            [string]$LLine1 = (Get-Content $FixFile)[$lc]; $lc++
+            $Config.AddItems[$wc].Name = $LLine1
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [string]$LLine2 = (Get-Content $FixFile)[$lc]; $lc++
+            $Config.AddItems[$wc].Command = $LLine2
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [string]$LLine3 = (Get-Content $FixFile)[$lc]; $lc++
+            $Config.AddItems[$wc].Argument = $LLine3
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $wc++
+        }
+        $wc = 0
+        while ($wc -le $HoldCount) {
+            [string]$Line = ($Config.AddItems[$wc].name)
+            if ($Line -eq "") {
+                $Config.AddItems[$wc].Name = $null
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems[$wc].Command = $null
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems[$wc].Argument = $null
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            $wc++
+        }
         $Filetest = Test-Path -path $FixFile
         if ($Filetest -eq "$true") { Remove-Item -Path $FixFile }
-        $Filetest = Test-Path -path $CopFile
-        if ($Filetest -eq "$true") { Remove-Item -Path $CopFile }
-        $Filetest = Test-Path -path $Difftxt
-        if ($Filetest -eq "$true") { Remove-Item -Path $Difftxt }
+
     }
     if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "C:\bin\BMSM.ps1"; return }
     if ($pop -eq "Q") { return }

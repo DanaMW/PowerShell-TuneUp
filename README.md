@@ -57,3 +57,8 @@ This is my console script example that sends your search to Google
 in the browser. You can add -IMAGE, -VIDEO or -NEWS to the begining
 or end of the line to go directly to those search pages.
 ```
+# Remove-Empty
+```
+Remove-Empty is a simple little script thata removes all empty Lines
+in a given text file. Feed it a file and all the blank lines are remmoved.
+```

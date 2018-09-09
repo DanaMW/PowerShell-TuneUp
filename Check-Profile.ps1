@@ -1,4 +1,4 @@
-$FileVersion = "Version 0.0.4"
+$FileVersion = "Version: 0.0.5"
 $txtfile = 'C:\bin\check-prof.ini'
 $ESC = [char]27
 $Filetest = Test-Path -path $txtfile
@@ -10,7 +10,7 @@ if ($Filetest -eq $true) {
 #$Profile | Format-List -Force | Out-String -Stream| % {New-Variable "prof$i" $_ ; $i++}
 $Profile | Format-List -Force | Out-String| ForEach-Object {$carrydata = $_}
 $carrydata | Format-List | Out-file $txtfile
-<# Fixing the File before we move on #>
+#Fixing the File before we move on
 $i = 3
 $reader = [System.IO.File]::OpenText($txtfile)
 try {
@@ -110,3 +110,4 @@ $l++
 Write-Host ""
 $Filetest = Test-Path -path $txtfile
 if ($Filetest -eq $true) { Remove-Item -Path $txtfile }
+Read-Host -Prompt "[Tap Enter to Exit]"
