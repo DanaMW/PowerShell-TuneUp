@@ -26,7 +26,8 @@ while (1) {
     [int]$ExtraLine = ($Config.basic.ExtraLine)
     [bool]$DBug = ($Config.basic.DBug)
     [bool]$WPosition = ($Config.basic.WPosition)
-    [int]$AddCount = ($Config.AddItems.count)
+    #[int]$AddCount = ($Config.AddItems.count)
+    [int]$AddCount = 10
     [int]$BuffHeight = 35
     [int]$BuffWidth = 90
     [int]$WinHeight = 35
@@ -114,10 +115,11 @@ while (1) {
     [int]$i = 1
     [int]$a = 114
     [int]$w = 1
-    while ($i -le 10) {
+    while ($i -le $AddCount) {
         [string]$name = "name$i"
         $it1 = ($Config.AddItems.$name)
-        [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m$a$ESC[91m]$ESC[36m....................$ESC[93mAdd Entry $i Name$ESC[97m:$ESC[97m" $it1; $l++
+        if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m$a$ESC[91m]$ESC[36m........$ESC[93mAdd Entry $i Name$ESC[97m:$ESC[97m" $it1; $l++ }
+        else { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m$a$ESC[91m]$ESC[36m........$ESC[93mAdd Entry $i Name$ESC[97m:$ESC[97m" $it1; $l++ }
         $i++
         $a++
     }

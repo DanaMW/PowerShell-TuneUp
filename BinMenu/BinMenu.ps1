@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.7"
+$FileVersion = "Version: 0.7.8"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -91,9 +91,9 @@ Function DBFiles {
     Write-Host "ExtraLine: " $ExtraLine
     Write-Host "WPosition: " $WPosition
     Write-Host "DBug: " $DBug
-    Write-Host "Example: " ($Config.AddItems[0].name)
-    Write-Host "Example: " ($Config.AddItems[0].command)
-    Write-Host "Example: " ($Config.AddItems[0].argument)
+    Write-Host "Example: " ($Config.AddItems.name1)
+    Write-Host "Example: " ($Config.AddItems.command1)
+    Write-Host "Example: " ($Config.AddItems.argument1)
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
@@ -121,16 +121,19 @@ if ($MenuAdds -eq "$True") {
     [int]$temp = ($LineCount / 3)
     [int]$temp1 = ($temp - 1)
     [int]$temp2 = ($temp + 1)
-    [int]$J = 0
+    [int]$J = 1
     while ($j -le ($AddCount - 1)) {
-        $k = $($Config.AddItems[$j].name)
+        $name = name$j
+        $command = command$J
+        $argument= argument$j
+        $k = $($Config.AddItems.$name)
         $t = $(Select-String -Pattern $k $Fileini)
         if ($null -eq $t) {
-            [string]$value1 = "[" + $temp2 + "A]=" + ($Config.AddItems[$j].name)
+            [string]$value1 = "[" + $temp2 + "A]=" + ($Config.AddItems.$name)
             (Add-Content $fileini $value1)[$temp1]; $temp1++
-            [string]$value2 = "[" + $temp2 + "B]=" + ($Config.AddItems[$j].command)
+            [string]$value2 = "[" + $temp2 + "B]=" + ($Config.AddItems.$command)
             (Add-Content $fileini $value2)[$temp1]; $temp1++
-            [string]$value3 = "[" + $temp2 + "C]=" + ($Config.AddItems[$j].argument)
+            [string]$value3 = "[" + $temp2 + "C]=" + ($Config.AddItems.$argument)
             (Add-Content $fileini $value3)[$temp1]; $temp1++ ; $Temp2++
         }
         $j++
@@ -138,9 +141,9 @@ if ($MenuAdds -eq "$True") {
 }
 if ($MenuAdds -ne "$False") {
     Write-Host "Removing MenuAdds Items"
-    $wow = ($Config.AddItems[0].name)
+    $wow = ($Config.AddItems.name1)
     if (($wow)) {
-        $name = "=" + ($Config.AddItems[0].name)
+        $name = "=" + ($Config.AddItems.name1)
         [int]$it = (Select-String -SimpleMatch $name $Fileini).linenumber
         if (($it)) {
             $it = ($it -1)
@@ -443,7 +446,8 @@ Do {
             [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                if ($cmd -eq "reboot" -or $cmd -eq "clearlogs") { start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs  }
+                if ($cmd -eq "reboot") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
+                if ($cmd -eq "clearlogs") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
                 else {
                     $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
                     [string]$cmd = $cmd -replace ".ps1", ""
