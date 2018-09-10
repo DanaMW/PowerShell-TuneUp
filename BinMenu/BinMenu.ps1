@@ -45,7 +45,8 @@ if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
 [bool]$DBug = ($Config.basic.DBug)
 [int]$SPLine = ($Config.basic.SPLine)
 [bool]$WPosition = ($Config.basic.WPosition)
-[int]$AddCount = ($Config.AddItems.count)
+#[int]$AddCount = ($Config.AddItems.count)
+[int]$AddCount = 10
 [int]$WinWidth = [int]($Config.basic.WinWidth)
 [int]$WinHeight = [int]($Config.basic.WinHeight)
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
@@ -122,10 +123,10 @@ if ($MenuAdds -eq "$True") {
     [int]$temp1 = ($temp - 1)
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
-    while ($j -le ($AddCount - 1)) {
-        $name = name$j
-        $command = command$J
-        $argument= argument$j
+    while ($j -le $AddCount) {
+        $name = "name$j"
+        $command = "command$J"
+        $argument = "argument$j"
         $k = $($Config.AddItems.$name)
         $t = $(Select-String -Pattern $k $Fileini)
         if ($null -eq $t) {
@@ -146,7 +147,7 @@ if ($MenuAdds -ne "$False") {
         $name = "=" + ($Config.AddItems.name1)
         [int]$it = (Select-String -SimpleMatch $name $Fileini).linenumber
         if (($it)) {
-            $it = ($it -1)
+            $it = ($it - 1)
             $q = 0
             While ($q -lt $it) {
                 $tr = (Get-Content $fileini)[$q]
