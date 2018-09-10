@@ -36,5 +36,7 @@ Update: Added the ability to include a argument to command lines of read in and 
 Update: Created a BinMenu Settings Manager. All settings of BinMenu can be set changed or removed from it.
     I created it as a function but in its own file for now key Z from bunmenu to use it.
 Update: Menuadds "0" now removes them from the menu as it should. "1" puts them back if you have any.
+UpDate: Changed the JSON config format for faster readng (Cant use new menu or settings manageunless you change).
+Finished the BinMenu Settings manager. ALL settings can be edited from the settings manager.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

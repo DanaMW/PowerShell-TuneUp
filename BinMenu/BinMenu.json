@@ -1,90 +1,76 @@
 {
-    "_Info": [
-        "This is the JSON based Configuration for BinMenu",
-        "AddItems Are your items not in the base that you",
-        "Want added to the menu for you every time."
-    ],
-    "InternalInfo": {
-        "Project": "BinMenu",
-        "Modified": "09/01/2018",
-        "Author": "Dana Meli <danamw@gmail.com",
-        "Support": "https://github.com/danamw/PowerShell-tuneup",
-        "License": "MIT"
-    },
-    "Basic": {
-        "_Base": "The starting folder that BinMenu reads from.",
-        "Base": "C:\\bin\\",
-        "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
-        "ScriptRead": 0,
-        "_Editor": "Defines a text editor to use from BinMenu",
-        "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
-        "_MenuAdds": "[bool] Determines if the menu adds are used or not",
-        "MenuAdds": 1,
-        "_SortMethod": "[int] How to sort Scripts. 0-Alphabetical 1-Random 2-Length",
-        "SortMethod": 0,
-        "_SortDir": "[String] Sort HORZ VERT",
-        "SortDir": "VERT",
-        "_SPLine": "[int] Many scripts to put to a line when set HORZ , Lower it to not over write",
-        "SpLine": 7,
-        "_ExtraLine": "[int] This will add extra lines tothe script sort if my math is fucked up.",
-        "ExtraLine": 0,
-        "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
-        "WPosition": 1,
-        "_BuffHeight": "How tall to make the Buffer.",
-        "BuffHeight": 33,
-        "_BuffWidth": "How wide to make the Buffer.",
-        "BuffWidth": 104,
-        "_WinHeight": "How tall to draw the window.",
-        "WinHeight": 33,
-        "_WinWidth": "How wide to draw the window.",
-        "WinWidth": 104,
-        "_DBug": "[bool] My Internal script debug information.",
-        "DBug": 0
-    },
-    "AddItems": [{
-            "Name": "Regedit",
-            "Command": "C:\\Windows\\regedit.exe",
-            "Argument": ""
-        },
-        {
-            "Name": "Clean Manager",
-            "Command": "C:\\Windows\\System32\\cleanmgr.exe",
-            "Argument": ""
-        },
-        {
-            "Name": "Process Manager",
-            "Command": "C:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
-            "Argument": ""
-        },
-        {
-            "Name": "My Downloads",
-            "Command": "D:\\Downloads",
-            "Argument": ""
-        },
-        {
-            "Name": "My Bin",
-            "Command": "C:\\bin\\tc\\TOTALCMD64.EXE",
-            "Argument": "C:\\bin"
-        },
-        {
-            "Name": "My Home",
-            "Command": "C:\\Users\\Dana",
-            "Argument": ""
-        },
-        {
-            "Name": "Some VC Examples",
-            "Command": "C:\\Users\\Dana\\.vscode\\extensions\\ms-vscode.powershell-1.8.3\\examples",
-            "Argument": ""
-        },
-        {
-            "Name": "Firefox Developers Edition",
-            "Command": "%PSXPath%pwsh.exe",
-            "Argument": "C:\\bin\\Get-Firefox.ps1"
-        },
-        {
-            "Name": "Virtual Box",
-            "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
-            "Argument": ""
-        }
-    ]
+  "_Info": [
+    "This is the JSON based Configuration for BinMenu",
+    "AddItems Are your items not in the base that you",
+    "Want added to the menu for you every time."
+  ],
+  "InternalInfo": {
+    "Project": "BinMenu",
+    "Modified": "09/01/2018",
+    "Author": "Dana Meli <danamw@gmail.com",
+    "Support": "https://github.com/danamw/PowerShell-tuneup",
+    "License": "MIT"
+  },
+  "Basic": {
+    "_Base": "The starting folder that BinMenu reads from.",
+    "Base": "C:\\bin\\",
+    "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
+    "ScriptRead": 1,
+    "_Editor": "Defines a text editor to use from BinMenu",
+    "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
+    "_MenuAdds": "[bool] Determines if the menu adds are used or not",
+    "MenuAdds": 1,
+    "_SortMethod": "[int] How to sort Scripts. 0-Alphabetical 1-Random 2-Length",
+    "SortMethod": "0",
+    "_SortDir": "[String] Sort HORZ VERT",
+    "SortDir": "VERT",
+    "_SPLine": "[int] Many scripts to put to a line when set HORZ , Lower it to not over write",
+    "SpLine": 7,
+    "_ExtraLine": "[int] This will add extra lines tothe script sort if my math is fucked up.",
+    "ExtraLine": "1",
+    "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
+    "WPosition": 1,
+    "_BuffHeight": "How tall to make the Buffer.",
+    "BuffHeight": "45",
+    "_BuffWidth": "How wide to make the Buffer.",
+    "BuffWidth": "104",
+    "_WinHeight": "How tall to draw the window.",
+    "WinHeight": "45",
+    "_WinWidth": "How wide to draw the window.",
+    "WinWidth": "104",
+    "_DBug": "[bool] My Internal script debug information.",
+    "DBug": 0
+  },
+  "AddItems": {
+    "Name1": "RegEdit",
+    "Command1": "C:\\Windows\\regedit.exe",
+    "Argument1": "[No Argument]",
+    "Name2": "Clean Manager",
+    "Command2": "C:\\Windows\\System32\\cleanmgr.exe",
+    "Argument2": "[No Argument]",
+    "Name3": "Process Manager",
+    "Command3": "C:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
+    "Argument3": "[No Argument]",
+    "Name4": "My Downloads",
+    "Command4": "D:\\Downloads",
+    "Argument4": "[No Argument]",
+    "Name5": "My Bin",
+    "Command5": "C:\\bin\\tc\\TOTALCMD64.EXE",
+    "Argument5": "C:\\bin",
+    "Name6": "My Home",
+    "Command6": "C:\\Users\\Dana",
+    "Argument6": "[No Argument]",
+    "Name7": "Firefox Developers Edition",
+    "Command7": "%PSXPath%pwsh.exe",
+    "Argument7": "C:\\bin\\Get-Firefox.ps1",
+    "Name8": "Virtual Box",
+    "Command8": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument8": "[No Argument]",
+    "Name9": "Google Chrome",
+    "Command9": "C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe",
+    "Argument9": "[No Argument]",
+    "Name10": "Control Panel",
+    "Command10": "C:\\Windows\\System32\\control.exe",
+    "Argument10": "[No Argument]"
+  }
 }
