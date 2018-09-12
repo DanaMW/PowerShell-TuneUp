@@ -59,6 +59,6 @@ or end of the line to go directly to those search pages.
 ```
 # Remove-Empty
 ```
-Remove-Empty is a simple little script thata removes all empty Lines
+Remove-Empty is a simple little script that removes all empty Lines
 in a given text file. Feed it a file and all the blank lines are remmoved.
 ```
