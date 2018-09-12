@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 09, 2018
+        Last Modified Date: September 11, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.8"
+$FileVersion = "Version: 0.7.9"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -34,6 +34,19 @@ if (!($Config)) {
     Write-Host -Message "The Base configuration file is missing!"
     break
 }
+Function SpinItems {
+    $si = 1
+    $Sc = 20
+    $Script:AddCount = 0
+    While ($si -lt $sc) {
+        $name = "name$si"
+        $Spin = ($Config.AddItems.$name)
+        if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+        else { $si = 20 }
+    }
+    $Script:AddCount
+}
+SpinItems
 [string]$Base = ($Config.basic.Base)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
@@ -45,8 +58,6 @@ if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
 [bool]$DBug = ($Config.basic.DBug)
 [int]$SPLine = ($Config.basic.SPLine)
 [bool]$WPosition = ($Config.basic.WPosition)
-#[int]$AddCount = ($Config.AddItems.count)
-[int]$AddCount = 10
 [int]$WinWidth = [int]($Config.basic.WinWidth)
 [int]$WinHeight = [int]($Config.basic.WinHeight)
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
@@ -318,9 +329,10 @@ function Test-Administrator {
 Function FixLine {
     Write-Host -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa); Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
     [Console]::SetCursorPosition(0, ($pa + 1)); Write-Host -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
     [Console]::SetCursorPosition(0, ($pa + 2)); Write-Host -NoNewLine "                                                                                                       "
-    #[Console]::SetCursorPosition(0, ($pa + 3)); #Write-Host -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa); Write-Host -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa)
 }
