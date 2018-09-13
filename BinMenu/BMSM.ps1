@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.2.3"
+    $FileVersion = "Version: 0.2.4"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -319,21 +319,15 @@ while (1) {
         SpinItems
     }
     if ($pop -eq "115") {
-        #$obj1.PsObject.Members.Remove('Name2')
-        <#
         SpinItems
         $qq = $AddCount
-        $name = "name$qq"
-        $command = "command$qq"
-        $argument = "argument$qq"
         $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems.$name = $Config.AddItems.$name | Select-Object -Property * -ExcludeProperty "Name$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems.$Command = $Config.AddItems.$Command | Select-Object -Property * -ExcludeProperty "Command$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems.$argument = $Config.AddItems.$argument | Select-Object -Property * -ExcludeProperty "Argument$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        #>
         SpinItems
     }
     if ($pop -eq "116") {
