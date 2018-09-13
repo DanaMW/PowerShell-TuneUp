@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.2.1"
+    $FileVersion = "Version: 0.2.3"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -43,7 +43,6 @@ while (1) {
     [int]$BuffWidth = ($Config.basic.BuffWidth)
     [int]$WinHeight = ($Config.basic.WinHeight)
     [int]$WinWidth = ($Config.basic.WinWidth)
-    <#
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
@@ -54,7 +53,6 @@ while (1) {
     $newsize.height = 40
     $newsize.width = 90
     $pswindow.windowsize = $newsize
-    #>
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-==$ESC[91m|$ESC[97m"
@@ -160,9 +158,26 @@ while (1) {
         }
     }
     if ($pop -eq "101") {
-        if (($Config.basic.ScriptRead) -eq 1) { $Config.basic.ScriptRead = 0 }
-        else { $Config.basic.ScriptRead = 1 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        if (($Config.basic.ScriptRead) -eq 1) {
+            [bool]$Config.basic.ScriptRead = 0
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp - 10)
+            [int]$Config.basic.WinHeight = [int]$poptmp
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp - 10)
+            [int]$Config.basic.BuffHeight = [int]$poptmp
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+        }
+        else {
+            [bool]$Config.basic.ScriptRead = 1
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp + 10)
+            [int]$Config.basic.WinHeight = [int]$poptmp
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp + 10)
+            [int]$Config.basic.BuffHeight = [int]$poptmp
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+        }
     }
     if ($pop -eq "102") {
         $blah = "Please enter the Complete path and file name to your text editor"
@@ -179,7 +194,7 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             if ($Fixer -gt 3) { $Fixer = 3 }
-            $Config.basic.SortMethod = $Fixer
+            [int]$Config.basic.SortMethod = $Fixer
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
@@ -295,27 +310,30 @@ while (1) {
         SpinItems
         $qq = ($AddCount + 1)
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems | Add-Member -Type NoteProperty -Name  "name$qq" -Value ""
+        $Config.AddItems | Add-Member -Type NoteProperty -Name  "Name$qq" -Value ""
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         $Config.AddItems | Add-Member -Type NoteProperty -Name "Command$qq" -Value ""
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems | Add-Member -Type NoteProperty -Name "Argument$qq" -Value "[No ArguMent]"
+        $Config.AddItems | Add-Member -Type NoteProperty -Name "Argument$qq" -Value "[No Argument]"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
     if ($pop -eq "115") {
+        #$obj1.PsObject.Members.Remove('Name2')
+        <#
         SpinItems
         $qq = $AddCount
         $name = "name$qq"
         $command = "command$qq"
         $argument = "argument$qq"
         $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems.$name = $Config.AddItems.$name | Select-Object AddItems.$name
+        $Config.AddItems.$name = $Config.AddItems.$name | Select-Object -Property * -ExcludeProperty "Name$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems.$Command = $Config.AddItems.$Command | Select-Object AddItems.$Command
+        $Config.AddItems.$Command = $Config.AddItems.$Command | Select-Object -Property * -ExcludeProperty "Command$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems.$argument = $Config.AddItems.$argument | Select-Object AddItems.$argument
+        $Config.AddItems.$argument = $Config.AddItems.$argument | Select-Object -Property * -ExcludeProperty "Argument$qq"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
+        #>
         SpinItems
     }
     if ($pop -eq "116") {
