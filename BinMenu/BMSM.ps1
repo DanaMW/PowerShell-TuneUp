@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.2.4"
+    $FileVersion = "Version: 0.2.5"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -18,13 +18,13 @@ while (1) {
     }
     Function SpinItems {
         $si = 1
-        $Sc = 20
+        $Sc = 15
         $Script:AddCount = 0
         While ($si -lt $sc) {
             $name = "name$si"
             $Spin = ($Config.AddItems.$name)
             if ($null -ne $Spin) { $Script:AddCount++; $si++ }
-            else { $si = 20 }
+            else { $si = 15 }
         }
         $Script:AddCount
     }
@@ -320,14 +320,56 @@ while (1) {
     }
     if ($pop -eq "115") {
         SpinItems
-        $qq = $AddCount
+        [int]$qq = $AddCount
+        PrettyLine
+        Write-Host "Enter the Number of AddEntry to remove."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
+        PrettyLine
+        if ($q1 -eq "") { $q1 = $qq }
         $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$q1"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$q1"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$qq"
+        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$q1"
         $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $si = ($q1 + 1)
+        $Sc = 15
+        While ($si -lt $sc) {
+            #read
+            [string]$name = "name$si"
+            $Readit1 = ($Config.AddItems.$name)
+            if ($null -eq $Readit1) { $si = 16 }
+            if  ($si -lt "16") {
+                [string]$command = "command$si"
+                $Readit2 = ($Config.AddItems.$command)
+                [string]$argument = "argument$si"
+                $Readit3 = ($Config.AddItems.$argument)
+            }
+            #Write
+            if  ($si -lt "16") {
+                $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+                $Config.AddItems | Add-Member -Type NoteProperty -Name  "Name$q1" -Value $ReadIt1
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems | Add-Member -Type NoteProperty -Name "Command$q1" -Value $readit2
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems | Add-Member -Type NoteProperty -Name "Argument$q1" -Value $readit3
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if  ($si -lt "16") {
+            #delete
+                $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$si"
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$si"
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$si"
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $si++
+                $q1++
+            }
+        }
         SpinItems
     }
     if ($pop -eq "116") {
