@@ -1,4 +1,5 @@
 ## Discord Stuff
+Add your webhook url to the file then...
 
 ## Discord-Whook
 ```
@@ -8,4 +9,6 @@ that you get from your server and send messages from your home or remote servers
 ## Discord-Embed
 ```
 This is the same as above but it uses a simple rich presence to send it to the channel.
+Update: you can send a message now without quotes.
+    [Discord-Embed.ps1 Any message you want to send]
 ```
