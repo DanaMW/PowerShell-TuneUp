@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.7.9"
+$FileVersion = "Version: 0.8.1"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -75,6 +75,14 @@ Function FlexWindow {
     $pswindow.windowsize = $newsize
 }
 if ($WPosition -eq "$True") { FlexWindow }
+Function Stop {
+    $Stop = Read-Host -Prompt "[Enter]"
+    $Stop
+}
+Function Show {
+    $Show = Write-Host $Show
+    $Show
+}
 Clear-Host
 if ($Base -eq "") { [string]$Base = (Split-Path -parent $PSCommandPath) }
 if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
@@ -131,7 +139,6 @@ Clear-Host
 if ($MenuAdds -eq "$True") {
     Write-Host "Adding MenuAdds Items"
     [int]$temp = ($LineCount / 3)
-    [int]$temp1 = ($temp - 1)
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
     while ($j -le $AddCount) {
@@ -141,12 +148,13 @@ if ($MenuAdds -eq "$True") {
         $k = $($Config.AddItems.$name)
         $t = $(Select-String -Pattern $k $Fileini)
         if ($null -eq $t) {
-            [string]$value1 = "[" + $temp2 + "A]=" + ($Config.AddItems.$name)
-            (Add-Content $fileini $value1)[$temp1]; $temp1++
-            [string]$value2 = "[" + $temp2 + "B]=" + ($Config.AddItems.$command)
-            (Add-Content $fileini $value2)[$temp1]; $temp1++
-            [string]$value3 = "[" + $temp2 + "C]=" + ($Config.AddItems.$argument)
-            (Add-Content $fileini $value3)[$temp1]; $temp1++ ; $Temp2++
+            $value1 = "[" + $temp2 + "A]=" + ($Config.AddItems.$name)
+            (Add-Content $fileini $value1)
+            $value2 = "[" + $temp2 + "B]=" + ($Config.AddItems.$command)
+            (Add-Content $fileini $value2)
+            $value3 = "[" + $temp2 + "C]=" + ($Config.AddItems.$argument)
+            (Add-Content $fileini $value3)
+            $Temp2++
         }
         $j++
     }
@@ -398,7 +406,7 @@ Function MyMaker {
                 Write-Host "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
-                $AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
+                [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
                 $Writer.WriteLine("[" + $i + "C]=" + $AddArg)
                 $i++
                 return
@@ -427,7 +435,7 @@ Function TheCommand {
     else {
         [string]$car = (Select-String -SimpleMatch $Argue $Fileini)
         $bus = $car -split "="
-        if (($bus[1])) { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs }
+        if ($bus[1] -ne "[No Argument]") { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs }
         else { Start-Process $cow[1] -Verb RunAs }
     }
 }
