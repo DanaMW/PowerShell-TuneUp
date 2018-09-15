@@ -31,6 +31,9 @@ your script files.
 This clears most to all of your windows logs for you. (All of thwm except locked or in use as we fly by them).
 Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progrss Bar.
 Update: Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True
+Updated: It now gets the total number of log files, sets the math for the Progress
+bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not Elevates
+and runs. Should work for everyone well now.
 ```
 # Get-SysInfo
 ```
