@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.8.1"
+$FileVersion = "Version: 0.8.2"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -457,18 +457,22 @@ Do {
             }
             FixLine
         }
-        "B" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "B" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
         "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        "E" { FixLine; Start-Process "pwsh.exe" -ArguMentList "c:\bin\Get-SysInfo.ps1" -Verb RunAs; FixLine; FixLine }
+        "E" { FixLine; Start-Process "pwsh.exe" -ArguMentList "$PSScriptRoot\Get-SysInfo.ps1" -Verb RunAs; FixLine; FixLine }
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
             FixLine
             [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                if ($cmd -eq "reboot") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
-                if ($cmd -eq "clearlogs") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
+                $OneShot = "NO"
+                if ($cmd -eq "reboot") { $OneShot = "YES" }
+                if ($cmd -eq "clearlogs") { $OneShot = "YES" }
+                if ($cmd -eq "Do-Ghost") { $OneShot = "YES" }
+                if ($cmd -eq "Get-SysInfo") { $OneShot = "YES" }
+                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
                 else {
                     $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
                     [string]$cmd = $cmd -replace ".ps1", ""
@@ -482,8 +486,8 @@ Do {
             FixLine
         }
         "Q" { Clear-Host; Return }
-        "R" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "Z" { Start-Process "pwsh.exe" -ArgumentList "c:\bin\BMSM.ps1" -Verb RunAs; FixLine }
+        "R" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        "Z" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1" -Verb RunAs; FixLine }
         "1" { FixLine; TheCommand -IntCom "[1B]" -Argue "[1C]" ; FixLine }
         "2" { FixLine; TheCommand -IntCom "[2B]" -Argue "[2C]" ; FixLine }
         "3" { FixLine; TheCommand -IntCom "[3B]" -Argue "[3C]" ; FixLine }
