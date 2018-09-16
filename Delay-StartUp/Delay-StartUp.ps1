@@ -83,11 +83,9 @@ if ($StartDelay -ne "0") {
 [Console]::SetCursorPosition(20, 7); & Write-Output "      "
 [Console]::SetCursorPosition(20, 7); & Write-Output "Done!"
 [Console]::SetCursorPosition(0, 8); & Write-Output ""
-break
 & Write-Output "#==================================#"
 & Write-Output "|-<Running Delay-Startup Launcher>-|"
 & Write-Output "#==================================#"
-
 [int]$c = 0
 [int]$a = 1
 while ($c -lt $tc) {
