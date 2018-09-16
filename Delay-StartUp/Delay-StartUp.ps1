@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.2.1"
+$FileVersion = "Version: 0.2.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -65,17 +65,25 @@ if ($Prevent -eq "$True") {
     Write-Host ""
     break
 }
-if ($StartDelay -ne 0) {
-    [Console]::SetCursorPosition(0, 6); & Write-Output "Holding startup for $StartDelay seconds per your setting."
-    [int]$c = 1
-    while ($c -le $StartDelay) {
-        [Console]::SetCursorPosition(0, 7); & Write-Output $c
+if ($StartDelay -ne "0") {
+    [Console]::SetCursorPosition(0, 8); & Write-Output "                                                   "
+    [Console]::SetCursorPosition(0, 6); & Write-OutPut "You have StartDelay Set."
+    [Console]::SetCursorPosition(0, 7); & Write-Output "Holding startup for" $StartDelay
+    [int]$c = $StartDelay
+    while ($c -gt 0) {
+        [Console]::SetCursorPosition(0, 8); & Write-Output "                                               "
+        [Console]::SetCursorPosition(0, 9); & Write-Output "                                               "
+        [Console]::SetCursorPosition(20, 7); & Write-Output "      "
+        [Console]::SetCursorPosition(20, 7); & Write-Output $c
         Start-Sleep -s 1
-        $c++
-
+        $c = ($c - 1)
+        [Console]::SetCursorPosition(0, 8); & Write-Output "                                               "
     }
 }
-[Console]::SetCursorPosition(0, 6); & Write-Output ""
+[Console]::SetCursorPosition(20, 7); & Write-Output "      "
+[Console]::SetCursorPosition(20, 7); & Write-Output "Done!"
+[Console]::SetCursorPosition(0, 8); & Write-Output ""
+break
 & Write-Output "#==================================#"
 & Write-Output "|-<Running Delay-Startup Launcher>-|"
 & Write-Output "#==================================#"
