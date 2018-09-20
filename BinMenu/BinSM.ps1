@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.2.6"
+    $FileVersion = "Version: 0.2.7"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -125,10 +125,11 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m...........$ESC[93mBuffer Height$ESC[97m:$ESC[97m [$BuffHeight]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m.........$ESC[93mUse Add Entries$ESC[97m:$ESC[97m [$MenuAdds]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[96mNumber of Program Adds in INI$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m...........$ESC[91mADD New Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m...$ESC[91mDELETE Existing Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m...........$ESC[91mADD New Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m...$ESC[91mDELETE Existing Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing$ESC[97m]"; $l++
     [int]$i = 1
-    [int]$a = 116
+    [int]$a = 117
     [int]$w = 1
     if ($MenuAdds -eq "$True") {
         while ($i -le $AddCount) {
@@ -307,6 +308,11 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "114") {
+        $go = ("$base" + "BinMenu.ini")
+        Start-Process $Editor -ArgumentList $go -Verb RunAs
+        PrettyLine
+    }
+    if ($pop -eq "115") {
         SpinItems
         $qq = ($AddCount + 1)
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
@@ -318,7 +324,7 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "115") {
+    if ($pop -eq "116") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
@@ -372,7 +378,7 @@ while (1) {
         }
         SpinItems
     }
-    if ($pop -eq "116") {
+    if ($pop -eq "117") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -397,7 +403,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "117") {
+    if ($pop -eq "118") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -420,7 +426,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "118") {
+    if ($pop -eq "119") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -443,7 +449,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "119") {
+    if ($pop -eq "120") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -466,7 +472,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "120") {
+    if ($pop -eq "121") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -489,7 +495,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "121") {
+    if ($pop -eq "122") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -512,7 +518,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "122") {
+    if ($pop -eq "123") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -535,7 +541,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "123") {
+    if ($pop -eq "124") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -558,7 +564,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "124") {
+    if ($pop -eq "125") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -581,7 +587,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "125") {
+    if ($pop -eq "126") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -604,7 +610,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "126") {
+    if ($pop -eq "127") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -627,7 +633,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "127") {
+    if ($pop -eq "128") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -652,7 +658,7 @@ while (1) {
         }
         PrettyLine
     }
-    if ($pop -eq "128") {
+    if ($pop -eq "129") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -675,7 +681,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "129") {
+    if ($pop -eq "130") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."
@@ -698,7 +704,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "130") {
+    if ($pop -eq "131") {
         $rich1 = "Please enter the NAME or Title of the program for this entry."
         $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
         $rich3 = "Please enter any ARGUMENTS you need for this entry."

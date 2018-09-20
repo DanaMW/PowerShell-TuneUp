@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 0.0.5"
+    $FileVersion = "Version: 0.0.6"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {

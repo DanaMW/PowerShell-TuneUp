@@ -15,42 +15,41 @@
         "_Base": "[string] The starting folder that Delay-StartUp reads from.",
         "Base": "C:\\bin",
         "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-        "StartDelay": 0,
+        "StartDelay": "30",
         "_Delay": "[int] Defines the delay between each program run.",
-        "Delay": 2,
+        "Delay": 1,
         "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
         "Prevent": 0,
-        "_DBug": "My internal script checks",
+        "_DBug": "[bool] My internal script checks",
         "DBug": 0
-
     },
     "RunItems": [{
             "Name": "uGet Download Manager",
-            "HostOnly": "",
+            "HostOnly": "ALL",
             "RunPath": "C:\\bin\\uget\\bin\\uget.exe",
             "Argument": "--Quiet"
         },
         {
             "Name": "Redragon Gaming Mouse",
-            "HostOnly": "",
+            "HostOnly": "ALL",
             "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
             "Argument": ""
         },
         {
             "Name": "OneDrive",
-            "HostOnly": "",
+            "HostOnly": "ALL",
             "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
             "Argument": "/background"
         },
         {
             "Name": "Console Emulater",
-            "HostOnly": "",
+            "HostOnly": "ALL",
             "RunPath": "C:\\bin\\ConEmu\\ConEmu64.exe",
             "Argument": "-Min"
         },
         {
             "Name": "Ditto",
-            "HostOnly": "",
+            "HostOnly": "ALL",
             "RunPath": "C:\\bin\\Ditto\\Ditto.exe",
             "Argument": ""
         },
@@ -74,13 +73,27 @@
         },
         {
             "Name": "RainMeter",
+            "HostOnly": "ALL",
             "RunPath": "C:\\Program Files\\Rainmeter\\Rainmeter.exe",
             "Argument": ""
         },
         {
             "Name": "BinMenu",
-            "RunPath": "C:\\Program Files\\PowerShell\\6.0.4\\pwsh.exe",
+            "HostOnly": "ALL",
+            "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
             "Argument": "C:\\bin\\BinMenu.ps1"
+        },
+        {
+            "Name": "MineTest",
+            "HostOnly": "",
+            "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+            "Argument": "C:\\bin\\MineTest.ps1"
+        },
+        {
+            "Name": "FanSpeed",
+            "HostOnly": "Tinman",
+            "RunPath": "C:\\Program Files (x86)\\SpeedFan\\speedfan.exe",
+            "Argument": ""
         }
     ]
 }

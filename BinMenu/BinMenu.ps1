@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 11, 2018
+        Last Modified Date: September 20, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.8.2"
+$FileVersion = "Version: 0.8.3"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -240,7 +240,7 @@ else { Write-Host $NormalLine }
 [Console]::SetCursorPosition(0, $pa)
 [int]$l = ($pa - 4)
 $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "System Informatio", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "System Information", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
 [int]$w = $Col[0]
 [int]$c = 0
 while ($c -le 8) {
@@ -256,9 +256,9 @@ while ($c -le 8) {
 if ($scriptRead -eq "$True") {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd3 = "$ESC[92m]"
-    if ($SortMethod -eq 0) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
-    if ($SortMethod -eq 1) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
-    if ($SortMethod -eq 2) { Get-ChildItem -file $Base -Filter *.ps1| ForEach-Object { [string]$_ -Replace ".ps1", ""} | Sort-Object length | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 0) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 1) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    if ($SortMethod -eq 2) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object length | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     [int]$roll = @(Get-Content -Path $Filetmp).Count
     if ($ExtraLine -gt 0) { $roll = ($roll + $ExtraLine) }
     [int]$tmp = ($roll / $SPLine)
@@ -268,7 +268,6 @@ if ($scriptRead -eq "$True") {
     [int]$i = 1
     if ($ExtraLine -gt 0) {
         [int]$tmp = ($tmp + $ExtraLine)
-        #[int]$pa = ($pa + $ExtraLine)
     }
     [Console]::SetCursorPosition($w, $l)
     While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
