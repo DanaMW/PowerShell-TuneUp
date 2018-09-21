@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 20, 2018
+        Last Modified Date: September 21, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.8.3"
+$FileVersion = "Version: 0.8.5"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -127,13 +127,13 @@ if ($Filetest -ne $true) {
     My-Maker
 }
 Clear-Host
+[int]$PCount = (get-childitem -Path "C:\bin\*.ps1").count
 [string]$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
-[string]$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
-[string]$TitleLine = "$ESC[31m#======================================<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[31m>=======================================#$ESC[97m"
+[string]$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
 [string]$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
 [string]$ProgramLine = "$ESC[31m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [string]$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
-[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
+[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
 [int]$lineCount = (Get-content $Fileini).count
 if ($MenuAdds -eq "$True") {
@@ -188,7 +188,7 @@ $a = ($temp / 3)
 [int]$c = ($LineCount / 3)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 69)
-[int]$pa = ($a + 5)
+[int]$pa = ($a + 3)
 Function DBVariables {
     Write-Host "Vline $Vline"
     Write-Host "L $l"
@@ -203,18 +203,17 @@ Function DBVariables {
     Write-host "B" $b
     Write-host "C" $c
     Write-host "Row" $row
+    Write-Host "PCount" $PCount
     Read-host -prompt "[Enter]"
 }
 if ($DBug -eq "$True") { DBVariables }
 Clear-Host
 Write-Host $NormalLine
 Write-Host $FancyLine
-Write-Host $TitleLine
-Write-Host $FancyLine
 Write-Host $ProgramLine
 [int]$i = 1
 While ($i -le $a) { Write-Host $SpacerLine; $i++ }
-[int]$l = 5
+[int]$l = 3
 [int]$c = 0
 [int]$w = $col[0]
 [int]$i = 1
@@ -225,8 +224,8 @@ While ($i -le $work) {
         $moo = $line -split "="
         [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
     }
-    if ($i -eq $Row[0]) { [int]$l = 4; [int]$w = $Col[1]  }
-    if ($i -eq $Row[1]) { [int]$l = 4; [int]$w = $Col[2]  }
+    if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1]  }
+    if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2]  }
     $i++
     $c++
     $c++
