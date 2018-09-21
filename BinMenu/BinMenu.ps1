@@ -12,7 +12,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.8.5"
+$FileVersion = "Version: 0.8.6"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -93,27 +93,28 @@ if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
-    Write-Host "Config: " $config
+    Write-Host "    Config: " $config
     Write-Host "FileVersio: " $FileVersion
-    Write-Host "Base: " $Base
+    Write-Host "      Base: " $Base
     Write-Host "ScriptRead: " $ScriptRead
-    Write-Host "MenuAdds: " $MenuAdds
-    Write-Host "Fileini: " $Fileini
-    Write-Host "FileTmp: " $filetmp
-    Write-Host "Editor: " $Editor
-    Write-Host "AddCount: " $AddCount
-    Write-Host "WinWidth: " $WinWidth
-    Write-Host "WinHeight: " $WinHeight
-    Write-Host "BuffWidth: " $BuffWidth
+    Write-Host "  MenuAdds: " $MenuAdds
+    Write-Host "   Fileini: " $Fileini
+    Write-Host "   FileTmp: " $filetmp
+    Write-Host "    Editor: " $Editor
+    Write-Host "  AddCount: " $AddCount
+    Write-Host "  WinWidth: " $WinWidth
+    Write-Host " WinHeight: " $WinHeight
+    Write-Host " BuffWidth: " $BuffWidth
     Write-Host "BuffHeight: " $BuffHeight
     Write-Host "SortMethod: " $SortMethod
-    Write-Host "SortDir: " $SortDir
-    Write-Host "ExtraLine: " $ExtraLine
-    Write-Host "WPosition: " $WPosition
-    Write-Host "DBug: " $DBug
-    Write-Host "Example: " ($Config.AddItems.name1)
-    Write-Host "Example: " ($Config.AddItems.command1)
-    Write-Host "Example: " ($Config.AddItems.argument1)
+    Write-Host "    SPLine: " $SpLine
+    Write-Host "   SortDir: " $SortDir
+    Write-Host " ExtraLine: " $ExtraLine
+    Write-Host " WPosition: " $WPosition
+    Write-Host "      DBug: " $DBug
+    Write-Host "   Example: " ($Config.AddItems.name1)
+    Write-Host "   Example: " ($Config.AddItems.command1)
+    Write-Host "   Example: " ($Config.AddItems.argument1)
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
@@ -259,9 +260,8 @@ if ($scriptRead -eq "$True") {
     if ($SortMethod -eq 1) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     if ($SortMethod -eq 2) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object length | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
     [int]$roll = @(Get-Content -Path $Filetmp).Count
-    if ($ExtraLine -gt 0) { $roll = ($roll + $ExtraLine) }
-    [int]$tmp = ($roll / $SPLine)
-    [int]$tmp = [int][Math]::Ceiling($tmp)
+    if ($ExtraLine -ne 0) { $roll = ($roll + $ExtraLine) }
+    [int]$tmp = [Math]::Ceiling(($roll / $SPLine))
     [int]$w = 0
     [int]$l = $pa
     [int]$i = 1
