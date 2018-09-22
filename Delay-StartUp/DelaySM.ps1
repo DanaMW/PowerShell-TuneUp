@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.0"
+    $FileVersion = "Version: 1.0.1"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -97,15 +97,15 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $TitleLine; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m1$ESC[91m]$ESC[36m.............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$Base]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m2$ESC[91m]$ESC[36m....$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$StartDelay]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m3$ESC[91m]$ESC[36m..$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$Delay]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m4$ESC[91m]$ESC[36m....$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$Prevent]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m5$ESC[91m]$ESC[36m...................$ESC[93mDebug$ESC[97m:$ESC[97m [$DBug]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m6$ESC[91m]$ESC[36m...............$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m7$ESC[91m]$ESC[36m............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m8$ESC[91m]$ESC[36m..............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m........$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$ESC[92m$StartDelay$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m.......................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$DBug$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[36m......$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
     #[int]$a = 8
@@ -113,8 +113,9 @@ while (1) {
     while ($i -le $AddCount) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$it1]" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m...........$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$it1]"; $l++ }
+        $it2 = ($Config.$RunItem).HostOnly
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[94m$it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[94m$it2$ESC[97m]$ESC[40m" ; $l++ }
         $i++
         $a++
     }
@@ -142,7 +143,7 @@ while (1) {
     PrettyLine
     [Console]::SetCursorPosition($w, $pp)
     $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
-    if ($pop -eq "1") {
+    if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"
         FuckOff
@@ -151,7 +152,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "2") {
+    if ($pop -eq "101") {
         $blah = "Please enter the seconds to delay start."
         $boop = "Folder path or ENTER to cancel"
         FuckOff
@@ -160,7 +161,7 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "3") {
+    if ($pop -eq "102") {
         $blah = "Please enter the seconds to delay between each."
         $boop = "Folder path or ENTER to cancel"
         FuckOff
@@ -169,18 +170,18 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "4") {
+    if ($pop -eq "103") {
         if (($Config.basic.Prevent) -eq 0) { $Config.basic.Prevent = 1 }
         else { $Config.basic.Prevent = 0 }
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
-    if ($pop -eq "5") {
+    if ($pop -eq "104") {
 `
             if (($Config.basic.DBug) -eq 0) { $Config.basic.DBug = 1 }
         else { $Config.basic.DBug = 0 }
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
-    if ($pop -eq "6") {
+    if ($pop -eq "105") {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
@@ -190,7 +191,7 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "7") {
+    if ($pop -eq "106") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
@@ -205,7 +206,7 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "8") {
+    if ($pop -eq "107") {
         PrettyLine
         Write-Host "Enter the Number of RunItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))

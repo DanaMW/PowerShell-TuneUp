@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.0"
+    $FileVersion = "Version: 1.0.1"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -46,11 +46,11 @@ while (1) {
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
-    $newsize.height = 40
+    $newsize.height = 44
     $newsize.width = 90
     $pswindow.buffersize = $newsize
     $newsize = $pswindow.windowsize
-    $newsize.height = 40
+    $newsize.height = 44
     $newsize.width = 90
     $pswindow.windowsize = $newsize
     $Script:ESC = [char]27
@@ -135,8 +135,8 @@ while (1) {
         while ($i -le $AddCount) {
             $AddItem = "AddItem-$i"
             $it1 = ($Config.$AddItem).name
-            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m   $ESC[91m]$ESC[36m............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m   $ESC[91m]$ESC[36m.............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m"; $l++ }
+            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m................Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m.................Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m"; $l++ }
             $i++
             $a++
         }
