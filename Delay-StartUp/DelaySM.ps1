@@ -1,9 +1,9 @@
 while (1) {
-    $FileVersion = "Version: 0.0.6"
+    $FileVersion = "Version: 1.0.0"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
-        $Script:MyConfig = "C:\bin\Delay-StartUp.json"
+        $Script:MyConfig = $(Get-ScriptDir) + "\Delay-StartUp.json"
         $MyConfig
     }
     $Script:ConfigFile = MyConfig
@@ -21,7 +21,6 @@ while (1) {
     [int]$Delay = ($Config.basic.Delay)
     [bool]$Prevent = ($Config.basic.Prevent)
     [bool]$DBug = ($Config.basic.DBug)
-    [int]$AddCount = ($Config.RunItems.count)
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
@@ -35,14 +34,19 @@ while (1) {
         PrettyLine
         $Fixer
     }
-    Function Stop {
-        $Stop = Read-Host -Prompt "[Enter]"
-        $Stop
+    Function SpinItems {
+        $si = 1
+        $Sc = 20
+        $Script:AddCount = 0
+        While ($si -lt $sc) {
+            $RunItem = "RunItem-$si"
+            $Spin = ($Config.$RunItem.name)
+            if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+            else { $si = 20 }
+        }
+        $Script:AddCount
     }
-    Function Show {
-        $Show = Write-Host $Show
-        $Show
-    }
+    SpinItems
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Write-Host -NoNewLine "                                                             "
         [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
@@ -86,6 +90,7 @@ while (1) {
         $Fight4
     }
     Clear-Host
+    SpinItems
     [int]$l = 0
     [int]$w = 0
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
@@ -98,17 +103,18 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m4$ESC[91m]$ESC[36m....$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$Prevent]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m5$ESC[91m]$ESC[36m...................$ESC[93mDebug$ESC[97m:$ESC[97m [$DBug]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m6$ESC[91m]$ESC[36m...........$ESC[91mADD New Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m7$ESC[91m]$ESC[36m...$ESC[91mDELETE Existing Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m8$ESC[91m]$ESC[36m.....$ESC[91mEdit Existing Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m6$ESC[91m]$ESC[36m...............$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m7$ESC[91m]$ESC[36m............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m8$ESC[91m]$ESC[36m..............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Entry$ESC[97m]"; $l++
     [int]$v = 3
-    [int]$i = 0
+    [int]$i = 1
     #[int]$a = 8
     [int]$w = 1
-    while ($i -lt $AddCount) {
-        $it1 = ($Config.RunItems[$i].name)
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m.......$ESC[93mAdd Entry $i Name$ESC[97m:$ESC[97m [$it1]" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m......$ESC[93mAdd Entry $i Name$ESC[97m:$ESC[97m [$it1]"; $l++ }
+    while ($i -le $AddCount) {
+        $RunItem = "RunItem-$i"
+        $it1 = ($Config.$RunItem).name
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$it1]" ; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m $ESC[91m]$ESC[36m...........$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$it1]"; $l++ }
         $i++
         $a++
     }
@@ -131,7 +137,6 @@ while (1) {
         Write-host -NoNewline $RightLine; $v++
     }
     [int]$pp = ($l + 1)
-    [int]$w = 0
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
     PrettyLine
@@ -176,48 +181,29 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "6") {
-        #$BlankAdd1 = @{}
-        #$BlankAdd2 = @{}
-        #$BlankAdd3 = @{}
-        #$BlankAdd4 = @{}
-        #[array]$BlankAdd1 = @{Name = ""}
-        #[array]$BlankAdd2 = @{HostOnly = ""}
-        #[array]$BlankAdd3 = @{RunPath = ""}
-        #[array]$BlankAdd4 = @{Argument = ""}
-        #$BlankAdd = @{"Name" = ""; "HostOnly" = ""; "RunPath" = ""; "Argument" = ""}
-        #$qq = ($AddCount + 1)
-        #$Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        #(Convertfrom-Json $blockcvalue)dd-member -Name "BlockC" -value (Convertfrom-Json $blockcvalue) -MemberType NoteProperty
-        #$Config.RunItems | Add-Member -Name "Name" -value ( Convertfrom-Json -InPutObject $blankAdd1 ) -MemberType NoteProperty -PassThru
-        #$Config | ConvertTo-Json | Set-Content $ConfigFile
-        #$Config.RunItems | Add-Member -Name "HostOnly" -value ( Convertfrom-Json -InputObject $blankAdd2 ) -MemberType NoteProperty -PassThru
-        #$Config | ConvertTo-Json | Set-Content $ConfigFile
-        #$Config.RunItems | Add-Member -Name "RunPath" -value ( Convertfrom-Json -InputObject $blankAdd3 ) -MemberType NoteProperty -PassThru
-        #$Config | ConvertTo-Json | Set-Content $ConfigFile
-        #$Config.RunItems | Add-Member -Name "Argument" -value ( Convertfrom-Json -InputObject $blankAdd4 ) -MemberType NoteProperty -PassThru
-        #$Config | ConvertTo-Json | Set-Content $ConfigFile
+        SpinItems
+        $qq = ($AddCount + 1)
+        $RunItem = "RunItem-$qq"
+        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""}
+        $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+        $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        SpinItems
     }
     if ($pop -eq "7") {
-        <#
+        SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Write-Host "Enter the Number of RunItem to Edit."
+        Write-Host "Enter the Number of RunItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
         if ($q1 -eq "") { $q1 = $qq }
+        $RunItem = "RunItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.RunItems = $Config.RunItems | Select-Object -Property * -ExcludeProperty "Name"
+        $Config = $Config | Select-Object -Property * -ExcludeProperty $RunItem
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.RunItems = $Config.RunItems | Select-Object -Property * -ExcludeProperty "HostOnly"
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.RunItems = $Config.RunItems | Select-Object -Property * -ExcludeProperty "Argument"
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.RunItems = $Config.RunItems | Select-Object -Property * -ExcludeProperty "Argument"
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $si++
-        $q1++
-        #>
+        SpinItems
     }
     if ($pop -eq "8") {
         PrettyLine
@@ -225,39 +211,38 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
-        $Fight1 = ($Config.RunItems[$q1].Name)
-        $Fight2 = ($Config.RunItems[$q1].HostOnly)
-        $Fight3 = ($Config.RunItems[$q1].RunPath)
-        $Fight4 = ($Config.RunItems[$q1].Argument)
-        $rich1A = "Please enter the NAME or Title of the program for this entry."
-        $rich1B = "Current Value: $Fight1"
-        $rich2A = "Please enter the HOSTNAME that this will run on."
-        $rich2B = "Current Value: $Fight2"
-        $Rich3A = "Please enter the COMPLETE PATH and FILENAME for this entry"
-        $Rich3B = "Current Value: $Fight3"
-        $rich4A = "Please enter any ARGUMENTS you need for this entry."
-        $rich4B = "Current Value: $Fight4"
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.RunItems[$q1].Name)
-        $Fight2 = ($Config.RunItems[$q1].HostOnly)
-        $Fight3 = ($Config.RunItems[$q1].RunPath)
-        $Fight4 = ($Config.RunItems[$q1].Argument)
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.RunItems[$q1].Name = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.RunItems[$q1].HostOnly = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.RunItems[$q1].RunPath = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight4 -ne "") {
-            $Config.RunItems[$q1].RunPath = $Fight4
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+        if (($q1)) {
+            $RunItem = "RunItem-$q1"
+            $Script:Fight1 = ($Config.$RunItem).Name
+            $Script:Fight2 = ($Config.$RunItem).HostOnly
+            $Script:Fight3 = ($Config.$RunItem).RunPath
+            $Script:Fight4 = ($Config.$RunItem).Argument
+            $rich1A = "Please enter the NAME or Title of the program for this entry."
+            $rich1B = "Current Value: $Fight1"
+            $rich2A = "Enter the HOSTNAME that this will run on. [Also: All, NONE] "
+            $rich2B = "Current Value: $Fight2"
+            $Rich3A = "Please enter the COMPLETE PATH and FILENAME for this entry"
+            $Rich3B = "Current Value: $Fight3"
+            $rich4A = "Please enter any ARGUMENTS you need for this entry."
+            $rich4B = "Current Value: $Fight4"
+            $boop = "[ENTER for No Change]"
+            FightOn
+            if ($Fight1 -ne "") {
+                $Config.$RunItem.Name = $Fight1
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($Fight2 -ne "") {
+                $Config.$RunItem.HostOnly = $Fight2
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($Fight3 -ne "") {
+                $Config.$RunItem.RunPath = $Fight3
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($Fight4 -ne "") {
+                $Config.$RunItem.RunPath = $Fight4
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
         }
         PrettyLine
     }

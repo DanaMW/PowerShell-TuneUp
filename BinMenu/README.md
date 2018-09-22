@@ -39,6 +39,7 @@ UpDate: Changed the JSON config format for faster readng (Cant use new menu or s
 Finished the BinMenu Settings manager. ALL settings can be edited from the settings manager.
 Update: All working now except for the delete button, 115 of the Settings manager.
 Update: Delete 115 now works as properly as I can get it. :)
-Update: Shrunk up that way to big top of the menu.
+Update: Shrunk up that way too big top of the menu.
+UpDate: Finalized the json style completed all scripts Version 1 released.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

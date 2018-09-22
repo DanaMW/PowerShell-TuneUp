@@ -3,16 +3,17 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 21, 2018
+        Last Modified Date: September 22, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
-        It is designed to use an ini file created by it's companion script BinMenuRW.ps1.
+        It is designed to use an ini file created Internally.
+        Also has great Settings Manager, it's companion script BinSM.ps1.
 .EXAMPLE
         BinMenu.ps1 -Base [<PathToAFolder>]
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.8.6"
+$FileVersion = "Version: 1.0.0"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -39,8 +40,8 @@ Function SpinItems {
     $Sc = 20
     $Script:AddCount = 0
     While ($si -lt $sc) {
-        $name = "name$si"
-        $Spin = ($Config.AddItems.$name)
+        $AddItem = "AddItem-$si"
+        $Spin = ($Config.$AddItem).name
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
         else { $si = 20 }
     }
@@ -91,6 +92,7 @@ if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
 Set-Location $Base
+SpinItems
 Function DBFiles {
     Write-Host "Configfile: " $ConfigFile
     Write-Host "    Config: " $config
@@ -112,9 +114,10 @@ Function DBFiles {
     Write-Host " ExtraLine: " $ExtraLine
     Write-Host " WPosition: " $WPosition
     Write-Host "      DBug: " $DBug
-    Write-Host "   Example: " ($Config.AddItems.name1)
-    Write-Host "   Example: " ($Config.AddItems.command1)
-    Write-Host "   Example: " ($Config.AddItems.argument1)
+    $AddItem = "AddItem-1"
+    Write-Host "   Example: " ($Config.$AddItem).name
+    Write-Host "   Example: " ($Config.$AddItem).command
+    Write-Host "   Example: " ($Config.$AddItem).argument
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
@@ -128,7 +131,8 @@ if ($Filetest -ne $true) {
     My-Maker
 }
 Clear-Host
-[int]$PCount = (get-childitem -Path "C:\bin\*.ps1").count
+$ptemp = $base + "*.ps1"
+[int]$PCount = (get-childitem -Path $ptemp).count
 [string]$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
 [string]$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
@@ -143,17 +147,15 @@ if ($MenuAdds -eq "$True") {
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
     while ($j -le $AddCount) {
-        $name = "name$j"
-        $command = "command$J"
-        $argument = "argument$j"
-        $k = $($Config.AddItems.$name)
+        $AddItem = "AddItem-$j"
+        $k = ($Config.$AddItem).name
         $t = $(Select-String -Pattern $k $Fileini)
         if ($null -eq $t) {
-            $value1 = "[" + $temp2 + "A]=" + ($Config.AddItems.$name)
+            $value1 = "[" + $temp2 + "A]=" + ($Config.$AddItem).name
             (Add-Content $fileini $value1)
-            $value2 = "[" + $temp2 + "B]=" + ($Config.AddItems.$command)
+            $value2 = "[" + $temp2 + "B]=" + ($Config.$AddItem).command
             (Add-Content $fileini $value2)
-            $value3 = "[" + $temp2 + "C]=" + ($Config.AddItems.$argument)
+            $value3 = "[" + $temp2 + "C]=" + ($Config.$AddItem).argument
             (Add-Content $fileini $value3)
             $Temp2++
         }
@@ -162,9 +164,10 @@ if ($MenuAdds -eq "$True") {
 }
 if ($MenuAdds -ne "$False") {
     Write-Host "Removing MenuAdds Items"
-    $wow = ($Config.AddItems.name1)
+    $AddItem = "AddItem-1"
+    $wow = ($Config.$AddItem).name
     if (($wow)) {
-        $name = "=" + ($Config.AddItems.name1)
+        $name = "=" + ($Config.$AddItem).name
         [int]$it = (Select-String -SimpleMatch $name $Fileini).linenumber
         if (($it)) {
             $it = ($it - 1)

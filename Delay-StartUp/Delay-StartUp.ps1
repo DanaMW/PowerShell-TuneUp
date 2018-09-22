@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 20, 2018
+        Last Modified Date: September 22, 2018
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 0.2.3"
+$FileVersion = "Version: 1.0.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -38,8 +38,20 @@ if (!($Config)) {
 [bool]$Prevent = ($Config.basic.Prevent)
 [string]$Base = ($Config.basic.Base)
 if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = $base + "\" }
-[int]$tc = ($Config.RunItems.count)
 [bool]$DBug = ($Config.basic.DBug)
+Function SpinItems {
+    $si = 1
+    $Sc = 20
+    $Script:AddCount = 0
+    While ($si -lt $sc) {
+        $RunItem = "RunItem-$si"
+        $Spin = ($Config.$RunItem.name)
+        if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+        else { $si = 20 }
+    }
+    $Script:AddCount
+}
+$tt = SpinItems
 Function DBFiles {
     Write-Host "Config: " $Config
     Write-Host "ConfigFile: " $ConfigFile
@@ -47,7 +59,7 @@ Function DBFiles {
     Write-Host "Delay: " $Delay
     Write-Host "Prevent: " $Prevent
     Write-Host "Base: " $Base
-    Write-Host "TC: " $tc
+    Write-Host "AddCount: " $AddCount
     Write-Host "DBug: " $DBug
     Write-Host "Example: " ($Config.RunItems[0].name)
     Write-Host "Example: " ($Config.RunItems[0].runpath)
@@ -83,34 +95,34 @@ if ($StartDelay -ne "0") {
 [Console]::SetCursorPosition(20, 7); & Write-Output "      "
 [Console]::SetCursorPosition(20, 7); & Write-Output "Done!"
 [Console]::SetCursorPosition(0, 8); & Write-Output ""
-& Write-Output "#==================================#"
-& Write-Output "|-<Running Delay-Startup Launcher>-|"
-& Write-Output "#==================================#"
-[int]$c = 0
+[Console]::SetCursorPosition(0, 10); & Write-Output "#==================================#"
+[Console]::SetCursorPosition(0, 11); & Write-Output "|-<Running Delay-Startup Launcher>-|"
+[Console]::SetCursorPosition(0, 12); & Write-Output "#==================================#"
+[Console]::SetCursorPosition(0, 13)
+[int]$c = 1
 [int]$a = 1
-while ($c -lt $tc) {
-    $Runname = ($Config.RunItems[$c].name)
-    $RunHost = ($Config.RunItems[$c].hostonly)
-    $RunPath = ($Config.RunItems[$c].runpath)
-    $RunSplit = (Split-Path -parent $Config.RunItems[$c].runpath) + "\"
-    $RunArg = ($Config.RunItems[$c].argument)
-    #$Wonder = Get-Process $RunName -ErrorAction SilentlyContinue
-    #if (($Wonder)) { [bool]$Know = $True }
-    #else { [bool]$Know = $False }
+$tt = SpinItems
+[Console]::SetCursorPosition(0, 13)
+while ($c -lt $AddCount) {
+    $RunItem = "RunItem-$c"
+    $Runname = ($Config.$RunItem).name
+    $RunHost = ($Config.$RunItem).hostonly
+    $RunPath = ($Config.$RunItem).runpath
+    $RunSplit = (Split-Path -parent $RunPath)
+    $RunSplit = ($RunSplit + "\")
+    $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
         if ($c -ne 0) { Start-Sleep -s $Delay }
         & Write-Output " [$a] Starting $RunName"
         & Set-Location $RunSplit
-        #if ($know = "$False") {
         if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg }
         else { & Start-Process -FilePath $RunPath }
-        #}
         & Set-Location $Base
         $a++
     }
     $c++
 }
+if ($tt -ne "") { $tt = "" }
 Write-Host "All Programs Loaded, Exiting"
 Start-Sleep -s $Delay
 Exit
-return

@@ -1,9 +1,9 @@
 while (1) {
-    $FileVersion = "Version: 0.2.9"
+    $FileVersion = "Version: 1.0.0"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
-        $Script:MyConfig = "C:\bin\BinMenu.json"
+        $Script:MyConfig = $(Get-ScriptDir) + "\BinMenu.json"
         $MyConfig
     }
     $Script:ConfigFile = MyConfig
@@ -18,13 +18,13 @@ while (1) {
     }
     Function SpinItems {
         $si = 1
-        $Sc = 15
+        $Sc = 50
         $Script:AddCount = 0
         While ($si -lt $sc) {
-            $name = "name$si"
-            $Spin = ($Config.AddItems.$name)
+            $AddItem = "AddItem-$si"
+            $Spin = ($Config.$AddItem).name
             if ($null -ne $Spin) { $Script:AddCount++; $si++ }
-            else { $si = 15 }
+            else { $si = 50 }
         }
         $Script:AddCount
     }
@@ -65,14 +65,6 @@ while (1) {
         $Script:Fixer = Read-Host -Prompt $boop
         PrettyLine
         $Fixer
-    }
-    Function Stop {
-        $Stop = Read-Host -Prompt "[Enter]"
-        $Stop
-    }
-    Function Show {
-        $Show = Write-Host $Show
-        $Show
     }
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Write-Host -NoNewLine ""
@@ -136,15 +128,15 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m117$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
     [int]$i = 1
-    [int]$a = 117
     [int]$w = 1
     if ($MenuAdds -eq "$True") {
         while ($i -le $AddCount) {
-            [string]$name = "name$i"
-            $it1 = ($Config.AddItems.$name)
-            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m$a$ESC[91m]$ESC[36m............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m$a$ESC[91m]$ESC[36m.............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m"; $l++ }
+            $AddItem = "AddItem-$i"
+            $it1 = ($Config.$AddItem).name
+            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m   $ESC[91m]$ESC[36m............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m   $ESC[91m]$ESC[36m.............$ESC[93mEntry $i Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m"; $l++ }
             $i++
             $a++
         }
@@ -323,12 +315,10 @@ while (1) {
     if ($pop -eq "115") {
         SpinItems
         $qq = ($AddCount + 1)
+        $AddItem = "AddItem-$qq"
+        $test = @{ Name = ""; Command = ""; Argument = ""}
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems | Add-Member -Type NoteProperty -Name  "Name$qq" -Value ""
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems | Add-Member -Type NoteProperty -Name "Command$qq" -Value ""
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems | Add-Member -Type NoteProperty -Name "Argument$qq" -Value "[No Argument]"
+        $Config | Add-Member -Type NoteProperty -Name $AddItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
@@ -336,404 +326,49 @@ while (1) {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Write-Host "Enter the Number of AddEntry to remove."
+        Write-Host "Enter the Number of AddItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
         if ($q1 -eq "") { $q1 = $qq }
-        $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$q1"
+        $AddItem = "AddItem-$q1"
+        $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+        $Config = $Config | Select-Object -Property * -ExcludeProperty $AddItem
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$q1"
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$q1"
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $si = ($q1 + 1)
-        $Sc = 15
-        While ($si -lt $sc) {
-            #read
-            [string]$name = "name$si"
-            $Readit1 = ($Config.AddItems.$name)
-            if ($null -eq $Readit1) { $si = 16 }
-            if  ($si -lt "16") {
-                [string]$command = "command$si"
-                $Readit2 = ($Config.AddItems.$command)
-                [string]$argument = "argument$si"
-                $Readit3 = ($Config.AddItems.$argument)
-            }
-            #Write
-            if  ($si -lt "16") {
-                $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-                $Config.AddItems | Add-Member -Type NoteProperty -Name  "Name$q1" -Value $ReadIt1
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-                $Config.AddItems | Add-Member -Type NoteProperty -Name "Command$q1" -Value $readit2
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-                $Config.AddItems | Add-Member -Type NoteProperty -Name "Argument$q1" -Value $readit3
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-            }
-            if  ($si -lt "16") {
-            #delete
-                $Config =  Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Name$si"
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Command$si"
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-                $Config.AddItems = $Config.AddItems | Select-Object -Property * -ExcludeProperty "Argument$si"
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
-                $si++
-                $q1++
-            }
-        }
         SpinItems
     }
     if ($pop -eq "117") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        [string]$name = "name$i"
-        $Fight1 = ($Config.AddItems.name1)
-        $Fight2 = ($Config.AddItems.command1)
-        $Fight3 = ($Config.AddItems.argument1)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
         PrettyLine
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name1 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command1 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument1 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "118") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name2)
-        $Fight2 = ($Config.AddItems.command2)
-        $Fight3 = ($Config.AddItems.argument2)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name2 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command2 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument2 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "119") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name3)
-        $Fight2 = ($Config.AddItems.command3)
-        $Fight3 = ($Config.AddItems.argument3)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name3 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command3 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument3 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "120") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name4)
-        $Fight2 = ($Config.AddItems.command4)
-        $Fight3 = ($Config.AddItems.argument4)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name4 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command4 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument4 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "121") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name5)
-        $Fight2 = ($Config.AddItems.command5)
-        $Fight3 = ($Config.AddItems.argument5)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name5 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command5 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument5 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "122") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name6)
-        $Fight2 = ($Config.AddItems.command6)
-        $Fight3 = ($Config.AddItems.$argument6)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name6 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command6 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument6 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "123") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name7)
-        $Fight2 = ($Config.AddItems.command7)
-        $Fight3 = ($Config.AddItems.argument7)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name7 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command7 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument7 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "124") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name8)
-        $Fight2 = ($Config.AddItems.command8)
-        $Fight3 = ($Config.AddItems.argument8)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name8 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command8 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument8 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "125") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name9)
-        $Fight2 = ($Config.AddItems.command9)
-        $Fight3 = ($Config.AddItems.argument9)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name9 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command9 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument9 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "126") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name10)
-        $Fight2 = ($Config.AddItems.command10)
-        $Fight3 = ($Config.AddItems.argument10)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name10 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command10 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument10 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "127") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name11)
-        $Fight2 = ($Config.AddItems.command11)
-        $Fight3 = ($Config.AddItems.argument11)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name11 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command11 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument11 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "128") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name12)
-        $Fight2 = ($Config.AddItems.command12)
-        $Fight3 = ($Config.AddItems.argument12)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        PrettytLine
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name12 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command12 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument12 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+        Write-Host "Enter the Number of AddItem to Edit."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+        if (($q1)) {
+            $AddItem = "AddItem-$q1"
+            $rich1 = "Please enter the NAME or Title of the program for this entry."
+            $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
+            $rich3 = "Please enter any ARGUMENTS you need for this entry."
+            $boop = "[ENTER for No Change]"
+            $Fight1 = ($Config.$AddItem).Name
+            $Fight2 = ($Config.$AddItem).Command
+            $Fight3 = ($Config.$AddItem).Argument
+            if ($Fight3 -eq "") { $Fight3 = "[No Argument]"}
+            FightOn
+            PrettyLine
+            if ($Fight1 -ne "") {
+                $Config.$AddItem.Name = $Fight1
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($Fight2 -ne "") {
+                $Config.$AddItem.Command = $Fight2
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($Fight3 -ne "") {
+                $Config.$AddItem.Argument = $Fight3
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
         }
         PrettyLine
-    }
-    if ($pop -eq "129") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name13)
-        $Fight2 = ($Config.AddItems.command13)
-        $Fight3 = ($Config.AddItems.argument13)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name13 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command13 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument13 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "130") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name14)
-        $Fight2 = ($Config.AddItems.command14)
-        $Fight3 = ($Config.AddItems.argument14)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name14 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command14 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument14 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-    }
-    if ($pop -eq "131") {
-        $rich1 = "Please enter the NAME or Title of the program for this entry."
-        $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
-        $rich3 = "Please enter any ARGUMENTS you need for this entry."
-        $boop = "[ENTER for No Change]"
-        $Fight1 = ($Config.AddItems.name15)
-        $Fight2 = ($Config.AddItems.command15)
-        $Fight3 = ($Config.AddItems.argument15)
-        if ($Fight3 -eq "") { $Fight3 = "[No Arguement]"}
-        FightOn
-        if ($Fight1 -ne "") {
-            $Config.AddItems.name15 = $Fight1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight2 -ne "") {
-            $Config.AddItems.command15 = $Fight2
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
-        if ($Fight3 -ne "") {
-            $Config.AddItems.argument15 = $Fight3
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
-        }
     }
     if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "C:\bin\BinSM.ps1"; return }
     if ($pop -eq "Q") { return }
