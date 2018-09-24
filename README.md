@@ -40,6 +40,7 @@ and runs. (It needs to be admin to delete clear logs). Should work for everyone 
 A simple system information example containing how to expand a
 looped composed ($var + #) variable, and how to  draw out
 simple info using Get-CimInstance.
+Updated: To only use Get-CimInstance.
 ```
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
