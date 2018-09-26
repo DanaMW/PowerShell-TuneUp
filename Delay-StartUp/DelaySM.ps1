@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.1"
+    $FileVersion = "Version: 1.0.5"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -17,6 +17,7 @@ while (1) {
         Write-Error -Message "The Base configuration file is missing!"
     }
     [string]$Base = ($Config.basic.Base)
+    if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = $base + "\" }
     [int]$StartDelay = ($Config.basic.StartDelay)
     [int]$Delay = ($Config.basic.Delay)
     [bool]$Prevent = ($Config.basic.Prevent)
@@ -195,15 +196,37 @@ while (1) {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Write-Host "Enter the Number of RunItem to remove."
+        Write-Host "Enter the Number of AddItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
         if ($q1 -eq "") { $q1 = $qq }
-        $RunItem = "RunItem-$q1"
+        $AddItem = "AddItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config = $Config | Select-Object -Property * -ExcludeProperty $RunItem
+        $Config = $Config | Select-Object -Property * -ExcludeProperty $AddItem
         $Config | ConvertTo-Json | Set-Content $ConfigFile
+        while ($q1 -le $AddCount) {
+            $AddItem = "AddItem-$q1"
+            $Fix1 = ($q1 + 1)
+            $AddFix = "AddItem-$Fix1"
+            $fixcheck = ($Config.$AddFix).Name
+            if (($fixcheck)) {
+                <# Read #>
+                $f1 = ($Config.$AddFix).Name
+                $f2 = ($Config.$AddFix).Command
+                $f3 = ($Config.$AddFix).Argument
+                $Fixer = @{ Name = "$f1"; Command = "$f2"; Argument = "$f3" }
+                <# Write #>
+                $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+                $Config | Add-Member -Type NoteProperty -Name $AddItem -Value $Fixer
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                <# Delete #>
+                $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
+                $Config = $Config | Select-Object -Property * -ExcludeProperty $AddFix
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            $q1++
+        }
         SpinItems
     }
     if ($pop -eq "107") {
