@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.5"
+    $FileVersion = "Version: 1.0.6"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -17,6 +17,7 @@ while (1) {
         Write-Error -Message "The Base configuration file is missing!"
     }
     [string]$Base = ($Config.basic.Base)
+    [string]$Editor = ($Config.basic.Editor)
     if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = $base + "\" }
     [int]$StartDelay = ($Config.basic.StartDelay)
     [int]$Delay = ($Config.basic.Delay)
@@ -103,10 +104,12 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m.......................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$DBug$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m......................$ESC[93mEditor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[36m......$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m...............$ESC[91mEdit the JSON$ESC[97m:$ESC[97m [$ESC[91mEdit Delay-StartUp.json Directly$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
     #[int]$a = 8
@@ -183,6 +186,20 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "105") {
+        $blah = "Please enter the Complete path and file name to your text editor"
+        $boop = "path-file for editor or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.Editor = $Fixer
+            $Config |ConvertTo-Json | Set-Content $ConfigFile
+        }
+    }
+    if ($pop -eq "106") {
+        $go = ("$base" + "Delay-StartUp.json")
+        Start-Process $Editor -ArgumentList $go -Verb RunAs
+        PrettyLine
+    }
+    if ($pop -eq "107") {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
@@ -192,44 +209,44 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "106") {
+    if ($pop -eq "108") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Write-Host "Enter the Number of AddItem to remove."
+        Write-Host "Enter the Number of RunItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
         if ($q1 -eq "") { $q1 = $qq }
-        $AddItem = "AddItem-$q1"
+        $RunItem = "RunItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-        $Config = $Config | Select-Object -Property * -ExcludeProperty $AddItem
+        $Config = $Config | Select-Object -Property * -ExcludeProperty $RunItem
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         while ($q1 -le $AddCount) {
-            $AddItem = "AddItem-$q1"
+            $RunItem = "RunItem-$q1"
             $Fix1 = ($q1 + 1)
-            $AddFix = "AddItem-$Fix1"
-            $fixcheck = ($Config.$AddFix).Name
+            $RunFix = "RunItem-$Fix1"
+            $fixcheck = ($Config.$RunFix).Name
             if (($fixcheck)) {
                 <# Read #>
-                $f1 = ($Config.$AddFix).Name
-                $f2 = ($Config.$AddFix).Command
-                $f3 = ($Config.$AddFix).Argument
+                $f1 = ($Config.$RunFix).Name
+                $f2 = ($Config.$RunFix).Command
+                $f3 = ($Config.$RunFix).Argument
                 $Fixer = @{ Name = "$f1"; Command = "$f2"; Argument = "$f3" }
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-                $Config | Add-Member -Type NoteProperty -Name $AddItem -Value $Fixer
+                $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
                 <# Delete #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
-                $Config = $Config | Select-Object -Property * -ExcludeProperty $AddFix
+                $Config = $Config | Select-Object -Property * -ExcludeProperty $RunFix
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             $q1++
         }
         SpinItems
     }
-    if ($pop -eq "107") {
+    if ($pop -eq "109") {
         PrettyLine
         Write-Host "Enter the Number of RunItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))

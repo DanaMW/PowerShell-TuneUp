@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.5"
+    $FileVersion = "Version: 1.0.6"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -125,7 +125,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m............$ESC[93mBuffer Height$ESC[97m:$ESC[97m [$ESC[92m$BuffHeight$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m..........$ESC[93mUse Add Entries$ESC[97m:$ESC[97m [$ESC[92m$MenuAdds$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[96mNumber of Program Adds in JSON$ESC[97m: $ESC[97m[$ESC[96m" $AddCount "$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini Directly$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m117$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
