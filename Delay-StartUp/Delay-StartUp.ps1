@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 22, 2018
+        Last Modified Date: October 02, 2018
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.0"
+$FileVersion = "Version: 1.0.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -49,9 +49,7 @@ Function SpinItems {
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
         else { $si = 20 }
     }
-    $Script:AddCount
 }
-$tt = SpinItems
 Function DBFiles {
     Write-Host "Config: " $Config
     Write-Host "ConfigFile: " $ConfigFile
@@ -61,14 +59,16 @@ Function DBFiles {
     Write-Host "Base: " $Base
     Write-Host "AddCount: " $AddCount
     Write-Host "DBug: " $DBug
-    Write-Host "Example: " ($Config.RunItems[0].name)
-    Write-Host "Example: " ($Config.RunItems[0].runpath)
-    Write-Host "Example: " ($Config.RunItems[0].Argument)
-    Write-Host "Example: " ($Config.RunItems[0].HostOnly)
+    $RunItem = "RunItem-1"
+    Write-Host "Example: " ($Config.$RunItem).name
+    Write-Host "Example: " ($Config.$RunItem).runpath
+    Write-Host "Example: " ($Config.$RunItem).Argument
+    Write-Host "Example: " ($Config.$RunItem).HostOnly
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
 if ($Prevent -eq "$True") {
+    Clear-Host
     Write-Host ""
     Write-Host "The script setting PREVENT is set to $Prevent."
     Write-Host "This indicates we need to exit."
@@ -78,31 +78,31 @@ if ($Prevent -eq "$True") {
     break
 }
 if ($StartDelay -ne "0") {
-    [Console]::SetCursorPosition(0, 8); & Write-Output "                                                   "
-    [Console]::SetCursorPosition(0, 6); & Write-OutPut "You have StartDelay Set."
-    [Console]::SetCursorPosition(0, 7); & Write-Output "Holding startup for" $StartDelay
+    Clear-Host
+    [Console]::SetCursorPosition(0, 1); & Write-OutPut "You have StartDelay Set."
+    [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
     [int]$c = $StartDelay
     while ($c -gt 0) {
-        [Console]::SetCursorPosition(0, 8); & Write-Output "                                               "
-        [Console]::SetCursorPosition(0, 9); & Write-Output "                                               "
-        [Console]::SetCursorPosition(20, 7); & Write-Output "      "
-        [Console]::SetCursorPosition(20, 7); & Write-Output $c
+        #[Console]::SetCursorPosition(0, 3); & Write-Output "                                               "
+        #[Console]::SetCursorPosition(0, 4); & Write-Output "                                               "
+        [Console]::SetCursorPosition(20, 2); & Write-Output "      "
+        [Console]::SetCursorPosition(20, 2); & Write-Output $c
         Start-Sleep -s 1
         $c = ($c - 1)
-        [Console]::SetCursorPosition(0, 8); & Write-Output "                                               "
+        [Console]::SetCursorPosition(0, 5); & Write-Output "                                               "
     }
 }
-[Console]::SetCursorPosition(20, 7); & Write-Output "      "
-[Console]::SetCursorPosition(20, 7); & Write-Output "Done!"
-[Console]::SetCursorPosition(0, 8); & Write-Output ""
-[Console]::SetCursorPosition(0, 10); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 11); & Write-Output "|-<Running Delay-Startup Launcher>-|"
-[Console]::SetCursorPosition(0, 12); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 13)
+[Console]::SetCursorPosition(20, 2); & Write-Output "      "
+[Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
+#[Console]::SetCursorPosition(0, 6); & Write-Output ""
+[Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
+[Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
+[Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"
+#[Console]::SetCursorPosition(0, 9)
 [int]$c = 1
 [int]$a = 1
 $tt = SpinItems
-[Console]::SetCursorPosition(0, 13)
+[Console]::SetCursorPosition(0, 6)
 while ($c -lt $AddCount) {
     $RunItem = "RunItem-$c"
     $Runname = ($Config.$RunItem).name
@@ -112,17 +112,17 @@ while ($c -lt $AddCount) {
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
-        if ($c -ne 0) { Start-Sleep -s $Delay }
-        & Write-Output " [$a] Starting $RunName"
+        & Write-Output " [$a] Starting $RunName [$RunHost]"
         & Set-Location $RunSplit
         if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg }
         else { & Start-Process -FilePath $RunPath }
         & Set-Location $Base
+        if ($c -ne 0) { Start-Sleep -s $Delay }
         $a++
     }
     $c++
 }
 if ($tt -ne "") { $tt = "" }
-Write-Host "All Programs Loaded, Exiting"
-Start-Sleep -s $Delay
+Write-Host "All Programs Loaded, Exiting."
+Start-Sleep -s 3
 Exit

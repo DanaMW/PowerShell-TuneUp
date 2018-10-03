@@ -48,12 +48,13 @@ Updated: To only use Get-CimInstance.
 ```
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
-# Set-ConWin
+# Fix-Window (Formally Set-ConWin)
 ```
 My script paste-in that allows the console buffer and window to
 be resized. I tried 3 or 4 from others and they didnt work so I
 put this together and use it because it simply works.
 (Going to turn it into a Function soon)
+UpDate: Moved it closer to a function, Working well.
 ```
 # Discord Stuff
 ```

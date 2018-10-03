@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.0"
+$FileVersion = "Version: 1.0.3"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -45,9 +45,9 @@ Function SpinItems {
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
         else { $si = 20 }
     }
-    $Script:AddCount
+    #$Script:AddCount
 }
-SpinItems
+$tt = SpinItems
 [string]$Base = ($Config.basic.Base)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
@@ -591,10 +591,12 @@ Do {
         Default {
             FixLine
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
-            Start-Sleep -milliseconds 1500
+            Start-Sleep -Milliseconds 400
             FixLine
+            FlexWindow
         }
     } #switch
+
 } While ($True)
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $true) { Remove-Item –path $Filetmp }

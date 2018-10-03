@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.6"
+    $FileVersion = "Version: 1.0.8"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -129,6 +129,8 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m117$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m118$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m119$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$i = 1
     [int]$w = 1
     if ($MenuAdds -eq "$True") {
@@ -392,6 +394,31 @@ while (1) {
         }
         PrettyLine
     }
-    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "C:\bin\BinSM.ps1"; return }
+    if ($pop -eq "118") {
+        PrettyLine
+        Write-Host "I am working on the verify as you read this, wont be long."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+    }
+    if ($pop -eq "119") {
+        PrettyLine
+        Write-Host "Enter the Number of AddItem to Execute."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+        if (($q1)) {
+            $AddItem = "AddItem-$q1"
+            $TestRun1 = ($Config.$AddItem).Name
+            $TestRun2 = ($Config.$AddItem).Command
+            $TestRun3 = ($Config.$AddItem).Argument
+            Write-Host "Test Running Entry $q1 $TestRun1"
+            if ($TestRun3 -ne "") { Start-Process -FilePath $TestRun2 -ArgumentList $TestRun3 }
+            else { Start-Process -FilePath $TestRun2 }
+        }
+    }
+    PrettyLine
+    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1"; return }
     if ($pop -eq "Q") { return }
+    PrettyLine
 }

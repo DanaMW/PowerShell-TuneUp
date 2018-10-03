@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.6"
+    $FileVersion = "Version: 1.0.8"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -49,6 +49,16 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
+    $pshost = get-host
+    $pswindow = $pshost.ui.rawui
+    $newsize = $pswindow.buffersize
+    $newsize.height = 37
+    $newsize.width = 90
+    $pswindow.buffersize = $newsize
+    $newsize = $pswindow.windowsize
+    $newsize.height = 37
+    $newsize.width = 90
+    $pswindow.windowsize = $newsize
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Write-Host -NoNewLine "                                                             "
         [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
@@ -92,7 +102,7 @@ while (1) {
         $Fight4
     }
     Clear-Host
-    SpinItems
+    $tt = SpinItems
     [int]$l = 0
     [int]$w = 0
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
@@ -110,6 +120,8 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m................$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
     #[int]$a = 8
@@ -118,8 +130,8 @@ while (1) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[94m$it2$ESC[97m]$ESC[40m" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[94m$it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[96m$it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[96m$it2$ESC[97m]$ESC[40m" ; $l++ }
         $i++
         $a++
     }
@@ -285,9 +297,34 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
         }
+    }
+    if ($pop -eq "110") {
+        PrettyLine
+        Write-Host "I am working on the verify as you read this, wont be long."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
     }
-    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "C:\bin\DelaySM.ps1"; return }
+    if ($pop -eq "111") {
+        PrettyLine
+        Write-Host "Enter the Number of RunItem to Execute."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+        if (($q1)) {
+            $RunItem = "RunItem-$q1"
+            $TestRun1 = ($Config.$RunItem).Name
+            $TestRun2 = ($Config.$RunItem).HostOnly
+            $TestRun3 = ($Config.$RunItem).RunPath
+            $TestRun4 = ($Config.$RunItem).Argument
+            Write-Host "Test Running Entry $q1 $TestRun1"
+            if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
+            else { Start-Process -FilePath $TestRun3 }
+        }
+    }
+    <#"$PSScriptRoot\DelaySM.ps1"#>
+    PrettyLine
+    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList $MyInvocation.ScriptName; return }
     if ($pop -eq "Q") { return }
     PrettyLine
 }

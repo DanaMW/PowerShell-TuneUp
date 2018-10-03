@@ -41,5 +41,9 @@ Update: All working now except for the delete button, 115 of the Settings manage
 Update: Delete 115 now works as properly as I can get it. :)
 Update: Shrunk up that way too big top of the menu.
 UpDate: Finalized the json style completed all scripts Version 1 released.
+Update: I improved the BinMenu Settings manager by cleaning up console window
+    positioning as it runs. Added more options, mainly Verify and Test run.
+    Verify will end up being something that runs auto every time you edit or add.
+    Also added window fix routines when you hit enter in BinMneu similar to the Manager.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
