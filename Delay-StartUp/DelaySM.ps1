@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.8"
+    $FileVersion = "Version: 1.0.9"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -102,7 +102,7 @@ while (1) {
         $Fight4
     }
     Clear-Host
-    $tt = SpinItems
+    SpinItems
     [int]$l = 0
     [int]$w = 0
     [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
@@ -317,14 +317,26 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
-            Write-Host "Test Running Entry $q1 $TestRun1"
-            if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
-            else { Start-Process -FilePath $TestRun3 }
+            if ($TestRun2 -ne $env:USERDOMAIN) {
+                Write-Host "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
+                [Console]::SetCursorPosition($w, ($pp + 1))
+                $fool = Read-Host -Prompt "Y to continue this foolishness or [Enter to Cancel]"
+                PrettyLine
+                if ($Fool -eq "Y") {
+                    Write-Host "Test Running Entry $q1 $TestRun1"
+                    if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
+                    else { Start-Process -FilePath $TestRun3 }
+                }
+            }
+            else {
+                Write-Host "Test Running Entry $q1 $TestRun1"
+                if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
+                else { Start-Process -FilePath $TestRun3 }
+            }
         }
     }
-    <#"$PSScriptRoot\DelaySM.ps1"#>
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList $MyInvocation.ScriptName; return }
+    if ($pop -eq "X") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1"; return }
     if ($pop -eq "Q") { return }
     PrettyLine
 }
