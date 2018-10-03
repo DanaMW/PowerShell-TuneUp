@@ -12,7 +12,14 @@ Note: In some of the scripts here I use console window resizing code. If you get
 # BinMenu
 ```
 Bin Menu is a simple console based menu that reads in what exe's are in the sub-folders and which
-*PS1's are in it and lists them on a menu for you.
+*PS1's are in it and lists them on a menu for you. Comes with a Settings Manager script thats deals
+the BinMenu.json settings and Adds. The script list can be sorted using the settings as follows: VERT or HORZ
+then Alpha, by name length or randomly. You can set how many name to list in each row. And you can add additional
+lines to the bottom of the list to help make it look better. Then you can add your own entries to the end of the
+program menu list if you want up to 100. There is also a toggle to show the scripts or not, and a toggle to show
+the add entries or not. it has some personal debug stuff in it that has a toggle. Edit the json put the in your
+folder and run it. It will automaticly run you through creating the INI it uses to store the Program Menu
+file list in. Have fun I did. And it works i use it EVERY day.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
 
