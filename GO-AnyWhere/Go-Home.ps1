@@ -1,0 +1,7 @@
+$FileVersion = "Version 0.0.5"
+Write-Host "Go $FileVersion Setting your location to Home"
+Write-Host "#====================#"
+Write-Host "|---<Welcome Home>---|"
+Write-Host "#====================#"
+Set-Location "C:\"
+Set-Location "C:\Users\Dana"

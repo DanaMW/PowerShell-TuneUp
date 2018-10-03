@@ -69,5 +69,18 @@ or end of the line to go directly to those search pages.
 # Remove-Empty
 ```
 Remove-Empty is a simple little script that removes all empty Lines
-in a given text file. Feed it a file and all the blank lines are remmoved.
+in a given text file. Feed it a file and all the blank lines are removed.
+```
+## Get-Files
+```
+(It is in the GO anywhere directory)
+Just a simple little routine to get a directory listing in color and single file.
+```
+## The [[[GO]-]Anywhere] Group
+```
+This little group of scripts is my way for getting around in the console. You can
+enter folder names as follows: GO-FOLDER or GO FOLDER and if it is a repo folder
+you can add the third parameter GO-MAINREPO REPONAME or GO MAINREPO REPONAME.
+then because I wanted to stick with this simple short setup you can also use it
+just like Set-Location. GO .. or GO D:\Downloads or GO ROOT D or GO "\\MACHINENAME\SHAREDFOLDER"
 ```
