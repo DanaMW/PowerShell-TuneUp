@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.9"
+    $FileVersion = "Version: 1.0.11"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -300,10 +300,29 @@ while (1) {
     }
     if ($pop -eq "110") {
         PrettyLine
-        Write-Host "I am working on the verify as you read this, wont be long."
+        Write-Host "Enter the Number of RunItem to Verify."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
+        if (($q1)) {
+            $RunItem = "RunItem-$q1"
+            $GoodToGo = "ERROR"
+            $TestRun1 = ($Config.$RunItem).Name
+            $TestRun2 = ($Config.$RunItem).HostOnly
+            $TestRun3 = ($Config.$RunItem).RunPath
+            #$TestRun4 = ($Config.$RunItem).Argument
+            if (($TestRun1)) { $GTG1 = "YES" }
+            else { $GTG1 = "NO" }
+            if (($TestRun2)) { $GTG2 = "YES" }
+            else { $GTG2 = "NO" }
+            if (($TestRun3)) {
+                $Filetest = Test-Path -path $TestRun3
+                if ($Filetest -eq $true) { $GTG3 = "YES" }
+                else { $GTG3 = "NO" }
+            }
+            if ($GTG1 -eq "YES" -and $GTG2 -eq "YES" -and $GTG3 -eq "YES") { $GoodToGo = "Verified" }
+            Read-Host -Prompt "$GoodToGo [Enter to Continue]"
+        }
     }
     if ($pop -eq "111") {
         PrettyLine
