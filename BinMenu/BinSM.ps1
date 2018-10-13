@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.9"
+    $FileVersion = "Version: 1.0.15"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -43,15 +43,17 @@ while (1) {
     [int]$BuffWidth = ($Config.basic.BuffWidth)
     [int]$WinHeight = ($Config.basic.WinHeight)
     [int]$WinWidth = ($Config.basic.WinWidth)
+    if (!($BWheight)) { $BWheight = 44 }
+    if (!($BWwidth)) { $BWwidth = 90 }
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
-    $newsize.height = 44
-    $newsize.width = 90
+    $newsize.height = $BWHeight
+    $newsize.width = $BWWidth
     $pswindow.buffersize = $newsize
     $newsize = $pswindow.windowsize
-    $newsize.height = 44
-    $newsize.width = 90
+    $newsize.height = $BWheight
+    $newsize.width = $BWwidth
     $pswindow.windowsize = $newsize
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
@@ -145,6 +147,7 @@ while (1) {
     }
     [int]$pp = $l; [int]$w = 0
     [Console]::SetCursorPosition($w, $pp); Write-Host $NormalLine; $pp++
+    $BWheight = ($pp + 5)
     PrettyLine; [int]$u = ($pp - 2)
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Write-host -NoNewline $LeftLine; $v++ }
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 88
