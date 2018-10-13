@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.12"
+    $FileVersion = "Version: 1.0.15"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -49,15 +49,17 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
+    if (!($BWHeight)) { $BWHeight = "37" }
+    if (!($BWWidth)) { $BWWidth = "90" }
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
-    $newsize.height = 37
-    $newsize.width = 90
+    $newsize.height = $BWHeight
+    $newsize.width = $BWWidth
     $pswindow.buffersize = $newsize
     $newsize = $pswindow.windowsize
-    $newsize.height = 37
-    $newsize.width = 90
+    $newsize.height = $BWHeight
+    $newsize.width = $BWWidth
     $pswindow.windowsize = $newsize
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Write-Host -NoNewLine "                                                             "
@@ -139,6 +141,7 @@ while (1) {
     [int]$pp = $l
     [Console]::SetCursorPosition($w, $pp); Write-Host $NormalLine
     $pp++
+    $BWHeight = ($pp + 5)
     PrettyLine
     [int]$u = ($pp - 1)
     While ($v -le $u) {
@@ -243,9 +246,9 @@ while (1) {
                 <# Read #>
                 $f1 = ($Config.$RunFix).Name
                 $f2 = ($Config.$RunFix).HostOnly
-                $f3 = ($Config.$RunFix).Command
+                $f3 = ($Config.$RunFix).RunPath
                 $f4 = ($Config.$RunFix).Argument
-                $Fixer = @{ Name = "$f1"; HostOnly = "$f2"; Command = "$f3"; Argument = "$f4" }
+                $Fixer = @{ Argument = "$f4"; RunPath = "$f3"; HostOnly = "$f2"; Name = "$f1" }
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
@@ -294,7 +297,7 @@ while (1) {
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight4 -ne "") {
-                $Config.$RunItem.RunPath = $Fight4
+                $Config.$RunItem.Argument = $Fight4
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
         }
