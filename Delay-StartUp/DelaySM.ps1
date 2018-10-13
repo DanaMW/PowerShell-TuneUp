@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.11"
+    $FileVersion = "Version: 1.0.12"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -242,9 +242,10 @@ while (1) {
             if (($fixcheck)) {
                 <# Read #>
                 $f1 = ($Config.$RunFix).Name
-                $f2 = ($Config.$RunFix).Command
-                $f3 = ($Config.$RunFix).Argument
-                $Fixer = @{ Name = "$f1"; Command = "$f2"; Argument = "$f3" }
+                $f2 = ($Config.$RunFix).HostOnly
+                $f3 = ($Config.$RunFix).Command
+                $f4 = ($Config.$RunFix).Argument
+                $Fixer = @{ Name = "$f1"; HostOnly = "$f2"; Command = "$f3"; Argument = "$f4" }
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
