@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 22, 2018
+        Last Modified Date: October 16, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.3"
+$FileVersion = "Version: 1.0.6"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -47,7 +47,7 @@ Function SpinItems {
     }
     #$Script:AddCount
 }
-$tt = SpinItems
+SpinItems
 [string]$Base = ($Config.basic.Base)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
@@ -416,12 +416,16 @@ Function MyMaker {
         }
     }
     finally { $writer.close() }
+    Clear-Host
     Write-Host "Done Writing EXE files to the Menu ini."
     Write-Host ""
     $Filetest = Test-Path -path $FileTXT
     if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
+    Clear-Host
+    Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs
+    return
 }
 if ($NoINI) { [bool]$NoINI = $False; MyMaker }
 Function TheCommand {
@@ -473,7 +477,7 @@ Do {
                 if ($cmd -eq "clearlogs") { $OneShot = "YES" }
                 if ($cmd -eq "Do-Ghost") { $OneShot = "YES" }
                 if ($cmd -eq "Get-SysInfo") { $OneShot = "YES" }
-                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
+                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist -NoLogo -NoProfile $cmd -Verb RunAs; FixLine }
                 else {
                     $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
                     [string]$cmd = $cmd -replace ".ps1", ""
@@ -593,7 +597,7 @@ Do {
             Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -Milliseconds 400
             FixLine
-            FlexWindow
+            if ($WPosition -eq "$True") { FlexWindow }
         }
     } #switch
 
