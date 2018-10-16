@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.6"
+$FileVersion = "Version: 1.0.7"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -477,7 +477,7 @@ Do {
                 if ($cmd -eq "clearlogs") { $OneShot = "YES" }
                 if ($cmd -eq "Do-Ghost") { $OneShot = "YES" }
                 if ($cmd -eq "Get-SysInfo") { $OneShot = "YES" }
-                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist -NoLogo -NoProfile $cmd -Verb RunAs; FixLine }
+                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
                 else {
                     $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
                     [string]$cmd = $cmd -replace ".ps1", ""
