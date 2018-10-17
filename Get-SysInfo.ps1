@@ -1,13 +1,7 @@
 while (1) {
-    $FileVersion = "Version: 0.1.10"
+    $FileVersion = "Version: 0.1.15"
     $ESC = [char]27
-    $nline = "$ESC[31m#=====================================================================#$ESC[37m"
-    $dline = "$ESC[31m| $ESC[37m| $ESC[31m#=============================================================$ESC[31m# $ESC[37m| $ESC[31m|"
-    $fline = "$ESC[31m| $ESC[37m#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-# $ESC[31m| $ESC[37m"
-    $tline = "$ESC[31m| $ESC[37m#=-=-=-=-=-=-=-=-=-=-=-<$ESC[36m[$ESC[37mSystem Information$ESC[36m]$ESC[31m$ESC[37m>=-=-=-=-=-=-=-=-=-=-=#$ESC[31m |$ESC[37m"
-    $sline = "$ESC[31m| $ESC[37m| $ESC[31m|                                                             $ESC[31m| $ESC[37m|$ESC[31m |$ESC[37m"
     $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
-    <# #[Set-ConWin]#[Window Resizer]# #>
     <#
     [int]$BufHeight = "50"
     [int]$BufWidth = "72"
@@ -125,20 +119,12 @@ while (1) {
     $inf18 = "$tt" + "OS$ESC[31m][$ESC[37mVersion$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.Version)
     $inf19 = "$tt" + "User logged$ESC[31m]$ESC[37m: $ESC[36m" + ($computerSystem.UserName)
     $inf20 = "$tt" + "Last Reboot$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.LastBootUpTime)
-    Write-Host $nline
-    $tline
-    $dline
-    $i = 0
     $Spin = 20
     if (($netTotal)) { $Spin = ($Spin + $NetTotal) }
-    while ($i -le $spin) { Write-Host $sline ; $i++ }
-    $dline
-    $fline
-    $nline
-    $l = 3
+    $l = 0
     $n = 00
     while ($l -lt 24) {
-        [Console]::SetCursorPosition(6, $l)
+        [Console]::SetCursorPosition(0, $l)
         $tmp = '$' + 'inf' + "$n"
         Write-Host -NoNewLine ($ExecutionContext.InvokeCommand.ExpandString($tmp))
         $n++
@@ -147,9 +133,10 @@ while (1) {
     $p = 1
     $c = 1
     $n = 00
+    $l = ($l - 3)
     if (($NetTotal)) { $spin = ($spin + $NetTotal) }
     while ($l -lt $Spin) {
-        [Console]::SetCursorPosition(6, $l)
+        [Console]::SetCursorPosition(0, $l)
         $tmp = '$' + 'Con' + "$p" + "$c"
         Write-Host -NoNewLine ($ExecutionContext.InvokeCommand.ExpandString($tmp))
         $c++
@@ -157,11 +144,10 @@ while (1) {
         $l++
         if ($c -eq 5) { $c = 1; $p++ }
     }
-    $ender = ($l - 1)
+    $ender = ($l - 6)
     [Console]::SetCursorPosition(0, 0)
-    Write-Host -NoNewLine $nline
     [Console]::SetCursorPosition(0, $ender)
-    $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT$ESC[31m]$ESC[37m"
+    $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT X to Reload$ESC[31m]$ESC[37m"
     if ($pop -eq "Q") { break }
     if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList "C:\bin\Get-Sysinfo.ps1"; return }
 
