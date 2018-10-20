@@ -6,7 +6,7 @@
   ],
   "InternalInfo": {
     "Project": "Delay-StartUp",
-    "Modified": "09/22/2018",
+    "Modified": "10/20/2018",
     "Author": "Dana Meli <danamw@gmail.com",
     "Support": "https://github.com/danamw/PowerShell-tuneup",
     "License": "MIT"
@@ -14,85 +14,95 @@
   "Basic": {
     "_Base": "[string] The starting folder that Delay-StartUp reads from.",
     "Base": "C:\\bin\\",
+    "_Editor": "[string] The Text Editor you would like to use.",
+    "Editor": "C:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "20",
+    "StartDelay": "10",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "10",
+    "Delay": "5",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": 0,
+    "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
+    "TestRun": 0,
     "_DBug": "[bool] My internal script checks",
     "DBug": 0
   },
   "RunItem-1": {
-    "Name": "FanSpeed",
-    "HostOnly": "Tinman",
-    "RunPath": "C:\\Program Files (x86)\\SpeedFan\\speedfan.exe",
-    "Argument": ""
+    "Name": "HardwareInfo 64",
+    "RunPath": "C:\\bin\\HWInfo\\HWiNFO64.exe",
+    "Argument": "",
+    "HostOnly": "ALL"
   },
   "RunItem-2": {
-    "Name": "uGet Download Manager",
-    "HostOnly": "ALL",
     "RunPath": "C:\\bin\\uget\\bin\\uget.exe",
-    "Argument": "--Quiet"
+    "Name": "uGet Download Manager",
+    "Argument": "--Quiet",
+    "HostOnly": "ALL"
   },
   "RunItem-3": {
-    "Name": "Redragon Gaming Mouse",
-    "HostOnly": "ALL",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
-    "Argument": ""
+    "Name": "Redragon Gaming Mouse",
+    "Argument": "",
+    "HostOnly": "Tinman"
   },
   "RunItem-4": {
-    "Name": "OneDrive",
-    "HostOnly": "ALL",
-    "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
-    "Argument": "/background"
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
+    "Name": "Redragon Gaming Mouse",
+    "Argument": "",
+    "HostOnly": "TorchLight"
   },
   "RunItem-5": {
-    "Name": "Console Emulater",
-    "HostOnly": "ALL",
-    "RunPath": "C:\\bin\\ConEmu\\ConEmu64.exe",
-    "Argument": "-Min"
+    "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+    "Name": "OneDrive",
+    "Argument": "/background",
+    "HostOnly": "ALL"
   },
   "RunItem-6": {
-    "Name": "Ditto",
-    "HostOnly": "ALL",
-    "RunPath": "C:\\bin\\Ditto\\Ditto.exe",
-    "Argument": ""
+    "RunPath": "C:\\bin\\ConEmu\\ConEmu64.exe",
+    "Name": "Console Emulater",
+    "Argument": "-Min",
+    "HostOnly": "TINMAN"
   },
   "RunItem-7": {
+    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
     "Name": "Sound Blaster Control Panel",
-    "HostOnly": "TINMAN",
-    "RunPath": "c:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
-    "Argument": ""
+    "Argument": "",
+    "HostOnly": "TINMAN"
   },
   "RunItem-8": {
-    "Name": "IDT PC Audio",
-    "HostOnly": "TORCHLIGHT",
     "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
-    "Argument": ""
+    "Name": "IDT PC Audio",
+    "Argument": "",
+    "HostOnly": "TORCHLIGHT"
   },
   "RunItem-9": {
+    "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
     "Name": "Beats64",
-    "HostOnly": "TORCHLIGHT",
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\beats64.exe",
-    "Argument": ""
+    "Argument": "",
+    "HostOnly": "TORCHLIGHT"
   },
   "RunItem-10": {
+    "RunPath": "C:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
-    "HostOnly": "ALL",
-    "RunPath": "C:\\Program Files\\Rainmeter\\Rainmeter.exe",
-    "Argument": ""
+    "Argument": "",
+    "HostOnly": "ALL"
   },
   "RunItem-11": {
-    "Name": "BinMenu",
-    "HostOnly": "ALL",
     "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Argument": "C:\\bin\\BinMenu.ps1"
+    "Name": "BinMenu",
+    "Argument": "C:\\bin\\BinMenu.ps1",
+    "HostOnly": "NONE"
   },
   "RunItem-12": {
-    "Name": "MineTest",
-    "HostOnly": "NONE",
     "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Argument": "C:\\bin\\MineTest.ps1"
+    "Name": "MineTest",
+    "Argument": "C:\\bin\\MineTest.ps1",
+    "HostOnly": "NONE"
+  },
+  "RunItem-13": {
+    "RunPath": "C:\\bin\\AdiIRC\\AdiIRC.exe",
+    "Name": "AdiIRC",
+    "Argument": "",
+    "HostOnly": "TinMan"
   }
 }

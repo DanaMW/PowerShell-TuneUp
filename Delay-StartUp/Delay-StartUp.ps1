@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: October 02, 2018
+        Last Modified Date: October 20, 2018
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.3"
+$FileVersion = "Version: 1.0.6"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -39,6 +39,7 @@ if (!($Config)) {
 [string]$Base = ($Config.basic.Base)
 if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = $base + "\" }
 [bool]$DBug = ($Config.basic.DBug)
+[bool]$TestRun = ($Config.basic.TestRun)
 Function SpinItems {
     $si = 1
     $Sc = 20
@@ -59,6 +60,7 @@ Function DBFiles {
     Write-Host "Base: " $Base
     Write-Host "AddCount: " $AddCount
     Write-Host "DBug: " $DBug
+    Write-Host "TestRun: " $TestRun
     $RunItem = "RunItem-1"
     Write-Host "Example: " ($Config.$RunItem).name
     Write-Host "Example: " ($Config.$RunItem).runpath
@@ -77,7 +79,7 @@ if ($Prevent -eq "$True") {
     Write-Host ""
     break
 }
-if ($StartDelay -ne "0") {
+if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
     Clear-Host
     [Console]::SetCursorPosition(0, 1); & Write-OutPut "You have StartDelay Set."
     [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
@@ -92,6 +94,7 @@ if ($StartDelay -ne "0") {
         [Console]::SetCursorPosition(0, 5); & Write-Output "                                               "
     }
 }
+if ($TestRun -eq "$True") { Clear-Host }
 [Console]::SetCursorPosition(20, 2); & Write-Output "      "
 [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 #[Console]::SetCursorPosition(0, 6); & Write-Output ""
@@ -112,10 +115,27 @@ while ($c -lt $AddCount) {
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
-        & Write-Output " [$a] Starting $RunName [$RunHost]"
+        & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
         & Set-Location $RunSplit
-        if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg }
-        else { & Start-Process -FilePath $RunPath }
+        if ($TestRun -eq "$True") {
+            $X = $host.ui.rawui.CursorPosition.X
+            $Y = $host.ui.rawui.CursorPosition.Y
+            if (($RunArg)) {
+                [Console]::SetCursorPosition(0, 0)
+                Write-Host "                                                                                                            "
+                Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg"
+            }
+            else {
+                [Console]::SetCursorPosition(0, 0)
+                Write-Host "                                                                                                            "
+                Write-Host -Message  "Start-Process -FilePath $RunPath"
+            }
+            [Console]::SetCursorPosition($X, $Y)
+        }
+        else {
+            if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg }
+            else { & Start-Process -FilePath $RunPath }
+        }
         & Set-Location $Base
         if ($c -ne 0) { Start-Sleep -s $Delay }
         $a++
