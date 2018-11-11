@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: October 16, 2018
+        Last Modified Date: November 11, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.7"
+$FileVersion = "Version: 1.0.10"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -400,15 +400,33 @@ Function MyMaker {
             $NameFix = $tmpname
             $NameFix = $NameFix.tolower()
             $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
-            $Decidep = "Add to BinMenu [" + $_.fullname + "][" + $NameFix + "(Y N)[Enter is No]"
+            <#
+            $ChkMatch = $_.fullname.split("\")[-2]
+            $ChkMatch = $ChkMatch + ".exe"
+            if ($ChkMatch -eq $NameFix) {
+                 #$NameFix = $NameFix.replace(".exe", "")
+                Write-Host "Adding to Menu: " $NameFix
+                $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
+                $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
+                [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
+                $Writer.WriteLine("[" + $i + "C]=" + $AddArg)
+                $i++
+                return
+            }
+            #>
+            $Decidep = "Add $NameFix ? (Y)es-(N)o-[Enter is No]"
+            Write-Host "["$_.fullname"]"
             $Decide = Read-Host -Prompt $Decidep
             if ($Decide -eq "Y") {
                 $NameFix = $NameFix.replace(".exe", "")
                 Write-Host "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
+                <#
                 [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
                 $Writer.WriteLine("[" + $i + "C]=" + $AddArg)
+                #>
+                $Writer.WriteLine("[" + $i + "C]=None")
                 $i++
                 return
             }
