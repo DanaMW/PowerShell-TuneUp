@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: November 11, 2018
+        Last Modified Date: November 12, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.10"
+$FileVersion = "Version: 1.0.12"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -86,11 +86,11 @@ Function Show {
 }
 Clear-Host
 if ($Base -eq "") { [string]$Base = (Split-Path -parent $PSCommandPath) }
-if ($base.substring(($base.length - 1)) -ne "\") { [string]$base = $base + "\" }
-[string]$Fileini = "$Base" + "BinMenu.ini"
+if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = $Base + "\" }
+[string]$FileINI = "$Base" + "BinMenu.ini"
 [String]$Filetmp = "$Base" + "BinTemp.del"
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
+if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 Set-Location $Base
 SpinItems
 Function DBFiles {
@@ -100,7 +100,7 @@ Function DBFiles {
     Write-Host "      Base: " $Base
     Write-Host "ScriptRead: " $ScriptRead
     Write-Host "  MenuAdds: " $MenuAdds
-    Write-Host "   Fileini: " $Fileini
+    Write-Host "   Fileini: " $FileINI
     Write-Host "   FileTmp: " $filetmp
     Write-Host "    Editor: " $Editor
     Write-Host "  AddCount: " $AddCount
@@ -122,16 +122,16 @@ Function DBFiles {
 }
 if ($DBug -eq "$True") { DBFiles }
 $ESC = [char]27
-$Filetest = Test-Path -path $Fileini
-if ($Filetest -ne $true) {
-    Write-Host "The File $Fileini is missing. We Can not continue without it."
+$Filetest = Test-Path -path $FileINI
+if ($Filetest -ne $True) {
+    Write-Host "The File $FileINI is missing. We Can not continue without it."
     Write-Host "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
     [bool]$NoINI = $True
     My-Maker
 }
 Clear-Host
-$ptemp = $base + "*.ps1"
+$ptemp = $Base + "*.ps1"
 [int]$PCount = (get-childitem -Path $ptemp).count
 [string]$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
@@ -140,7 +140,7 @@ $ptemp = $base + "*.ps1"
 [string]$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
 [string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
-[int]$lineCount = (Get-content $Fileini).count
+[int]$LineCount = (Get-content $FileINI).count
 if ($MenuAdds -eq "$True") {
     Write-Host "Adding MenuAdds Items"
     [int]$temp = ($LineCount / 3)
@@ -149,14 +149,14 @@ if ($MenuAdds -eq "$True") {
     while ($j -le $AddCount) {
         $AddItem = "AddItem-$j"
         $k = ($Config.$AddItem).name
-        $t = $(Select-String -Pattern $k $Fileini)
+        $t = $(Select-String -Pattern $k $FileINI)
         if ($null -eq $t) {
             $value1 = "[" + $temp2 + "A]=" + ($Config.$AddItem).name
-            (Add-Content $fileini $value1)
+            (Add-Content $FileINI $value1)
             $value2 = "[" + $temp2 + "B]=" + ($Config.$AddItem).command
-            (Add-Content $fileini $value2)
+            (Add-Content $FileINI $value2)
             $value3 = "[" + $temp2 + "C]=" + ($Config.$AddItem).argument
-            (Add-Content $fileini $value3)
+            (Add-Content $FileINI $value3)
             $Temp2++
         }
         $j++
@@ -168,22 +168,22 @@ if ($MenuAdds -ne "$False") {
     $wow = ($Config.$AddItem).name
     if (($wow)) {
         $name = "=" + ($Config.$AddItem).name
-        [int]$it = (Select-String -SimpleMatch $name $Fileini).linenumber
+        [int]$it = (Select-String -SimpleMatch $name $FileINI).linenumber
         if (($it)) {
             $it = ($it - 1)
             $q = 0
             While ($q -lt $it) {
-                $tr = (Get-Content $fileini)[$q]
+                $tr = (Get-Content $FileINI)[$q]
                 (Add-Content ./BinMenu.no $tr)
                 $q++
             }
-            Remove-Item $Fileini
-            Rename-Item -Path ./BinMenu.no -NewName $fileini
+            Remove-Item $FileINI
+            Rename-Item -Path ./BinMenu.no -NewName $FileINI
         }
     }
 }
 [int]$LineCount = 0
-[int]$lineCount = (Get-content $Fileini).count
+[int]$LineCount = (Get-content $FileINI).count
 $temp = ($LineCount / 3)
 $a = ($temp / 3)
 [int]$a = [int][Math]::Ceiling($a)
@@ -201,7 +201,7 @@ Function DBVariables {
     Write-Host "I $i"
     Write-Host "W $w"
     Write-Host "T $t"
-    Write-host "Linecount" $linecount
+    Write-host "Linecount" $LineCount
     Write-host "A" $a
     Write-host "Temp" $temp
     Write-host "B" $b
@@ -221,10 +221,10 @@ While ($i -le $a) { Write-Host $SpacerLine; $i++ }
 [int]$c = 0
 [int]$w = $col[0]
 [int]$i = 1
-[int]$work = ($linecount / 3)
+[int]$work = ($LineCount / 3)
 While ($i -le $work) {
     if ($i -le $work) {
-        $Line = (Get-Content $Fileini)[$c]
+        $Line = (Get-Content $FileINI)[$c]
         $moo = $line -split "="
         [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
     }
@@ -324,9 +324,9 @@ if ($scriptRead -eq "$True") {
     }
 }
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
+if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [int]$w = 0
-if ($ScriptRead -eq $true) {
+if ($ScriptRead -eq $True) {
     [Console]::SetCursorPosition(0, $pa); Write-Host $NormalLine
     $pa++
 }
@@ -374,13 +374,13 @@ Function Invoke-Menu {
 Function MyMaker {
     Clear-Host
     $Filetest = Test-Path -path $FileINI
-    if ($Filetest -eq $true) { Remove-Item –path $FileINI }
+    if ($Filetest -eq $True) { Remove-Item –path $FileINI }
     $FileTXT = ("$Base" + "BinMenu.txt")
     $Filetest = Test-Path -path $FileTXT
-    if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
+    if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
     $FileCSv = ("$Base" + "BinMenu.csv")
     $Filetest = Test-Path -path $FileCSV
-    if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
+    if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
     Write-host $fileVersion "Reading in directory" $Base
     Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
     @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
@@ -391,7 +391,7 @@ Function MyMaker {
     $writer = [System.IO.file]::CreateText($FileINI)
     [int]$i = 1
     try {
-        Import-Csv $Filecsv | Foreach-Object {
+        Import-Csv $FileCSV | Foreach-Object {
             $tmpname = [Regex]::Escape($_.fullname)
             if ($tmpname -match "git" -and $tmpname -ne "c:\\bin\\git\\bin\\bash\.exe") { return }
             if ($tmpname -match "wscc" -and $tmpname -ne "C:\\bin\\wscc\\wscc\.exe") { return }
@@ -424,9 +424,9 @@ Function MyMaker {
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
                 <#
                 [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
-                $Writer.WriteLine("[" + $i + "C]=" + $AddArg)
+                $Writer.WriteLine("[" + $i + "C]=None" + $AddArg)
                 #>
-                $Writer.WriteLine("[" + $i + "C]=None")
+                $Writer.WriteLine("[" + $i + "C]=")
                 $i++
                 return
             }
@@ -438,9 +438,9 @@ Function MyMaker {
     Write-Host "Done Writing EXE files to the Menu ini."
     Write-Host ""
     $Filetest = Test-Path -path $FileTXT
-    if ($Filetest -eq $true) { Remove-Item –path $FileTXT }
+    if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
     $Filetest = Test-Path -path $FileCSV
-    if ($Filetest -eq $true) { Remove-Item –path $FileCSV }
+    if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
     Clear-Host
     Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs
     return
@@ -452,14 +452,15 @@ Function TheCommand {
         Write-Error "Error In Sent Param " + $IntCom
         return
     }
-    [string]$moo = (Select-String -SimpleMatch $IntCom $Fileini)
+    [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI)
     $cow = $moo -split "="
-    if ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $true) { Invoke-Item $cow[1] }
+    if ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) { Invoke-Item $cow[1] }
     else {
-        [string]$car = (Select-String -SimpleMatch $Argue $Fileini)
+        [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
         $bus = $car -split "="
-        if ($bus[1] -ne "[No Argument]") { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs }
-        else { Start-Process $cow[1] -Verb RunAs }
+        $MakeMove = split-path $cow[1]
+        if ($bus[1] -ne "None") { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs -WorkingDirectory $MakeMove }
+        else { Start-Process $cow[1] -Verb RunAs -WorkingDirectory $MakeMove }
     }
 }
 Do {
@@ -621,4 +622,4 @@ Do {
 
 } While ($True)
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $true) { Remove-Item –path $Filetmp }
+if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
