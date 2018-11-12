@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: October 20, 2018
+        Last Modified Date: November 12, 2018
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.6"
+$FileVersion = "Version: 1.0.8"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -77,7 +77,7 @@ if ($Prevent -eq "$True") {
     Write-Host "Set PREVENT to 0 to allow this to run."
     Read-Host -Prompt "[Enter to Continue to exit]"
     Write-Host ""
-    break
+    Read-Host -Prompt "[Enter to exit StartUp-Delay]"
 }
 if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
     Clear-Host
@@ -93,15 +93,14 @@ if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
         $c = ($c - 1)
         [Console]::SetCursorPosition(0, 5); & Write-Output "                                               "
     }
+    [Console]::SetCursorPosition(20, 2); & Write-Output "      "
+    [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
-if ($TestRun -eq "$True") { Clear-Host }
-[Console]::SetCursorPosition(20, 2); & Write-Output "      "
-[Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
-#[Console]::SetCursorPosition(0, 6); & Write-Output ""
+if ($TestRun -eq "$True" -or $StartDelay -eq "0") { Clear-Host }
+if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "No delay set, begining StartUp-delay" }
 [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
+[Console]::SetCursorPosition(0, 4); & Write-Output "|- Running Delay-Startup Launcher -|"
 [Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"
-#[Console]::SetCursorPosition(0, 9)
 [int]$c = 1
 [int]$a = 1
 $tt = SpinItems
@@ -116,25 +115,23 @@ while ($c -lt $AddCount) {
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
         & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
-        & Set-Location $RunSplit
         if ($TestRun -eq "$True") {
             $X = $host.ui.rawui.CursorPosition.X
             $Y = $host.ui.rawui.CursorPosition.Y
             if (($RunArg)) {
-                [Console]::SetCursorPosition(0, 0)
-                Write-Host "                                                                                                            "
-                Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg"
+
+                [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
+                [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit"
             }
             else {
-                [Console]::SetCursorPosition(0, 0)
-                Write-Host "                                                                                                            "
-                Write-Host -Message  "Start-Process -FilePath $RunPath"
+                [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
+                [Console]::SetCursorPosition(0, 0); Write-Host -Message  "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
             }
             [Console]::SetCursorPosition($X, $Y)
         }
         else {
-            if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg }
-            else { & Start-Process -FilePath $RunPath }
+            if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit }
+            else { & Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit }
         }
         & Set-Location $Base
         if ($c -ne 0) { Start-Sleep -s $Delay }
