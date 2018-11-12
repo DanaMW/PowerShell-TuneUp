@@ -3,7 +3,7 @@
         Get-Files
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: October 03, 2018
+        Last Modified Date: November 12, 2018
 .DESCRIPTION
         This returns an output list of given files names in the given folder.
         The list is formatted and sorted.
@@ -13,8 +13,16 @@
         Still under development.
 #>
 param([string]$Folder)
-$FileVersion = "Version: 0.1.1"
+$FileVersion = "Version: 0.1.2"
 $ESC = [char]27
+if ($Folder -eq "DIR") {
+    $Folder = "."
+    Write-Host "Get-Files $FileVersion Listing $Folder"
+    Write-Host ""
+    Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {Write-Host $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]")}
+    Write-Host ""
+    return
+}
 if ($Folder -eq "") { $Folder = "." }
 Write-Host "Get-Files $FileVersion Listing $Folder"
 Write-Host ""

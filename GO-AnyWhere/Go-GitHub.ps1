@@ -1,10 +1,10 @@
-$FileVersion = "Version: 0.0.5"
+$FileVersion = "Version: 0.0.6"
 $WhereTo = $args
 $testpath = "D:\Development\GitHub\$Whereto"
 $GoodGo = Test-Path -path $testpath
 if ($goodgo -eq "$True") {
     Write-Host "Go $FileVersion Setting your location to Local $TestPath Repo"
-    Set-Location "D:\"
+    Set-Location $TestPath[0] + $TestPath[1] + $TestPath[2]
     Set-Location $testpath
 }
 else {

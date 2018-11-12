@@ -11,13 +11,15 @@ Else {
     Set-Location "D:\"
     Set-Location "D:\Development\GitHub\ConEmu"
     Write-Host ""
+    Write-Host "git fetch upstream"
+    Write-Host "git merge upstream/master"
+    Write-Host "git push origin"
+    <#
     Start-Sleep -s 5
-    Write-Host "git fetch upstream" -Verbose
     git fetch upstream
     Start-Sleep -s 5
-    Write-Host "git merge upstream/master" -Verbose
     git merge upstream/master
     Start-Sleep -s 5
-    Write-Host "git push origin" -Verbose
     git push origin
+    #>
 }
