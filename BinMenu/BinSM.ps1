@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.16"
+    $FileVersion = "Version: 1.0.20"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -43,18 +43,40 @@ while (1) {
     [int]$BuffWidth = ($Config.basic.BuffWidth)
     [int]$WinHeight = ($Config.basic.WinHeight)
     [int]$WinWidth = ($Config.basic.WinWidth)
-    if (!($BWheight)) { $BWheight = 44 }
-    if (!($BWwidth)) { $BWwidth = 90 }
-    $pshost = get-host
-    $pswindow = $pshost.ui.rawui
-    $newsize = $pswindow.buffersize
-    $newsize.height = $BWHeight
-    $newsize.width = $BWWidth
-    $pswindow.buffersize = $newsize
-    $newsize = $pswindow.windowsize
-    $newsize.height = $BWheight
-    $newsize.width = $BWwidth
-    $pswindow.windowsize = $newsize
+    if (!($ABuffHeight)) { $ABuffHeight = 44 }
+    if (!($ABuffWidth)) { $ABuffWidth = 90 }
+    if (!($AWinHeight)) { $AWinHeight = 44 }
+    if (!($AWinWidth)) { $AWinWidth = 90 }
+    #if (!($AMaxWinHeight)) { $AMaxWinHeight = 50 }
+    #if (!($AMaxWinWidth)) { $AMaxWinWidth = 150 }
+    #if (!($AMaxpWinHeight)) { $AMaxpWinHeight = 60 }
+    #if (!($AMaxpWinWidth)) { $AMaxpWinWidth = 160 }
+    Function FlexWindow {
+        $pshost = Get-Host
+        $pswindow = $pshost.ui.rawui
+        #
+        $newsize = $pswindow.buffersize
+        $newsize.height = $ABuffHeight
+        $newsize.width = $ABuffWidth
+        $pswindow.buffersize = $newsize
+        #
+        $newsize = $pswindow.windowsize
+        $newsize.height = $AWinHeight
+        $newsize.width = $AWinWidth
+        $pswindow.windowsize = $newsize
+        <#
+        $newsize = $pswindow.MaxWindowSize
+        $newsize.height = $AMaxWinHeight
+        $newsize.width = $AMaxWinWidth
+        $pswindow.MaxWindowSize = $newsize
+
+        $newsize = $pswindow.MaxPhysicalWindowSize
+        $newsize.height = $AMaxpWinHeight
+        $newsize.width = $AMaxpWinWidth
+        $pswindow.MaxPhysicalWindowSize = $newsize
+        #>
+    }
+    FlexWindow
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-$ESC[91m|$ESC[97m"
@@ -147,7 +169,8 @@ while (1) {
     }
     [int]$pp = $l; [int]$w = 0
     [Console]::SetCursorPosition($w, $pp); Write-Host $NormalLine; $pp++
-    $BWheight = ($pp + 5)
+    $ABuffHeight = ($pp + 4)
+    $AWinHeight = ($pp + 4)
     PrettyLine; [int]$u = ($pp - 2)
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Write-host -NoNewline $LeftLine; $v++ }
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 88
@@ -442,5 +465,6 @@ while (1) {
     PrettyLine
     if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1"; return }
     if ($pop -eq "Q") { return }
+    FlexWindow
     PrettyLine
 }

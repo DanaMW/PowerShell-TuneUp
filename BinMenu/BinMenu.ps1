@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
         BinMenu
         Created By: Dana Meli
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.12"
+$FileVersion = "Version: 1.0.20"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -63,18 +63,36 @@ if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
 [int]$WinHeight = [int]($Config.basic.WinHeight)
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
 [int]$BuffHeight = [int]($Config.basic.BuffHeight)
+#if (!($MaxWinHeight)) { $MaxWinHeight = "50" }
+#if (!($MaxWinWidth)) { $MaxWinWidth = "150" }
+#if (!($MaxpWinHeight)) { $MaxpWinHeight = "60" }
+#if (!($MaxpWinWidth)) { $MaxpWinWidth = "160" }
 Function FlexWindow {
     $pshost = get-host
     $pswindow = $pshost.ui.rawui
+    #
     $newsize = $pswindow.buffersize
     $newsize.height = [int]$BuffHeight
     $newsize.width = [int]$BuffWidth
     $pswindow.buffersize = $newsize
+    #
     $newsize = $pswindow.windowsize
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
     $pswindow.windowsize = $newsize
+    <#
+    $newsize = $pswindow.maxwindowsize
+    $newsize.height = [int]$MaxWinHeight
+    $newsize.width = [int]$MaxWinWidth
+    $pswindow.maxwindowsize = $newsize
+
+    $newsize = $pswindow.maxphysicalwindowsize
+    $newsize.height = [int]$MaxpWinHeight
+    $newsize.width = [int]$MaxpWinWidth
+    $pswindow.maxphysicalwindowsize = $newsize
+    #>
 }
+FlexWindow
 if ($WPosition -eq "$True") { FlexWindow }
 Function Stop {
     $Stop = Read-Host -Prompt "[Enter]"
@@ -138,7 +156,8 @@ $ptemp = $Base + "*.ps1"
 [string]$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
 [string]$ProgramLine = "$ESC[31m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [string]$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
-[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
+#[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
+[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
 [int]$LineCount = (Get-content $FileINI).count
 if ($MenuAdds -eq "$True") {
@@ -331,6 +350,8 @@ if ($ScriptRead -eq $True) {
     $pa++
 }
 $FixLine
+$BuffHeight = ($pa + 4)
+$WinHeight = ($pa + 4)
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -393,8 +414,8 @@ Function MyMaker {
     try {
         Import-Csv $FileCSV | Foreach-Object {
             $tmpname = [Regex]::Escape($_.fullname)
-            if ($tmpname -match "git" -and $tmpname -ne "c:\\bin\\git\\bin\\bash\.exe") { return }
-            if ($tmpname -match "wscc" -and $tmpname -ne "C:\\bin\\wscc\\wscc\.exe") { return }
+            if ($tmpname -match "git" -and $tmpname -ne "D:\\bin\\git\\bin\\bash\.exe") { return }
+            if ($tmpname -match "wscc" -and $tmpname -ne "D:\\bin\\wscc\\wscc\.exe") { return }
             $tmpname = $_.name -replace "\\", ""
             if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
             $NameFix = $tmpname

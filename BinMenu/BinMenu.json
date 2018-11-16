@@ -1,109 +1,114 @@
 {
-  "_Info": [
-    "This is the JSON based Configuration for BinMenu",
-    "AddItems Are your items not in the base that you",
-    "Want added to the menu for you every time."
-  ],
-  "InternalInfo": {
-    "Project": "BinMenu",
-    "Modified": "09/01/2018",
-    "Author": "Dana Meli <danamw@gmail.com",
-    "Support": "https://github.com/danamw/PowerShell-tuneup",
-    "License": "MIT"
-  },
-  "Basic": {
-    "_Base": "The starting folder that BinMenu reads from.",
-    "Base": "C:\\bin\\",
-    "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
-    "ScriptRead": false,
-    "_Editor": "Defines a text editor to use from BinMenu",
-    "Editor": "C:\\Bin\\NPP\\NotePad++.exe",
-    "_MenuAdds": "[bool] Determines if the menu adds are used or not",
-    "MenuAdds": 1,
-    "_SortMethod": "[int] How to sort Scripts. 0-Alphabetical 1-Random 2-Length",
-    "SortMethod": "0",
-    "_SortDir": "[String] Sort HORZ VERT",
-    "SortDir": "VERT",
-    "_SPLine": "[int] Many scripts to put to a line when set HORZ , Lower it to not over write",
-    "SpLine": 7,
-    "_ExtraLine": "[int] This will add extra lines tothe script sort if my math is fucked up.",
-    "ExtraLine": "0",
-    "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
-    "WPosition": 1,
-    "_BuffHeight": "How tall to make the Buffer.",
-    "BuffHeight": "33",
-    "_BuffWidth": "How wide to make the Buffer.",
-    "BuffWidth": "104",
-    "_WinHeight": "How tall to draw the window.",
-    "WinHeight": "33",
-    "_WinWidth": "How wide to draw the window.",
-    "WinWidth": "104",
-    "_DBug": "[bool] My Internal script debug information.",
-    "DBug": 0
-  },
-  "AddItem-1": {
-    "Name": "RegEdit",
-    "Command": "C:\\Windows\\Regedit.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-2": {
-    "Name": "Clean Manager",
-    "Command": "C:\\Windows\\System32\\cleanmgr.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-3": {
-    "Name": "Process Manager",
-    "Command": "C:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-4": {
-    "Name": "My Downloads",
-    "Command": "D:\\Downloads",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-5": {
-    "Name": "My Bin",
-    "Command": "C:\\bin\\tc\\TOTALCMD64.EXE",
-    "Argument": "C:\\bin"
-  },
-  "AddItem-6": {
-    "Name": "My Home",
-    "Command": "C:\\Users\\Dana",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-7": {
-    "Name": "Firefox Developers Edition",
-    "Command": "%PSXPath%pwsh.exe",
-    "Argument": "C:\\bin\\Get-Firefox.ps1"
-  },
-  "AddItem-8": {
-    "Name": "Virtual Box",
-    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-9": {
-    "Name": "Google Chrome",
-    "Command": "C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-10": {
-    "Name": "Control Panel",
-    "Command": "C:\\Windows\\System32\\control.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-11": {
-    "Name": "Skin Studio",
-    "Command": "C:\\Program Files(x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-12": {
-    "Name": "SpeedFan Monitor",
-    "Command": "C:\\Program Files (x86)\\SpeedFan\\speedfan.exe",
-    "Argument": "[No Argument]"
-  },
-  "AddItem-13": {
-    "Name": "My Scripts",
-    "Command": "D:\\MyScripts",
-    "Argument": "[No Argument]"
-  }
+    "_Info": [
+        "This is the JSON based Configuration for BinMenu",
+        "AddItems Are your items not in the base that you",
+        "Want added to the menu for you every time."
+    ],
+    "InternalInfo": {
+        "Project": "BinMenu",
+        "Modified": "09/01/2018",
+        "Author": "Dana Meli <danamw@gmail.com",
+        "Support": "https://github.com/danamw/PowerShell-tuneup",
+        "License": "MIT"
+    },
+    "Basic": {
+        "_Base": "The starting folder that BinMenu reads from.",
+        "Base": "D:\\bin\\",
+        "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
+        "ScriptRead": false,
+        "_Editor": "Defines a text editor to use from BinMenu",
+        "Editor": "D:\\bin\\NPP\\NotePad++.exe",
+        "_MenuAdds": "[bool] Determines if the menu adds are used or not",
+        "MenuAdds": 1,
+        "_SortMethod": "[int] How to sort Scripts. 0-Alphabetical 1-Random 2-Length",
+        "SortMethod": "0",
+        "_SortDir": "[String] Sort HORZ VERT",
+        "SortDir": "VERT",
+        "_SPLine": "[int] Many scripts to put to a line when set HORZ , Lower it to not over write",
+        "SpLine": "5",
+        "_ExtraLine": "[int] This will add extra lines tothe script sort if my math is fucked up.",
+        "ExtraLine": "2",
+        "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
+        "WPosition": 1,
+        "_BuffHeight": "How tall to make the Buffer.",
+        "BuffHeight": 30,
+        "_BuffWidth": "How wide to make the Buffer.",
+        "BuffWidth": "104",
+        "_WinHeight": "How tall to draw the window.",
+        "WinHeight": 30,
+        "_WinWidth": "How wide to draw the window.",
+        "WinWidth": "104",
+        "_DBug": "[bool] My Internal script debug information.",
+        "DBug": 0
+    },
+    "AddItem-1": {
+        "Name": "RegEdit",
+        "Command": "C:\\Windows\\Regedit.exe",
+        "Argument": "None"
+    },
+    "AddItem-2": {
+        "Name": "Clean Manager",
+        "Command": "C:\\Windows\\System32\\cleanmgr.exe",
+        "Argument": "None"
+    },
+    "AddItem-3": {
+        "Name": "Process Manager",
+        "Command": "D:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
+        "Argument": "None"
+    },
+    "AddItem-4": {
+        "Name": "My Downloads",
+        "Command": "D:\\Downloads",
+        "Argument": "None"
+    },
+    "AddItem-5": {
+        "Name": "My Bin",
+        "Command": "D:\\bin\\tc\\TOTALCMD64.EXE",
+        "Argument": "D:\\bin"
+    },
+    "AddItem-6": {
+        "Name": "My Home",
+        "Command": "C:\\Users\\Dana",
+        "Argument": "None"
+    },
+    "AddItem-7": {
+        "Name": "Firefox Developers Edition",
+        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+        "Argument": "D:\\bin\\Get-Firefox.ps1"
+    },
+    "AddItem-8": {
+        "Name": "Virtual Box",
+        "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+        "Argument": "None"
+    },
+    "AddItem-9": {
+        "Name": "Google Chrome",
+        "Command": "C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe",
+        "Argument": "None"
+    },
+    "AddItem-10": {
+        "Name": "Control Panel",
+        "Command": "C:\\Windows\\System32\\control.exe",
+        "Argument": "None"
+    },
+    "AddItem-11": {
+        "Name": "Stardock Skin Studio",
+        "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
+        "Argument": "None"
+    },
+    "AddItem-12": {
+        "Argument": "[No Argument]",
+        "Command": "D:\\MyScripts",
+        "Name": "My Scripts"
+    },
+    "AddItem-13": {
+        "Argument": "D:\\bin\\DelaySM.ps1",
+        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+        "Name": "Delay-StartUp SM"
+    },
+    "AddItem-14": {
+        "Name": "Event Viewer",
+        "Argument": "/s",
+        "Command": "C:\\Windows\\system32\\eventvwr.msc"
+    }
 }

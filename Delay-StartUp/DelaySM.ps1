@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.16"
+    $FileVersion = "Version: 1.0.18"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -134,8 +134,8 @@ while (1) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[96m$it2$ESC[97m]$ESC[40m" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m][$ESC[96m$it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Write-Host -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Write-Host -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
         $i++
         $a++
     }

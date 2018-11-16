@@ -8,15 +8,15 @@
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File C:\bin\Delay-StartUp.ps1
+        Command Line: pwsh.exe -File D:\bin\Delay-StartUp.ps1
 .EXAMPLE
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script in c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File C:\bin\Delay-StartUp.ps1
+        Command Line: pwsh.exe -File D:\bin\Delay-StartUp.ps1
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.8"
+$FileVersion = "Version: 1.0.10"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -105,7 +105,7 @@ if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "N
 [int]$a = 1
 $tt = SpinItems
 [Console]::SetCursorPosition(0, 6)
-while ($c -lt $AddCount) {
+while ($c -le $AddCount) {
     $RunItem = "RunItem-$c"
     $Runname = ($Config.$RunItem).name
     $RunHost = ($Config.$RunItem).hostonly
