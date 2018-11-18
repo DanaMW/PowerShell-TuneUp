@@ -10,7 +10,7 @@ Red   : 31 \[\033[31m\] Bold \[\033[1;31m\]
 White : 37 \[\033[37m\] Bold \[\033[1;37m\]
 Yellow: 33 \[\033[33m\] Bold \[\033[1;33m\]
 
-Here are the values for background colors: (No atribute aloud)
+Here are the values for background colors: (No attribute allowed)
 
 Black background : 40 \[\033[40m\]
 Blue background  : 44 \[\033[44m\]
