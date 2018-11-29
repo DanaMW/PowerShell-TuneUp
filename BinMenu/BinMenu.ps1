@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: November 12, 2018
+        Last Modified Date: November 29, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.20"
+$FileVersion = "Version: 1.0.22"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Write-Host (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -92,7 +92,6 @@ Function FlexWindow {
     $pswindow.maxphysicalwindowsize = $newsize
     #>
 }
-FlexWindow
 if ($WPosition -eq "$True") { FlexWindow }
 Function Stop {
     $Stop = Read-Host -Prompt "[Enter]"
@@ -151,13 +150,13 @@ if ($Filetest -ne $True) {
 Clear-Host
 $ptemp = $Base + "*.ps1"
 [int]$PCount = (get-childitem -Path $ptemp).count
-[string]$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
-[string]$FancyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
-[string]$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
-[string]$ProgramLine = "$ESC[31m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
-[string]$Menu1Line = "$ESC[31m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[31m======================================================================================#$ESC[97m"
-#[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[31m=====================================================================================#$ESC[97m"
-[string]$ScriptLine = "$ESC[31m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[31m=======================================================================================#$ESC[97m"
+[string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
+[string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
+[string]$SpacerLine = "$ESC[91m|                                                                                                     $ESC[91m|$ESC[97m"
+[string]$ProgramLine = "$ESC[91m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
+[string]$Menu1Line = "$ESC[91m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[91m======================================================================================#$ESC[97m"
+#[string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[91m=====================================================================================#$ESC[97m"
+[string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
 [int]$LineCount = (Get-content $FileINI).count
 if ($MenuAdds -eq "$True") {
@@ -245,7 +244,7 @@ While ($i -le $work) {
     if ($i -le $work) {
         $Line = (Get-Content $FileINI)[$c]
         $moo = $line -split "="
-        [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[96m" $moo[1]
+        [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
     }
     if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1]  }
     if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2]  }
@@ -256,7 +255,12 @@ While ($i -le $work) {
     $L++
 }
 [Console]::SetCursorPosition(0, $pa); Write-Host $Menu1Line; Write-Host $SpacerLine; Write-Host $SpacerLine; Write-Host $SpacerLine
-if ($ScriptRead -eq "$True") { Write-Host $ScriptLine }
+if ($ScriptRead -eq "$True") {
+    Write-Host $ScriptLine
+    $PCount = (Get-ChildItem -file D:\bin -Filter "*.ps1").count
+    [Console]::SetCursorPosition(15, ($pa + 4)); Write-host -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
+    [Console]::SetCursorPosition(0, ($pa + 5))
+}
 else { Write-Host $NormalLine }
 [int]$pa = ($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
@@ -268,7 +272,7 @@ $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShe
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     [string]$tmp = $d[$c]
-    Write-host -NoNewLine "$ESC[31m[$ESC[97m$tmp$ESC[31m]$ESC[95m" $f[$c]
+    Write-host -NoNewLine "$ESC[91m[$ESC[97m$tmp$ESC[91m]$ESC[95m" $f[$c]
     if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
     if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
     $l++
@@ -276,72 +280,41 @@ while ($c -le 8) {
 }
 [Console]::SetCursorPosition(0, $pa)
 if ($scriptRead -eq "$True") {
+    $MaxLine = 95
     $cmd1 = "$ESC[92m[$ESC[97m"
-    $cmd3 = "$ESC[92m]"
-    if ($SortMethod -eq 0) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
-    if ($SortMethod -eq 1) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Get-Random -Count "1000" | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
-    if ($SortMethod -eq 2) { Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object length | ForEach-Object { ($cmd1 + $_ + $cmd3) } |  Out-File $Filetmp }
+    $cmd2 = "$ESC[92m]"
+    Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
     [int]$roll = @(Get-Content -Path $Filetmp).Count
-    if ($ExtraLine -ne 0) { $roll = ($roll + $ExtraLine) }
-    [int]$tmp = [Math]::Ceiling(($roll / $SPLine))
+    $roll--
     [int]$w = 0
     [int]$l = $pa
     [int]$i = 1
-    if ($ExtraLine -gt 0) {
-        [int]$tmp = ($tmp + $ExtraLine)
-    }
     [Console]::SetCursorPosition($w, $l)
-    While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
-    [int]$pa = ($pa + $tmp)
+    #While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
     [int]$i = 0
     [int]$w = $col[0]
-    [int]$c = 0
-    [int]$t = 1
+    [int]$t = 0
+    $save = $pa
     [Console]::SetCursorPosition($w, $pa)
-    if ($SortDir -eq "HORZ") {
-        while ($i -lt $roll) {
-            while ($t -le $tmp) {
-                $t++
-                [int]$c = 1
-                $UserScripts = ""
-                while ($c -le $SPLine) {
-                    $LineR = [string](Get-Content $Filetmp)[$i]
-                    $i++
-                    $UserScripts = ($UserScripts + $LineR)
-                    $c++
-                }
-                [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[31m[$ESC[92mPS1$ESC[31m]$ESC[92m" $UserScripts
-                $l++
-            }
+    while ($i -lt $roll) {
+        $c = 0
+        $UserScripts = ""
+        while ($c -lt $MaxLine) {
+            $LineR = (Get-Content $Filetmp)[$i]
+            $c = ($c + $LineR.length)
+            $c = ($c - 15)
+            if ($c -le $MaxLine) { $UserScripts = $UserScripts + $LineR; $i++ }
+            else { $c = $MaxLine }
         }
+        [Console]::SetCursorPosition(0, $l); Write-Host -NoNewLine "$ESC[91m|"
+        [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[91m[$ESC[92mPS1$ESC[91m]$ESC[92m" $UserScripts
+        [Console]::SetCursorPosition(102, $l); Write-Host -NoNewLine "$ESC[91m|"
+        $l++
     }
-    if ($SortDir -eq "VERT") {
-        [int]$Vline = $tmp
-        [int]$tmp = ($roll / $tmp)
-        [int]$i = 0
-        [int]$w = $col[0]
-        [int]$c = 0
-        [int]$t = 1
-        [int]$d = 1
-        while ($i -lt $roll) {
-            while ($d -le $Vline) {
-                $d++
-                $LineV = [string](Get-Content $Filetmp)[$i]
-                [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine $LineV
-                $i++
-                $l++
-                if ($LineV.length -gt $c) { $c = $lineV.length }
-                if ($d -eq ($Vline + 1)) {
-                    if ($LineV.length -gt $c) { $c = $lineV.length }
-                    [int]$w = ($w + $c - 15)
-                    [int]$l = ($l - $Vline)
-                    if ($i -lt $roll) { [int]$d = 1 }
-                    $c = ""
-                }
-            }
-        }
-    }
+    $WinHeight = ($WinHeight + $t)
+    $BuffHeight = ($BuffHeight + $t)
 }
+$pa = $l
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [int]$w = 0
@@ -370,13 +343,13 @@ FixLine
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    [Console]::SetCursorPosition(78, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[31m"
+    [Console]::SetCursorPosition(78, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[91m"
     [Console]::SetCursorPosition(0, $pa)
 }
-[Console]::SetCursorPosition(10, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33m$FileVersion$ESC[36m]$ESC[31m"
+[Console]::SetCursorPosition(10, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33m$FileVersion$ESC[36m]$ESC[91m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
-$menu = "$ESC[31m[$ESC[97mMake A Selection$ESC[31m]$ESC[97m"
+$menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
 Function Invoke-Menu {
     [cmdletbinding()]
     Param(
@@ -489,10 +462,10 @@ Do {
     Switch (Invoke-Menu -menu $menu -clear) {
         "A" {
             FixLine
-            [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat EXE to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
-                $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                $cmd1 = Read-Host -Prompt "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
                 [string]$cmd = $cmd -replace ".ps1", ""
                 [string]$tcmd = ".exe"
                 [string]$cmd = "$cmd$tcmd"
@@ -509,7 +482,7 @@ Do {
         "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         "G" {
             FixLine
-            [string]$cmd = Read-Host -Prompt "$ESC[31m[$ESC[97mWhat script to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             if ($cmd -ne '') {
                 FixLine
                 $OneShot = "NO"
@@ -519,7 +492,7 @@ Do {
                 if ($cmd -eq "Get-SysInfo") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
                 else {
-                    $cmd1 = Read-Host -Prompt "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                    $cmd1 = Read-Host -Prompt "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
                     [string]$cmd = $cmd -replace ".ps1", ""
                     [string]$tcmd = ".ps1"
                     [string]$cmd = "$cmd$tcmd"
