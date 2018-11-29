@@ -318,10 +318,10 @@ $pa = $l
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [int]$w = 0
-if ($ScriptRead -eq $True) {
-    [Console]::SetCursorPosition(0, $pa); Write-Host $NormalLine
-    $pa++
-}
+#if ($ScriptRead -eq $True) {
+[Console]::SetCursorPosition(0, $pa); Write-Host $NormalLine
+$pa++
+#}
 $FixLine
 $BuffHeight = ($pa + 4)
 $WinHeight = ($pa + 4)
