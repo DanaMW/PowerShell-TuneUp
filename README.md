@@ -22,6 +22,7 @@ Feed it a filename of a image file and it feeds you back the base64 info ready t
 # Clearlogs
 ```
 This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Update: Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True Updated: It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now.
+Update: Added my own super simple progress bar that you can change the progress character. Updated to Version 2
 ```
 # Get-SysInfo
 ```
