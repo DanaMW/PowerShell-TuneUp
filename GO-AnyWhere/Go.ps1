@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.6"
+$FileVersion = "Version: 0.0.7"
 $Catch1 = $args[0]
 $Catch2 = $args[1]
 if (!($Catch1)) {

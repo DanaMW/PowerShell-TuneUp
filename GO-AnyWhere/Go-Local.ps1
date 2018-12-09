@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.6"
+$FileVersion = "Version: 0.0.7"
 $WhereTo = $args
 $testpath = "D:\Development\GitHub\$Whereto"
 $GoodGo = Test-Path -path $testpath

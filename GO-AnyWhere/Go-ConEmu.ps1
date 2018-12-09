@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.6"
+$FileVersion = "Version: 0.0.7"
 $MyArgs = $args
 Write-Host "Go $FileVersion Setting your location to ConEmu"
 Write-Host "You Have two (2) ComEnu Repos. One forked on Github ... Opening"
