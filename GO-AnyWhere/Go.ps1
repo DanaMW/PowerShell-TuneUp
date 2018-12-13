@@ -5,7 +5,7 @@ if (!($Catch1)) {
     Write-Host "GO $FileVersion"
     Write-Host "Pick One, try again. GO-PLACE or GO PLACE"
     Write-Host "With Repos Use GO-GITHUB REPO or GO LOCAL REPO"
-    Get-Files -Folder "D:\bin\Go-*"
+    Get-Files -Folder "$env:BASE\Go-*"
     Write-Host "Or try GO DIRECTORY Pickone below and just GO"
     Get-Files -Folder "dir"
     return
