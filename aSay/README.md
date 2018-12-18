@@ -5,4 +5,4 @@ I use it in my scripts to let me know when any event has happened I might want t
 The format is simple, without quote ASAY <any text you want to send to the notify>
 Snoretoast by: https://github.com/KDE/snoretoast
 ```
-![SnoreToast](/aSay/SnoreToast.png)
+<img src="/aSay/SnoreToast.png" alt="SnoreToast"/>
