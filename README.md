@@ -1,6 +1,6 @@
 # PowerShell-TuneUp
 ```
-Please note: I use this alias in all my scripts now to save typing:  Set-Alias say Write-Host
+Please note: I use the alias *Set-Alias say Write-Host* in ALL my scripts. Either add it or replace it with Write-Host
 PowerShell Scripts and snips for the learning curve. All are working in PowerShell Code 6.1.X unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. Note: In some of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and it wont error any more and in a perfect world will resize to the size of the script display. With the Settings managers you can hit enter a couple times to do just that.
 ```
 # BinMenu
