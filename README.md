@@ -1,5 +1,6 @@
 # PowerShell-TuneUp
 ```
+Please note: I use this alias in all my scripts now to save typing:  Set-Alias say Write-Host
 PowerShell Scripts and snips for the learning curve. All are working in PowerShell Code 6.1.X unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. Note: In some of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and it wont error any more and in a perfect world will resize to the size of the script display. With the Settings managers you can hit enter a couple times to do just that.
 ```
 # BinMenu
@@ -53,6 +54,7 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ## The [[[GO]-]Anywhere] Group
 ```
 This little group of scripts is my way for getting around in the console. You can enter folder names as follows: GO-FOLDER or GO FOLDER and if it is a repo folder you can add the third parameter GO-MAINREPO REPONAME or GO MAINREPO REPONAME. then because I wanted to stick with this simple short setup you can also use it just like Set-Location. GO .. or GO D:\Downloads or GO ROOT D or GO "\\MACHINENAME\SHAREDFOLDER"
+Updating new folders and system tricks every day.
 ```
 ## ASAY and NOTIFY
 ```
