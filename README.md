@@ -51,11 +51,6 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ```
 (It is in the GO anywhere directory) Just a simple little routine to get a directory listing in color and single file.
 ```
-## The [[[GO]-]Anywhere] Group
-```
-This little group of scripts is my way for getting around in the console. You can enter folder names as follows: GO-FOLDER or GO FOLDER and if it is a repo folder you can add the third parameter GO-MAINREPO REPONAME or GO MAINREPO REPONAME. then because I wanted to stick with this simple short setup you can also use it just like Set-Location. GO .. or GO D:\Downloads or GO ROOT D or GO "\\MACHINENAME\SHAREDFOLDER"
-Updating new folders and system tricks every day.
-```
 ## ASAY and NOTIFY
 ```
 ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened i might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
