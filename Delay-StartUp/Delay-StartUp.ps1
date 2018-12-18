@@ -52,31 +52,31 @@ Function SpinItems {
     }
 }
 Function DBFiles {
-    Write-Host "Config: " $Config
-    Write-Host "ConfigFile: " $ConfigFile
-    Write-Host "StartDelay: " $StartDelay
-    Write-Host "Delay: " $Delay
-    Write-Host "Prevent: " $Prevent
-    Write-Host "Base: " $Base
-    Write-Host "AddCount: " $AddCount
-    Write-Host "DBug: " $DBug
-    Write-Host "TestRun: " $TestRun
+    Say "Config: " $Config
+    Say "ConfigFile: " $ConfigFile
+    Say "StartDelay: " $StartDelay
+    Say "Delay: " $Delay
+    Say "Prevent: " $Prevent
+    Say "Base: " $Base
+    Say "AddCount: " $AddCount
+    Say "DBug: " $DBug
+    Say "TestRun: " $TestRun
     $RunItem = "RunItem-1"
-    Write-Host "Example: " ($Config.$RunItem).name
-    Write-Host "Example: " ($Config.$RunItem).runpath
-    Write-Host "Example: " ($Config.$RunItem).Argument
-    Write-Host "Example: " ($Config.$RunItem).HostOnly
+    Say "Example: " ($Config.$RunItem).name
+    Say "Example: " ($Config.$RunItem).runpath
+    Say "Example: " ($Config.$RunItem).Argument
+    Say "Example: " ($Config.$RunItem).HostOnly
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
 if ($Prevent -eq "$True") {
     Clear-Host
-    Write-Host ""
-    Write-Host "The script setting PREVENT is set to $Prevent."
-    Write-Host "This indicates we need to exit."
-    Write-Host "Set PREVENT to 0 to allow this to run."
+    Say ""
+    Say "The script setting PREVENT is set to $Prevent."
+    Say "This indicates we need to exit."
+    Say "Set PREVENT to 0 to allow this to run."
     Read-Host -Prompt "[Enter to Continue to exit]"
-    Write-Host ""
+    Say ""
     Read-Host -Prompt "[Enter to exit StartUp-Delay]"
 }
 if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
@@ -120,12 +120,12 @@ while ($c -le $AddCount) {
             $Y = $host.ui.rawui.CursorPosition.Y
             if (($RunArg)) {
 
-                [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
-                [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit"
+                [Console]::SetCursorPosition(0, 0); Say "                                                                                                                                                                                                                                                    "
+                [Console]::SetCursorPosition(0, 0); Say "Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit"
             }
             else {
-                [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
-                [Console]::SetCursorPosition(0, 0); Write-Host -Message  "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
+                [Console]::SetCursorPosition(0, 0); Say "                                                                                                                                                                                                                                                    "
+                [Console]::SetCursorPosition(0, 0); Say -Message  "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
             }
             [Console]::SetCursorPosition($X, $Y)
         }
@@ -140,6 +140,6 @@ while ($c -le $AddCount) {
     $c++
 }
 if ($tt -ne "") { $tt = "" }
-Write-Host "All Programs Loaded, Exiting."
+Say "All Programs Loaded, Exiting."
 Start-Sleep -s 3
 Exit

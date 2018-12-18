@@ -27,7 +27,7 @@ if ($Profile -eq 1) {
     $Profs = $Profs -split " "
     $i = 0
     while ($i -lt $c) {
-        Write-Host "[$i]" $Profs[$i]
+        Say "[$i]" $Profs[$i]
         $i++
     }
     $Pop = Read-Host -Prompt "[Pick A Profile Number]"

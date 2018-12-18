@@ -1,18 +1,21 @@
-$FileVersion = "Version: 0.0.7"
-$WhereTo = $args
-$testpath = "D:\Development\GitHub\$Whereto"
-$GoodGo = Test-Path -path $testpath
-if ($goodgo -eq "$True") {
-    Write-Host "Go $FileVersion Setting your location to Local $TestPath Repo"
-    Set-Location $TestPath[0] + $TestPath[1] + $TestPath[2]
-    Set-Location $testpath
+$FileVersion = "Version: 0.1.0"
+if ($args) {
+    [string]$Catch = $args[0]
+    $Where = "go-$Catch"
+    $Where = $Where.trim()
+    $Where = "$env:BASE\$where.ps1"
+    $Filetest = Test-Path -path $where
+    if ($Filetest -eq $true) {
+        & $where
+        return
+    }
 }
 else {
-    Write-Host "Go $FileVersion Setting your location to Local Github Repo"
+    Say "Go $FileVersion Setting your location to Local Github Repo"
     Set-Location "D:\"
     Set-Location "D:\Development\GitHub\"
 }
-Write-Host "git fetch upstream"
-Write-Host "git merge upstream/master"
-Write-Host "git push origin"
-Write-Host ""
+Say "git fetch upstream"
+Say "git merge upstream/master"
+Say "git push origin"
+Say ""

@@ -31,7 +31,7 @@ while (1) {
     [string]$RightLine = "$ESC[31m|"
     Function FuckOff {
         PrettyLine
-        Write-Host $blah
+        Say $blah
         [Console]::SetCursorPosition($w, ($pp + 1))
         $Script:Fixer = Read-Host -Prompt $boop
         PrettyLine
@@ -63,39 +63,39 @@ while (1) {
     $newsize.width = $BWWidth
     $pswindow.windowsize = $newsize
     Function PrettyLine {
-        [Console]::SetCursorPosition($w, $pp); Write-Host -NoNewLine "                                                             "
-        [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 1)); Write-Host -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 2)); Write-Host -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 3)); Write-Host -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
+        [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                             "
+        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
+        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
+        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
+        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, $pp)
     }
     Function FightOn {
         PrettyLine
-        Write-Host $Rich1A
+        Say $Rich1A
         [Console]::SetCursorPosition($w, ($pp + 1))
-        Write-Host $rich1B
+        Say $rich1B
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight1 = Read-Host -Prompt $boop
         PrettyLine
-        Write-Host $Rich2A
+        Say $Rich2A
         [Console]::SetCursorPosition($w, ($pp + 1))
-        Write-Host $rich2B
+        Say $rich2B
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight2 = Read-Host -Prompt $boop
         PrettyLine
-        Write-Host $Rich3A
+        Say $Rich3A
         [Console]::SetCursorPosition($w, ($pp + 1))
-        Write-Host $rich3B
+        Say $rich3B
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight3 = Read-Host -Prompt $boop
         PrettyLine
-        Write-Host $Rich4A
+        Say $Rich4A
         [Console]::SetCursorPosition($w, ($pp + 1))
-        Write-Host $rich4B
+        Say $rich4B
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight4 = Read-Host -Prompt $boop
         PrettyLine
@@ -108,24 +108,24 @@ while (1) {
     SpinItems
     [int]$l = 0
     [int]$w = 0
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $TitleLine; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine $NormalLine; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $TitleLine; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m........$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$ESC[92m$StartDelay$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....$ESC[93mTest run shooting blanks$ESC[97m:$ESC[97m [$ESC[92m$TestRun$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m.......................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$DBug$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m......................$ESC[93mEditor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[36m......$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m...............$ESC[91mEdit the JSON$ESC[97m:$ESC[97m [$ESC[91mEdit Delay-StartUp.json Directly$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m................$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m........$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$ESC[92m$StartDelay$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....$ESC[93mTest run shooting blanks$ESC[97m:$ESC[97m [$ESC[92m$TestRun$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m.......................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$DBug$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m......................$ESC[93mEditor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36m......$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m...............$ESC[91mEdit the JSON$ESC[97m:$ESC[97m [$ESC[91mEdit Delay-StartUp.json Directly$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m................$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
     #[int]$a = 8
@@ -134,21 +134,21 @@ while (1) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Write-Host -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Write-Host -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Write-Host -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
         $i++
         $a++
     }
     $w = 0
     [int]$pp = $l
-    [Console]::SetCursorPosition($w, $pp); Write-Host $NormalLine
+    [Console]::SetCursorPosition($w, $pp); Say $NormalLine
     $pp++
     $BWHeight = ($pp + 5)
     PrettyLine
     [int]$u = ($pp - 1)
     While ($v -le $u) {
         [Console]::SetCursorPosition($w, $v)
-        Write-host -NoNewline $LeftLine
+        Say -NoNewline $LeftLine
         $v++
     }
     [int]$v = 3
@@ -156,7 +156,7 @@ while (1) {
     [int]$w = 88
     While ($v -le $u) {
         [Console]::SetCursorPosition($w, $v)
-        Write-host -NoNewline $RightLine; $v++
+        Say -NoNewline $RightLine; $v++
     }
     [int]$pp = ($l + 1)
     [int]$w = 0
@@ -236,7 +236,7 @@ while (1) {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Write-Host "Enter the Number of RunItem to remove."
+        Say "Enter the Number of RunItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
@@ -272,7 +272,7 @@ while (1) {
     }
     if ($pop -eq "110") {
         PrettyLine
-        Write-Host "Enter the Number of RunItem to Edit."
+        Say "Enter the Number of RunItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
@@ -312,7 +312,7 @@ while (1) {
     }
     if ($pop -eq "111") {
         PrettyLine
-        Write-Host "Enter the Number of RunItem to Verify."
+        Say "Enter the Number of RunItem to Verify."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
@@ -338,7 +338,7 @@ while (1) {
     }
     if ($pop -eq "112") {
         PrettyLine
-        Write-Host "Enter the Number of RunItem to Execute."
+        Say "Enter the Number of RunItem to Execute."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
@@ -349,18 +349,18 @@ while (1) {
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
             if ($TestRun2 -ne $env:USERDOMAIN) {
-                Write-Host "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
+                Say "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
                 [Console]::SetCursorPosition($w, ($pp + 1))
                 $fool = Read-Host -Prompt "Y to continue this foolishness or [Enter to Cancel]"
                 PrettyLine
                 if ($Fool -eq "Y") {
-                    Write-Host "Test Running Entry $q1 $TestRun1"
+                    Say "Test Running Entry $q1 $TestRun1"
                     if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
                     else { Start-Process -FilePath $TestRun3 }
                 }
             }
             else {
-                Write-Host "Test Running Entry $q1 $TestRun1"
+                Say "Test Running Entry $q1 $TestRun1"
                 if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
                 else { Start-Process -FilePath $TestRun3 }
             }

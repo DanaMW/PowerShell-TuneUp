@@ -1,14 +1,14 @@
-$FileVersion = "Version: 0.1.5"
+$FileVersion = "Version: 0.1.6"
 $host.ui.RawUI.WindowTitle = "Google $FileVersion"
 if (!($args)) {
-    Write-Host ""
-    Write-Host "Nothing entered to search for, your fired."
-    Write-Host "Waste of time complete."
-    Write-Host "Simply type the search line GOOGLE [<something to search>]"
-    Write-Host "-IMAGE -VIDEO -NEWS Can be added to the string."
-    Write-Host "As either the very FIRST param or the very LAST"
-    Write-Host "GOOGLE -IMAGE [<something to search>] or GOOGLE [<something to search>] -IMAGE"
-    Write-Host ""
+    Say ""
+    Say "Nothing entered to search for, your fired."
+    Say "Waste of time complete."
+    Say "Simply type the search line GOOGLE [<something to search>]"
+    Say "-IMAGE -VIDEO -NEWS Can be added to the string."
+    Say "As either the very FIRST param or the very LAST"
+    Say "GOOGLE -IMAGE [<something to search>] or GOOGLE [<something to search>] -IMAGE"
+    Say ""
     return
 }
 [string]$Search = $args
@@ -26,8 +26,8 @@ if ($Key2 -eq "-NEWS") { [string]$Wander = "NEWS" }
 [string]$Search = $Search -replace "-IMAGE", ""
 [string]$Search = $Search -replace "-VIDEO", ""
 [string]$Search = $Search -replace "-NEWS", ""
-Write-Host "Searching Catagory:" $Wander
-Write-Host "Search String:" $Search
+Say "Searching Category:" $Wander
+Say "Search String:" $Search
 [string]$Search = $Search.trim(" ")
 [string]$Search = ($Search -Replace "\s+", " ")
 [string]$Search = ($Search -replace ' ', '+')
@@ -55,16 +55,16 @@ if ($Wander -eq "ALL") {
     [string]$Query = "https://www.google.com/search?q=" + $Search
 }
 Function DBGoogle {
-    Write-Host "Args: " $args
-    Write-Host "Search: " $Search
-    Write-Host "Wander: " $Wander
-    Write-Host "Key1: " $Key1
-    Write-Host "Key2: " $Key2
-    Write-Host "Wander: " $Wander
-    Write-Host "FileVersion: " $FileVersion
-    Write-Host "Query: " $Query
+    Say "Args: " $args
+    Say "Search: " $Search
+    Say "Wander: " $Wander
+    Say "Key1: " $Key1
+    Say "Key2: " $Key2
+    Say "Wander: " $Wander
+    Say "FileVersion: " $FileVersion
+    Say "Query: " $Query
     $pop = Read-Host -Prompt "[Enter To Continue]"
-    if (!($pop)) { Write-Host "Error"}
+    if (!($pop)) { Say "Error"}
 }
 #DBGoogle
 if ($Query) { Start-Process $Query }

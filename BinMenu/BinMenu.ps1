@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: November 29, 2018
+        Last Modified Date: November 30, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,9 +13,9 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.22"
+$FileVersion = "Version: 1.0.24"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
-Write-Host (Split-Path -parent $PSCommandPath)
+Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -28,11 +28,11 @@ try {
     $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
 }
 catch {
-    Write-Host -Message "The Base configuration file is missing!"
+    Say -Message "The Base configuration file is missing!"
     break
 }
 if (!($Config)) {
-    Write-Host -Message "The Base configuration file is missing!"
+    Say -Message "The Base configuration file is missing!"
     break
 }
 Function SpinItems {
@@ -98,7 +98,7 @@ Function Stop {
     $Stop
 }
 Function Show {
-    $Show = Write-Host $Show
+    $Show = Say $Show
     $Show
 }
 Clear-Host
@@ -111,38 +111,38 @@ if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 Set-Location $Base
 SpinItems
 Function DBFiles {
-    Write-Host "Configfile: " $ConfigFile
-    Write-Host "    Config: " $config
-    Write-Host "FileVersio: " $FileVersion
-    Write-Host "      Base: " $Base
-    Write-Host "ScriptRead: " $ScriptRead
-    Write-Host "  MenuAdds: " $MenuAdds
-    Write-Host "   Fileini: " $FileINI
-    Write-Host "   FileTmp: " $filetmp
-    Write-Host "    Editor: " $Editor
-    Write-Host "  AddCount: " $AddCount
-    Write-Host "  WinWidth: " $WinWidth
-    Write-Host " WinHeight: " $WinHeight
-    Write-Host " BuffWidth: " $BuffWidth
-    Write-Host "BuffHeight: " $BuffHeight
-    Write-Host "SortMethod: " $SortMethod
-    Write-Host "    SPLine: " $SpLine
-    Write-Host "   SortDir: " $SortDir
-    Write-Host " ExtraLine: " $ExtraLine
-    Write-Host " WPosition: " $WPosition
-    Write-Host "      DBug: " $DBug
+    Say "Configfile: " $ConfigFile
+    Say "    Config: " $config
+    Say "FileVersio: " $FileVersion
+    Say "      Base: " $Base
+    Say "ScriptRead: " $ScriptRead
+    Say "  MenuAdds: " $MenuAdds
+    Say "   Fileini: " $FileINI
+    Say "   FileTmp: " $filetmp
+    Say "    Editor: " $Editor
+    Say "  AddCount: " $AddCount
+    Say "  WinWidth: " $WinWidth
+    Say " WinHeight: " $WinHeight
+    Say " BuffWidth: " $BuffWidth
+    Say "BuffHeight: " $BuffHeight
+    Say "SortMethod: " $SortMethod
+    Say "    SPLine: " $SpLine
+    Say "   SortDir: " $SortDir
+    Say " ExtraLine: " $ExtraLine
+    Say " WPosition: " $WPosition
+    Say "      DBug: " $DBug
     $AddItem = "AddItem-1"
-    Write-Host "   Example: " ($Config.$AddItem).name
-    Write-Host "   Example: " ($Config.$AddItem).command
-    Write-Host "   Example: " ($Config.$AddItem).argument
+    Say "   Example: " ($Config.$AddItem).name
+    Say "   Example: " ($Config.$AddItem).command
+    Say "   Example: " ($Config.$AddItem).argument
     Read-host -prompt "[Enter To Continue]"
 }
 if ($DBug -eq "$True") { DBFiles }
 $ESC = [char]27
 $Filetest = Test-Path -path $FileINI
 if ($Filetest -ne $True) {
-    Write-Host "The File $FileINI is missing. We Can not continue without it."
-    Write-Host "We are going to run the INI creator function now"
+    Say "The File $FileINI is missing. We Can not continue without it."
+    Say "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
     [bool]$NoINI = $True
     My-Maker
@@ -160,7 +160,7 @@ $ptemp = $Base + "*.ps1"
 [int]$LineCount = 0
 [int]$LineCount = (Get-content $FileINI).count
 if ($MenuAdds -eq "$True") {
-    Write-Host "Adding MenuAdds Items"
+    Say "Adding MenuAdds Items"
     [int]$temp = ($LineCount / 3)
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
@@ -181,7 +181,7 @@ if ($MenuAdds -eq "$True") {
     }
 }
 if ($MenuAdds -ne "$False") {
-    Write-Host "Removing MenuAdds Items"
+    Say "Removing MenuAdds Items"
     $AddItem = "AddItem-1"
     $wow = ($Config.$AddItem).name
     if (($wow)) {
@@ -212,29 +212,29 @@ $Row = @($a, $b, $c)
 $Col = @(1, 34, 69)
 [int]$pa = ($a + 3)
 Function DBVariables {
-    Write-Host "Vline $Vline"
-    Write-Host "L $l"
-    Write-Host "roll $roll"
-    Write-Host "tmp $tmp"
-    Write-Host "I $i"
-    Write-Host "W $w"
-    Write-Host "T $t"
-    Write-host "Linecount" $LineCount
-    Write-host "A" $a
-    Write-host "Temp" $temp
-    Write-host "B" $b
-    Write-host "C" $c
-    Write-host "Row" $row
-    Write-Host "PCount" $PCount
+    Say "Vline $Vline"
+    Say "L $l"
+    Say "roll $roll"
+    Say "tmp $tmp"
+    Say "I $i"
+    Say "W $w"
+    Say "T $t"
+    Say "Linecount" $LineCount
+    Say "A" $a
+    Say "Temp" $temp
+    Say "B" $b
+    Say "C" $c
+    Say "Row" $row
+    Say "PCount" $PCount
     Read-host -prompt "[Enter]"
 }
 if ($DBug -eq "$True") { DBVariables }
 Clear-Host
-Write-Host $NormalLine
-Write-Host $FancyLine
-Write-Host $ProgramLine
+Say $NormalLine
+Say $FancyLine
+Say $ProgramLine
 [int]$i = 1
-While ($i -le $a) { Write-Host $SpacerLine; $i++ }
+While ($i -le $a) { Say $SpacerLine; $i++ }
 [int]$l = 3
 [int]$c = 0
 [int]$w = $col[0]
@@ -244,7 +244,7 @@ While ($i -le $work) {
     if ($i -le $work) {
         $Line = (Get-Content $FileINI)[$c]
         $moo = $line -split "="
-        [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
+        [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
     }
     if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1]  }
     if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2]  }
@@ -254,14 +254,14 @@ While ($i -le $work) {
     $c++
     $L++
 }
-[Console]::SetCursorPosition(0, $pa); Write-Host $Menu1Line; Write-Host $SpacerLine; Write-Host $SpacerLine; Write-Host $SpacerLine
+[Console]::SetCursorPosition(0, $pa); Say $Menu1Line; Say $SpacerLine; Say $SpacerLine; Say $SpacerLine
 if ($ScriptRead -eq "$True") {
-    Write-Host $ScriptLine
+    Say $ScriptLine
     $PCount = (Get-ChildItem -file D:\bin -Filter "*.ps1").count
-    [Console]::SetCursorPosition(15, ($pa + 4)); Write-host -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
+    [Console]::SetCursorPosition(15, ($pa + 4)); Say -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
     [Console]::SetCursorPosition(0, ($pa + 5))
 }
-else { Write-Host $NormalLine }
+else { Say $NormalLine }
 [int]$pa = ($pa + 5)
 [Console]::SetCursorPosition(0, $pa)
 [int]$l = ($pa - 4)
@@ -272,7 +272,7 @@ $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShe
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     [string]$tmp = $d[$c]
-    Write-host -NoNewLine "$ESC[91m[$ESC[97m$tmp$ESC[91m]$ESC[95m" $f[$c]
+    Say -NoNewLine "$ESC[91m[$ESC[97m$tmp$ESC[91m]$ESC[95m" $f[$c]
     if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
     if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
     $l++
@@ -280,7 +280,6 @@ while ($c -le 8) {
 }
 [Console]::SetCursorPosition(0, $pa)
 if ($scriptRead -eq "$True") {
-    $MaxLine = 95
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd2 = "$ESC[92m]"
     Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
@@ -290,26 +289,26 @@ if ($scriptRead -eq "$True") {
     [int]$l = $pa
     [int]$i = 1
     [Console]::SetCursorPosition($w, $l)
-    #While ($i -le $tmp) { Write-Host $SpacerLine; $i++ }
     [int]$i = 0
     [int]$w = $col[0]
     [int]$t = 0
-    $save = $pa
+    $MaxLine = 95
+    $c = 0
     [Console]::SetCursorPosition($w, $pa)
     while ($i -lt $roll) {
-        $c = 0
-        $UserScripts = ""
+        $UserScripts = $null
         while ($c -lt $MaxLine) {
             $LineR = (Get-Content $Filetmp)[$i]
             $c = ($c + $LineR.length)
             $c = ($c - 15)
-            if ($c -le $MaxLine) { $UserScripts = $UserScripts + $LineR; $i++ }
+            if ($c -lt $MaxLine) { $UserScripts = $UserScripts + $LineR; $i++ }
             else { $c = $MaxLine }
+            if ($i -eq $roll) { $c = $MaxLine }
         }
-        [Console]::SetCursorPosition(0, $l); Write-Host -NoNewLine "$ESC[91m|"
-        [Console]::SetCursorPosition($w, $l); Write-host -NoNewLine "$ESC[91m[$ESC[92mPS1$ESC[91m]$ESC[92m" $UserScripts
-        [Console]::SetCursorPosition(102, $l); Write-Host -NoNewLine "$ESC[91m|"
-        $l++
+        [Console]::SetCursorPosition(0, $l); Say -NoNewLine "$ESC[91m|"
+        [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[92mPS1$ESC[91m]$ESC[92m" $UserScripts
+        [Console]::SetCursorPosition(102, $l); Say -NoNewLine "$ESC[91m|"
+        $l++; $t++; $c = 0
     }
     $WinHeight = ($WinHeight + $t)
     $BuffHeight = ($BuffHeight + $t)
@@ -319,7 +318,7 @@ $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [int]$w = 0
 #if ($ScriptRead -eq $True) {
-[Console]::SetCursorPosition(0, $pa); Write-Host $NormalLine
+[Console]::SetCursorPosition(0, $pa); Say $NormalLine
 $pa++
 #}
 $FixLine
@@ -330,23 +329,23 @@ function Test-Administrator {
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 Function FixLine {
-    Write-Host -NoNewLine "                                                                                                       "
-    [Console]::SetCursorPosition(0, $pa); Write-Host -NoNewLine "                                                                                                       "
-    [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
-    [Console]::SetCursorPosition(0, ($pa + 1)); Write-Host -NoNewLine "                                                                                                       "
-    [Console]::SetCursorPosition(0, 0); Write-Host -NoNewLine ""
-    [Console]::SetCursorPosition(0, ($pa + 2)); Write-Host -NoNewLine "                                                                                                       "
-    [Console]::SetCursorPosition(0, $pa); Write-Host -NoNewLine "                                                                                                       "
+    Say -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, $pa); Say -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition(0, ($pa + 1)); Say -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition(0, ($pa + 2)); Say -NoNewLine "                                                                                                       "
+    [Console]::SetCursorPosition(0, $pa); Say -NoNewLine "                                                                                                       "
     [Console]::SetCursorPosition(0, $pa)
 }
 FixLine
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    [Console]::SetCursorPosition(78, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[91m"
+    [Console]::SetCursorPosition(78, 1); Say -NoNewLine "$ESC[96m[$ESC[33mAdministrator$ESC[96m]$ESC[91m"
     [Console]::SetCursorPosition(0, $pa)
 }
-[Console]::SetCursorPosition(10, 1); Write-host -NoNewLine "$ESC[96m[$ESC[33m$FileVersion$ESC[36m]$ESC[91m"
+[Console]::SetCursorPosition(10, 1); Say -NoNewLine "$ESC[96m[$ESC[33m$FileVersion$ESC[36m]$ESC[91m"
 [Console]::SetCursorPosition(0, $pa)
 Fixline
 $menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
@@ -375,12 +374,12 @@ Function MyMaker {
     $FileCSv = ("$Base" + "BinMenu.csv")
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
-    Write-host $fileVersion "Reading in directory" $Base
+    Say $fileVersion "Reading in directory" $Base
     Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
     @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
     Name,
     FullName ` | Export-Csv -path $FileTXT -NoTypeInformation
-    Write-host "Writing raw files info, Reread and sorting file names, Exporting all file names"
+    Say "Writing raw files info, Reread and sorting file names, Exporting all file names"
     Import-Csv -Path $FileTXT | Sort-Object -Property "Foldername" | Export-Csv -NoTypeInformation $FileCSV
     $writer = [System.IO.file]::CreateText($FileINI)
     [int]$i = 1
@@ -399,7 +398,7 @@ Function MyMaker {
             $ChkMatch = $ChkMatch + ".exe"
             if ($ChkMatch -eq $NameFix) {
                  #$NameFix = $NameFix.replace(".exe", "")
-                Write-Host "Adding to Menu: " $NameFix
+                Say "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
                 [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
@@ -409,11 +408,11 @@ Function MyMaker {
             }
             #>
             $Decidep = "Add $NameFix ? (Y)es-(N)o-[Enter is No]"
-            Write-Host "["$_.fullname"]"
+            Say "["$_.fullname"]"
             $Decide = Read-Host -Prompt $Decidep
             if ($Decide -eq "Y") {
                 $NameFix = $NameFix.replace(".exe", "")
-                Write-Host "Adding to Menu: " $NameFix
+                Say "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
                 <#
@@ -429,8 +428,8 @@ Function MyMaker {
     }
     finally { $writer.close() }
     Clear-Host
-    Write-Host "Done Writing EXE files to the Menu ini."
-    Write-Host ""
+    Say "Done Writing EXE files to the Menu ini."
+    Say ""
     $Filetest = Test-Path -path $FileTXT
     if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
     $Filetest = Test-Path -path $FileCSV
@@ -607,7 +606,7 @@ Do {
         "99" { FixLine; TheCommand -IntCom "[99B]" -Argue "[99B]" ; FixLine }
         Default {
             FixLine
-            Write-Host -NoNewLine "Sorry, that is not an option. Feel free to try again."
+            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -Milliseconds 400
             FixLine
             if ($WPosition -eq "$True") { FlexWindow }

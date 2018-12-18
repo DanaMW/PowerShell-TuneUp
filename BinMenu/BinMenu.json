@@ -23,11 +23,11 @@
     "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
     "WPosition": 1,
     "_BuffHeight": "How tall to make the Buffer.",
-    "BuffHeight": 30,
+    "BuffHeight": 20,
     "_BuffWidth": "How wide to make the Buffer.",
     "BuffWidth": "104",
     "_WinHeight": "How tall to draw the window.",
-    "WinHeight": 30,
+    "WinHeight": 20,
     "_WinWidth": "How wide to draw the window.",
     "WinWidth": "104",
     "_DBug": "[bool] My Internal script debug information.",
@@ -69,33 +69,48 @@
     "Argument": "D:\\bin\\Get-Firefox.ps1"
   },
   "AddItem-8": {
-    "Name": "Virtual Box",
-    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Name": "VMWare",
+    "Command": "C:\\Program Files (x86)\\VMware\\VMware Player\\vmplayer.exe",
     "Argument": "None"
   },
   "AddItem-9": {
+    "Name": "VirtualBox",
+    "Command": "c:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": "None"
+  },
+  "AddItem-10": {
     "Name": "Control Panel",
     "Argument": "None",
     "Command": "C:\\Windows\\System32\\control.exe"
   },
-  "AddItem-10": {
+  "AddItem-11": {
     "Name": "Stardock Skin Studio",
     "Argument": "None",
     "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe"
   },
-  "AddItem-11": {
+  "AddItem-12": {
     "Name": "My Scripts",
     "Argument": "[No Argument]",
     "Command": "D:\\MyScripts"
   },
-  "AddItem-12": {
+  "AddItem-13": {
     "Name": "Delay-StartUp SM",
     "Argument": "D:\\bin\\DelaySM.ps1",
     "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe"
   },
-  "AddItem-13": {
+  "AddItem-14": {
     "Name": "Event Viewer",
     "Argument": "/s",
     "Command": "C:\\Windows\\system32\\eventvwr.msc"
+  },
+  "AddItem-15": {
+    "Name": "Network Adapter Settings",
+    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
+    "Argument": ""
+  },
+  "AddItem-16": {
+    "Name": "Network And Sharing",
+    "Command": "C:\\Windows\\System32\\control.exe /name Microsoft.NetworkandSharingCenter",
+    "Argument": ""
   }
 }

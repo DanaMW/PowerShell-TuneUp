@@ -16,18 +16,18 @@
 param([string]$File, [string]$OutFile)
 $FileVersion = "Version: 0.1.5"
 if ($File -eq "") {
-    Write-Host ""
-    Write-Host "You fucked up and didnt include -File [<FileToRead>]"
-    Write-Host "Take your hand off your dick, try again and type right."
+    Say ""
+    Say "You fucked up and didnt include -File [<FileToRead>]"
+    Say "Take your hand off your dick, try again and type right."
     return
 }
 else {
     $InFile = $File
     $Filetest = Test-Path -path $InFile
     if ($Filetest -ne $true) {
-        Write-Host ""
-        Write-Host "You fucked up, The file you specified $InFile is not there."
-        Write-Host "Put the drugs down and try again."
+        Say ""
+        Say "You fucked up, The file you specified $InFile is not there."
+        Say "Put the drugs down and try again."
         return
     }
 }
@@ -39,9 +39,9 @@ if ($OutFile -eq "") {
     $OutFile = "$OutFile" + ".user.js"
 }
 $Filetest = Test-Path -path $OutFile
-if ($Filetest -eq $true) { Remove-Item –path $OutFile }
-Write-Host "Convert-Script $FileVersion is begining"
-Write-Host "Reading File: $File and Writing File: $OutFile"
+if ($Filetest -eq $true) { Remove-Item -th $OutFile }
+Say "Convert-Script $FileVersion is begining"
+Say "Reading File: $File and Writing File: $OutFile"
 $HU0 = [string]"// "
 $HU1 = [string]"// ==UserScript=="
 $HU2 = Get-ChildItem $File | Get-Content | Select-String -pattern "@name"

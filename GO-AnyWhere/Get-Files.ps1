@@ -17,18 +17,18 @@ $FileVersion = "Version: 0.1.2"
 $ESC = [char]27
 if ($Folder -eq "DIR") {
     $Folder = "."
-    Write-Host "Get-Files $FileVersion Listing $Folder"
-    Write-Host ""
-    Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {Write-Host $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]")}
-    Write-Host ""
+    Say "Get-Files $FileVersion Listing $Folder"
+    Say ""
+    Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {Say $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]")}
+    Say ""
     return
 }
 if ($Folder -eq "") { $Folder = "." }
-Write-Host "Get-Files $FileVersion Listing $Folder"
-Write-Host ""
-Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {Write-Host $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]")}
+Say "Get-Files $FileVersion Listing $Folder"
+Say ""
+Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {Say $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]")}
 Get-ChildItem -Path $Folder -Name -File | Sort-Object | ForEach-Object {
-    if ($_.substring(0, 1) -eq ".") { Write-Host $("$ESC[92m" + $_) }
-    else {Write-Host $("$ESC[96m" + $_)}
+    if ($_.substring(0, 1) -eq ".") { Say $("$ESC[92m" + $_) }
+    else {Say $("$ESC[96m" + $_)}
 }
-Write-Host ""
+Say ""

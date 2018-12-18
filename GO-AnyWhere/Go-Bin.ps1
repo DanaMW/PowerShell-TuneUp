@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.7"
-Write-Host "Go $FileVersion Setting your location to My Bin"
-Set-Location "C:\"
-Set-Location "D:\bin"
+$FileVersion = "Version: 0.1.0"
+Say "Go $FileVersion Setting your location to My Bin"
+Set-Location "D:\"
+Set-Location $env:BASE

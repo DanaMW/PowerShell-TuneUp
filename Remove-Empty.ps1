@@ -1,8 +1,8 @@
 param([string]$file)
 $FileVersion = "Version: 0.0.1"
-Write-Host "Remove-EmptyLines $FileVersion"
+Say "Remove-EmptyLines $FileVersion"
 #Remove empty lines from a file with PowerShell
-if (!($file)) { Write-host "Please include a file to process"; break }
+if (!($file)) { Say "Please include a file to process"; break }
 (gc $file) | ? {$_.trim() -ne "" } | set-content $file
 <#
 gc is an abbreviation for get-content
