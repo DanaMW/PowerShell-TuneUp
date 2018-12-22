@@ -14,7 +14,9 @@ To many options messed it up Now it displays nicely on  the bottom.
 
 # Convert-Script
 ```
-That is my CSS to JS converter for use on Tampermonkey and Edge browser. Very simply, it copies over most of the header to UserScript and puts quotes outside of the script. It also added the rest of the required JS and will work in its current form. You will need to edit the header and remove a Bracket in quotes in the bottom. (That one pared with the removed @Moz*, Don't forget to add an // @include <URL to match>) Update: Can convert larger files now.
+This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Edge browser. There are no style injectors for Edge so you have to use TM. And to style CSS in Tampermonkey you need this convertor to hook up your *.user.css to a useable *.user.js Very simply, it copies over and converts the header to UserScript and wraps your code with quotes. It also added the rest of the required JS you need in it to allow it to run. You will need to edit the header in the finished JS to add a valid address include. Example: `// @include  /https?://discordapp\.com/channels/*/` Also you will need to remove one Bracket in quotes at the very bottom. just before the JS starts. (That one pared with the removed @-Moz* that is no longer there. I will figure out a way to get it soon.
+Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge.
+Update:  I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.
 ```
 # Imageto64
 ```
@@ -53,5 +55,5 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ```
 ## ASAY and NOTIFY
 ```
-ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened i might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
+ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
 ```
