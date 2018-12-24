@@ -9,6 +9,7 @@ Bin Menu is a simple console based menu that reads in what exe's are in the base
 Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it off and I am re-writing it.
 UpDate: ScriptRead was re-written to simply be ON or OFF and neatly display as it should.
 To many options messed it up Now it displays nicely on  the bottom.
+More Updates listed in BinMenu readme.md.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
 

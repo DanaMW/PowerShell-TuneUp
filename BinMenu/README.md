@@ -23,6 +23,6 @@ Also added window fix routines when you hit enter in BinMneu similar to the Mana
 Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it off and I am re-writing it.
 UpDate: ScriptRead was re-written to simply be ON or OFF and neatly display as it should.
 To many options messed it up. Now it displays nicely on the bottom.
-Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times.
+Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times if not.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

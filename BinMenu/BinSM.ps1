@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.20"
+    $FileVersion = "Version: 1.0.21"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -169,6 +169,7 @@ while (1) {
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine; $v++ }
     [int]$w = 0; [Console]::SetCursorPosition($w, $pp); PrettyLine; [Console]::SetCursorPosition($w, $pp)
     $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
+    FlexWindow
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
