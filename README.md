@@ -57,3 +57,7 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ```
 ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
 ```
+## search
+```
+Search is a script that searches any text, as a filename parameter, in the path you give. From the whole drive down to just a folder it will list all matches found. It does this quickly.
+```
