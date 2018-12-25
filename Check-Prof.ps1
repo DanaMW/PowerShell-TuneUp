@@ -1,5 +1,5 @@
-﻿$FileVersion = "Version: 0.0.6"
-$txtfile = 'D:\bin\check-prof.ini'
+﻿$FileVersion = "Version: 0.0.7"
+$txtfile = ($env:BASE + "\check-prof.ini")
 $Filetest = Test-Path -path $txtfile
 if ($Filetest -eq $true) {
     Say 'The File $txtfile exists, clearing file.'

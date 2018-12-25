@@ -1,5 +1,5 @@
 
-$FileVersion = "Version: 0.1.17"
+$FileVersion = "Version: 0.1.18"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
 Function FlexWindow {
@@ -150,6 +150,6 @@ while (1) {
     [Console]::SetCursorPosition(0, $ender)
     $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT X to Reload$ESC[31m]$ESC[37m"
     if ($pop -eq "Q") { break }
-    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\Get-Sysinfo.ps1"; return }
+    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Get-Sysinfo.ps1"); return }
 
 }

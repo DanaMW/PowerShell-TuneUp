@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.21"
+    $FileVersion = "Version: 1.0.22"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -296,8 +296,8 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "110") {
-        $go1 = ("$base" + "BinMenu.ini")
-        $go2 = ("$base" + "BinMenu.json")
+        $go1 = ($base + "BinMenu.ini")
+        $go2 = ($base + "BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
         PrettyLine

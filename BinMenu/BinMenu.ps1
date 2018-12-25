@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.25"
+$FileVersion = "Version: 1.0.26"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -103,9 +103,9 @@ Function Show {
 }
 Clear-Host
 if ($Base -eq "") { [string]$Base = (Split-Path -parent $PSCommandPath) }
-if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = $Base + "\" }
-[string]$FileINI = "$Base" + "BinMenu.ini"
-[String]$Filetmp = "$Base" + "BinTemp.del"
+if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = ($Base + "\") }
+[string]$FileINI = ($Base + "BinMenu.ini")
+[string]$Filetmp = ($Base + "BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 Set-Location $Base
@@ -148,7 +148,7 @@ if ($Filetest -ne $True) {
     My-Maker
 }
 Clear-Host
-$ptemp = $Base + "*.ps1"
+$ptemp = ($Base + "*.ps1")
 [int]$PCount = (get-childitem -Path $ptemp).count
 [string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
@@ -257,7 +257,7 @@ While ($i -le $work) {
 [Console]::SetCursorPosition(0, $pa); Say $Menu1Line; Say $SpacerLine; Say $SpacerLine; Say $SpacerLine
 if ($ScriptRead -eq "$True") {
     Say $ScriptLine
-    $PCount = (Get-ChildItem -file D:\bin -Filter "*.ps1").count
+    $PCount = (Get-ChildItem -file $env:BASE -Filter "*.ps1").count
     [Console]::SetCursorPosition(15, ($pa + 4)); Say -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
     [Console]::SetCursorPosition(0, ($pa + 5))
 }
@@ -290,7 +290,7 @@ if ($scriptRead -eq "$True") {
     [int]$i = 1
     [Console]::SetCursorPosition($w, $l)
     [int]$i = 0
-    [int]$w = $col[0]
+     [int]$w = $col[0]
     [int]$t = 0
     $MaxLine = 95
     $c = 0
@@ -368,10 +368,10 @@ Function MyMaker {
     Clear-Host
     $Filetest = Test-Path -path $FileINI
     if ($Filetest -eq $True) { Remove-Item –path $FileINI }
-    $FileTXT = ("$Base" + "BinMenu.txt")
+    $FileTXT = ($Base + "BinMenu.txt")
     $Filetest = Test-Path -path $FileTXT
     if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
-    $FileCSv = ("$Base" + "BinMenu.csv")
+    $FileCSv = ($Base + "BinMenu.csv")
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
     Say $fileVersion "Reading in directory" $Base
