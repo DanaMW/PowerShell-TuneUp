@@ -1,6 +1,6 @@
 Param([bool]$loud)
 <# Start-Process -Verb RunAs -FilePath "c:\Windows\System32\wevtutil.exe" -ArgumentList "el | Foreach-Object {wevtutil cl $_}" #>
-$FileVersion = "Version: 0.2.1"
+$FileVersion = "Version: 0.2.2"
 $host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -53,7 +53,7 @@ else {
         [Console]::SetCursorPosition(0, 8); Say -NoNewline "[$it"
         [Console]::SetCursorPosition(51, 8); Say -NoNewline "]"
     }
-    asay Done clearing logs. Hit enter to close.
+    asay ClearWindows Logs Processed $i log files.
     [Console]::SetCursorPosition(0, 9); Say -NoNewline "ClearWindows Logs Processed $i log files."
     [Console]::SetCursorPosition(0, 10); Read-Host -Prompt "[Slap Enter to Exit]"
     $PShost = Get-Host
