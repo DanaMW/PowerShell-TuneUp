@@ -1,5 +1,5 @@
-
-$FileVersion = "Version: 0.1.18"
+Import-Module CimCmdlets
+$FileVersion = "Version: 0.1.19"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
 Function FlexWindow {
