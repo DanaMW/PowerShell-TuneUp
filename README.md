@@ -10,6 +10,8 @@ Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it o
 UpDate: ScriptRead was re-written to simply be ON or OFF and neatly display as it should.
 To many options messed it up Now it displays nicely on  the bottom.
 More Updates listed in BinMenu readme.md.
+Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
+limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
 
@@ -49,10 +51,6 @@ This is my console script example that sends your search to Google in the browse
 # Remove-Empty
 ```
 Remove-Empty is a simple little script that removes all empty Lines in a given text file. Feed it a file and all the blank lines are removed.
-```
-## Get-Files
-```
-(It is in the GO anywhere directory) Just a simple little routine to get a directory listing in color and single file.
 ```
 ## ASAY and NOTIFY
 ```

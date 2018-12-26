@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.27"
+$FileVersion = "Version: 1.1.0"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -54,10 +54,7 @@ SpinItems
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [int]$SortMethod = ($Config.basic.SortMethod)
 [string]$SortDir = ($Config.basic.SortDir)
-[int]$ExtraLine = ($Config.basic.ExtraLine)
 if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
-[bool]$DBug = ($Config.basic.DBug)
-[int]$SPLine = ($Config.basic.SPLine)
 [bool]$WPosition = ($Config.basic.WPosition)
 [int]$WinWidth = [int]($Config.basic.WinWidth)
 [int]$WinHeight = [int]($Config.basic.WinHeight)
@@ -110,34 +107,6 @@ $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 Set-Location $Base
 SpinItems
-Function DBFiles {
-    Say "Configfile: " $ConfigFile
-    Say "    Config: " $config
-    Say "FileVersio: " $FileVersion
-    Say "      Base: " $Base
-    Say "ScriptRead: " $ScriptRead
-    Say "  MenuAdds: " $MenuAdds
-    Say "   Fileini: " $FileINI
-    Say "   FileTmp: " $filetmp
-    Say "    Editor: " $Editor
-    Say "  AddCount: " $AddCount
-    Say "  WinWidth: " $WinWidth
-    Say " WinHeight: " $WinHeight
-    Say " BuffWidth: " $BuffWidth
-    Say "BuffHeight: " $BuffHeight
-    Say "SortMethod: " $SortMethod
-    Say "    SPLine: " $SpLine
-    Say "   SortDir: " $SortDir
-    Say " ExtraLine: " $ExtraLine
-    Say " WPosition: " $WPosition
-    Say "      DBug: " $DBug
-    $AddItem = "AddItem-1"
-    Say "   Example: " ($Config.$AddItem).name
-    Say "   Example: " ($Config.$AddItem).command
-    Say "   Example: " ($Config.$AddItem).argument
-    Read-host -prompt "[Enter To Continue]"
-}
-if ($DBug -eq "$True") { DBFiles }
 $ESC = [char]27
 $Filetest = Test-Path -path $FileINI
 if ($Filetest -ne $True) {
@@ -211,24 +180,6 @@ $a = ($temp / 3)
 $Row = @($a, $b, $c)
 $Col = @(1, 34, 69)
 [int]$pa = ($a + 3)
-Function DBVariables {
-    Say "Vline $Vline"
-    Say "L $l"
-    Say "roll $roll"
-    Say "tmp $tmp"
-    Say "I $i"
-    Say "W $w"
-    Say "T $t"
-    Say "Linecount" $LineCount
-    Say "A" $a
-    Say "Temp" $temp
-    Say "B" $b
-    Say "C" $c
-    Say "Row" $row
-    Say "PCount" $PCount
-    Read-host -prompt "[Enter]"
-}
-if ($DBug -eq "$True") { DBVariables }
 Clear-Host
 Say $NormalLine
 Say $FancyLine
@@ -290,7 +241,7 @@ if ($scriptRead -eq "$True") {
     [int]$i = 1
     [Console]::SetCursorPosition($w, $l)
     [int]$i = 0
-     [int]$w = $col[0]
+    [int]$w = $col[0]
     [int]$t = 0
     $MaxLine = 95
     $c = 0
@@ -349,21 +300,6 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 [Console]::SetCursorPosition(0, $pa)
 Fixline
 $menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
-Function Invoke-Menu {
-    [cmdletbinding()]
-    Param(
-        [Parameter(Position = 0, Mandatory = $True, HelpMessage = "I have no idea how to help you.")]
-        [ValidateNotNullOrEmpty()]
-        [string]$Menu,
-        [Parameter(Position = 1)]
-        [ValidateNotNullOrEmpty()]
-        [Alias("cls")]
-        [switch]$ClearScreen
-    )
-    $menuPrompt += $menu
-    FixLine
-    Read-Host -Prompt $menuprompt
-}
 Function MyMaker {
     Clear-Host
     $Filetest = Test-Path -path $FileINI
@@ -393,20 +329,6 @@ Function MyMaker {
             $NameFix = $tmpname
             $NameFix = $NameFix.tolower()
             $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
-            <#
-            $ChkMatch = $_.fullname.split("\")[-2]
-            $ChkMatch = $ChkMatch + ".exe"
-            if ($ChkMatch -eq $NameFix) {
-                 #$NameFix = $NameFix.replace(".exe", "")
-                Say "Adding to Menu: " $NameFix
-                $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
-                $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
-                [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
-                $Writer.WriteLine("[" + $i + "C]=" + $AddArg)
-                $i++
-                return
-            }
-            #>
             $Decidep = "Add $NameFix ? (Y)es-(N)o-[Enter is No]"
             Say "["$_.fullname"]"
             $Decide = Read-Host -Prompt $Decidep
@@ -415,10 +337,6 @@ Function MyMaker {
                 Say "Adding to Menu: " $NameFix
                 $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
                 $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
-                <#
-                [string]$AddArg = Read-Host -Prompt "Add an Arguement? Input it [Enter to Skip]"
-                $Writer.WriteLine("[" + $i + "C]=None" + $AddArg)
-                #>
                 $Writer.WriteLine("[" + $i + "C]=")
                 $i++
                 return
@@ -457,10 +375,17 @@ Function TheCommand {
     }
 }
 if ($WPosition -eq "$True") { FlexWindow }
-Do {
-    #Switch
-    Switch (Invoke-Menu -menu $menu -clear) {
-        "A" {
+$menuPrompt += $menu
+While (1) {
+    $ans = Read-Host -Prompt $menuprompt
+    [Int32]$OutNumber = $null
+    if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
+        FixLine
+        TheCommand -IntCom ("[" + $ans + "B]") -Argue ("[" + $ans + "C]")
+        FixLine
+    }
+    else {
+        if ($ans -eq "A") {
             FixLine
             [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat EXE to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             if ($cmd -ne '') {
@@ -475,12 +400,12 @@ Do {
             }
             FixLine
         }
-        "B" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "C" { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "D" { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        "E" { FixLine; Start-Process "pwsh.exe" -ArguMentList "$PSScriptRoot\Get-SysInfo.ps1" -Verb RunAs; FixLine; FixLine }
-        "F" { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
-        "G" {
+        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
+        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList "$PSScriptRoot\Get-SysInfo.ps1" -Verb RunAs; FixLine; FixLine }
+        elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
+        elseif ($ans -eq "G") {
             FixLine
             [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             if ($cmd -ne '') {
@@ -503,117 +428,22 @@ Do {
             }
             FixLine
         }
-        "Q" { Clear-Host; Return }
-        "R" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        "Z" { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1" -Verb RunAs; FixLine }
-        "1" { FixLine; TheCommand -IntCom "[1B]" -Argue "[1C]" ; FixLine }
-        "2" { FixLine; TheCommand -IntCom "[2B]" -Argue "[2C]" ; FixLine }
-        "3" { FixLine; TheCommand -IntCom "[3B]" -Argue "[3C]" ; FixLine }
-        "4" { FixLine; TheCommand -IntCom "[4B]" -Argue "[4C]" ; FixLine }
-        "5" { FixLine; TheCommand -IntCom "[5B]" -Argue "[5C]" ; FixLine }
-        "6" { FixLine; TheCommand -IntCom "[6B]" -Argue "[6C]" ; FixLine }
-        "7" { FixLine; TheCommand -IntCom "[7B]" -Argue "[7C]" ; FixLine }
-        "8" { FixLine; TheCommand -IntCom "[8B]" -Argue "[8C]" ; FixLine }
-        "9" { FixLine; TheCommand -IntCom "[9B]" -Argue "[9C]" ; FixLine }
-        "10" { FixLine; TheCommand -IntCom "[10B]" -Argue "[10C]" ; FixLine }
-        "11" { FixLine; TheCommand -IntCom "[11B]" -Argue "[11C]" ; FixLine }
-        "12" { FixLine; TheCommand -IntCom "[12B]" -Argue "[12C]" ; FixLine }
-        "13" { FixLine; TheCommand -IntCom "[13B]" -Argue "[13C]" ; FixLine }
-        "14" { FixLine; TheCommand -IntCom "[14B]" -Argue "[14C]" ; FixLine }
-        "15" { FixLine; TheCommand -IntCom "[15B]" -Argue "[15C]" ; FixLine }
-        "16" { FixLine; TheCommand -IntCom "[16B]" -Argue "[16C]" ; FixLine }
-        "17" { FixLine; TheCommand -IntCom "[17B]" -Argue "[17C]" ; FixLine }
-        "18" { FixLine; TheCommand -IntCom "[18B]" -Argue "[18C]" ; FixLine }
-        "19" { FixLine; TheCommand -IntCom "[19B]" -Argue "[19C]" ; FixLine }
-        "20" { FixLine; TheCommand -IntCom "[20B]" -Argue "[20C]" ; FixLine }
-        "21" { FixLine; TheCommand -IntCom "[21B]" -Argue "[21C]" ; FixLine }
-        "22" { FixLine; TheCommand -IntCom "[22B]" -Argue "[22C]" ; FixLine }
-        "23" { FixLine; TheCommand -IntCom "[23B]" -Argue "[23C]" ; FixLine }
-        "24" { FixLine; TheCommand -IntCom "[24B]" -Argue "[24C]" ; FixLine }
-        "25" { FixLine; TheCommand -IntCom "[25B]" -Argue "[25C]" ; FixLine }
-        "26" { FixLine; TheCommand -IntCom "[26B]" -Argue "[26C]" ; FixLine }
-        "27" { FixLine; TheCommand -IntCom "[27B]" -Argue "[27C]" ; FixLine }
-        "28" { FixLine; TheCommand -IntCom "[28B]" -Argue "[28C]" ; FixLine }
-        "29" { FixLine; TheCommand -IntCom "[29B]" -Argue "[29C]" ; FixLine }
-        "30" { FixLine; TheCommand -IntCom "[30B]" -Argue "[30C]" ; FixLine }
-        "31" { FixLine; TheCommand -IntCom "[31B]" -Argue "[31C]" ; FixLine }
-        "32" { FixLine; TheCommand -IntCom "[32B]" -Argue "[32C]" ; FixLine }
-        "33" { FixLine; TheCommand -IntCom "[33B]" -Argue "[33C]" ; FixLine }
-        "34" { FixLine; TheCommand -IntCom "[34B]" -Argue "[34C]" ; FixLine }
-        "35" { FixLine; TheCommand -IntCom "[35B]" -Argue "[35C]" ; FixLine }
-        "36" { FixLine; TheCommand -IntCom "[36B]" -Argue "[36C]" ; FixLine }
-        "37" { FixLine; TheCommand -IntCom "[37B]" -Argue "[37C]" ; FixLine }
-        "38" { FixLine; TheCommand -IntCom "[38B]" -Argue "[38C]" ; FixLine }
-        "39" { FixLine; TheCommand -IntCom "[39B]" -Argue "[39C]" ; FixLine }
-        "40" { FixLine; TheCommand -IntCom "[40B]" -Argue "[40C]" ; FixLine }
-        "41" { FixLine; TheCommand -IntCom "[41B]" -Argue "[41C]" ; FixLine }
-        "42" { FixLine; TheCommand -IntCom "[42B]" -Argue "[42C]" ; FixLine }
-        "43" { FixLine; TheCommand -IntCom "[43B]" -Argue "[43C]" ; FixLine }
-        "44" { FixLine; TheCommand -IntCom "[44B]" -Argue "[44C]" ; FixLine }
-        "45" { FixLine; TheCommand -IntCom "[45B]" -Argue "[45C]" ; FixLine }
-        "46" { FixLine; TheCommand -IntCom "[46B]" -Argue "[46C]" ; FixLine }
-        "47" { FixLine; TheCommand -IntCom "[47B]" -Argue "[47C]" ; FixLine }
-        "48" { FixLine; TheCommand -IntCom "[48B]" -Argue "[48C]" ; FixLine }
-        "49" { FixLine; TheCommand -IntCom "[49B]" -Argue "[49C]" ; FixLine }
-        "50" { FixLine; TheCommand -IntCom "[50B]" -Argue "[50C]" ; FixLine }
-        "51" { FixLine; TheCommand -IntCom "[51B]" -Argue "[51C]" ; FixLine }
-        "52" { FixLine; TheCommand -IntCom "[52B]" -Argue "[52C]" ; FixLine }
-        "53" { FixLine; TheCommand -IntCom "[53B]" -Argue "[53C]" ; FixLine }
-        "54" { FixLine; TheCommand -IntCom "[54B]" -Argue "[54C]" ; FixLine }
-        "55" { FixLine; TheCommand -IntCom "[55B]" -Argue "[55C]" ; FixLine }
-        "56" { FixLine; TheCommand -IntCom "[56B]" -Argue "[56C]" ; FixLine }
-        "57" { FixLine; TheCommand -IntCom "[57B]" -Argue "[57C]" ; FixLine }
-        "58" { FixLine; TheCommand -IntCom "[58B]" -Argue "[58C]" ; FixLine }
-        "59" { FixLine; TheCommand -IntCom "[59B]" -Argue "[59C]" ; FixLine }
-        "60" { FixLine; TheCommand -IntCom "[60B]" -Argue "[60C]" ; FixLine }
-        "61" { FixLine; TheCommand -IntCom "[61B]" -Argue "[61C]" ; FixLine }
-        "62" { FixLine; TheCommand -IntCom "[62B]" -Argue "[61C]" ; FixLine }
-        "63" { FixLine; TheCommand -IntCom "[63B]" -Argue "[63C]" ; FixLine }
-        "64" { FixLine; TheCommand -IntCom "[64B]" -Argue "[64C]" ; FixLine }
-        "65" { FixLine; TheCommand -IntCom "[65B]" -Argue "[65C]" ; FixLine }
-        "66" { FixLine; TheCommand -IntCom "[66B]" -Argue "[66C]" ; FixLine }
-        "67" { FixLine; TheCommand -IntCom "[67B]" -Argue "[67C]" ; FixLine }
-        "68" { FixLine; TheCommand -IntCom "[68B]" -Argue "[68C]" ; FixLine }
-        "69" { FixLine; TheCommand -IntCom "[69B]" -Argue "[69C]" ; FixLine }
-        "70" { FixLine; TheCommand -IntCom "[70B]" -Argue "[70C]" ; FixLine }
-        "71" { FixLine; TheCommand -IntCom "[71B]" -Argue "[71C]" ; FixLine }
-        "72" { FixLine; TheCommand -IntCom "[72B]" -Argue "[72C]" ; FixLine }
-        "73" { FixLine; TheCommand -IntCom "[73B]" -Argue "[73C]" ; FixLine }
-        "74" { FixLine; TheCommand -IntCom "[74B]" -Argue "[74C]" ; FixLine }
-        "75" { FixLine; TheCommand -IntCom "[75B]" -Argue "[75C]" ; FixLine }
-        "76" { FixLine; TheCommand -IntCom "[76B]" -Argue "[76C]" ; FixLine }
-        "77" { FixLine; TheCommand -IntCom "[77B]" -Argue "[77C]" ; FixLine }
-        "78" { FixLine; TheCommand -IntCom "[78B]" -Argue "[78C]" ; FixLine }
-        "79" { FixLine; TheCommand -IntCom "[79B]" -Argue "[79C]" ; FixLine }
-        "80" { FixLine; TheCommand -IntCom "[80B]" -Argue "[80C]" ; FixLine }
-        "81" { FixLine; TheCommand -IntCom "[81B]" -Argue "[81C]" ; FixLine }
-        "82" { FixLine; TheCommand -IntCom "[82B]" -Argue "[82C]" ; FixLine }
-        "83" { FixLine; TheCommand -IntCom "[83B]" -Argue "[83C]" ; FixLine }
-        "84" { FixLine; TheCommand -IntCom "[84B]" -Argue "[84C]" ; FixLine }
-        "85" { FixLine; TheCommand -IntCom "[85B]" -Argue "[85C]" ; FixLine }
-        "86" { FixLine; TheCommand -IntCom "[86B]" -Argue "[86C]" ; FixLine }
-        "87" { FixLine; TheCommand -IntCom "[87B]" -Argue "[87C]" ; FixLine }
-        "88" { FixLine; TheCommand -IntCom "[88B]" -Argue "[88C]" ; FixLine }
-        "89" { FixLine; TheCommand -IntCom "[89B]" -Argue "[89C]" ; FixLine }
-        "90" { FixLine; TheCommand -IntCom "[90B]" -Argue "[90C]" ; FixLine }
-        "91" { FixLine; TheCommand -IntCom "[91B]" -Argue "[91C]" ; FixLine }
-        "92" { FixLine; TheCommand -IntCom "[92B]" -Argue "[92C]" ; FixLine }
-        "93" { FixLine; TheCommand -IntCom "[93B]" -Argue "[93C]" ; FixLine }
-        "94" { FixLine; TheCommand -IntCom "[94B]" -Argue "[94C]" ; FixLine }
-        "95" { FixLine; TheCommand -IntCom "[95B]" -Argue "[95C]" ; FixLine }
-        "96" { FixLine; TheCommand -IntCom "[96B]" -Argue "[96C]" ; FixLine }
-        "97" { FixLine; TheCommand -IntCom "[97B]" -Argue "[97C]" ; FixLine }
-        "98" { FixLine; TheCommand -IntCom "[98B]" -Argue "[98C]" ; FixLine }
-        "99" { FixLine; TheCommand -IntCom "[99B]" -Argue "[99B]" ; FixLine }
-        Default {
+        elseif ($ans -eq "Q") {
+            $Filetest = Test-Path -path $Filetmp
+            if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+            Clear-Host
+            Return 
+        }
+        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1" -Verb RunAs; FixLine }
+        else {
             FixLine
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -Milliseconds 400
             FixLine
             if ($WPosition -eq "$True") { FlexWindow }
         }
-    } #switch
-
-} While ($True)
+    }
+}
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }

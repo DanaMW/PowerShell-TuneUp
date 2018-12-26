@@ -24,5 +24,7 @@ Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it o
 UpDate: ScriptRead was re-written to simply be ON or OFF and neatly display as it should.
 To many options messed it up. Now it displays nicely on the bottom.
 Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times if not.
+Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
+limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
