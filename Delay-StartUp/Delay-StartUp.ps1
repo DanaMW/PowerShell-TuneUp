@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.0.12"
+$FileVersion = "Version: 1.1.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -38,7 +38,6 @@ if (!($Config)) {
 [bool]$Prevent = ($Config.basic.Prevent)
 [string]$Base = ($Config.basic.Base)
 if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = ($base + "\") }
-[bool]$DBug = ($Config.basic.DBug)
 [bool]$TestRun = ($Config.basic.TestRun)
 Function SpinItems {
     $si = 1
@@ -51,24 +50,6 @@ Function SpinItems {
         else { $si = 20 }
     }
 }
-Function DBFiles {
-    Write-Host "Config: " $Config
-    Write-Host "ConfigFile: " $ConfigFile
-    Write-Host "StartDelay: " $StartDelay
-    Write-Host "Delay: " $Delay
-    Write-Host "Prevent: " $Prevent
-    Write-Host "Base: " $Base
-    Write-Host "AddCount: " $AddCount
-    Write-Host "DBug: " $DBug
-    Write-Host "TestRun: " $TestRun
-    $RunItem = "RunItem-1"
-    Write-Host "Example: " ($Config.$RunItem).name
-    Write-Host "Example: " ($Config.$RunItem).runpath
-    Write-Host "Example: " ($Config.$RunItem).Argument
-    Write-Host "Example: " ($Config.$RunItem).HostOnly
-    Read-host -prompt "[Enter To Continue]"
-}
-if ($DBug -eq "$True") { DBFiles }
 if ($Prevent -eq "$True") {
     Clear-Host
     Write-Host ""
@@ -97,7 +78,7 @@ if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
     [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
 if ($TestRun -eq "$True" -or $StartDelay -eq "0") { Clear-Host }
-if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "No delay set, begining StartUp-delay" }
+if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "No delay set, beginning StartUp-delay" }
 [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
 [Console]::SetCursorPosition(0, 4); & Write-Output "|- Running Delay-Startup Launcher -|"
 [Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"

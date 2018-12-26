@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.18"
+    $FileVersion = "Version: 1.1.0"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -50,18 +50,21 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    if (!($BWHeight)) { $BWHeight = "37" }
-    if (!($BWWidth)) { $BWWidth = "90" }
-    $pshost = get-host
-    $pswindow = $pshost.ui.rawui
-    $newsize = $pswindow.buffersize
-    $newsize.height = $BWHeight
-    $newsize.width = $BWWidth
-    $pswindow.buffersize = $newsize
-    $newsize = $pswindow.windowsize
-    $newsize.height = $BWHeight
-    $newsize.width = $BWWidth
-    $pswindow.windowsize = $newsize
+    Function FlexWindow {
+        if (!($BWHeight)) { $BWHeight = "37" }
+        if (!($BWWidth)) { $BWWidth = "90" }
+        $pshost = get-host
+        $pswindow = $pshost.ui.rawui
+        $newsize = $pswindow.buffersize
+        $newsize.height = $BWHeight
+        $newsize.width = $BWWidth
+        $pswindow.buffersize = $newsize
+        $newsize = $pswindow.windowsize
+        $newsize.height = $BWHeight
+        $newsize.width = $BWWidth
+        $pswindow.windowsize = $newsize
+    }
+    FlexWindow
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                             "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
@@ -161,6 +164,8 @@ while (1) {
     [int]$pp = ($l + 1)
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
+    FlexWindow
+    FlexWindow
     PrettyLine
     [Console]::SetCursorPosition($w, $pp)
     $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"

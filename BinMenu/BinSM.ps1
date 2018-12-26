@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.0.22"
+    $FileVersion = "Version: 1.1.0"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -48,29 +48,29 @@ while (1) {
     #if (!($AMaxpWinHeight)) { $AMaxpWinHeight = 60 }
     #if (!($AMaxpWinWidth)) { $AMaxpWinWidth = 160 }
     Function FlexWindow {
-        $pshost = Get-Host
-        $pswindow = $pshost.ui.rawui
-        #
-        $newsize = $pswindow.buffersize
-        $newsize.height = $ABuffHeight
-        $newsize.width = $ABuffWidth
-        $pswindow.buffersize = $newsize
-        #
-        $newsize = $pswindow.windowsize
-        $newsize.height = $AWinHeight
-        $newsize.width = $AWinWidth
-        $pswindow.windowsize = $newsize
-        <#
-        $newsize = $pswindow.MaxWindowSize
-        $newsize.height = $AMaxWinHeight
-        $newsize.width = $AMaxWinWidth
-        $pswindow.MaxWindowSize = $newsize
+        $pshost = get-host
+    $pswindow = $pshost.ui.rawui
+    #
+    $newsize = $pswindow.buffersize
+    $newsize.height = [int]$ABuffHeight
+    $newsize.width = [int]$ABuffWidth
+    $pswindow.buffersize = $newsize
+    #
+    $newsize = $pswindow.windowsize
+    $newsize.height = [int]$AWinHeight
+    $newsize.width = [int]$AWinWidth
+    $pswindow.windowsize = $newsize
+    <#
+    $newsize = $pswindow.maxwindowsize
+    $newsize.height = [int]$MaxWinHeight
+    $newsize.width = [int]$MaxWinWidth
+    $pswindow.maxwindowsize = $newsize
 
-        $newsize = $pswindow.MaxPhysicalWindowSize
-        $newsize.height = $AMaxpWinHeight
-        $newsize.width = $AMaxpWinWidth
-        $pswindow.MaxPhysicalWindowSize = $newsize
-        #>
+    $newsize = $pswindow.maxphysicalwindowsize
+    $newsize.height = [int]$MaxpWinHeight
+    $newsize.width = [int]$MaxpWinWidth
+    $pswindow.maxphysicalwindowsize = $newsize
+    #>
     }
     FlexWindow
     $Script:ESC = [char]27
@@ -168,8 +168,13 @@ while (1) {
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 88
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine; $v++ }
     [int]$w = 0; [Console]::SetCursorPosition($w, $pp); PrettyLine; [Console]::SetCursorPosition($w, $pp)
-    $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
     FlexWindow
+    FlexWindow
+    $pp = ($pp - 1)
+    PrettyLine
+    $pp++
+    [Console]::SetCursorPosition($w, $pp); PrettyLine
+    $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
