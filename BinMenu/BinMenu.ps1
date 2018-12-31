@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: December 27, 2018
+        Last Modified Date: December 31, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.2"
+$FileVersion = "Version: 1.1.3"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -49,7 +49,7 @@ Function SpinItems {
 }
 SpinItems
 [string]$Base = ($Config.basic.Base)
-// @ts-ignore [string]$Editor = ($Config.basic.Editor)
+[string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [int]$SortMethod = ($Config.basic.SortMethod)
@@ -392,12 +392,19 @@ While (1) {
             $cmd = Read-Host -Prompt $RMenu
             FixLine
             if (($cmd)) {
+                $cmd = ($cmd.split(".")[0] + ".EXE")
+                FixLine
                 $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
                 $cmd1 = Read-Host -Prompt $RMenu
                 FixLine
-                ($cmd.split(".")[0] + ".EXE")
-                Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
-                FixLine
+                if (($cmd1)) {
+                    start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
+                    FixLine
+                }
+                else {
+                    start-Process $cmd -Verb RunAs
+                    FixLine
+                }
             }
             FixLine
         }
@@ -416,7 +423,7 @@ While (1) {
                 $OneShot = "NO"
                 if ($cmd -eq "reboot" -or $cmd -eq "clearlogs" -or $cmd -eq "Do-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
-                    ($cmd.split(".")[0] + ".PS1")
+                    $cmd = ($cmd.split(".")[0] + ".PS1")
                     start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
                 }
@@ -424,7 +431,7 @@ While (1) {
                     $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
                     $cmd1 = Read-Host -Prompt $RMenu
                     FixLine
-                    ($cmd.split(".")[0] + ".PS1")
+                    $cmd = ($cmd.split(".")[0] + ".PS1")
                     [string]$cmd = ("$cmd $cmd1")
                     start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
