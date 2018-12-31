@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.1.0"
+    $FileVersion = "Version: 1.1.1"
     $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -246,7 +246,7 @@ while (1) {
     }
     if ($pop -eq "106") {
         $blah = "Please enter The Console Window height. Must be equal or LESS than BuffHeight"
-        $boop = "Number of console heigth or ENTER to cancel"
+        $boop = "Number of console height or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
             If ($Fixer -le $BuffHeight) {

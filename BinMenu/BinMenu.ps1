@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: December 25, 2018
+        Last Modified Date: December 27, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.0"
+$FileVersion = "Version: 1.1.2"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -49,7 +49,7 @@ Function SpinItems {
 }
 SpinItems
 [string]$Base = ($Config.basic.Base)
-[string]$Editor = ($Config.basic.Editor)
+// @ts-ignore [string]$Editor = ($Config.basic.Editor)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [int]$SortMethod = ($Config.basic.SortMethod)
@@ -138,11 +138,11 @@ if ($MenuAdds -eq "$True") {
         $k = ($Config.$AddItem).name
         $t = $(Select-String -Pattern $k $FileINI)
         if ($null -eq $t) {
-            $value1 = "[" + $temp2 + "A]=" + ($Config.$AddItem).name
+            $value1 = ("[" + $temp2 + "A]=") + ($Config.$AddItem).name
             (Add-Content $FileINI $value1)
-            $value2 = "[" + $temp2 + "B]=" + ($Config.$AddItem).command
+            $value2 = ("[" + $temp2 + "B]=") + ($Config.$AddItem).command
             (Add-Content $FileINI $value2)
-            $value3 = "[" + $temp2 + "C]=" + ($Config.$AddItem).argument
+            $value3 = ("[" + $temp2 + "C]=") + ($Config.$AddItem).argument
             (Add-Content $FileINI $value3)
             $Temp2++
         }
@@ -353,7 +353,7 @@ Function MyMaker {
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
     Clear-Host
-    Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs
     return
 }
 if ($NoINI) { [bool]$NoINI = $False; MyMaker }
@@ -387,41 +387,45 @@ While (1) {
     else {
         if ($ans -eq "A") {
             FixLine
-            [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat EXE to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
-            if ($cmd -ne '') {
+            $cmd = $null; $cmd1 = $null
+            $RMenu = "$ESC[91m[$ESC[97mWhat EXE to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
+            $cmd = Read-Host -Prompt $RMenu
+            FixLine
+            if (($cmd)) {
+                $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
+                $cmd1 = Read-Host -Prompt $RMenu
                 FixLine
-                $cmd1 = Read-Host -Prompt "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
-                [string]$cmd = $cmd -replace ".ps1", ""
-                [string]$tcmd = ".exe"
-                [string]$cmd = "$cmd$tcmd"
-                #[string]$cmd = "$cmd $cmd1"
-                start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
+                ($cmd.split(".")[0] + ".EXE")
+                Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
                 FixLine
             }
             FixLine
         }
-        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList "$PSScriptRoot\Get-SysInfo.ps1" -Verb RunAs; FixLine; FixLine }
+        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($PSScriptRoot + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         elseif ($ans -eq "G") {
             FixLine
-            [string]$cmd = Read-Host -Prompt "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
-            if ($cmd -ne '') {
-                FixLine
+            $cmd = $null; $cmd1 = $null
+            $RMenu = "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
+            $cmd = Read-Host -Prompt $RMenu
+            FixLine
+            if (($cmd)) {
                 $OneShot = "NO"
-                if ($cmd -eq "reboot") { $OneShot = "YES" }
-                if ($cmd -eq "clearlogs") { $OneShot = "YES" }
-                if ($cmd -eq "Do-Ghost") { $OneShot = "YES" }
-                if ($cmd -eq "Get-SysInfo") { $OneShot = "YES" }
-                if ($OneShot -eq "YES") { $cmd = "$cmd" + ".ps1"; start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs; FixLine }
+                if ($cmd -eq "reboot" -or $cmd -eq "clearlogs" -or $cmd -eq "Do-Ghost") { $OneShot = "YES" }
+                if ($OneShot -eq "YES") {
+                    ($cmd.split(".")[0] + ".PS1")
+                    start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
                 else {
-                    $cmd1 = Read-Host -Prompt "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
-                    [string]$cmd = $cmd -replace ".ps1", ""
-                    [string]$tcmd = ".ps1"
-                    [string]$cmd = "$cmd$tcmd"
-                    [string]$cmd = "$cmd $cmd1"
+                    $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
+                    $cmd1 = Read-Host -Prompt $RMenu
+                    FixLine
+                    ($cmd.split(".")[0] + ".PS1")
+                    [string]$cmd = ("$cmd $cmd1")
                     start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
                 }
@@ -432,10 +436,10 @@ While (1) {
             $Filetest = Test-Path -path $Filetmp
             if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
             Clear-Host
-            Return 
+            Return
         }
-        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinMenu.ps1" -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1" -Verb RunAs; FixLine }
+        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinSM.ps1") -Verb RunAs; FixLine }
         else {
             FixLine
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
