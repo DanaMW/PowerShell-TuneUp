@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: December 31, 2018
+        Last Modified Date: January 11, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.3"
+$FileVersion = "Version: 1.1.4"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -353,7 +353,7 @@ Function MyMaker {
     $Filetest = Test-Path -path $FileCSV
     if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
     Clear-Host
-    Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs
     return
 }
 if ($NoINI) { [bool]$NoINI = $False; MyMaker }
@@ -408,10 +408,10 @@ While (1) {
             }
             FixLine
         }
-        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($PSScriptRoot + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
+        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($env:BASE + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         elseif ($ans -eq "G") {
             FixLine
@@ -439,14 +439,9 @@ While (1) {
             }
             FixLine
         }
-        elseif ($ans -eq "Q") {
-            $Filetest = Test-Path -path $Filetmp
-            if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
-            Clear-Host
-            Return
-        }
-        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinSM.ps1") -Verb RunAs; FixLine }
+        elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
+        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinSM.ps1") -Verb RunAs; FixLine }
         else {
             FixLine
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
