@@ -13,7 +13,7 @@
   },
   "Basic": {
     "_Base": "The starting folder that BinMenu reads from.",
-    "Base": "D:\\bin\\",
+    "Base": "D:\\bin",
     "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
     "ScriptRead": false,
     "_Editor": "Defines a text editor to use from BinMenu",
@@ -110,7 +110,7 @@
   },
   "AddItem-16": {
     "Name": "Network And Sharing",
-    "Command": "C:\\Windows\\System32\\control.exe /name Microsoft.NetworkandSharingCenter",
-    "Argument": ""
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": "/name Microsoft.NetworkandSharingCenter"
   }
 }

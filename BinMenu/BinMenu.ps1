@@ -50,6 +50,7 @@ Function SpinItems {
 SpinItems
 [string]$Base = ($Config.basic.Base)
 [string]$Editor = ($Config.basic.Editor)
+if ($null -eq $editor) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [int]$SortMethod = ($Config.basic.SortMethod)
@@ -364,8 +365,9 @@ Function TheCommand {
         return
     }
     [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI)
-    $cow = $moo -split "="
-    if ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) { Invoke-Item $cow[1] }
+    $cow = $moo.split("=")
+    if ($cow[1] -match "shell") { Start-Process "explorer.exe" -ArgumentList $cow[1] }
+    elseif ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) { Invoke-Item $cow[1] }
     else {
         [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
         $bus = $car -split "="
@@ -408,7 +410,7 @@ While (1) {
             }
             FixLine
         }
-        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($env:BASE + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
@@ -440,7 +442,7 @@ While (1) {
             FixLine
         }
         elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
-        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinSM.ps1") -Verb RunAs; FixLine }
         else {
             FixLine

@@ -1,21 +1,15 @@
 while (1) {
-    $FileVersion = "Version: 1.1.2"
-    $host.ui.RawUI.WindowTitle = "BinMenu Settings Manager $FileVersion"
+    $FileVersion = [string]"Version: 1.1.5"
+    $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
-        $Script:MyConfig = $(Get-ScriptDir) + "\BinMenu.json"
+        $Script:MyConfig = ($(Get-ScriptDir) + "\BinMenu.json")
         $MyConfig
     }
     $Script:ConfigFile = MyConfig
-    try {
-        $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
-    }
-    catch {
-        Write-Error -Message "The Base configuration file is missing!"
-    }
-    if (!($Config)) {
-        Write-Error -Message "The Base configuration file is missing!"
-    }
+    try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+    catch { Write-Error -Message "The Base configuration file is missing!" }
+    if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -49,28 +43,27 @@ while (1) {
     #if (!($AMaxpWinWidth)) { $AMaxpWinWidth = 160 }
     Function FlexWindow {
         $pshost = get-host
-    $pswindow = $pshost.ui.rawui
-    #
-    $newsize = $pswindow.buffersize
-    $newsize.height = [int]$ABuffHeight
-    $newsize.width = [int]$ABuffWidth
-    $pswindow.buffersize = $newsize
-    #
-    $newsize = $pswindow.windowsize
-    $newsize.height = [int]$AWinHeight
-    $newsize.width = [int]$AWinWidth
-    $pswindow.windowsize = $newsize
-    <#
-    $newsize = $pswindow.maxwindowsize
-    $newsize.height = [int]$MaxWinHeight
-    $newsize.width = [int]$MaxWinWidth
-    $pswindow.maxwindowsize = $newsize
-
-    $newsize = $pswindow.maxphysicalwindowsize
-    $newsize.height = [int]$MaxpWinHeight
-    $newsize.width = [int]$MaxpWinWidth
-    $pswindow.maxphysicalwindowsize = $newsize
-    #>
+        $pswindow = $pshost.ui.rawui
+        #
+        $newsize = $pswindow.buffersize
+        $newsize.height = [int]$ABuffHeight
+        $newsize.width = [int]$ABuffWidth
+        $pswindow.buffersize = $newsize
+        #
+        $newsize = $pswindow.windowsize
+        $newsize.height = [int]$AWinHeight
+        $newsize.width = [int]$AWinWidth
+        $pswindow.windowsize = $newsize
+        <#
+        $newsize = $pswindow.maxwindowsize
+        $newsize.height = [int]$MaxWinHeight
+        $newsize.width = [int]$MaxWinWidth
+        $pswindow.maxwindowsize = $newsize
+        $newsize = $pswindow.maxphysicalwindowsize
+        $newsize.height = [int]$MaxpWinHeight
+        $newsize.width = [int]$MaxpWinWidth
+        $pswindow.maxphysicalwindowsize = $newsize
+        #>
     }
     FlexWindow
     $Script:ESC = [char]27
@@ -98,38 +91,23 @@ while (1) {
         [Console]::SetCursorPosition($w, $pp)
     }
     Function FightOn {
-        PrettyLine
-        Say $Rich1
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say "Current Value: $Fight1"
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight1 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich2
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say "Current Value: $Fight2"
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight2 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich3
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say "Current Value: $Fight3"
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight3 = Read-Host -Prompt $boop
+        PrettyLine; Say $Rich1
+        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight1
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Read-Host -Prompt $boop
+        PrettyLine; Say $Rich2
+        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight2
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Read-Host -Prompt $boop
+        PrettyLine; Say $Rich3
+        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight3
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Read-Host -Prompt $boop
         PrettyLine
         if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
         PrettyLine
-        $Fight1
-        $Fight2
-        $Fight3
+        $Fight1; $Fight2; $Fight3
     }
     Clear-Host
-    Say $NormalLine
-    Say $TitleLine
-    Say $NormalLine
-    [int]$w = "1"
-    [int]$l = "3"
-    [int]$v = "3"
+    Say $NormalLine; Say $TitleLine; Say $NormalLine
+    [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m..............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m..........$ESC[93mRead in Scripts$ESC[97m:$ESC[97m [$ESC[92m$ScriptRead$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m...........$ESC[93mDefined Editor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
@@ -147,8 +125,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
-    [int]$i = 1
-    [int]$w = 1
+    [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq "$True") {
         while ($i -le $AddCount) {
             $AddItem = "AddItem-$i"
@@ -161,18 +138,13 @@ while (1) {
     }
     [int]$pp = $l; [int]$w = 0
     [Console]::SetCursorPosition($w, $pp); Say $NormalLine; $pp++
-    $ABuffHeight = ($pp + 4)
-    $AWinHeight = ($pp + 4)
+    $ABuffHeight = ($pp + 4); $AWinHeight = ($pp + 4)
     PrettyLine; [int]$u = ($pp - 2)
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $LeftLine; $v++ }
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 88
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine; $v++ }
     [int]$w = 0; [Console]::SetCursorPosition($w, $pp); PrettyLine; [Console]::SetCursorPosition($w, $pp)
-    FlexWindow
-    FlexWindow
-    $pp = ($pp - 1)
-    PrettyLine
-    $pp++
+    FlexWindow; FlexWindow; $pp = ($pp - 1); PrettyLine; $pp++
     [Console]::SetCursorPosition($w, $pp); PrettyLine
     $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
     if ($pop -eq "100") {
@@ -226,7 +198,6 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
 
     }
-
     if ($pop -eq "105") {
         $blah = "Please enter The Console Window width. must be equal or LESS than BuffWidth"
         $boop = "Number of console Width or ENTER to cancel"
@@ -301,8 +272,8 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "110") {
-        $go1 = ($base + "BinMenu.ini")
-        $go2 = ($base + "BinMenu.json")
+        $go1 = ($base + "\BinMenu.ini")
+        $go2 = ($base + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
         PrettyLine
@@ -388,9 +359,7 @@ while (1) {
         PrettyLine
     }
     if ($pop -eq "114") {
-        PrettyLine
-        Say "Enter the Number of RunItem to Verify."
-        [Console]::SetCursorPosition($w, ($pp + 1))
+        PrettyLine; Say "Enter the Number of RunItem to Verify."; [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
         if (($q1)) {
@@ -422,7 +391,7 @@ while (1) {
             $TestRun1 = ($Config.$AddItem).Name
             $TestRun2 = ($Config.$AddItem).Command
             $TestRun3 = ($Config.$AddItem).Argument
-            Say "Test Running Entry $q1 $TestRun1"
+            Say "Test Running Entry" $q1 $TestRun1
             if ($TestRun3 -ne "") { Start-Process -FilePath $TestRun2 -ArgumentList $TestRun3 }
             else { Start-Process -FilePath $TestRun2 }
         }
@@ -430,6 +399,5 @@ while (1) {
     PrettyLine
     if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1"; return }
     if ($pop -eq "Q") { return }
-    FlexWindow
-    PrettyLine
+    FlexWindow; PrettyLine
 }

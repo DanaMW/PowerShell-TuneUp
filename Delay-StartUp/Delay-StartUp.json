@@ -19,7 +19,7 @@
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
     "StartDelay": "0",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "4",
+    "Delay": "5.",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": 0,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
