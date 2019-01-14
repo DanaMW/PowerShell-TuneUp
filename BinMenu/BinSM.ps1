@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = [string]"Version: 1.1.5"
+    $FileVersion = [string]"Version: 1.1.6"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -397,7 +397,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\BinSM.ps1"; return }
+    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinSM.ps1"); return }
     if ($pop -eq "Q") { return }
     FlexWindow; PrettyLine
 }

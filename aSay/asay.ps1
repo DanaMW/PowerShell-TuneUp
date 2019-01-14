@@ -1,8 +1,8 @@
 param([string]$myargs)
-$FileVersion = "Version: 0.1.1"
+$FileVersion = "Version: 0.1.2"
 if (!($myargs)) {
     Write-Output "ASay" $FileVersion
-    Write-Output "ERROR No params on the commandlime"
+    Write-Output "ERROR No params on the command line"
     Write-Output " "
     Write-Output "Please use: NOTIFY <message to send to output>"
     Write-Output "or use: ASAY <message to send to output>"
@@ -11,7 +11,12 @@ if (!($myargs)) {
     return
 }
 $TheArgs = "$myargs $args"
-$command = 'D:\bin\snoretoast.exe -t "My Sysytem Message" -m "' + "$TheArgs" + '" -id DanaMW -p D:\bin\asay.png'
+$prg = ($env:BASE + "\snoretoast.exe")
+$png = ($env:BASE + "\asay.png")
+$sys = "System Message"
+$command = "$prg -t `"$sys`" -m `"$TheArgs`" -id `"BinMess`" -p `"$png`""
+#say $command
+#break
 try { Invoke-Expression $command -ErrorAction Stop }
 Catch {
     Write-Output " "

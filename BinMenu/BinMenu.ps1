@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 11, 2018
+        Last Modified Date: January 13, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.4"
+$FileVersion = "Version: 1.1.6"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -323,8 +323,9 @@ Function MyMaker {
     try {
         Import-Csv $FileCSV | Foreach-Object {
             $tmpname = [Regex]::Escape($_.fullname)
-            if ($tmpname -match "git" -and $tmpname -ne "D:\\bin\\git\\bin\\bash\.exe") { return }
-            if ($tmpname -match "wscc" -and $tmpname -ne "D:\\bin\\wscc\\wscc\.exe") { return }
+            $tmpbase = $env:base.replace("\", "\\")
+            if ($tmpname -match "git" -and $tmpname -ne ($tmpbase + "\\git\\bin\\bash\.exe")) { return }
+            if ($tmpname -match "wscc" -and $tmpname -ne ($tmpbase + "\\wscc\\wscc\.exe")) { return }
             $tmpname = $_.name -replace "\\", ""
             if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
             $NameFix = $tmpname
