@@ -24,7 +24,10 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    [string]$Base = ($Config.basic.Base)
+    if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+    if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+    Set-Location $env:BASE.substring(0, 3)
+    Set-Location $env:BASE
     [bool]$ScriptRead = ($Config.basic.ScriptRead)
     [string]$Editor = ($Config.basic.Editor)
     [bool]$MenuAdds = ($Config.basic.MenuAdds)
@@ -37,10 +40,6 @@ while (1) {
     if (!($ABuffWidth)) { $ABuffWidth = 90 }
     if (!($AWinHeight)) { $AWinHeight = 44 }
     if (!($AWinWidth)) { $AWinWidth = 90 }
-    #if (!($AMaxWinHeight)) { $AMaxWinHeight = 50 }
-    #if (!($AMaxWinWidth)) { $AMaxWinWidth = 150 }
-    #if (!($AMaxpWinHeight)) { $AMaxpWinHeight = 60 }
-    #if (!($AMaxpWinWidth)) { $AMaxpWinWidth = 160 }
     Function FlexWindow {
         $pshost = get-host
         $pswindow = $pshost.ui.rawui
@@ -54,17 +53,6 @@ while (1) {
         $newsize.height = [int]$AWinHeight
         $newsize.width = [int]$AWinWidth
         $pswindow.windowsize = $newsize
-        <#
-        $newsize = $pswindow.maxwindowsize
-        $newsize.height = [int]$MaxWinHeight
-        $newsize.width = [int]$MaxWinWidth
-        $pswindow.maxwindowsize = $newsize
-
-        $newsize = $pswindow.maxphysicalwindowsize
-        $newsize.height = [int]$MaxpWinHeight
-        $newsize.width = [int]$MaxpWinWidth
-        $pswindow.maxphysicalwindowsize = $newsize
-        #>
     }
     FlexWindow
     $Script:ESC = [char]27
@@ -195,7 +183,7 @@ while (1) {
 
     }
     if ($pop -eq "104") {
-        $blah = "Please enter The Console Window width. must be equal or LESS than BuffWidth"
+        $blah = "Please enter The Console Buffer width. must be equal or Less than BuffWidth"
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -212,7 +200,7 @@ while (1) {
         }
     }
     if ($pop -eq "105") {
-        $blah = "Please enter The Console Window height. Must be equal or LESS than BuffHeight"
+        $blah = "Please enter The Console Buffer height. Must be equal or LESS than BuffHeight"
         $boop = "Number of console height or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -229,7 +217,7 @@ while (1) {
         }
     }
     if ($pop -eq "106") {
-        $blah = "Please enter The Console buffer width. Must be equal or GREATER than WinWidth"
+        $blah = "Please enter The Console Window width. Must be equal or GREATER than WinWidth"
         $boop = "Number of console buffer width or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -246,7 +234,7 @@ while (1) {
         }
     }
     if ($pop -eq "107") {
-        $blah = "Please enter The Console Window width. must be equal or GREATER than WinHeight"
+        $blah = "Please enter The Console Buffer. Must be equal or GREATER than WinHeight"
         $boop = "Number of console buffer Height or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {

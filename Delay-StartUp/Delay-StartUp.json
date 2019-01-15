@@ -13,7 +13,7 @@
   },
   "Basic": {
     "_Base": "[string] The starting folder that Delay-StartUp reads from.",
-    "Base": "D:\\bin\\",
+    "Base": "D:\\bin",
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "D:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
@@ -24,8 +24,14 @@
     "Prevent": 0,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "TestRun": 0,
-    "_DBug": "[bool] My internal script checks",
-    "DBug": 0
+    "_WinWidth": "[int]",
+    "WinWidth": "60",
+    "_WinHeight": "[int]",
+    "WinHeight": "25",
+    "_BuffWidth": "[int]",
+    "BuffWidth": "60",
+    "_BuffHeight": "[int]",
+    "BuffHeight": "25"
   },
   "RunItem-1": {
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",

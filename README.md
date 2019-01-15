@@ -58,7 +58,15 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ```
 ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
 ```
-## search
+## Search
 ```
 Search is a script that searches any text, as a filename parameter, in the path you give. From the whole drive down to just a folder it will list all matches found. It does this quickly.
+```
+## Env (environment)
+```
+This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote). If you just do ENV it will list ALL variable
+```
+## Ver (Version)
+```
+I was missing the sort of version program I wanted so here it is. Just type VER.
 ```

@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.1.0"
+    $FileVersion = "Version: 1.2.0"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -7,23 +7,26 @@ while (1) {
         $MyConfig
     }
     $Script:ConfigFile = MyConfig
-    try {
-        $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
-    }
-    catch {
-        Write-Error -Message "The Base configuration file is missing!"
-    }
+    try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+    catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
     if (!($Config)) {
-        Write-Error -Message "The Base configuration file is missing!"
+        Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
+        Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+        break
     }
-    [string]$Base = ($Config.basic.Base)
+    if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+    if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+    Set-Location $env:BASE.substring(0, 3)
+    Set-Location $env:BASE
     [string]$Editor = ($Config.basic.Editor)
-    if ($base.substring(($Base.length - 1)) -ne "\") { [string]$base = $base + "\" }
     [bool]$TestRun = ($Config.basic.TestRun)
     [int]$StartDelay = ($Config.basic.StartDelay)
     [int]$Delay = ($Config.basic.Delay)
     [bool]$Prevent = ($Config.basic.Prevent)
-    [bool]$DBug = ($Config.basic.DBug)
+    [int]$WinWidth = [int]($Config.basic.WinWidth)
+    [int]$WinHeight = [int]($Config.basic.WinHeight)
+    [int]$BuffWidth = [int]($Config.basic.BuffWidth)
+    [int]$BuffHeight = [int]($Config.basic.BuffHeight)
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
@@ -115,20 +118,23 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine $TitleLine; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$env:BASE$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m........$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$ESC[92m$StartDelay$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....$ESC[93mTest run shooting blanks$ESC[97m:$ESC[97m [$ESC[92m$TestRun$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m.......................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$DBug$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m......................$ESC[93mEditor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m................$ESC[93mWindow Width$ESC[97m:$ESC[97m [$ESC[92m$WinWidth$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m...............$ESC[93mWindow Height$ESC[97m:$ESC[97m [$ESC[92m$WinHeight$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m................$ESC[93mBuffer Width$ESC[97m:$ESC[97m [$ESC[92m$BuffWidth$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m...............$ESC[93mBuffer Height$ESC[97m:$ESC[97m [$ESC[92m$BuffHeight$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m......................$ESC[93mEditor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36m......$ESC[96mNum of Program Adds in JSON$ESC[97m:$ESC[97m [$ESC[96m" $AddCount "$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m...............$ESC[91mEdit the JSON$ESC[97m:$ESC[97m [$ESC[91mEdit Delay-StartUp.json Directly$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m................$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m...............$ESC[91mEdit the JSON$ESC[97m:$ESC[97m [$ESC[91mEdit Delay-StartUp.json Directly$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m...................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd A New Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m................$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Delayed Start Entry$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m..................$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m................$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
     #[int]$a = 8
@@ -202,18 +208,79 @@ while (1) {
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "104") {
-`
-            if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }
+        if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }
         else { $Config.basic.TestRun = 0 }
         $Config |ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "105") {
-`
-            if (($Config.basic.DBug) -eq 0) { $Config.basic.DBug = 1 }
-        else { $Config.basic.DBug = 0 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        $blah = "Please enter The Console Buffer width. must be equal or LESS than BuffWidth"
+        $boop = "Number of console Width or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            If ($Fixer -le $BuffWidth) {
+                $Config.basic.WinWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            else {
+                $Config.basic.BuffWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.basic.WinWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+        }
     }
     if ($pop -eq "106") {
+        $blah = "Please enter The Console Window height. Must be equal or LESS than BuffHeight"
+        $boop = "Number of console height or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            If ($Fixer -le $BuffHeight) {
+                $Config.basic.WinHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            else {
+                $Config.basic.BuffHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.basic.WinHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+        }
+    }
+    if ($pop -eq "107") {
+        $blah = "Please enter The Console buffer width. Must be equal or GREATER than WinWidth"
+        $boop = "Number of console buffer width or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            If ($Fixer -ge $WinWidth) {
+                $Config.basic.BuffWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            else {
+                $Config.basic.WinWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.basic.BuffWidth = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+        }
+    }
+    if ($pop -eq "108") {
+        $blah = "Please enter The Console Buffer height. must be equal or GREATER than WinHeight"
+        $boop = "Number of console buffer Height or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            If ($Fixer -ge $WinHeight) {
+                $Config.basic.BuffHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+            else {
+                $Config.basic.WinHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config.basic.BuffHeight = $Fixer
+                $Config |ConvertTo-Json | Set-Content $ConfigFile
+            }
+        }
+    }
+    if ($pop -eq "109") {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
@@ -222,12 +289,12 @@ while (1) {
             $Config |ConvertTo-Json | Set-Content $ConfigFile
         }
     }
-    if ($pop -eq "107") {
-        $go = ("$base" + "Delay-StartUp.json")
+    if ($pop -eq "110") {
+        $go = ($env:BASE + "\Delay-StartUp.json")
         Start-Process $Editor -ArgumentList $go -Verb RunAs
         PrettyLine
     }
-    if ($pop -eq "108") {
+    if ($pop -eq "111") {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
@@ -237,7 +304,7 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "109") {
+    if ($pop -eq "112") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
@@ -275,7 +342,7 @@ while (1) {
         }
         SpinItems
     }
-    if ($pop -eq "110") {
+    if ($pop -eq "113") {
         PrettyLine
         Say "Enter the Number of RunItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -315,7 +382,7 @@ while (1) {
             }
         }
     }
-    if ($pop -eq "111") {
+    if ($pop -eq "114") {
         PrettyLine
         Say "Enter the Number of RunItem to Verify."
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -341,7 +408,7 @@ while (1) {
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
     }
-    if ($pop -eq "112") {
+    if ($pop -eq "115") {
         PrettyLine
         Say "Enter the Number of RunItem to Execute."
         [Console]::SetCursorPosition($w, ($pp + 1))
