@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = [string]"Version: 1.1.6"
+    $FileVersion = [string]"Version: 1.1.7"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -27,7 +27,6 @@ while (1) {
     [bool]$ScriptRead = ($Config.basic.ScriptRead)
     [string]$Editor = ($Config.basic.Editor)
     [bool]$MenuAdds = ($Config.basic.MenuAdds)
-    [bool]$DBug = ($Config.basic.DBug)
     [bool]$WPosition = ($Config.basic.WPosition)
     [int]$BuffHeight = ($Config.basic.BuffHeight)
     [int]$BuffWidth = ($Config.basic.BuffWidth)

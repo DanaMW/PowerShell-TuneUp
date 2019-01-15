@@ -9,11 +9,11 @@
         It is designed to use an ini file created Internally.
         Also has great Settings Manager, it's companion script BinSM.ps1.
 .EXAMPLE
-        BinMenu.ps1 -Base [<PathToAFolder>]
+        BinMenu.ps1
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.6"
+$FileVersion = "Version: 1.1.8"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Say (Split-Path -parent $PSCommandPath)
 Set-Location (Split-Path -parent $PSCommandPath)
@@ -24,17 +24,9 @@ Function MyConfig {
     $MyConfig
 }
 [string]$ConfigFile = MyConfig
-try {
-    $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
-}
-catch {
-    Say -Message "The Base configuration file is missing!"
-    break
-}
-if (!($Config)) {
-    Say -Message "The Base configuration file is missing!"
-    break
-}
+try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+if (!($Config)) {  Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
 Function SpinItems {
     $si = 1
     $Sc = 20
@@ -48,14 +40,13 @@ Function SpinItems {
     #$Script:AddCount
 }
 SpinItems
-[string]$Base = ($Config.basic.Base)
+if (!($env:Base -eq "")) { [string]$Base = ($Config.basic.Base) }
+else { $Base = $env:BASE }
+if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = ($Base + "\") }
 [string]$Editor = ($Config.basic.Editor)
 if ($null -eq $editor) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
-[int]$SortMethod = ($Config.basic.SortMethod)
-[string]$SortDir = ($Config.basic.SortDir)
-if ($SortDir -eq "VERT" -and $SortMethod -eq 1) { [int]$SortMethod = 0 }
 [bool]$WPosition = ($Config.basic.WPosition)
 [int]$WinWidth = [int]($Config.basic.WinWidth)
 [int]$WinHeight = [int]($Config.basic.WinHeight)
@@ -96,16 +87,15 @@ Function Stop {
     $Stop
 }
 Function Show {
-    $Show = Say $Show
+    $Show = Say $_
     $Show
 }
 Clear-Host
-if ($Base -eq "") { [string]$Base = (Split-Path -parent $PSCommandPath) }
-if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = ($Base + "\") }
 [string]$FileINI = ($Base + "BinMenu.ini")
 [string]$Filetmp = ($Base + "BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+Set-Location $Base.substring(0, 3)
 Set-Location $Base
 SpinItems
 $ESC = [char]27
@@ -201,9 +191,7 @@ While ($i -le $work) {
     if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1]  }
     if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2]  }
     $i++
-    $c++
-    $c++
-    $c++
+    $c = ($c + 3)
     $L++
 }
 [Console]::SetCursorPosition(0, $pa); Say $Menu1Line; Say $SpacerLine; Say $SpacerLine; Say $SpacerLine
@@ -302,63 +290,9 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 Fixline
 $menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
 Function MyMaker {
-    Clear-Host
-    $Filetest = Test-Path -path $FileINI
-    if ($Filetest -eq $True) { Remove-Item –path $FileINI }
-    $FileTXT = ($Base + "BinMenu.txt")
-    $Filetest = Test-Path -path $FileTXT
-    if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
-    $FileCSv = ($Base + "BinMenu.csv")
-    $Filetest = Test-Path -path $FileCSV
-    if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
-    Say $fileVersion "Reading in directory" $Base
-    Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
-    @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
-    Name,
-    FullName ` | Export-Csv -path $FileTXT -NoTypeInformation
-    Say "Writing raw files info, Reread and sorting file names, Exporting all file names"
-    Import-Csv -Path $FileTXT | Sort-Object -Property "Foldername" | Export-Csv -NoTypeInformation $FileCSV
-    $writer = [System.IO.file]::CreateText($FileINI)
-    [int]$i = 1
-    try {
-        Import-Csv $FileCSV | Foreach-Object {
-            $tmpname = [Regex]::Escape($_.fullname)
-            $tmpbase = $env:base.replace("\", "\\")
-            if ($tmpname -match "git" -and $tmpname -ne ($tmpbase + "\\git\\bin\\bash\.exe")) { return }
-            if ($tmpname -match "wscc" -and $tmpname -ne ($tmpbase + "\\wscc\\wscc\.exe")) { return }
-            $tmpname = $_.name -replace "\\", ""
-            if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }
-            $NameFix = $tmpname
-            $NameFix = $NameFix.tolower()
-            $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
-            $Decidep = "Add $NameFix ? (Y)es-(N)o-[Enter is No]"
-            Say "["$_.fullname"]"
-            $Decide = Read-Host -Prompt $Decidep
-            if ($Decide -eq "Y") {
-                $NameFix = $NameFix.replace(".exe", "")
-                Say "Adding to Menu: " $NameFix
-                $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
-                $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
-                $Writer.WriteLine("[" + $i + "C]=")
-                $i++
-                return
-            }
-            else { return }
-        }
-    }
-    finally { $writer.close() }
-    Clear-Host
-    Say "Done Writing EXE files to the Menu ini."
-    Say ""
-    $Filetest = Test-Path -path $FileTXT
-    if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
-    $Filetest = Test-Path -path $FileCSV
-    if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
-    Clear-Host
-    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -Verb RunAs
-    return
+    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinIM.ps1") -Verb RunAs
 }
-if ($NoINI) { [bool]$NoINI = $False; MyMaker }
+if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 Function TheCommand {
     Param([string]$IntCom, [string]$Argue)
     if (!($IntCom)) {

@@ -1,5 +1,7 @@
 # BinMenu
 ```
+There ae four scripts that make up this set, BinMenu.ps1 is the main script and the one to run AFTER you edit BinMenu.json, this configuration for the program. You can use BinSM.ps1 (Settings Manager) to edit the json. Toggle settings on off and such. BinIM.ps1 is the ini creator. More on that below. Two more notes. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts so include it in your profile or edit all the SAY to WRITE-HOST. Lastly I Use the PowerShell environment $ENV:BASE in all my scripts. This is your base ps1 script folder.
+----
 Bin Menu is a simple console based menu that reads in what exe's are in the base sub-folders and which *PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. The script list can be sorted using the settings as follows: VERT or HORZ then sort Alpha, Name length or randomly. You can set how many script names to list in each row. And you can add additional lines to the bottom of the list to help make it look better. Then you can add your own entries to the end of the program menu list if you want up to 100. There is also a toggle to show the scripts or not, and a toggle to show the add entries or not. it has some personal debug stuff in it that has a toggle. Edit the json put the bin* files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable . The list in the picture below sums it up.)
 ----
 BinMenu is my answer to not being able to find a PowerShell menu that worked for me. I keep all my portable software in subfolders off one folder. (C:\bin) Well i needed a menu that reads it in even when the software changes. This is a tuned up second draft and is working pretty well on my machines with PowerShell Core 6.1.X.
@@ -26,5 +28,6 @@ To many options messed it up. Now it displays nicely on the bottom.
 Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times if not.
 Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
 limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
+Update: I put the INI maker back in it's own file BINIM.ps1 to make the menu a tiny bit faster.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>

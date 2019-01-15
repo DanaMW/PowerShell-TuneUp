@@ -1,6 +1,7 @@
 # PowerShell-TuneUp
 ```
-Please note: I use the alias *Set-Alias Say Write-Host* in ALL my scripts. Either add the alias or replace SAY with Write-Host
+A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts so include it in your profile or edit all the SAY to WRITE-HOST. Lastly I Use the PowerShell environment $ENV:BASE in all my scripts. This is your base ps1 script folder.
+----
 PowerShell Scripts and snips for the learning curve. All are working in PowerShell Code 6.1.X unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. Note: In some of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and it wont error any more and in a perfect world will resize to the size of the script display. With the Settings managers you can hit enter a couple times to do just that.
 ```
 # BinMenu
@@ -12,6 +13,7 @@ To many options messed it up Now it displays nicely on  the bottom.
 More Updates listed in BinMenu readme.md.
 Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
 limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
+Update: I put the INI maker back in it's own file BINIM.ps1 to make the menu a tiny bit faster.
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
 
