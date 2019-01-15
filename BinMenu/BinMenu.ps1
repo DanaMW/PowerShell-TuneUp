@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 13, 2018
+        Last Modified Date: January 15, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,10 +13,8 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.8"
+$FileVersion = "Version: 1.1.10"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
-Say (Split-Path -parent $PSCommandPath)
-Set-Location (Split-Path -parent $PSCommandPath)
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
@@ -26,7 +24,11 @@ Function MyConfig {
 [string]$ConfigFile = MyConfig
 try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
-if (!($Config)) {  Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+if (!($Config)) {
+    Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
+    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+    break
+}
 Function SpinItems {
     $si = 1
     $Sc = 20
@@ -40,11 +42,12 @@ Function SpinItems {
     #$Script:AddCount
 }
 SpinItems
-if (!($env:Base -eq "")) { [string]$Base = ($Config.basic.Base) }
-else { $Base = $env:BASE }
-if ($Base.substring(($Base.length - 1)) -ne "\") { [string]$Base = ($Base + "\") }
+if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $env:BASE.substring(0, 3)
+Set-Location $env:BASE
 [string]$Editor = ($Config.basic.Editor)
-if ($null -eq $editor) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
+if (!($editor)) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
@@ -82,21 +85,13 @@ Function FlexWindow {
     #>
 }
 if ($WPosition -eq "$True") { FlexWindow }
-Function Stop {
-    $Stop = Read-Host -Prompt "[Enter]"
-    $Stop
-}
-Function Show {
-    $Show = Say $_
-    $Show
-}
 Clear-Host
-[string]$FileINI = ($Base + "BinMenu.ini")
-[string]$Filetmp = ($Base + "BinTemp.del")
+[string]$FileINI = ($env:BASE + "\BinMenu.ini")
+[string]$Filetmp = ($env:BASE + "\BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+Set-Location $env:BASE.substring(0, 3)
+Set-Location $env:BASE
 SpinItems
 $ESC = [char]27
 $Filetest = Test-Path -path $FileINI
@@ -108,7 +103,7 @@ if ($Filetest -ne $True) {
     My-Maker
 }
 Clear-Host
-$ptemp = ($Base + "*.ps1")
+$ptemp = ($env:BASE + "\*.ps1")
 [int]$PCount = (get-childitem -Path $ptemp).count
 [string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
@@ -119,8 +114,8 @@ $ptemp = ($Base + "*.ps1")
 [string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
 [int]$LineCount = (Get-content $FileINI).count
-if ($MenuAdds -eq "$True") {
-    Say "Adding MenuAdds Items"
+if ($MenuAdds -eq "True") {
+    Say "Adding MenuAdds Items LineCount:"
     [int]$temp = ($LineCount / 3)
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
@@ -134,13 +129,14 @@ if ($MenuAdds -eq "$True") {
             $value2 = ("[" + $temp2 + "B]=") + ($Config.$AddItem).command
             (Add-Content $FileINI $value2)
             $value3 = ("[" + $temp2 + "C]=") + ($Config.$AddItem).argument
-            (Add-Content $FileINI $value3)
+            if (!($value3)) { (Add-Content $FileINI $value3) }
+            else { (Add-Content $FileINI $value3) }
             $Temp2++
         }
         $j++
     }
 }
-if ($MenuAdds -ne "$False") {
+if ($MenuAdds -ne "False") {
     Say "Removing MenuAdds Items"
     $AddItem = "AddItem-1"
     $wow = ($Config.$AddItem).name
@@ -222,7 +218,7 @@ while ($c -le 8) {
 if ($scriptRead -eq "$True") {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd2 = "$ESC[92m]"
-    Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
+    Get-ChildItem -file $env:BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
     [int]$roll = @(Get-Content -Path $Filetmp).Count
     $roll--
     [int]$w = 0
@@ -257,10 +253,8 @@ $pa = $l
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [int]$w = 0
-#if ($ScriptRead -eq $True) {
 [Console]::SetCursorPosition(0, $pa); Say $NormalLine
 $pa++
-#}
 $FixLine
 $BuffHeight = ($pa + 4)
 $WinHeight = ($pa + 4)
@@ -291,6 +285,7 @@ Fixline
 $menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
 Function MyMaker {
     Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinIM.ps1") -Verb RunAs
+    break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 Function TheCommand {
@@ -331,7 +326,7 @@ While (1) {
             if (($cmd)) {
                 $cmd = ($cmd.split(".")[0] + ".EXE")
                 FixLine
-                $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
+                $RMenu = "$ESC[91m[$ESC[97mAdd any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
                 $cmd1 = Read-Host -Prompt $RMenu
                 FixLine
                 if (($cmd1)) {
@@ -358,7 +353,7 @@ While (1) {
             FixLine
             if (($cmd)) {
                 $OneShot = "NO"
-                if ($cmd -eq "reboot" -or $cmd -eq "clearlogs" -or $cmd -eq "Do-Ghost") { $OneShot = "YES" }
+                if ($cmd -eq "clearlogs" -or $cmd -eq "Do-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
@@ -382,7 +377,7 @@ While (1) {
         else {
             FixLine
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
-            Start-Sleep -Milliseconds 400
+            Start-Sleep -Milliseconds 500
             FixLine
             if ($WPosition -eq "$True") { FlexWindow }
         }
