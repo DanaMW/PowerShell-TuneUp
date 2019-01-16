@@ -13,45 +13,51 @@
         Still under development.
 #>
 param([string]$myargs)
-$FileVersion = "Version: 0.1.1"
-if ($myargs -eq "") {
+$FileVersion = "Version: 0.1.3"
+if (!($myargs)) {
     Say "Environment Lister $FileVersion"
     Say ""
     Say "Listing ALL your environment Variables."
     Say "All sorted and formatted for your pleasure."
+    Say "-=-=-===-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
     Get-ChildItem Env: | Sort-Object Name | Format-Table -Wrap -AutoSize
     Say ""
-    Say ""
     Say "These are your variables on the Variable: Drive"
+    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
     Get-Childitem variable: | Sort-Object Name | Format-Table -Wrap -AutoSize
+    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+    Say "Use ENV VAR for normal variables"
+    Say "Use ENV `'`$VAR`' for Env. Drive variables"
+    Say "OK to use Wildcards ENV *VAR* on variables"
+    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
     return
 }
 #$TheArgs = "$myargs $args"
 if ($myargs.substring(0, 1) -eq '$') {
     $tmp = $myargs.substring(1)
-    Get-ChildItem Variable:"$tmp" | Format-Table -Wrap -AutoSize
+    Try { Get-ChildItem Variable:"$tmp" -ErrorAction Stop | Format-Table -Wrap -AutoSize }
+    catch {
+        Say -ForeGroundColor Red "Did not match Environment Drive Variable" $tmp.ToUpper()
+        Say ""
+    }
+    return
 }
 else {
     $arg1 = $myargs.substring(0, 1).toupper() + $myargs.substring(1).tolower()
     $arg2 = $myargs.toupper()
-
     if ($arg2 -eq "PATH") {
         Say
         Say "Displaying the PATH variable for you"
-        Say "================================="
+        Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
         $Env:PATH -Split ";" | Sort-Object
         return
     }
     Say
-    Say "Displaying the Enviroment Variable" $arg1.ToUpper() "if it exists"
-    Get-ChildItem Env:"$arg2" | Format-Table -Wrap -AutoSize
-
-    <#
-    Say "Machine environment variables"
-    [Environment]::GetEnvironmentVariables("Machine")
-    Say "User environment variables"
-    [Environment]::GetEnvironmentVariables("User")
-    Say "Process environment variables"
-    [Environment]::GetEnvironmentVariables("Process")
-    #>
+    Say "Displaying the Environment Variable" $arg1.ToUpper() "if it exists"
+    try { Get-ChildItem Env:"$arg2" -ErrorAction Stop | Format-Table -Wrap -AutoSize }
+    catch {
+        Say -ForeGroundColor Red "Did not match Environment Variable" $arg1.ToUpper()
+        Say ""
+    }
+    return
 }

@@ -1,9 +1,8 @@
 param([string]$file)
-$FileVersion = "Version: 0.0.1"
+$FileVersion = "Version: 0.0.2"
 Say "Remove-EmptyLines $FileVersion"
-#Remove empty lines from a file with PowerShell
 if (!($file)) { Say "Please include a file to process"; break }
-(gc $file) | ? {$_.trim() -ne "" } | set-content $file
+(Get-Content $file) | Where-Object {$_.trim() -ne "" } | set-content $file
 <#
 gc is an abbreviation for get-content
 The parenthesis causes the get-content command to finish before proceeding through the pipeline. Without the parenthesis, the file would be locked and we couldn't write back to it.
