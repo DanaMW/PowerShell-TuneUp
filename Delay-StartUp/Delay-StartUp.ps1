@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 15, 2019
+        Last Modified Date: January 23, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.0"
+$FileVersion = "Version: 1.2.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -36,9 +36,9 @@ if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in y
 Set-Location $env:BASE.substring(0, 3)
 Set-Location $env:BASE
 [int]$StartDelay = ($Config.basic.StartDelay)
-[int]$Delay = ($Config.basic.Delay)
-[bool]$Prevent = ($Config.basic.Prevent)
-[bool]$TestRun = ($Config.basic.TestRun)
+[int]$Delay = [int]($Config.basic.Delay)
+[bool]$Prevent = [bool]($Config.basic.Prevent)
+[bool]$TestRun = [bool]($Config.basic.TestRun)
 [int]$WinWidth = [int]($Config.basic.WinWidth)
 [int]$WinHeight = [int]($Config.basic.WinHeight)
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
@@ -70,17 +70,34 @@ Function SpinItems {
     }
 }
 FlexWindow
-if ($Prevent -eq "$True") {
+if ($Prevent -eq "1") {
     Clear-Host
     Write-Host ""
     Write-Host "The script setting PREVENT is set to $Prevent."
     Write-Host "This indicates we need to exit."
     Write-Host "Set PREVENT to 0 to allow this to run."
-    Read-Host -Prompt "[Enter to Continue to exit]"
     Write-Host ""
-    Read-Host -Prompt "[Enter to exit StartUp-Delay]"
+    Write-Host "Would you like to set it to zero now?"
+    Write-Host ""
+    $ans = Read-Host -Prompt "[(1) unset PREVENT (2) unset and rerun or Enter to EXIT]"
+    if ($ans -eq "1") {
+        [bool]$Prevent = 0
+        $Config.basic.Prevent = [bool]$Prevent
+        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        Say 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp") to run now.'
+        return
+    }
+    elseif ($and -eq "2") {
+        [bool]$Prevent = 0
+        $Config.basic.Prevent = [bool]$Prevent
+        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        Say "Ok all set, Rerunning Delay-StartUp for you now"
+        Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\Delay-StartUp') -WorkingDirectory $env:BASE"
+        return
+    }
+    else { return }
 }
-if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
+if ($StartDelay -ne "0" -and $TestRun -ne "1") {
     Clear-Host
     [Console]::SetCursorPosition(0, 1); & Write-OutPut "You have StartDelay Set."
     [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
@@ -96,15 +113,16 @@ if ($StartDelay -ne "0" -and $TestRun -ne "$True") {
     [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
 FlexWindow
-if ($TestRun -eq "$True" -or $StartDelay -eq "0") { Clear-Host }
-if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "No delay set, beginning StartUp-delay" }
+if ($TestRun -eq "1" -or $StartDelay -eq "0") { Clear-Host }
+if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay" }
 [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 4); & Write-Output "|- Running Delay-Startup Launcher -|"
+[Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
 [Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"
+[Console]::SetCursorPosition(0, 6); & Write-Output "  Startup Delay: $StartDelay - Run Delay: $Delay"
 [int]$c = 1
 [int]$a = 1
 SpinItems
-[Console]::SetCursorPosition(0, 6)
+[Console]::SetCursorPosition(0, 7)
 while ($c -le $AddCount) {
     $RunItem = "RunItem-$c"
     $Runname = ($Config.$RunItem).name
@@ -115,17 +133,22 @@ while ($c -le $AddCount) {
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
         & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
-        if ($TestRun -eq "$True") {
+        if ($TestRun -eq "1") {
             $X = $host.ui.rawui.CursorPosition.X
             $Y = $host.ui.rawui.CursorPosition.Y
             if (($RunArg)) {
-
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
+                [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                           "
                 [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit"
+                [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
+                [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
             }
             else {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
-                [Console]::SetCursorPosition(0, 0); Write-Host -Message  "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
+                [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                          "
+                [Console]::SetCursorPosition(0, 0); Write-Host -Message "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
+                [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
+                [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
             }
             [Console]::SetCursorPosition($X, $Y)
         }
