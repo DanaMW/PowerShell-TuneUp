@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.1.2"
+$FileVersion = "Version: 0.1.3"
 if ($args) {
     if ($null -ne $args[0]) { $filename = $args[0] }
     if ($null -ne $args[1]) { $SDrive = $args[1] }
@@ -9,15 +9,17 @@ if (!($filename)) {
     Say ""
     $ans = $null
     $ans = Read-Host -Prompt "Enter JUST the file name to search for. [Enter will exit]"
-    if ($ans) { $filename = ($ans -replace "*", "")  }
+    if ($ans) { $filename = $ans }
     else { return }
 }
 if (!($SDrive)) {
     $ans = $null
-    $ans = Read-Host -Prompt "Enter the Drive-Directry-Path to search in. [Enter will exit]"
+    $ans = Read-Host -Prompt "Enter the Drive-Directory-Path to search in. [Enter will exit]"
     if ($ans) { $SDrive = $ans }
     else { return }
 }
+$SDrive = $SDrive.replace("*", "")
+$filename = $filename.replace("*", "")
 $Filetmp = $SDrive
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -ne $true) {
