@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 23, 2019
+        Last Modified Date: January 25, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.2"
+$FileVersion = "Version: 1.2.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -138,23 +138,45 @@ while ($c -le $AddCount) {
             $Y = $host.ui.rawui.CursorPosition.Y
             if (($RunArg)) {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
-                [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                           "
-                [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit"
-                [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
+                [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                         "
+                $Filetest = Test-Path -path $RunPath
+                [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg"
+                if ($Filetest -ne $True) {
+                    [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
+                    [Console]::SetCursorPosition(0, 3); Write-Host "#==================================# File Was NOT Found!"
+                }
+                else {
+                    [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
+                    [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================# File OK!"
+                }
                 [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
             }
             else {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
                 [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                          "
-                [Console]::SetCursorPosition(0, 0); Write-Host -Message "Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit"
-                [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
+                $Filetest = Test-Path -path $RunPath
+                [Console]::SetCursorPosition(0, 0); Write-Host -Message "Start-Process -FilePath $RunPath"
+                if ($Filetest -ne $True) {
+                    [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
+                    [Console]::SetCursorPosition(0, 3); Write-Host "#==================================# File Was NOT Found!"
+                }
+                Else {
+                    [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
+                    [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================# File OK!"
+                }
                 [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
             }
             [Console]::SetCursorPosition($X, $Y)
         }
         else {
-            if (($RunArg)) { & Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit }
-            else { & Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit }
+            if (($RunArg)) {
+                try { & Start-Process -FilePath $RunPath -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                catch { Write-Host -ForeGroundColor RED "Could not run" $RunPath }
+            }
+            else {
+                try { & Start-Process -FilePath $RunPath -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                catch { Write-Host -ForeGroundColor RED "Could not run" $RunPath }
+            }
         }
         & Set-Location $env:BASE.substring(0, 3)
         & Set-Location $env:BASE
