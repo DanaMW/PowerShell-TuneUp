@@ -17,11 +17,11 @@
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "D:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "15",
+    "StartDelay": "0",
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "5.",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": false,
+    "Prevent": 0,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "TestRun": 0,
     "_WinWidth": "[int]",
@@ -40,69 +40,63 @@
     "HostOnly": "ALL"
   },
   "RunItem-2": {
-    "Name": "HardwareInfo 64",
-    "RunPath": "D:\\bin\\HWInfo\\HWiNFO64.exe",
-    "Argument": "",
-    "HostOnly": "ALL"
-  },
-  "RunItem-3": {
+    "HostOnly": "ALL",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
-    "Argument": "--Quiet",
-    "HostOnly": "ALL"
+    "Argument": "--Quiet"
   },
-  "RunItem-4": {
+  "RunItem-3": {
+    "HostOnly": "ALL",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
     "Name": "Redragon Gaming Mouse",
-    "Argument": "",
-    "HostOnly": "ALL"
+    "Argument": ""
   },
-  "RunItem-5": {
+  "RunItem-4": {
+    "HostOnly": "ALL",
     "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
-    "Argument": "/background",
-    "HostOnly": "ALL"
+    "Argument": "/background"
   },
-  "RunItem-6": {
+  "RunItem-5": {
+    "HostOnly": "ALL",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
-    "Argument": "-Min",
-    "HostOnly": "ALL"
+    "Argument": "-Min"
   },
-  "RunItem-7": {
+  "RunItem-6": {
+    "HostOnly": "TINMAN",
     "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
     "Name": "Sound Blaster Control Panel",
-    "Argument": "",
-    "HostOnly": "TINMAN"
+    "Argument": ""
   },
-  "RunItem-8": {
+  "RunItem-7": {
+    "HostOnly": "TORCHLIGHT",
     "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
     "Name": "IDT PC Audio",
-    "Argument": "",
-    "HostOnly": "TORCHLIGHT"
+    "Argument": ""
   },
-  "RunItem-9": {
+  "RunItem-8": {
+    "HostOnly": "TORCHLIGHT",
     "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
     "Name": "Beats64",
-    "Argument": "",
-    "HostOnly": "TORCHLIGHT"
+    "Argument": ""
   },
-  "RunItem-10": {
+  "RunItem-9": {
+    "HostOnly": "NONE",
     "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
     "Name": "BinMenu",
-    "Argument": "D:\\bin\\BinMenu.ps1",
-    "HostOnly": "NONE"
+    "Argument": "D:\\bin\\BinMenu.ps1"
   },
-  "RunItem-11": {
+  "RunItem-10": {
+    "HostOnly": "NONE",
     "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
     "Name": "MineTest",
-    "Argument": "D:\\bin\\MineTest.ps1",
-    "HostOnly": "NONE"
+    "Argument": "D:\\bin\\MineTest.ps1"
   },
-  "RunItem-12": {
+  "RunItem-11": {
+    "HostOnly": "NONE",
     "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
     "Name": "AdiIRC",
-    "Argument": "",
-    "HostOnly": "NONE"
+    "Argument": ""
   }
 }

@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.1.10"
+$FileVersion = "Version: 1.1.11"
 if (!($env:BASE)) { Say -ForeGroundColor RED "The Environment Variable BASE must be set or this will not run, Set it or edit this script"; break }
 Set-Location $env:BASE.substring(0, 3)
 Set-Location $env:BASE
@@ -27,6 +27,7 @@ try {
         $tmpbase = $env:base.replace("\", "\\")
         if ($tmpname -match "git" -and $tmpname -ne ($tmpbase + "\\git\\bin\\bash\.exe")) { return }
         if ($tmpname -match "wscc" -and $tmpname -ne ($tmpbase + "\\wscc\\wscc\.exe")) { return }
+        f ($tmpname -match "tc" -and $tmpname -ne ($tmpbase + "\\tc\\TOTALCMD64\.EXE")) { return }
         if ($tmpname -match "wscc" -and $tmpname -ne ($tmpbase + "\\wscc\\SysInternals Suite\\procexp64\.exe")) { return }
         $tmpname = $_.name -replace "\\", ""
         if ($tmpname -eq "Totalcmd64.exe") { $tmpname = "Total Commander.exe" }

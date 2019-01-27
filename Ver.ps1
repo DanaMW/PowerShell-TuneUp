@@ -1,6 +1,8 @@
-﻿$FileVersion = "Version: 0.1.0"
+﻿$FileVersion = "Version: 0.1.1"
 Clear-Host
 $VarFile = ($env:BASE + "\ver.tmp")
+$Filetest = Test-Path -path $VarFile
+if ($Filetest -eq $True) { Remove-Item –path $VarFile }
 [Console]::SetCursorPosition(0, 0)
 Say ""
 Say "My Version Information" $FileVersion
