@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 25, 2019
+        Last Modified Date: January 27, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.3"
+$FileVersion = "Version: 1.2.4"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -70,7 +70,7 @@ Function SpinItems {
     }
 }
 FlexWindow
-if ($Prevent -eq "1") {
+if ($Prevent -eq $True) {
     Clear-Host
     Write-Host ""
     Write-Host "The script setting PREVENT is set to $Prevent."
@@ -97,7 +97,7 @@ if ($Prevent -eq "1") {
     }
     else { return }
 }
-if ($StartDelay -ne "0" -and $TestRun -ne "1") {
+if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     Clear-Host
     [Console]::SetCursorPosition(0, 1); & Write-OutPut "You have StartDelay Set."
     [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
@@ -113,7 +113,7 @@ if ($StartDelay -ne "0" -and $TestRun -ne "1") {
     [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
 FlexWindow
-if ($TestRun -eq "1" -or $StartDelay -eq "0") { Clear-Host }
+if ($TestRun -eq $True -or $StartDelay -eq "0") { Clear-Host }
 if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay" }
 [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
 [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
@@ -133,7 +133,7 @@ while ($c -le $AddCount) {
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
         & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
-        if ($TestRun -eq "1") {
+        if ($TestRun -eq $True) {
             $X = $host.ui.rawui.CursorPosition.X
             $Y = $host.ui.rawui.CursorPosition.Y
             if (($RunArg)) {

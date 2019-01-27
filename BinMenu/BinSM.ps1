@@ -114,7 +114,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$i = 1; [int]$w = 1
-    if ($MenuAdds -eq "$True") {
+    if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
             $AddItem = "AddItem-$i"
             $it1 = ($Config.$AddItem).name
@@ -357,7 +357,7 @@ while (1) {
             else { $GTG1 = "NO" }
             if (($TestRun2)) {
                 $Filetest = Test-Path -path $TestRun2
-                if ($Filetest -eq $true) { $GTG2 = "YES" }
+                if ($Filetest -eq $True) { $GTG2 = "YES" }
                 else { $GTG2 = "NO" }
             }
             if ($GTG1 -eq "YES" -and $GTG2 -eq "YES") { $GoodToGo = "Verified" }

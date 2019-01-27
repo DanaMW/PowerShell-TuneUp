@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 15, 2018
+        Last Modified Date: January 27, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.10"
+$FileVersion = "Version: 1.1.12"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -84,7 +84,7 @@ Function FlexWindow {
     $pswindow.maxphysicalwindowsize = $newsize
     #>
 }
-if ($WPosition -eq "$True") { FlexWindow }
+if ($WPosition -eq $True) { FlexWindow }
 Clear-Host
 [string]$FileINI = ($env:BASE + "\BinMenu.ini")
 [string]$Filetmp = ($env:BASE + "\BinTemp.del")
@@ -191,7 +191,7 @@ While ($i -le $work) {
     $L++
 }
 [Console]::SetCursorPosition(0, $pa); Say $Menu1Line; Say $SpacerLine; Say $SpacerLine; Say $SpacerLine
-if ($ScriptRead -eq "$True") {
+if ($ScriptRead -eq $True) {
     Say $ScriptLine
     $PCount = (Get-ChildItem -file $env:BASE -Filter "*.ps1").count
     [Console]::SetCursorPosition(15, ($pa + 4)); Say -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
@@ -215,7 +215,7 @@ while ($c -le 8) {
     $c++
 }
 [Console]::SetCursorPosition(0, $pa)
-if ($scriptRead -eq "$True") {
+if ($scriptRead -eq $True) {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd2 = "$ESC[92m]"
     Get-ChildItem -file $env:BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
@@ -306,7 +306,7 @@ Function TheCommand {
         else { Start-Process $cow[1] -Verb RunAs -WorkingDirectory $MakeMove }
     }
 }
-if ($WPosition -eq "$True") { FlexWindow }
+if ($WPosition -eq $True) { FlexWindow }
 $menuPrompt += $menu
 While (1) {
     $ans = Read-Host -Prompt $menuprompt
@@ -379,7 +379,7 @@ While (1) {
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -Milliseconds 500
             FixLine
-            if ($WPosition -eq "$True") { FlexWindow }
+            if ($WPosition -eq $True) { FlexWindow }
         }
     }
 }
