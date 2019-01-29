@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.4"
+$FileVersion = "Version: 1.2.5"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -78,13 +78,15 @@ if ($Prevent -eq $True) {
     Write-Host "Set PREVENT to 0 to allow this to run."
     Write-Host ""
     Write-Host "Would you like to set it to zero now?"
-    Write-Host ""
-    $ans = Read-Host -Prompt "[(1) unset PREVENT (2) unset and rerun or Enter to EXIT]"
+    Write-Host "If not Settings Manager will run."
+    Write-Host "(1) Set PREVENT to ZERO"
+    Write-Host "(2) Set PREVENT to ZERO, rerun Delay-StartUp"
+    $ans = Read-Host -Prompt "[(1) (2) or Enter to EXIT]"
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config |ConvertTo-Json | Set-Content $ConfigFile
-        Say 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp") to run now.'
+        Say 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
         return
     }
     elseif ($and -eq "2") {
@@ -92,10 +94,13 @@ if ($Prevent -eq $True) {
         $Config.basic.Prevent = [bool]$Prevent
         $Config |ConvertTo-Json | Set-Content $ConfigFile
         Say "Ok all set, Rerunning Delay-StartUp for you now"
-        Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\Delay-StartUp') -WorkingDirectory $env:BASE"
+        Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Delay-StartUp.ps1") -WorkingDirectory $env:BASE
         return
     }
-    else { return }
+    else {
+        Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\DelaySM.ps1") -WorkingDirectory $env:BASE
+        return
+    }
 }
 if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     Clear-Host
