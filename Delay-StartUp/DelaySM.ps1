@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.2.2"
+    $FileVersion = "Version: 1.2.3"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -362,21 +362,25 @@ while (1) {
             $Rich3B = "Current Value: $Fight3"
             $rich4A = "Please enter any ARGUMENTS you need for this entry."
             $rich4B = "Current Value: $Fight4"
-            $boop = "[ENTER for No Change]"
+            $boop = "[ENTER for No Change or - to Clear]"
             FightOn
             if ($Fight1 -ne "") {
+                if ($Fight1 -eq "-") { $Fight1 = "" }
                 $Config.$RunItem.Name = $Fight1
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight2 -ne "") {
+                if ($Fight2 -eq "-") { $Fight2 = "" }
                 $Config.$RunItem.HostOnly = $Fight2
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight3 -ne "") {
+                if ($Fight3 -eq "-") { $Fight3 = "" }
                 $Config.$RunItem.RunPath = $Fight3
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight4 -ne "") {
+                if ($Fight4 -eq "-") { $Fight4 = "" }
                 $Config.$RunItem.Argument = $Fight4
                 $Config |ConvertTo-Json | Set-Content $ConfigFile
             }

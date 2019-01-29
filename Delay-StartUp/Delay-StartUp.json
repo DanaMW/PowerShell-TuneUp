@@ -82,10 +82,10 @@
     "Argument": ""
   },
   "RunItem-9": {
-    "HostOnly": "NONE",
-    "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Name": "BinMenu",
-    "Argument": "D:\\bin\\BinMenu.ps1"
+    "HostOnly": "ALL",
+    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+    "Name": "Ditto",
+    "Argument": ""
   },
   "RunItem-10": {
     "HostOnly": "NONE",
