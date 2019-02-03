@@ -1,10 +1,10 @@
 Import-Module CimCmdlets
-$FileVersion = "Version: 0.1.25"
+$FileVersion = "Version: 0.1.26"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
-if ($null -eq $BuffHeight) { $BuffHeight = "40" }
+if ($null -eq $BuffHeight) { $BuffHeight = "25" }
 if ($null -eq $BuffWidth) { $BuffWidth = "60" }
-if ($null -eq $WinHeight) { $WinHeight = "40" }
+if ($null -eq $WinHeight) { $WinHeight = "25" }
 if ($null -eq $WinWidth) { $WinWidth = "60" }
 Function FlexWindow {
     $pshost = get-host
@@ -104,12 +104,14 @@ $inf19 = "$tt" + "User logged$ESC[31m]$ESC[37m: $ESC[36m" + ($computerSystem.Use
 $inf20 = "$tt" + "Last Reboot$ESC[31m]$ESC[37m: $ESC[36m" + ($computerOS.LastBootUpTime)
 FlexWindow
 while (1) {
-    FlexWindow
-    $Spin = 16
+    $Spin = 21
     if (($netTotal)) { $Spin = ($Spin + $NetTotal) }
+    $buffHeight = ($Spin + 3)
+    $WinHeight = ($Spin + 3)
+    FlexWindow
     $l = 0
     $n = 00
-    while ($l -lt 24) {
+    while ($l -lt 21) {
         [Console]::SetCursorPosition(0, $l)
         $tmp = '$' + 'inf' + "$n"
         Say -NoNewLine ($ExecutionContext.InvokeCommand.ExpandString($tmp))
@@ -119,8 +121,6 @@ while (1) {
     $p = 1
     $c = 1
     $n = 00
-    $l = ($l - 3)
-    if (($NetTotal)) { $spin = ($spin + $NetTotal) }
     while ($l -lt $Spin) {
         [Console]::SetCursorPosition(0, $l)
         $tmp = '$' + 'Con' + "$p" + "$c"
@@ -130,9 +130,8 @@ while (1) {
         $l++
         if ($c -eq 5) { $c = 1; $p++ }
     }
-    $ender = ($l - 6)
     [Console]::SetCursorPosition(0, 0)
-    [Console]::SetCursorPosition(0, $ender)
+    [Console]::SetCursorPosition(0, ($Spin + 1))
     $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT X to Reload$ESC[31m]$ESC[37m"
     if ($pop -eq "Q") { break }
     if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Get-Sysinfo.ps1"); return }
