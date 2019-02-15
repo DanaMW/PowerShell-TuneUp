@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 27, 2019
+        Last Modified Date: February 14, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.5"
+$FileVersion = "Version: 1.2.7"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -25,14 +25,14 @@ Function MyConfig {
 }
 $ConfigFile = MyConfig
 try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
-catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+catch { Write-Host -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
-    Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+    Write-Host -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
+    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
     break
 }
 if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+if (!($env:Base)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $env:BASE.substring(0, 3)
 Set-Location $env:BASE
 [int]$StartDelay = ($Config.basic.StartDelay)
@@ -79,28 +79,33 @@ if ($Prevent -eq $True) {
     Write-Host ""
     Write-Host "Would you like to set it to zero now?"
     Write-Host "If not Settings Manager will run."
-    Write-Host "(1) Set PREVENT to ZERO"
-    Write-Host "(2) Set PREVENT to ZERO, rerun Delay-StartUp"
-    $ans = Read-Host -Prompt "[(1) (2) or Enter to EXIT]"
+    Write-Host "(1) Set PREVENT to ZERO (Allow D-S to run) Then exit."
+    Write-Host "(2) Set PREVENT to ZERO then run Delay-StartUp now."
+    Write-Host "(3) Exit this and run DelaySM Settings Manager."
+    Write-Host "(4) or (ENTER) Just exit do nothing."
+    $DSPrompt = "[(1), (2), (3), (4) or (ENTER) to EXIT]"
+    $ans = Read-Host -Prompt $DSPrompt
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config |ConvertTo-Json | Set-Content $ConfigFile
-        Say 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
+        Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
         return
     }
-    elseif ($and -eq "2") {
+    if ($ans -eq "2") {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config |ConvertTo-Json | Set-Content $ConfigFile
-        Say "Ok all set, Rerunning Delay-StartUp for you now"
+        Write-Host "Ok all set, Running Delay-StartUp for you now"
         Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Delay-StartUp.ps1") -WorkingDirectory $env:BASE
         return
     }
-    else {
+    if ($ans -eq "3") {
+        Write-Host "Running DelaySM for you now"
         Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\DelaySM.ps1") -WorkingDirectory $env:BASE
         return
     }
+    return
 }
 if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     Clear-Host
