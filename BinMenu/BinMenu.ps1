@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.13"
+$FileVersion = "Version: 1.1.14"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -294,44 +294,51 @@ Function TheCommand {
         Write-Error "Error In Sent Param " + $IntCom
         return
     }
-    $ValidOption = "YES"
-    try { [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI) }
-    catch { $ValidOption = "NO" }
+    $SCRIPT:ValidOption = "YES"
+    [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI)
+    if (!($moo)) { $SCRIPT:ValidOption = "NO" }
     $cow = $moo.split("=")
     if ($cow[1] -match "shell") {
         try { Start-Process "explorer.exe" -ArgumentList $cow[1] }
-        catch { $ValidOption = "NO" }
+        catch { $SCRIPT:ValidOption = "NO" }
     }
     elseif ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) {
         try { Invoke-Item $cow[1] }
-        catch { $ValidOption = "NO" }
+        catch { $SCRIPT:ValidOption = "NO" }
     }
     else {
-        if ($ValidOption -eq "YES") {
+        if ($SCRIPT:ValidOption -eq "YES") {
             [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
             $bus = $car -split "="
             $MakeMove = split-path $cow[1]
             if ($bus[1] -ne "None") {
                 try { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs -WorkingDirectory $MakeMove }
-                catch { $ValidOption = "NO" }
+                catch { $SCRIPT:ValidOption = "NO" }
             }
             else {
                 Try { Start-Process $cow[1] -Verb RunAs -WorkingDirectory $MakeMove }
-                catch { $ValidOption = "NO" }
+                catch { $SCRIPT:ValidOption = "NO" }
             }
+        }
+        if ($SCRIPT:ValidOption -eq "NO") {
+            FixLine
+            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+            Start-Sleep -Milliseconds 500
+            FixLine
+            if ($WPosition -eq $True) { FlexWindow }
         }
     }
 }
 if ($WPosition -eq $True) { FlexWindow }
 $menuPrompt += $menu
 While (1) {
-    $ValidOption = "NO"
+    $SCRIPT:ValidOption = "NO"
     $ans = Read-Host -Prompt $menuprompt
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
         TheCommand -IntCom ("[" + $ans + "B]") -Argue ("[" + $ans + "C]")
-        if ($ValidOption -eq "NO") {
+        if ($SCRIPT:ValidOption -eq "NO") {
             FixLine
             Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
             Start-Sleep -Milliseconds 500
