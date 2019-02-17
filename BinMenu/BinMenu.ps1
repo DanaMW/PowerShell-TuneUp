@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 27, 2018
+        Last Modified Date: February 17, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.12"
+$FileVersion = "Version: 1.1.13"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -294,27 +294,51 @@ Function TheCommand {
         Write-Error "Error In Sent Param " + $IntCom
         return
     }
-    [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI)
+    $ValidOption = "YES"
+    try { [string]$moo = (Select-String -SimpleMatch $IntCom $FileINI) }
+    catch { $ValidOption = "NO" }
     $cow = $moo.split("=")
-    if ($cow[1] -match "shell") { Start-Process "explorer.exe" -ArgumentList $cow[1] }
-    elseif ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) { Invoke-Item $cow[1] }
+    if ($cow[1] -match "shell") {
+        try { Start-Process "explorer.exe" -ArgumentList $cow[1] }
+        catch { $ValidOption = "NO" }
+    }
+    elseif ((Get-Item $cow[1]) -is [System.IO.DirectoryInfo] -eq $True) {
+        try { Invoke-Item $cow[1] }
+        catch { $ValidOption = "NO" }
+    }
     else {
-        [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
-        $bus = $car -split "="
-        $MakeMove = split-path $cow[1]
-        if ($bus[1] -ne "None") { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs -WorkingDirectory $MakeMove }
-        else { Start-Process $cow[1] -Verb RunAs -WorkingDirectory $MakeMove }
+        if ($ValidOption -eq "YES") {
+            [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
+            $bus = $car -split "="
+            $MakeMove = split-path $cow[1]
+            if ($bus[1] -ne "None") {
+                try { Start-Process $cow[1] -ArgumentList $bus[1] -Verb RunAs -WorkingDirectory $MakeMove }
+                catch { $ValidOption = "NO" }
+            }
+            else {
+                Try { Start-Process $cow[1] -Verb RunAs -WorkingDirectory $MakeMove }
+                catch { $ValidOption = "NO" }
+            }
+        }
     }
 }
 if ($WPosition -eq $True) { FlexWindow }
 $menuPrompt += $menu
 While (1) {
+    $ValidOption = "NO"
     $ans = Read-Host -Prompt $menuprompt
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
         TheCommand -IntCom ("[" + $ans + "B]") -Argue ("[" + $ans + "C]")
-        FixLine
+        if ($ValidOption -eq "NO") {
+            FixLine
+            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+            Start-Sleep -Milliseconds 500
+            FixLine
+            if ($WPosition -eq $True) { FlexWindow }
+        }
+        else { FixLine }
     }
     else {
         if ($ans -eq "A") {
@@ -339,6 +363,7 @@ While (1) {
                 }
             }
             FixLine
+            $ValidOption = "YES"
         }
         elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
@@ -370,16 +395,19 @@ While (1) {
                 }
             }
             FixLine
+            $ValidOption = "YES"
         }
         elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
         elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
         elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinSM.ps1") -Verb RunAs; FixLine }
         else {
-            FixLine
-            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
-            Start-Sleep -Milliseconds 500
-            FixLine
-            if ($WPosition -eq $True) { FlexWindow }
+            if ($ValidOption -eq "NO") {
+                FixLine
+                Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+                Start-Sleep -Milliseconds 500
+                FixLine
+                if ($WPosition -eq $True) { FlexWindow }
+            }
         }
     }
 }

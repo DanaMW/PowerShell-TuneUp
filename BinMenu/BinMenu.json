@@ -112,5 +112,10 @@
     "Name": "Network And Sharing",
     "Command": "C:\\Windows\\System32\\control.exe",
     "Argument": "/name Microsoft.NetworkandSharingCenter"
+  },
+  "AddItem-17": {
+    "Name": "ShotCut",
+    "Command": "D:\\bin\\Shotcut\\shotcut.exe",
+    "Argument": ""
   }
 }
