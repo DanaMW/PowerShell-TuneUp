@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: February 25, 2018
+        Last Modified Date: February 26, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.19"
+$FileVersion = "Version: 1.1.22"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -55,9 +55,13 @@ if (!($editor)) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
 [int]$WinHeight = [int]($Config.basic.WinHeight)
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
 [int]$BuffHeight = [int]($Config.basic.BuffHeight)
+#[int]$MaxWinHeight = [int]($Config.basic.MaxWinHeight)
 #if (!($MaxWinHeight)) { $MaxWinHeight = "50" }
+#[int]$MaxWinWidth = [int]($Config.basic.MaxWinWidth)
 #if (!($MaxWinWidth)) { $MaxWinWidth = "150" }
+#[int]$MaxpWinHeight = [int]($Config.basic.MaxpWinHeight)
 #if (!($MaxpWinHeight)) { $MaxpWinHeight = "60" }
+#[int]$MaxpWinWidth = [int]($Config.basic.$MaxpWinWidth)
 #if (!($MaxpWinWidth)) { $MaxpWinWidth = "160" }
 Function FlexWindow {
     $pshost = get-host
@@ -387,15 +391,29 @@ While (1) {
         elseif ($ans -eq "G") {
             FixLine
             $cmd = $null; $cmd1 = $null
+            Say "QuickMenu $ESC[91m[$ESC[97m1$ESC[91m]$ESC[97m ClearLogs $ESC[91m[$ESC[97m2$ESC[91m]$ESC[97m Reboot $ESC[91m[$ESC[97m3$ESC[91m]$ESC[97m Do-Ghost"
             $RMenu = "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
             if (($cmd)) {
                 $OneShot = "NO"
-                if ($cmd -eq "clearlogs" -or $cmd -eq "Do-Ghost") { $OneShot = "YES" }
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3") { $QM = "YES" }
+                if ($cmd -eq "clearlogs" -or $cmd -eq "reboot" -or $cmd -eq "Run-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "1") {
+                    start-Process "pwsh.exe" -Argumentlist "clearlogs.ps1" -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") {
+                    start-Process "pwsh.exe" -Argumentlist "reboot.ps1" -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") {
+                    start-Process "pwsh.exe" -Argumentlist "Run-Ghost.ps1" -Verb RunAs
                     FixLine
                 }
                 else {
