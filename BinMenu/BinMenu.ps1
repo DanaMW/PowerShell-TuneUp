@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: February 17, 2018
+        Last Modified Date: February 25, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.17"
+$FileVersion = "Version: 1.1.19"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -290,12 +290,13 @@ Function MyMaker {
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 if ($WPosition -eq $True) { FlexWindow }
 $menuPrompt += $menu
+$ValidOption = "NO"
 While (1) {
-    $ValidOption = "NO"
     $ans = Read-Host -Prompt $menuprompt
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
+        $ValidOption = "NO"
         $DidIt = "NO"
         $IntCom = ("[" + $ans + "B]")
         $Argue = ("[" + $ans + "C]")
@@ -332,9 +333,7 @@ While (1) {
                     $DidIt = "YES"
                 }
                 else {
-                    #$MakeMove = split-path $horn
-                    Try { Start-Process $horn -Verb RunAs }
-                    #-WorkingDirectory $MakeMove
+                    try { Start-Process $horn -Verb RunAs }
                     catch { continue }
                     $ValidOption = "YES"
                     $DidIt = "YES"
@@ -342,16 +341,20 @@ While (1) {
             }
             else { FixLine }
         }
-        if ($ValidOption -eq "NO") {
-            FixLine
-            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
-            Start-Sleep -Milliseconds 500
-            FixLine
-            if ($WPosition -eq $True) { FlexWindow }
+        else {
+            if ($ValidOption -eq "NO") {
+                FixLine
+                Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+                Start-Sleep -Milliseconds 500
+                FixLine
+                if ($WPosition -eq $True) { FlexWindow }
+            }
+            else { FixLine }
         }
-        else { FixLine }
     }
     else {
+        $ValidOption = "NO"
+        $DidIt = "NO"
         if ($ans -eq "A") {
             FixLine
             $cmd = $null; $cmd1 = $null
@@ -419,6 +422,7 @@ While (1) {
                 FixLine
                 if ($WPosition -eq $True) { FlexWindow }
             }
+            else { FixLine }
         }
     }
 }
