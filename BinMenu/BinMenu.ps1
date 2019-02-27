@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.22"
+$FileVersion = "Version: 1.1.23"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -391,8 +391,8 @@ While (1) {
         elseif ($ans -eq "G") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            Say "QuickMenu $ESC[91m[$ESC[97m1$ESC[91m]$ESC[97m ClearLogs $ESC[91m[$ESC[97m2$ESC[91m]$ESC[97m Reboot $ESC[91m[$ESC[97m3$ESC[91m]$ESC[97m Do-Ghost"
-            $RMenu = "$ESC[91m[$ESC[97mWhat script to run? $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
+            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m]<$ESC[97mClearLogs$ESC[91m> [$ESC[97m2$ESC[91m]<$ESC[97mReboot$ESC[91m> [$ESC[97m3$ESC[91m]<$ESC[97mDo-Ghost$ESC[91m>"
+            $RMenu = "$ESC[91m[$ESC[97mType PS1 script name to run, QuickMenu option or $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
             if (($cmd)) {
