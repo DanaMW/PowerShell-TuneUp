@@ -65,35 +65,41 @@
   },
   "RunItem-6": {
     "HostOnly": "TINMAN",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
-    "Name": "Sound Blaster Control Panel",
+    "RunPath": "C:\\Program Files (x86)\\Creative\\Connection Service\\Connection Service.exe",
+    "Name": "Creative Connection Service",
     "Argument": ""
   },
   "RunItem-7": {
+    "HostOnly": "TINMAN",
+    "RunPath": "c:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
+    "Name": "Creative SBConnect",
+    "Argument": ""
+  },
+  "RunItem-8": {
     "HostOnly": "TORCHLIGHT",
     "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
     "Name": "IDT PC Audio",
     "Argument": ""
   },
-  "RunItem-8": {
+  "RunItem-9": {
     "HostOnly": "TORCHLIGHT",
     "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
     "Name": "Beats64",
     "Argument": ""
   },
-  "RunItem-9": {
+  "RunItem-10": {
     "HostOnly": "ALL",
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
     "Argument": ""
   },
-  "RunItem-10": {
+  "RunItem-11": {
     "HostOnly": "NONE",
     "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
     "Name": "MineTest",
     "Argument": "D:\\bin\\MineTest.ps1"
   },
-  "RunItem-11": {
+  "RunItem-12": {
     "HostOnly": "NONE",
     "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
     "Name": "AdiIRC",

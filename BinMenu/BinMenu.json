@@ -1,116 +1,116 @@
 {
-    "_Info": [
-        "This is the JSON based Configuration for BinMenu",
-        "AddItems Are your items not in the base that you",
-        "Want added to the menu for you every time."
-    ],
-    "InternalInfo": {
-        "Project": "BinMenu",
-        "Modified": "02/26/2019",
-        "Author": "Dana Meli <danamw@gmail.com",
-        "Support": "https://github.com/danamw/PowerShell-tuneup",
-        "License": "MIT"
-    },
-    "Basic": {
-        "_Base": "The starting folder that BinMenu reads from.",
-        "Base": "D:\\bin",
-        "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
-        "ScriptRead": false,
-        "_Editor": "Defines a text editor to use from BinMenu",
-        "Editor": "D:\\bin\\NPP\\NotePad++.exe",
-        "_MenuAdds": "[bool] Determines if the menu adds are used or not",
-        "MenuAdds": 1,
-        "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
-        "WPosition": 1,
-        "_BuffHeight": "How tall to make the Buffer.",
-        "BuffHeight": 20,
-        "_BuffWidth": "How wide to make the Buffer.",
-        "BuffWidth": "104",
-        "_WinHeight": "How tall to draw the window.",
-        "WinHeight": 20,
-        "_WinWidth": "How wide to draw the window.",
-        "WinWidth": "104",
-        "_DBug": "[bool] My Internal script debug information.",
-        "DBug": 0
-    },
-    "AddItem-1": {
-        "Name": "RegEdit",
-        "Command": "C:\\Windows\\Regedit.exe",
-        "Argument": ""
-    },
-    "AddItem-2": {
-        "Name": "Clean Manager",
-        "Command": "C:\\Windows\\System32\\cleanmgr.exe",
-        "Argument": ""
-    },
-    "AddItem-3": {
-        "Name": "Process Manager",
-        "Command": "D:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
-        "Argument": ""
-    },
-    "AddItem-4": {
-        "Name": "My Downloads",
-        "Command": "D:\\Downloads",
-        "Argument": ""
-    },
-    "AddItem-5": {
-        "Name": "My Bin",
-        "Command": "D:\\bin\\tc\\TOTALCMD64.EXE",
-        "Argument": "D:\\bin"
-    },
-    "AddItem-6": {
-        "Name": "My Home",
-        "Command": "C:\\Users\\Dana",
-        "Argument": ""
-    },
-    "AddItem-7": {
-        "Name": "Firefox Developers Edition",
-        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-        "Argument": "D:\\bin\\Get-Firefox.ps1"
-    },
-    "AddItem-8": {
-        "Name": "VMWare",
-        "Command": "C:\\Program Files (x86)\\VMware\\VMware Player\\vmplayer.exe",
-        "Argument": ""
-    },
-    "AddItem-9": {
-        "Name": "VirtualBox",
-        "Command": "c:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
-        "Argument": ""
-    },
-    "AddItem-10": {
-        "Name": "Control Panel",
-        "Argument": "",
-        "Command": "C:\\Windows\\System32\\control.exe"
-    },
-    "AddItem-11": {
-        "Name": "Stardock Skin Studio",
-        "Argument": "",
-        "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe"
-    },
-    "AddItem-12": {
-        "Name": "My Scripts",
-        "Argument": "",
-        "Command": "D:\\MyScripts"
-    },
-    "AddItem-13": {
-        "Name": "Delay-StartUp SM",
-        "Argument": "D:\\bin\\DelaySM.ps1",
-        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe"
-    },
-    "AddItem-14": {
-        "Name": "Event Viewer",
-        "Argument": "/s",
-        "Command": "C:\\Windows\\system32\\eventvwr.msc"
-    },
-    "AddItem-15": {
-        "Name": "Network Adapter Settings",
-        "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
-        "Argument": ""
-    },
-    "AddItem-16": {
-        "Name": "Network And Sharing",
-        "Command": "C:\\Windows\\System32\\control.exe",
-        "Argument": "/name Microsoft.NetworkandSharingCenter"
-    }
+  "_Info": [
+    "This is the JSON based Configuration for BinMenu",
+    "AddItems Are your items not in the base that you",
+    "Want added to the menu for you every time."
+  ],
+  "InternalInfo": {
+    "Project": "BinMenu",
+    "Modified": "02/26/2019",
+    "Author": "Dana Meli <danamw@gmail.com",
+    "Support": "https://github.com/danamw/PowerShell-tuneup",
+    "License": "MIT"
+  },
+  "Basic": {
+    "_Base": "The starting folder that BinMenu reads from.",
+    "Base": "D:\\bin",
+    "_ScriptRead": "[bool] Determines if the PS1 scripts are read in",
+    "ScriptRead": false,
+    "_Editor": "Defines a text editor to use from BinMenu",
+    "Editor": "D:\\bin\\NPP\\NotePad++.exe",
+    "_MenuAdds": "[bool] Determines if the menu adds are used or not",
+    "MenuAdds": 1,
+    "_WPosition": "[bool] Turns script console window positioning 1-on or 0-off.",
+    "WPosition": 1,
+    "_BuffHeight": "How tall to make the Buffer.",
+    "BuffHeight": 20,
+    "_BuffWidth": "How wide to make the Buffer.",
+    "BuffWidth": "104",
+    "_WinHeight": "How tall to draw the window.",
+    "WinHeight": 20,
+    "_WinWidth": "How wide to draw the window.",
+    "WinWidth": "104",
+    "_DBug": "[bool] My Internal script debug information.",
+    "DBug": 0
+  },
+  "AddItem-1": {
+    "Name": "RegEdit",
+    "Command": "C:\\Windows\\Regedit.exe",
+    "Argument": ""
+  },
+  "AddItem-2": {
+    "Name": "Clean Manager",
+    "Command": "C:\\Windows\\System32\\cleanmgr.exe",
+    "Argument": ""
+  },
+  "AddItem-3": {
+    "Name": "Process Manager",
+    "Command": "D:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
+    "Argument": ""
+  },
+  "AddItem-4": {
+    "Name": "My Downloads",
+    "Command": "D:\\Downloads",
+    "Argument": ""
+  },
+  "AddItem-5": {
+    "Name": "My Bin",
+    "Command": "D:\\bin\\tc\\TOTALCMD64.EXE",
+    "Argument": "D:\\bin"
+  },
+  "AddItem-6": {
+    "Name": "My Home",
+    "Command": "C:\\Users\\Dana",
+    "Argument": ""
+  },
+  "AddItem-7": {
+    "Name": "Firefox Developers Edition",
+    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Get-Firefox.ps1"
+  },
+  "AddItem-8": {
+    "Name": "VMWare",
+    "Command": "C:\\Program Files (x86)\\VMware\\VMware Player\\vmplayer.exe",
+    "Argument": ""
+  },
+  "AddItem-9": {
+    "Name": "VirtualBox",
+    "Command": "c:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": ""
+  },
+  "AddItem-10": {
+    "Name": "Control Panel",
+    "Argument": "",
+    "Command": "C:\\Windows\\System32\\control.exe"
+  },
+  "AddItem-11": {
+    "Name": "Stardock Skin Studio",
+    "Argument": "",
+    "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe"
+  },
+  "AddItem-12": {
+    "Name": "My Scripts",
+    "Argument": "",
+    "Command": "D:\\MyScripts"
+  },
+  "AddItem-13": {
+    "Name": "Delay-StartUp SM",
+    "Argument": "D:\\bin\\DelaySM.ps1",
+    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe"
+  },
+  "AddItem-14": {
+    "Name": "Event Viewer",
+    "Argument": "/s",
+    "Command": "C:\\Windows\\system32\\eventvwr.msc"
+  },
+  "AddItem-15": {
+    "Name": "Network Adapter Settings",
+    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
+    "Argument": ""
+  },
+  "AddItem-16": {
+    "Name": "Network And Sharing",
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": "/name Microsoft.NetworkandSharingCenter"
+  }
 }

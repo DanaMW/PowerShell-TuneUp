@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: February 26, 2018
+        Last Modified Date: February 28, 2018
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.23"
+$FileVersion = "Version: 1.1.25"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -391,7 +391,7 @@ While (1) {
         elseif ($ans -eq "G") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m]<$ESC[97mClearLogs$ESC[91m> [$ESC[97m2$ESC[91m]<$ESC[97mReboot$ESC[91m> [$ESC[97m3$ESC[91m]<$ESC[97mDo-Ghost$ESC[91m>"
+            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m][$ESC[97mClearLogs$ESC[91m] [$ESC[97m2$ESC[91m][$ESC[97mReboot$ESC[91m] [$ESC[97m3$ESC[91m][$ESC[97mShut Down$ESC[91m] [$ESC[97m4$ESC[91m][$ESC[97mDo-Ghost$ESC[91m]"
             $RMenu = "$ESC[91m[$ESC[97mType PS1 script name to run, QuickMenu option or $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
@@ -413,6 +413,10 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") {
+                    start-Process "pwsh.exe" -Argumentlist "reboot.ps1 STOP" -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") {
                     start-Process "pwsh.exe" -Argumentlist "Run-Ghost.ps1" -Verb RunAs
                     FixLine
                 }
