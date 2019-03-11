@@ -29,5 +29,6 @@ Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a cou
 Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
 limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
 Update: I put the INI maker back in it's own file BINIM.ps1 to make the menu a tiny bit faster.
+Update: Added a small speed menu when you press G (run a ps1 script) to get to the clearlogs and reboot options I use ALL the time. (Saves me typing)
 ```
 <img src="/img/ShowBinMenu.png" alt="BinMenu"/>
