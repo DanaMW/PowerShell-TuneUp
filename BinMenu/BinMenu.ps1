@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.26"
+$FileVersion = "Version: 1.1.27"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -397,7 +397,7 @@ While (1) {
             FixLine
             if (($cmd)) {
                 $OneShot = "NO"
-                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3") { $QM = "YES" }
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4" -or $cmd -eq "5") { $QM = "YES" }
                 if ($cmd -eq "clearlogs" -or $cmd -eq "reboot" -or $cmd -eq "Run-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
                     $cmd = ($cmd.split(".")[0] + ".PS1")
@@ -405,23 +405,23 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "1") {
-                    start-Process "pwsh.exe" -Argumentlist "clearlogs.ps1" -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\clearlogs.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") {
-                    Start-Process "pwsh.exe" -Argumentlist $env:BASE + "\reboot.ps1" -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") {
-                    Start-Process "pwsh.exe" -Argumentlist $env:BASE + "\reboot.ps1 STOP" -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1 STOP") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") {
-                    Start-Process "pwsh.exe" -Argumentlist $env:BASE + "\Run-Ghost.ps1" -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-Ghost.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") {
-                    Start-Process "pwsh.exe" -Argumentlist $env:BASE + "\Run-CheckDisk.ps1" -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-CheckDisk.ps1") -Verb RunAs
                     FixLine
                     break
                 }
