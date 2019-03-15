@@ -51,6 +51,7 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 ## ASAY and NOTIFY
 ```
 ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
+I also call these scripts from a LOT of my scripts to give notifications on windows 10. there is also a Linux and Dos version.
 ```
 ## Search
 ```
@@ -63,4 +64,15 @@ This is my script to list a (one) environment variable from system ENV variable 
 ## Ver (Version)
 ```
 I was missing the sort of version program I wanted so here it is. Just type VER.
+```
+## Reboot
+```
+I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT
+Just REBOOT alone is the same as REBOOT RESTART
+I also call this script from the BinMenu above
+```
+## Run-CheckDisk
+```
+This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check.
+I also call this script from the G QuickMenu of the BinMenu above
 ```
