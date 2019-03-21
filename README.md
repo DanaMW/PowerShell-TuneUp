@@ -68,7 +68,7 @@ Remove-Empty is a simple little script that removes all empty Lines in a given t
 
 Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 ```
-## ASAY and NOTIFY
+# ASAY and NOTIFY
 ```
 ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify>
 I also call these scripts from a LOT of my scripts to give notifications on windows 10. there is also a Linux and Dos version.
@@ -77,13 +77,13 @@ The Linux files you need to edit and put your username over mine and edit atune 
 Usage: Without Quotes do NOTIFY.PS1 [<message to send to output>] or ASAY.PS1 [<message to send to output>]
 Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
 ```
-## Search
+# Search
 ```
 Search is a script that searches any text, as a filename parameter, in the path you give. From the whole drive down to just a folder it will list all matches found. It does this quickly.
 
 Usage: Without Star (SHIFT-8) SEARCH.PS1 [<SearchPhrase>] [<BasePathToStartIn>] (The star is added automatically)
 ```
-## Env (environment)
+# Env (environment)
 ```
 This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote). If you just do ENV it will list ALL variable
 
@@ -91,13 +91,13 @@ Usage: Does all variables ENV.PS1
 Usage: Without quotes ENV.PS1 [<VaribleToSearch>]
 Usage: With single quote ENV.PS1 [<'VaribleToSearch'>] (Works on variable drive)
 ```
-## Ver (Version)
+# Ver (Version)
 ```
 I was missing the sort of version program I wanted so here it is. Just type VER.
 
 Usage: VER.PS1
 ```
-## Reboot
+# Reboot
 ```
 I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT
 Just REBOOT alone is the same as REBOOT RESTART
@@ -107,7 +107,7 @@ Usage: REBOOT.PS1 (The same as REBOOT RESTART)
 Usage: REBOOT.PS1 STOP or REBOOT.PS1 SHUTDOWN
 Usage: REBOOT.PS1 RESTART or REBOOT.PS1 REBOOT`
 ```
-## Run-CheckDisk
+# Run-CheckDisk
 ```
 This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check.
 I also call this script from the G QuickMenu of the BinMenu above
@@ -116,3 +116,17 @@ It Will produce a message in Windows that you need to reboot to check the drives
 
 Usage: RUN-CHECKDISK.PS1
 ```
+# Repair-windows
+```
+This is just a pretty console menu for SCF and DISM. I wrote it for my family and friends with plenty
+of help and explanations to get them through running it correctly. It includes the 4 normal possibilities.
+And we all have used it hundreds of times to make sure our Windows 10 was operating well.
+
+Usage: REPAIR-WINDOWS.PS1 (Runs Menu)
+Usage: REPAIR-WINDOWS.PS1 SCAN (Directly runs SFC.EXE /SCANNOW)
+Usage: REPAIR-WINDOWS.PS1 Check (Directly runs DISM.EXE /Online /Cleanup-Image /ScanHealth)
+Usage: REPAIR-WINDOWS.PS1 REPAIR (Directly runs DISM.EXE /Online /Cleanup-Image /e /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1) (E=Cd Drive where I mount the windows cd when I run it.)
+Usage: REPAIR-WINDOWS.PS1 RESET (Directly runs DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\ sources\install.wim:) (E=Cd Drive)
+```
+<img src="/img/Repair-Windows1.png" alt="Repair-Windows"/>
+<img src="/img/Repair-Windows2.png" alt="Repair-Windows"/>
