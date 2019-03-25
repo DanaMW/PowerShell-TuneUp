@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 19, 2019
+        Last Modified Date: March 25, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.2.9"
+$FileVersion = "Version: 1.3.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -87,24 +87,24 @@ if ($Prevent -eq $True) {
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
-        return
-    }
-    if ($ans -eq "2") {
-        [bool]$Prevent = 0
-        $Config.basic.Prevent = [bool]$Prevent
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host "Ok all set, Running Delay-StartUp for you now"
-        Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\Delay-StartUp.ps1') -NoLogo -NoProfile" -WorkingDirectory $env:BASE
-        return
-    }
-    if ($ans -eq "3") {
-        Write-Host "Running DelaySM for you now"
-        Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\DelaySM.ps1') -NoLogo -NoProfile" -WorkingDirectory $env:BASE
-        return
-    }
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+    Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
     return
+}
+if ($ans -eq "2") {
+    [bool]$Prevent = 0
+    $Config.basic.Prevent = [bool]$Prevent
+    $Config | ConvertTo-Json | Set-Content $ConfigFile
+Write-Host "Ok all set, Running Delay-StartUp for you now"
+Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Delay-StartUp.ps1") "-NoLogo -NoProfile" -WorkingDirectory $env:BASE
+return
+}
+if ($ans -eq "3") {
+    Write-Host "Running DelaySM for you now"
+    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\DelaySM.ps1") "-NoLogo -NoProfile" -WorkingDirectory $env:BASE
+    return
+}
+return
 }
 if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     Clear-Host
@@ -197,4 +197,4 @@ while ($c -le $AddCount) {
 if ($tt -ne "") { $tt = "" }
 Write-Host "All Programs Loaded, Exiting."
 Start-Sleep -s 3
-Exit
+Exit-PSHostProcess
