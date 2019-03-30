@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 25, 2019
+        Last Modified Date: March 29, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.0"
+$FileVersion = "Version: 1.3.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -44,7 +44,7 @@ Set-Location $env:BASE
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
 [int]$BuffHeight = [int]($Config.basic.BuffHeight)
 Function FlexWindow {
-    $pshost = get-host
+    $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
     #
     $newsize = $pswindow.buffersize
@@ -88,27 +88,33 @@ if ($Prevent -eq $True) {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-    Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
+        Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
+        return
+    }
+    if ($ans -eq "2") {
+        [bool]$Prevent = 0
+        $Config.basic.Prevent = [bool]$Prevent
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        Write-Host "Ok all set, Running Delay-StartUp for you now"
+        $command = ($env:BASE + "\Delay-StartUp.ps1")
+        $command = $command + " " + "-NoLogo -NoProfile"
+        $command = $command + " " + "-WorkingDirectory " + $env:BASE
+        Start-Process "pwsh.exe" -ArgumentList $command
+        return
+    }
+    if ($ans -eq "3") {
+        Write-Host "Running DelaySM for you now"
+        $command = ($env:BASE + "\Delay-StartUp.ps1")
+        $command = $command + " " + "-NoLogo -NoProfile"
+        $command = $command + " " + "-WorkingDirectory " + $env:BASE
+        Start-Process "pwsh.exe" -ArgumentList $command
+        return
+    }
     return
-}
-if ($ans -eq "2") {
-    [bool]$Prevent = 0
-    $Config.basic.Prevent = [bool]$Prevent
-    $Config | ConvertTo-Json | Set-Content $ConfigFile
-Write-Host "Ok all set, Running Delay-StartUp for you now"
-Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Delay-StartUp.ps1") "-NoLogo -NoProfile" -WorkingDirectory $env:BASE
-return
-}
-if ($ans -eq "3") {
-    Write-Host "Running DelaySM for you now"
-    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\DelaySM.ps1") "-NoLogo -NoProfile" -WorkingDirectory $env:BASE
-    return
-}
-return
 }
 if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     Clear-Host
-    [Console]::SetCursorPosition(0, 1); & Write-OutPut "You have StartDelay Set."
+    [Console]::SetCursorPosition(0, 1); & Write-Output "You have StartDelay Set."
     [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
     [int]$c = $StartDelay
     while ($c -gt 0) {

@@ -64,7 +64,7 @@
     "Argument": "-Min"
   },
   "RunItem-6": {
-    "HostOnly": "TINMAN",
+    "HostOnly": "NONE",
     "RunPath": "C:\\Program Files (x86)\\Creative\\Connection Service\\Connection Service.exe",
     "Name": "Creative Connection Service",
     "Argument": ""
