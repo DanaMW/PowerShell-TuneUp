@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.1.6"
+$FileVersion = "Version: 0.1.7"
 $host.ui.RawUI.WindowTitle = "Google $FileVersion"
 if (!($args)) {
     Say ""
@@ -61,10 +61,9 @@ Function DBGoogle {
     Say "Key1: " $Key1
     Say "Key2: " $Key2
     Say "Wander: " $Wander
-    Say "FileVersion: " $FileVersion
     Say "Query: " $Query
     $pop = Read-Host -Prompt "[Enter To Continue]"
-    if (!($pop)) { Say "Error"}
+    if (!($pop)) { Say "Error" }
 }
 #DBGoogle
 if ($Query) { Start-Process $Query }
