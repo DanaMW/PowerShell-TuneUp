@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 15, 2019
+        Last Modified Date: April 02, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.27"
+$FileVersion = "Version: 1.1.28"
 $host.ui.RawUI.WindowTitle = "BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -31,13 +31,13 @@ if (!($Config)) {
 }
 Function SpinItems {
     $si = 1
-    $Sc = 20
+    $Sc = 50
     $Script:AddCount = 0
     While ($si -lt $sc) {
         $AddItem = "AddItem-$si"
         $Spin = ($Config.$AddItem).name
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
-        else { $si = 20 }
+        else { $si = 50 }
     }
     #$Script:AddCount
 }
@@ -64,7 +64,7 @@ if (!($editor)) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
 #[int]$MaxpWinWidth = [int]($Config.basic.$MaxpWinWidth)
 #if (!($MaxpWinWidth)) { $MaxpWinWidth = "160" }
 Function FlexWindow {
-    $pshost = get-host
+    $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
     #
     $newsize = $pswindow.buffersize
@@ -108,7 +108,7 @@ if ($Filetest -ne $True) {
 }
 Clear-Host
 $ptemp = ($env:BASE + "\*.ps1")
-[int]$PCount = (get-childitem -Path $ptemp).count
+[int]$PCount = (Get-ChildItem -Path $ptemp).count
 [string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
 [string]$SpacerLine = "$ESC[91m|                                                                                                     $ESC[91m|$ESC[97m"
@@ -117,10 +117,10 @@ $ptemp = ($env:BASE + "\*.ps1")
 #[string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m][$ESC[33m$PCount$ESC[96m]$ESC[91m=====================================================================================#$ESC[97m"
 [string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
 [int]$LineCount = 0
-[int]$LineCount = (Get-content $FileINI).count
+[int]$LineCount = (Get-Content $FileINI).count
 if ($MenuAdds -eq "True") {
-    Say "Adding MenuAdds Items LineCount:"
     [int]$temp = ($LineCount / 3)
+    Say "Adding $temp Menu-Adds Items"
     [int]$temp2 = ($temp + 1)
     [int]$J = 1
     while ($j -le $AddCount) {
@@ -161,7 +161,7 @@ if ($MenuAdds -ne "False") {
     }
 }
 [int]$LineCount = 0
-[int]$LineCount = (Get-content $FileINI).count
+[int]$LineCount = (Get-Content $FileINI).count
 $temp = ($LineCount / 3)
 $a = ($temp / 3)
 [int]$a = [int][Math]::Ceiling($a)
@@ -188,8 +188,8 @@ While ($i -le $work) {
         $moo = $line -split "="
         [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
     }
-    if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1]  }
-    if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2]  }
+    if ($i -eq $Row[0]) { [int]$l = 2; [int]$w = $Col[1] }
+    if ($i -eq $Row[1]) { [int]$l = 2; [int]$w = $Col[2] }
     $i++
     $c = ($c + 3)
     $L++
@@ -222,7 +222,7 @@ while ($c -le 8) {
 if ($scriptRead -eq $True) {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd2 = "$ESC[92m]"
-    Get-ChildItem -file $env:BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", ""} | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } |  Out-File $Filetmp
+    Get-ChildItem -file $env:BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", "" } | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } | Out-File $Filetmp
     [int]$roll = @(Get-Content -Path $Filetmp).Count
     $roll--
     [int]$w = 0
@@ -330,7 +330,7 @@ While (1) {
                 $bus = $car -split "="
                 $truck = $bus[1]
                 if (($truck)) {
-                    $MakeMove = split-path $truck
+                    $MakeMove = Split-Path $truck
                     try { Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove }
                     catch { continue }
                     $ValidOption = "YES"
@@ -372,11 +372,11 @@ While (1) {
                 $cmd1 = Read-Host -Prompt $RMenu
                 FixLine
                 if (($cmd1)) {
-                    start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
+                    Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
                     FixLine
                 }
                 else {
-                    start-Process $cmd -Verb RunAs
+                    Start-Process $cmd -Verb RunAs
                     FixLine
                 }
             }
@@ -401,7 +401,7 @@ While (1) {
                 if ($cmd -eq "clearlogs" -or $cmd -eq "reboot" -or $cmd -eq "Run-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
                     $cmd = ($cmd.split(".")[0] + ".PS1")
-                    start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "1") {
@@ -431,7 +431,7 @@ While (1) {
                     FixLine
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     [string]$cmd = ("$cmd $cmd1")
-                    start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
                 }
             }
