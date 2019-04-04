@@ -1,5 +1,7 @@
 Param([bool]$loud)
-$FileVersion = "Version: 0.2.10"
+$HoldError = "$ErrorActionPreference"
+$ErrorActionPreference = "SilentlyContinue"
+$FileVersion = "Version: 0.2.11"
 $host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -12,20 +14,17 @@ if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator
     Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\ClearLogs.ps1") -Verb RunAs
     return
 }
-
 if (!($WinWidth)) { [int]$WinWidth = 80 }
 if (!($WinHeight)) { [int]$WinHeight = 25 }
 if (!($BuffWidth)) { [int]$BuffWidth = 80 }
 if (!($BuffHeight)) { [int]$BuffHeight = 25 }
 Function FlexWindow {
-    $pshost = get-host
+    $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
-    #
     $newsize = $pswindow.buffersize
     $newsize.height = $BuffHeight
     $newsize.width = $BuffWidth
     $pswindow.buffersize = $newsize
-    #
     $newsize = $pswindow.windowsize
     $newsize.height = $WinHeight
     $newsize.width = $WinWidth
@@ -40,15 +39,15 @@ FlexWindow
 [Console]::SetCursorPosition(0, 3); Say "Running ClearWindows Logs" $FileVersion
 $ClearSet = 0
 FlexWindow
-& wevtutil el | Foreach-Object { $ClearSet++ }
+& wevtutil.exe el | ForEach-Object { $ClearSet++ }
 [Console]::SetCursorPosition(0, 4); Say "You have $ClearSet logs on this machine. Setting Up the math."
 $ClearSet = ($ClearSet / 100)
 $i = 0
 if ($loud -eq $True) {
     [Console]::SetCursorPosition(0, 5)
-    wevtutil el | Foreach-Object {
+    wevtutil.exe el | ForEach-Object {
         Say "Deleting: " $_
-        wevtutil cl $_
+        wevtutil.exe cl $_
         $i++
     }
     Say -NoNewline "ClearWindows Logs Processed $i log files."
@@ -61,8 +60,8 @@ else {
     $OrgError = $ErrorActionPreference
     $ErrorActionPreference = "Ignore"
     Try {
-        & wevtutil el | ForEach-Object {
-            Try { & wevtutil cl "$_" }
+        & wevtutil.exe el | ForEach-Object {
+            Try { & wevtutil.exe cl "$_" }
             catch { Continue }
             if ($LastExitCode -ne 0) { $ec++ }
             $i++
@@ -86,12 +85,13 @@ else {
     Catch { Continue }
     if ($LastExitCode -ne 0) { $ec++ }
     $ErrorActionPreference = $OrgError
-    asay ClearWindows Logs Processed $i log files.
+    asay.ps1 ClearWindows Logs Processed $i log files.
     [Console]::SetCursorPosition(0, 11); Say -NoNewline "ClearWindows Logs Processed $i log files."
     [Console]::SetCursorPosition(0, 12); Say -NoNewline $ec "Files were in use and not cleared."
     [Console]::SetCursorPosition(0, 13); Read-Host -Prompt "[Slap Enter to Exit]"
     $PShost = Get-Host
     $PSWin = $PShost.ui.rawui
     $PSWin.CursorSize = 25
+    $ErrorActionPreference = "$HoldError"
     return
 }

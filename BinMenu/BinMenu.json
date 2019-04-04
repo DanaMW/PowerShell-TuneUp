@@ -116,12 +116,12 @@
   "AddItem-17": {
     "Name": "Visual Studio 2019",
     "Argument": "",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\Common7\\IDE\\devenv.exe"
+    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe"
   },
   "AddItem-18": {
     "Name": "Visual Studio Installer",
     "Argument": "",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vs_installer.exe"
+    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe"
   },
   "AddItem-19": {
     "Name": "Ubuntu Bash",

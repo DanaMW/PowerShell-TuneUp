@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 29, 2019
+        Last Modified Date: April 04, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.2"
+$FileVersion = "Version: 1.3.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -112,7 +112,7 @@ if ($Prevent -eq $True) {
     }
     return
 }
-if ($StartDelay -ne "0" -and $TestRun -ne $True) {
+if ($StartDelay -ne "0") {
     Clear-Host
     [Console]::SetCursorPosition(0, 1); & Write-Output "You have StartDelay Set."
     [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
@@ -128,8 +128,10 @@ if ($StartDelay -ne "0" -and $TestRun -ne $True) {
     [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
 FlexWindow
-if ($TestRun -eq $True -or $StartDelay -eq "0") { Clear-Host }
-if ($StartDelay -eq "0") { [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay" }
+if ($StartDelay -eq "0") {
+    Clear-Host
+    [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay"
+}
 [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
 [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
 [Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"

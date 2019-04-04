@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.2.5"
+    $FileVersion = "Version: 1.3.3"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -186,7 +186,7 @@ while (1) {
     }
     if ($pop -eq "101") {
         $blah = "Please enter the seconds to delay start."
-        $boop = "Folder path or ENTER to cancel"
+        $boop = "Seconds to delay start or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.StartDelay = $Fixer
@@ -195,7 +195,7 @@ while (1) {
     }
     if ($pop -eq "102") {
         $blah = "Please enter the seconds to delay between each."
-        $boop = "Folder path or ENTER to cancel"
+        $boop = "Seconds to delay between or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Delay = $Fixer
