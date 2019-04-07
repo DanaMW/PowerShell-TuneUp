@@ -13,8 +13,8 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.29"
-$host.ui.RawUI.WindowTitle = "My Bin Menu $FileVersion on $env:USERDOMAIN"
+$FileVersion = "Version: 1.1.30"
+$host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
@@ -383,15 +383,15 @@ While (1) {
             FixLine
             $ValidOption = "YES"
         }
-        elseif ($ans -eq "B") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Start-Process "pwsh.exe" ($env:BASE + "\BinMenu.ps1") -Verb RunAs; Clear-Host; return }
+        elseif ($ans -eq "B") { Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($env:BASE + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         elseif ($ans -eq "G") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m][$ESC[97mClearLogs$ESC[91m] [$ESC[97m2$ESC[91m][$ESC[97mReboot$ESC[91m] [$ESC[97m3$ESC[91m][$ESC[97mShut Down$ESC[91m] [$ESC[97m4$ESC[91m][$ESC[97mDo-Ghost$ESC[91m] [$ESC[97m5$ESC[91m][$ESC[97mComplete CheckDisk$ESC[91m]"
+            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m][$ESC[97mClearLogs$ESC[91m] [$ESC[97m2$ESC[91m][$ESC[97mReboot$ESC[91m] [$ESC[97m3$ESC[91m][$ESC[97mShut Down$ESC[91m] [$ESC[97m4$ESC[91m][$ESC[97mLogOff$ESC[91m] [$ESC[97m5$ESC[91m][$ESC[97mDo-Ghost$ESC[91m] [$ESC[97m6$ESC[91m][$ESC[97mComplete CheckDisk$ESC[91m]"
             $RMenu = "$ESC[91m[$ESC[97mType a PS1 script name to run, a QuickMenu option or $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
@@ -417,11 +417,16 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") {
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1 LOGOFF") -Verb RunAs
+                    FixLine
+                    break
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") {
                     Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-Ghost.ps1") -Verb RunAs
                     FixLine
                 }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-CheckDisk.ps1") -Verb RunAs
+                elseif ($QM -eq "YES" -and $cmd -eq "6") {
+                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs
                     FixLine
                     break
                 }
@@ -439,8 +444,8 @@ While (1) {
             $ValidOption = "YES"
         }
         elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
-        elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinMenu.ps1") -WorkingDirectory  $env:BASE -Verb RunAs; Clear-Host; return }
-        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinSM.ps1") -Verb RunAs; FixLine }
+        elseif ($ans -eq "R") { Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\BinSM.ps1') -Verb RunAs"; FixLine }
         else {
             if ($ValidOption -eq "NO") {
                 FixLine

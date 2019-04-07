@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.1.24"
+    $FileVersion = "Version: 1.1.30"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -41,7 +41,7 @@ while (1) {
     if (!($AWinHeight)) { $AWinHeight = 44 }
     if (!($AWinWidth)) { $AWinWidth = 90 }
     Function FlexWindow {
-        $pshost = get-host
+        $pshost = Get-Host
         $pswindow = $pshost.ui.rawui
         #
         $newsize = $pswindow.buffersize
@@ -142,29 +142,29 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Base = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "101") {
         if (($Config.basic.ScriptRead) -eq 1) {
             [bool]$Config.basic.ScriptRead = 0
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
             [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp - 10)
             [int]$Config.basic.WinHeight = [int]$poptmp
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
             [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp - 10)
             [int]$Config.basic.BuffHeight = [int]$poptmp
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
         else {
             [bool]$Config.basic.ScriptRead = 1
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
             [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp + 10)
             [int]$Config.basic.WinHeight = [int]$poptmp
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
             [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp + 10)
             [int]$Config.basic.BuffHeight = [int]$poptmp
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "102") {
@@ -173,13 +173,13 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Editor = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "103") {
         if (($Config.basic.WPosition) -eq 1) { $Config.basic.WPosition = 0 }
         else { $Config.basic.WPosition = 1 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
 
     }
     if ($pop -eq "104") {
@@ -189,13 +189,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -le $BuffWidth) {
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -206,13 +206,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -le $BuffHeight) {
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -223,13 +223,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -ge $WinWidth) {
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -240,20 +240,20 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -ge $WinHeight) {
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
     if ($pop -eq "108") {
         if (($Config.basic.MenuAdds) -eq 1) { $Config.basic.MenuAdds = 0 }
         else { $Config.basic.MenuAdds = 1 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
         $ReRun = 1
         $pop = ""
     }
@@ -267,7 +267,7 @@ while (1) {
         SpinItems
         $qq = ($AddCount + 1)
         $AddItem = "AddItem-$qq"
-        $test = @{ Name = ""; Command = ""; Argument = ""}
+        $test = @{ Name = ""; Command = ""; Argument = "" }
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config | Add-Member -Type NoteProperty -Name $AddItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
@@ -325,20 +325,20 @@ while (1) {
             $Fight1 = ($Config.$AddItem).Name
             $Fight2 = ($Config.$AddItem).Command
             $Fight3 = ($Config.$AddItem).Argument
-            if ($Fight3 -eq "") { $Fight3 = "[No Argument]"}
+            if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
             FightOn
             PrettyLine
             if ($Fight1 -ne "") {
                 $Config.$AddItem.Name = $Fight1
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight2 -ne "") {
                 $Config.$AddItem.Command = $Fight2
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight3 -ne "") {
                 $Config.$AddItem.Argument = $Fight3
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
         PrettyLine
@@ -382,7 +382,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; Start-Process "pwsh.exe" -ArgumentList ($PSScriptRoot + "\BinSM.ps1"); return }
+    if ($pop -eq "X") { PrettyLine; Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow; PrettyLine
 }
