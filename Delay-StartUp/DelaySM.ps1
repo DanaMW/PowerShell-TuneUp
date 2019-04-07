@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.3.3"
+    $FileVersion = "Version: 1.3.4"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -56,7 +56,7 @@ while (1) {
     Function FlexWindow {
         if (!($BWHeight)) { $BWHeight = "37" }
         if (!($BWWidth)) { $BWWidth = "90" }
-        $pshost = get-host
+        $pshost = Get-Host
         $pswindow = $pshost.ui.rawui
         $newsize = $pswindow.buffersize
         $newsize.height = $BWHeight
@@ -181,7 +181,7 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Base = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "101") {
@@ -190,7 +190,7 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.StartDelay = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "102") {
@@ -199,18 +199,18 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Delay = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "103") {
         if (($Config.basic.Prevent) -eq 0) { $Config.basic.Prevent = 1 }
         else { $Config.basic.Prevent = 0 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "104") {
         if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }
         else { $Config.basic.TestRun = 0 }
-        $Config |ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
     }
     if ($pop -eq "105") {
         $blah = "Please enter The Console Buffer width. must be equal or LESS than BuffWidth"
@@ -219,13 +219,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -le $BuffWidth) {
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -236,13 +236,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -le $BuffHeight) {
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -253,13 +253,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -ge $WinWidth) {
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.WinWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffWidth = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -270,13 +270,13 @@ while (1) {
         if ($Fixer -ne "") {
             If ($Fixer -ge $WinHeight) {
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             else {
                 $Config.basic.WinHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
                 $Config.basic.BuffHeight = $Fixer
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -286,7 +286,7 @@ while (1) {
         FuckOff
         if ($Fixer -ne "") {
             $Config.basic.Editor = $Fixer
-            $Config |ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
     }
     if ($pop -eq "110") {
@@ -298,7 +298,7 @@ while (1) {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
-        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""}
+        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = "" }
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
@@ -367,22 +367,22 @@ while (1) {
             if ($Fight1 -ne "") {
                 if ($Fight1 -eq "-") { $Fight1 = "" }
                 $Config.$RunItem.Name = $Fight1
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight2 -ne "") {
                 if ($Fight2 -eq "-") { $Fight2 = "" }
                 $Config.$RunItem.HostOnly = $Fight2
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight3 -ne "") {
                 if ($Fight3 -eq "-") { $Fight3 = "" }
                 $Config.$RunItem.RunPath = $Fight3
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
             if ($Fight4 -ne "") {
                 if ($Fight4 -eq "-") { $Fight4 = "" }
                 $Config.$RunItem.Argument = $Fight4
-                $Config |ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
     }
@@ -431,19 +431,19 @@ while (1) {
                 PrettyLine
                 if ($Fool -eq "Y") {
                     Say "Test Running Entry $q1 $TestRun1"
-                    if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
+                    if ($TestRun4 -ne "") { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
                     else { Start-Process -FilePath $TestRun3 }
                 }
             }
             else {
                 Say "Test Running Entry $q1 $TestRun1"
-                if ($TestRun4 -ne "") { Start-Process -FilePath $TestRun3 -ArgumentList $TestRun4 }
+                if ($TestRun4 -ne "") { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
                 else { Start-Process -FilePath $TestRun3 }
             }
         }
     }
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1"; return }
+    if ($pop -eq "X") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo -NoProfile"; return }
     if ($pop -eq "Q") { return }
     PrettyLine
 }

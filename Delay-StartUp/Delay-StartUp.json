@@ -1,108 +1,108 @@
 {
-  "_Info": [
-    "This is the JSON based Configuration for Delay-StartUp",
-    "RunItems are your Startup items you are delaying",
-    "HostOnly is defined as the only host you want it to run on."
-  ],
-  "InternalInfo": {
-    "Project": "Delay-StartUp",
-    "Modified": "03/09/2019",
-    "Author": "Dana Meli <danamw@gmail.com",
-    "Support": "https://github.com/danamw/PowerShell-tuneup",
-    "License": "MIT"
-  },
-  "Basic": {
-    "_Base": "[string] The starting folder that Delay-StartUp reads from.",
-    "Base": "D:\\bin",
-    "_Editor": "[string] The Text Editor you would like to use.",
-    "Editor": "D:\\bin\\NPP\\Notepad++.exe",
-    "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "10",
-    "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "10",
-    "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": false,
-    "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
-    "TestRun": 0,
-    "_WinWidth": "[int]",
-    "WinWidth": "60",
-    "_WinHeight": "[int]",
-    "WinHeight": "25",
-    "_BuffWidth": "[int]",
-    "BuffWidth": "60",
-    "_BuffHeight": "[int]",
-    "BuffHeight": "25"
-  },
-  "RunItem-1": {
-    "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
-    "Name": "RainMeter",
-    "Argument": "",
-    "HostOnly": "ALL"
-  },
-  "RunItem-2": {
-    "HostOnly": "ALL",
-    "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
-    "Name": "uGet Download Manager",
-    "Argument": "--Quiet"
-  },
-  "RunItem-3": {
-    "HostOnly": "ALL",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
-    "Name": "Redragon Gaming Mouse",
-    "Argument": ""
-  },
-  "RunItem-4": {
-    "HostOnly": "ALL",
-    "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
-    "Name": "OneDrive",
-    "Argument": "/background"
-  },
-  "RunItem-5": {
-    "HostOnly": "ALL",
-    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
-    "Name": "Console Emulater",
-    "Argument": "-Min"
-  },
-  "RunItem-6": {
-    "HostOnly": "TINMAN",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Connection Service\\Connection Service.exe",
-    "Name": "Creative Connection Service",
-    "Argument": ""
-  },
-  "RunItem-7": {
-    "HostOnly": "TINMAN",
-    "RunPath": "c:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
-    "Name": "Creative SBConnect",
-    "Argument": ""
-  },
-  "RunItem-8": {
-    "HostOnly": "TORCHLIGHT",
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
-    "Name": "IDT PC Audio",
-    "Argument": ""
-  },
-  "RunItem-9": {
-    "HostOnly": "TORCHLIGHT",
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
-    "Name": "Beats64",
-    "Argument": ""
-  },
-  "RunItem-10": {
-    "HostOnly": "ALL",
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
-    "Name": "Ditto",
-    "Argument": ""
-  },
-  "RunItem-11": {
-    "HostOnly": "NONE",
-    "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Name": "MineTest",
-    "Argument": "D:\\bin\\MineTest.ps1"
-  },
-  "RunItem-12": {
-    "HostOnly": "NONE",
-    "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
-    "Name": "AdiIRC",
-    "Argument": ""
-  }
+    "_Info": [
+        "This is the JSON based Configuration for Delay-StartUp",
+        "RunItems are your Startup items you are delaying",
+        "HostOnly is defined as the only host you want it to run on."
+    ],
+    "InternalInfo": {
+        "Project": "Delay-StartUp",
+        "Modified": "03/09/2019",
+        "Author": "Dana Meli <danamw@gmail.com",
+        "Support": "https://github.com/danamw/PowerShell-tuneup",
+        "License": "MIT"
+    },
+    "Basic": {
+        "_Base": "[string] The starting folder that Delay-StartUp reads from.",
+        "Base": "D:\\bin",
+        "_Editor": "[string] The Text Editor you would like to use.",
+        "Editor": "D:\\bin\\NPP\\Notepad++.exe",
+        "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
+        "StartDelay": "1",
+        "_Delay": "[int] Defines the delay between each program run.",
+        "Delay": "1",
+        "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
+        "Prevent": false,
+        "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
+        "TestRun": 0,
+        "_WinWidth": "[int]",
+        "WinWidth": "60",
+        "_WinHeight": "[int]",
+        "WinHeight": "25",
+        "_BuffWidth": "[int]",
+        "BuffWidth": "60",
+        "_BuffHeight": "[int]",
+        "BuffHeight": "25"
+    },
+    "RunItem-1": {
+        "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
+        "Name": "RainMeter",
+        "Argument": "",
+        "HostOnly": "ALL"
+    },
+    "RunItem-2": {
+        "HostOnly": "ALL",
+        "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
+        "Name": "uGet Download Manager",
+        "Argument": "--Quiet"
+    },
+    "RunItem-3": {
+        "HostOnly": "ALL",
+        "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
+        "Name": "Redragon Gaming Mouse",
+        "Argument": ""
+    },
+    "RunItem-4": {
+        "HostOnly": "ALL",
+        "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+        "Name": "OneDrive",
+        "Argument": "/background"
+    },
+    "RunItem-5": {
+        "HostOnly": "ALL",
+        "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
+        "Name": "Console Emulater",
+        "Argument": "-Min"
+    },
+    "RunItem-6": {
+        "HostOnly": "TINMAN",
+        "RunPath": "C:\\Program Files (x86)\\Creative\\Connection Service\\Connection Service.exe",
+        "Name": "Creative Connection Service",
+        "Argument": ""
+    },
+    "RunItem-7": {
+        "HostOnly": "TINMAN",
+        "RunPath": "c:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
+        "Name": "Creative SBConnect",
+        "Argument": ""
+    },
+    "RunItem-8": {
+        "HostOnly": "TORCHLIGHT",
+        "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
+        "Name": "IDT PC Audio",
+        "Argument": ""
+    },
+    "RunItem-9": {
+        "HostOnly": "TORCHLIGHT",
+        "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
+        "Name": "Beats64",
+        "Argument": ""
+    },
+    "RunItem-10": {
+        "HostOnly": "ALL",
+        "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+        "Name": "Ditto",
+        "Argument": ""
+    },
+    "RunItem-11": {
+        "HostOnly": "NONE",
+        "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+        "Name": "MineTest",
+        "Argument": "D:\\bin\\MineTest.ps1 -NoProfile -NoLogo"
+    },
+    "RunItem-12": {
+        "HostOnly": "NONE",
+        "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
+        "Name": "AdiIRC",
+        "Argument": ""
+    }
 }
