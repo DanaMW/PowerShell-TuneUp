@@ -43,7 +43,7 @@ Usage: GET-SYSINFO.PS1
 ```
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
-# Set-WinSize (Formally Fix-Window)
+# Put-WinSize (Formally Set-WinSize)
 ```
 My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.
 
