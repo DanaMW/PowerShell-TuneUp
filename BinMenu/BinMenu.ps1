@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: April 06, 2019
+        Last Modified Date: April 09, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.30"
+$FileVersion = "Version: 1.1.33"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -26,7 +26,7 @@ try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
     Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in BASE directory"
     break
 }
 Function SpinItems {
@@ -42,60 +42,43 @@ Function SpinItems {
     #$Script:AddCount
 }
 SpinItems
-if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $env:BASE.substring(0, 3)
-Set-Location $env:BASE
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 [string]$Editor = ($Config.basic.Editor)
-if (!($editor)) { $editor = ($env:BASE + "\npp\Notepad++.exe") }
+if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
-[int]$WinWidth = [int]($Config.basic.WinWidth)
-[int]$WinHeight = [int]($Config.basic.WinHeight)
-[int]$BuffWidth = [int]($Config.basic.BuffWidth)
-[int]$BuffHeight = [int]($Config.basic.BuffHeight)
-#[int]$MaxWinHeight = [int]($Config.basic.MaxWinHeight)
-#if (!($MaxWinHeight)) { $MaxWinHeight = "50" }
-#[int]$MaxWinWidth = [int]($Config.basic.MaxWinWidth)
-#if (!($MaxWinWidth)) { $MaxWinWidth = "150" }
-#[int]$MaxpWinHeight = [int]($Config.basic.MaxpWinHeight)
-#if (!($MaxpWinHeight)) { $MaxpWinHeight = "60" }
-#[int]$MaxpWinWidth = [int]($Config.basic.$MaxpWinWidth)
-#if (!($MaxpWinWidth)) { $MaxpWinWidth = "160" }
+[int]$WinWidth = ($Config.basic.WinWidth)
+[int]$WinHeight = ($Config.basic.WinHeight)
+[int]$BuffWidth = ($Config.basic.BuffWidth)
+[int]$BuffHeight = ($Config.basic.BuffHeight)
 Function FlexWindow {
+    $SaveError = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
-    #
     $newsize = $pswindow.buffersize
     $newsize.height = [int]$BuffHeight
     $newsize.width = [int]$BuffWidth
     $pswindow.buffersize = $newsize
-    #
     $newsize = $pswindow.windowsize
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
     $pswindow.windowsize = $newsize
-    <#
-    $newsize = $pswindow.maxwindowsize
-    $newsize.height = [int]$MaxWinHeight
-    $newsize.width = [int]$MaxWinWidth
-    $pswindow.maxwindowsize = $newsize
-
-    $newsize = $pswindow.maxphysicalwindowsize
-    $newsize.height = [int]$MaxpWinHeight
-    $newsize.width = [int]$MaxpWinWidth
-    $pswindow.maxphysicalwindowsize = $newsize
-    #>
+    $ErrorActionPreference = $SaveError
 }
 if ($WPosition -eq $True) { FlexWindow }
 Clear-Host
-[string]$FileINI = ($env:BASE + "\BinMenu.ini")
-[string]$Filetmp = ($env:BASE + "\BinTemp.del")
+[string]$FileINI = ($Base + "\BinMenu.ini")
+[string]$Filetmp = ($Base + "\BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
-Set-Location $env:BASE.substring(0, 3)
-Set-Location $env:BASE
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 SpinItems
 $ESC = [char]27
 $Filetest = Test-Path -path $FileINI
@@ -107,7 +90,7 @@ if ($Filetest -ne $True) {
     My-Maker
 }
 Clear-Host
-$ptemp = ($env:BASE + "\*.ps1")
+$ptemp = ($Base + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy Bin Folder Menu $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
@@ -197,7 +180,7 @@ While ($i -le $work) {
 [Console]::SetCursorPosition(0, $pa); Say $Menu1Line; Say $SpacerLine; Say $SpacerLine; Say $SpacerLine
 if ($ScriptRead -eq $True) {
     Say $ScriptLine
-    $PCount = (Get-ChildItem -file $env:BASE -Filter "*.ps1").count
+    $PCount = (Get-ChildItem -file $Base -Filter "*.ps1").count
     [Console]::SetCursorPosition(15, ($pa + 4)); Say -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
     [Console]::SetCursorPosition(0, ($pa + 5))
 }
@@ -222,7 +205,7 @@ while ($c -le 8) {
 if ($scriptRead -eq $True) {
     $cmd1 = "$ESC[92m[$ESC[97m"
     $cmd2 = "$ESC[92m]"
-    Get-ChildItem -file $env:BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", "" } | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } | Out-File $Filetmp
+    Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", "" } | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } | Out-File $Filetmp
     [int]$roll = @(Get-Content -Path $Filetmp).Count
     $roll--
     [int]$w = 0
@@ -288,7 +271,7 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 Fixline
 $menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
 Function MyMaker {
-    Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\BinIM.ps1") -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
@@ -383,10 +366,10 @@ While (1) {
             FixLine
             $ValidOption = "YES"
         }
-        elseif ($ans -eq "B") { Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "B") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($env:BASE + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
+        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($Base + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         elseif ($ans -eq "G") {
             FixLine
@@ -405,28 +388,28 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "1") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\clearlogs.ps1") -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\clearlogs.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1") -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1 STOP") -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 STOP") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\reboot.ps1 LOGOFF") -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 LOGOFF") -Verb RunAs
                     FixLine
                     break
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-Ghost.ps1") -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-Ghost.ps1") -Verb RunAs
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") {
-                    Start-Process "pwsh.exe" -Argumentlist ($env:BASE + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs
+                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs
                     FixLine
                     break
                 }
@@ -444,8 +427,8 @@ While (1) {
             $ValidOption = "YES"
         }
         elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
-        elseif ($ans -eq "R") { Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList "($env:BASE + '\BinSM.ps1') -Verb RunAs"; FixLine }
+        elseif ($ans -eq "R") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; FixLine }
         else {
             if ($ValidOption -eq "NO") {
                 FixLine

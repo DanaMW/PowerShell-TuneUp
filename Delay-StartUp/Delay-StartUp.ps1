@@ -3,20 +3,20 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: April 06, 2019
+        Last Modified Date: April 09, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File ($env:BASE + "\Delay-StartUp.ps1")
+        Command Line: pwsh.exe -File ($Base + "\Delay-StartUp.ps1")
 .EXAMPLE
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script in c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File ($env:BASE + "\Delay-StartUp.ps1")
+        Command Line: pwsh.exe -File ($Base + "\Delay-StartUp.ps1")
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.4"
+$FileVersion = "Version: 1.3.6"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -28,13 +28,14 @@ try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
 catch { Write-Host -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
     Write-Host -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
     break
 }
-if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($env:Base)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $env:BASE.substring(0, 3)
-Set-Location $env:BASE
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 [int]$StartDelay = ($Config.basic.StartDelay)
 [int]$Delay = [int]($Config.basic.Delay)
 [bool]$Prevent = [bool]($Config.basic.Prevent)
@@ -44,6 +45,8 @@ Set-Location $env:BASE
 [int]$BuffWidth = [int]($Config.basic.BuffWidth)
 [int]$BuffHeight = [int]($Config.basic.BuffHeight)
 Function FlexWindow {
+    $SaveError = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
     #
@@ -56,6 +59,7 @@ Function FlexWindow {
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
     $pswindow.windowsize = $newsize
+    $ErrorActionPreference = $SaveError
 }
 FlexWindow
 Function SpinItems {
@@ -88,7 +92,7 @@ if ($Prevent -eq $True) {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($env:BASE + "\Delay-StartUp.ps1") to run now.'
+        Write-Host 'Ok all set to run next time.[Run ($Base + "\Delay-StartUp.ps1") to run now.'
         return
     }
     if ($ans -eq "2") {
@@ -96,17 +100,17 @@ if ($Prevent -eq $True) {
         $Config.basic.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         Write-Host "Ok all set, Running Delay-StartUp for you now"
-        $command = ($env:BASE + "\Delay-StartUp.ps1")
+        $command = ($Base + "\Delay-StartUp.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $env:BASE
+        $command = $command + " " + "-WorkingDirectory " + $Base
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
     if ($ans -eq "3") {
         Write-Host "Running DelaySM for you now"
-        $command = ($env:BASE + "\Delay-StartUp.ps1")
+        $command = ($Base + "\Delay-StartUp.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $env:BASE
+        $command = $command + " " + "-WorkingDirectory " + $Base
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
@@ -195,8 +199,8 @@ while ($c -le $AddCount) {
                 catch { Write-Host -ForeGroundColor RED "Could not run" $RunPath }
             }
         }
-        & Set-Location $env:BASE.substring(0, 3)
-        & Set-Location $env:BASE
+        & Set-Location $Base.substring(0, 3)
+        & Set-Location $Base
         if ($c -ne 0) { Start-Sleep -s $Delay }
         $a++
     }

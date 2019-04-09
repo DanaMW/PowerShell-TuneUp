@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.1.30"
+    $FileVersion = "Version: 1.1.33"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -24,10 +24,11 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-    if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-    Set-Location $env:BASE.substring(0, 3)
-    Set-Location $env:BASE
+    $Base = $env:Base
+    if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+    if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+    Set-Location $Base.substring(0, 3)
+    Set-Location $Base
     [bool]$ScriptRead = ($Config.basic.ScriptRead)
     [string]$Editor = ($Config.basic.Editor)
     [bool]$MenuAdds = ($Config.basic.MenuAdds)
@@ -41,6 +42,8 @@ while (1) {
     if (!($AWinHeight)) { $AWinHeight = 44 }
     if (!($AWinWidth)) { $AWinWidth = 90 }
     Function FlexWindow {
+        $SaveError = $ErrorActionPreference
+        $ErrorActionPreference = "SilentlyContinue"
         $pshost = Get-Host
         $pswindow = $pshost.ui.rawui
         #
@@ -53,6 +56,7 @@ while (1) {
         $newsize.height = [int]$AWinHeight
         $newsize.width = [int]$AWinWidth
         $pswindow.windowsize = $newsize
+        $ErrorActionPreference = $SaveError
     }
     FlexWindow
     $Script:ESC = [char]27
@@ -97,7 +101,7 @@ while (1) {
     Clear-Host
     Say $NormalLine; Say $TitleLine; Say $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m..............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$env:BASE$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m..............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m..........$ESC[93mRead in Scripts$ESC[97m:$ESC[97m [$ESC[92m$ScriptRead$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m...........$ESC[93mDefined Editor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m......$ESC[93mUse Win Positioning$ESC[97m:$ESC[97m [$ESC[92m$WPosition$ESC[97m]$ESC[40m"; $l++
@@ -258,8 +262,8 @@ while (1) {
         $pop = ""
     }
     if ($pop -eq "109") {
-        $go1 = ($env:BASE + "\BinMenu.ini")
-        $go2 = ($env:BASE + "\BinMenu.json")
+        $go1 = ($Base + "\BinMenu.ini")
+        $go2 = ($Base + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
     }
@@ -382,7 +386,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; Invoke-Item ($env:BASE + "\BinMenu.lnk"); Clear-Host; return }
+    if ($pop -eq "X") { PrettyLine; Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow; PrettyLine
 }

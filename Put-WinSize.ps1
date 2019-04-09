@@ -1,15 +1,18 @@
-$FileVersion = "Version: 0.0.7"
+<# You can just run this in a console window PS-Core 6.X up
+It is designed to paste into your script then you call to it
+"FlexWindow" I call it like 3 or 4 times to complete
+the window adjustment. Never gets it on the first call.
+#>
+$FileVersion = "Version: 0.0.8"
 $host.ui.RawUI.WindowTitle = "Fix-Window $FileVersion"
 if (!($BuffHeight)) { $BuffHeight = "2000" }
 if (!($BuffWidth)) { $BuffWidth = "300" }
 if (!($WinHeight)) { $WinHeight = "45" }
 if (!($WinWidth)) { $WinWidth = "120" }
-if (!($MaxWinHeight)) { $MaxWinHeight = "50" }
-if (!($MaxWinWidth)) { $MaxWinWidth = "150" }
-if (!($MaxpWinHeight)) { $MaxpWinHeight = "60" }
-if (!($MaxpWinWidth)) { $MaxpWinWidth = "160" }
 Function FlexWindow {
-    $pshost = get-host
+    $SaveError = "$ErrorActionPreference"
+    $ErrorActionPreference = "SilentlyContinue"
+    $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
     #
     $newsize = $pswindow.buffersize
@@ -21,17 +24,12 @@ Function FlexWindow {
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
     $pswindow.windowsize = $newsize
-    #
-    $newsize = $pswindow.maxwindowsize
-    $newsize.height = [int]$MaxWinHeight
-    $newsize.width = [int]$MaxWinWidth
-    $pswindow.maxwindowsize = $newsize
-    #
-    $newsize = $pswindow.maxphysicalwindowsize
-    $newsize.height = [int]$MaxpWinHeight
-    $newsize.width = [int]$MaxpWinWidth
-    $pswindow.maxphysicalwindowsize = $newsize
+    <#  THESE ARE READ ONLY OPTIONS #>
+    $height = (Get-Host).UI.RawUI.MaxWindowSize.Height
+    $width = (Get-Host).UI.RawUI.MaxWindowSize.Width
+    $ErrorActionPreference = "$SaveError"
 }
 FlexWindow
-FlexWindow
+Say $height
+Say $width
 $host.ui.RawUI

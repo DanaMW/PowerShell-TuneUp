@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 1.3.4"
+    $FileVersion = "Version: 1.3.6"
     $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
     Function MyConfig {
@@ -11,13 +11,14 @@ while (1) {
     catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
     if (!($Config)) {
         Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-        Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $env:BASE
+        Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
         break
     }
-    if (!($env:Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-    if (!($env:Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-    Set-Location $env:BASE.substring(0, 3)
-    Set-Location $env:BASE
+    $Base = $env:Base
+    if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+    if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+    Set-Location $Base.substring(0, 3)
+    Set-Location $Base
     [string]$Editor = ($Config.basic.Editor)
     [bool]$TestRun = ($Config.basic.TestRun)
     [int]$StartDelay = ($Config.basic.StartDelay)
@@ -54,6 +55,8 @@ while (1) {
     }
     SpinItems
     Function FlexWindow {
+        $SaveError = $ErrorActionPreference
+        $ErrorActionPreference = "SilentlyContinue"
         if (!($BWHeight)) { $BWHeight = "37" }
         if (!($BWWidth)) { $BWWidth = "90" }
         $pshost = Get-Host
@@ -66,6 +69,7 @@ while (1) {
         $newsize.height = $BWHeight
         $newsize.width = $BWWidth
         $pswindow.windowsize = $newsize
+        $ErrorActionPreference = $SaveError
     }
     FlexWindow
     Function PrettyLine {
@@ -118,7 +122,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine $TitleLine; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$env:BASE$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m.................$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m........$ESC[93mStartUp delay (Secs)$ESC[97m:$ESC[97m [$ESC[92m$StartDelay$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m......$ESC[93mDelay between programs$ESC[97m:$ESC[97m [$ESC[92m$Delay$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m........$ESC[93mPrevent from running$ESC[97m:$ESC[97m [$ESC[92m$Prevent$ESC[97m]$ESC[40m"; $l++
@@ -290,7 +294,7 @@ while (1) {
         }
     }
     if ($pop -eq "110") {
-        $go = ($env:BASE + "\Delay-StartUp.json")
+        $go = ($Base + "\Delay-StartUp.json")
         Start-Process $Editor -ArgumentList $go -Verb RunAs
         PrettyLine
     }
