@@ -3,23 +3,23 @@ It is designed to paste into your script then you call to it
 "FlexWindow" I call it like 3 or 4 times to complete
 the window adjustment. Never gets it on the first call.
 #>
-$FileVersion = "Version: 0.0.8"
+$FileVersion = "Version: 0.0.9"
 $host.ui.RawUI.WindowTitle = "Fix-Window $FileVersion"
-if (!($BuffHeight)) { $BuffHeight = "2000" }
-if (!($BuffWidth)) { $BuffWidth = "300" }
 if (!($WinHeight)) { $WinHeight = "45" }
 if (!($WinWidth)) { $WinWidth = "120" }
+#if (!($BuffHeight)) { $BuffHeight = "2000" }
+#if (!($BuffWidth)) { $BuffWidth = "300" }
+if (!($BuffHeight)) { $BuffHeight = $WinHeight }
+if (!($BuffWidth)) { $BuffWidth = $WinWidth }
 Function FlexWindow {
     $SaveError = "$ErrorActionPreference"
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
-    #
     $newsize = $pswindow.buffersize
     $newsize.height = [int]$BuffHeight
     $newsize.width = [int]$BuffWidth
     $pswindow.buffersize = $newsize
-    #
     $newsize = $pswindow.windowsize
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth
