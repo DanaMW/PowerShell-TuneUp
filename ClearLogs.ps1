@@ -1,7 +1,7 @@
 Param([bool]$loud)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.11"
+$FileVersion = "Version: 0.2.12"
 $host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -14,10 +14,14 @@ if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator
     Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\ClearLogs.ps1") -Verb RunAs
     return
 }
-if (!($WinWidth)) { [int]$WinWidth = 80 }
-if (!($WinHeight)) { [int]$WinHeight = 25 }
-if (!($BuffWidth)) { [int]$BuffWidth = 80 }
-if (!($BuffHeight)) { [int]$BuffHeight = 25 }
+if (!($WinWidth)) {
+    [int]$WinWidth = 70
+    [int]$BuffWidth = $WinWidth
+}
+if (!($WinHeight)) {
+    [int]$WinHeight = 25
+    [int]$BuffHeight = $WinHeight
+}
 Function FlexWindow {
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui

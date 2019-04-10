@@ -8,15 +8,15 @@
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File ($Base + "\Delay-StartUp.ps1")
+        Command Line: pwsh.exe -File ($env:Base + "\Delay-StartUp.ps1")
 .EXAMPLE
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script in c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-        Command Line: pwsh.exe -File ($Base + "\Delay-StartUp.ps1")
+        Command Line: pwsh.exe -File ($env:Base + "\Delay-StartUp.ps1")
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.6"
+$FileVersion = "Version: 1.3.7"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -37,24 +37,22 @@ if (!($Base)) { Write-Host -ForeGroundColor RED "SET BASE environment variable i
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 [int]$StartDelay = ($Config.basic.StartDelay)
-[int]$Delay = [int]($Config.basic.Delay)
-[bool]$Prevent = [bool]($Config.basic.Prevent)
-[bool]$TestRun = [bool]($Config.basic.TestRun)
-[int]$WinWidth = [int]($Config.basic.WinWidth)
-[int]$WinHeight = [int]($Config.basic.WinHeight)
-[int]$BuffWidth = [int]($Config.basic.BuffWidth)
-[int]$BuffHeight = [int]($Config.basic.BuffHeight)
+[int]$Delay = ($Config.basic.Delay)
+[bool]$Prevent = ($Config.basic.Prevent)
+[bool]$TestRun = ($Config.basic.TestRun)
+[int]$WinWidth = ($Config.basic.WinWidth)
+[int]$WinHeight = ($Config.basic.WinHeight)
+[int]$BuffWidth = $WinWidth
+[int]$BuffHeight = $WinHeight
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
-    #
     $newsize = $pswindow.buffersize
     $newsize.height = [int]$BuffHeight
     $newsize.width = [int]$BuffWidth
     $pswindow.buffersize = $newsize
-    #
     $newsize = $pswindow.windowsize
     $newsize.height = [int]$WinHeight
     $newsize.width = [int]$WinWidth

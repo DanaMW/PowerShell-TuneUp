@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.1.33"
+$FileVersion = "Version: 1.1.34"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -53,21 +53,21 @@ if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
 [int]$WinWidth = ($Config.basic.WinWidth)
+[int]$BuffWidth = $WinWidth
 [int]$WinHeight = ($Config.basic.WinHeight)
-[int]$BuffWidth = ($Config.basic.BuffWidth)
-[int]$BuffHeight = ($Config.basic.BuffHeight)
+[int]$BuffHeight = $WinHeight
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
     $newsize = $pswindow.buffersize
-    $newsize.height = [int]$BuffHeight
-    $newsize.width = [int]$BuffWidth
+    [int]$newsize.height = $BuffHeight
+    [int]$newsize.width = $BuffWidth
     $pswindow.buffersize = $newsize
     $newsize = $pswindow.windowsize
-    $newsize.height = [int]$WinHeight
-    $newsize.width = [int]$WinWidth
+    [int]$newsize.height = $WinHeight
+    [int]$newsize.width = $WinWidth
     $pswindow.windowsize = $newsize
     $ErrorActionPreference = $SaveError
 }
@@ -234,7 +234,7 @@ if ($scriptRead -eq $True) {
         $l++; $t++; $c = 0
     }
     $WinHeight = ($WinHeight + $t)
-    $BuffHeight = ($BuffHeight + $t)
+    $BuffHeight = $WinHeight
 }
 $pa = $l
 $Filetest = Test-Path -path $Filetmp
@@ -243,8 +243,8 @@ if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
 [Console]::SetCursorPosition(0, $pa); Say $NormalLine
 $pa++
 $FixLine
-$BuffHeight = ($pa + 4)
 $WinHeight = ($pa + 4)
+$BuffHeight = $WinHeight
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
