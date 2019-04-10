@@ -1,39 +1,35 @@
 Import-Module CimCmdlets
-$FileVersion = "Version: 0.1.27"
+$FileVersion = "Version: 0.1.28"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
-if ($null -eq $BuffHeight) { $BuffHeight = "25" }
-if ($null -eq $BuffWidth) { $BuffWidth = "60" }
-if ($null -eq $WinHeight) { $WinHeight = "25" }
-if ($null -eq $WinWidth) { $WinWidth = "60" }
+Clear-Host
+if (!($WinHeight)) {
+    [int]$WinHeight = 25
+    [int]$BuffHeight = $Winheight
+}
+if (!($WinWidth)) {
+    [int]$WinWidth = 60
+    [int]$BuffWidth = $WinWidth
+}
 Function FlexWindow {
-    $pshost = get-host
+    $ErrorHold = "$ErrorActionPreference"
+    $ErrorActionPreference = "SilentlyContinue"
+    $pshost = Get-Host
     $pswindow = $pshost.ui.rawui
-    #
     $newsize = $pswindow.buffersize
-    $newsize.height = [int]$BuffHeight
-    $newsize.width = [int]$BuffWidth
+    [int]$newsize.height = $BuffHeight
+    [int]$newsize.width = $BuffWidth
     $pswindow.buffersize = $newsize
-    #
     $newsize = $pswindow.windowsize
-    $newsize.height = [int]$WinHeight
-    $newsize.width = [int]$WinWidth
+    [int]$newsize.height = $WinHeight
+    [int]$newsize.width = $WinWidth
     $pswindow.windowsize = $newsize
-    <#
-    $newsize = $pswindow.maxwindowsize
-    $newsize.height = [int]$MaxWinHeight
-    $newsize.width = [int]$MaxWinWidth
-    $pswindow.maxwindowsize = $newsize
-
-    $newsize = $pswindow.maxphysicalwindowsize
-    $newsize.height = [int]$MaxpWinHeight
-    $newsize.width = [int]$MaxpWinWidth
-    $pswindow.maxphysicalwindowsize = $newsize
-    #>
+    $ErrorActionPreference = "$ErrorHold"
 }
 FlexWindow
 Get-CimInstance Win32_OperatingSystem | Format-List
 Clear-Host
+Say "Hang On Reading In PC Info..."
 $ComputerSystem = (Get-CimInstance CIM_ComputerSystem)
 $ComputerBIOS = (Get-CimInstance CIM_BIOSElement)
 $ComputerOS = (Get-CimInstance CIM_OperatingSystem)
@@ -51,7 +47,7 @@ $tt = "$ESC[31m[$ESC[37m"
 if ($null -ne ($Net1.name)) {
     $Con11 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net1.name)
     $Con12 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net1.InterfaceDescription)
-    if ($Net1.Status -eq "Up") { $N1tmp = "Connected"}
+    if ($Net1.Status -eq "Up") { $N1tmp = "Connected" }
     else { $N1tmp = "Disabled" }
     $Con13 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N1tmp)
     $Con14 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net1.LinkSpeed)
@@ -59,7 +55,7 @@ if ($null -ne ($Net1.name)) {
 if ($null -ne ($Net2.name)) {
     $Con21 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net2.name)
     $Con22 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net2.InterfaceDescription)
-    if ($Net2.Status -eq "Up") { $N2tmp = "Connected"}
+    if ($Net2.Status -eq "Up") { $N2tmp = "Connected" }
     else { $N2tmp = "Disabled" }
     $Con23 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N2tmp)
     $Con24 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net2.LinkSpeed)
@@ -67,7 +63,7 @@ if ($null -ne ($Net2.name)) {
 if ($null -ne ($Net3.name)) {
     $Con31 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net3.name)
     $Con32 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net3.InterfaceDescription)
-    if ($Net3.Status -eq "Up") { $N3tmp = "Connected"}
+    if ($Net3.Status -eq "Up") { $N3tmp = "Connected" }
     else { $N3tmp = "Disabled" }
     $Con33 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N3tmp)
     $Con34 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net3.LinkSpeed)
@@ -75,7 +71,7 @@ if ($null -ne ($Net3.name)) {
 if ($null -ne ($Net4.name)) {
     $Con41 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net4.name)
     $Con42 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net4.InterfaceDescription)
-    if ($Net4.Status -eq "Up") { $N4tmp = "Connected"}
+    if ($Net4.Status -eq "Up") { $N4tmp = "Connected" }
     else { $N4tmp = "Disabled" }
     $Con43 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N4tmp)
     $Con44 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net4.LinkSpeed)
@@ -106,8 +102,8 @@ FlexWindow
 while (1) {
     $Spin = 21
     if (($netTotal)) { $Spin = ($Spin + $NetTotal) }
-    $buffHeight = ($Spin + 3)
     $WinHeight = ($Spin + 3)
+    $BuffHeight = $WinHeight
     FlexWindow
     $l = 0
     $n = 00
@@ -134,6 +130,6 @@ while (1) {
     [Console]::SetCursorPosition(0, ($Spin + 1))
     $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT X to Reload$ESC[31m]$ESC[37m"
     if ($pop -eq "Q") { break }
-    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\Get-Sysinfo.ps1"); return }
+    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + '\Get-SysInfo.ps1'); return }
 
 }
