@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: April 23, 2019
+        Last Modified Date: April 25, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.0.0"
+$FileVersion = "Version: 2.0.3"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -34,9 +34,10 @@ if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Globa
 if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[string]$Name = ($Config.basic.Name)
+[string]$ScriptName = ($Config.basic.ScriptName)
 [string]$Editor = ($Config.basic.Editor)
 if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
+[string]$ScriptMode = ($Config.basic.ScriptMode)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
@@ -100,38 +101,67 @@ if ($Filetest -ne $True) {
     [bool]$NoINI = $True
     My-Maker
 }
+Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
 <# ############## The menu variables for this menu ############# #>
 $ptemp = ($Base + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
+[int]$PCount--
 [string]$NormalLine = "$ESC[91m#=====================================================================================================#$ESC[97m"
 [string]$FancyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[96m[$ESC[41m $ESC[97mMy BinMenu Two $ESC[40m$ESC[96m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
 [string]$PrettyLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
 [string]$SpacerLine = "$ESC[91m|                                                                                                     $ESC[91m|$ESC[97m"
 [string]$ProgramLine = "$ESC[91m#$ESC[96m[$ESC[33mProgram Menu$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
 [string]$Menu1Line = "$ESC[91m#$ESC[96m[$ESC[33mBuilt-in Menu$ESC[96m]$ESC[91m=======================================================================$ESC[96m[$ESC[33mScripts:     $ESC[96m]$ESC[91m#$ESC[97m"
-[string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts List$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
+[string]$ScriptLine = "$ESC[91m#$ESC[96m[$ESC[33mScripts Menu$ESC[96m]$ESC[91m=======================================================================================#$ESC[97m"
 <# ########## END of menu variables ######### #>
-[int]$LineCount = 0
-[int]$LineCount = (Get-Content $FileINI).count
-$temp = ($LineCount / 3)
-$a = ($temp / 3)
-[int]$a = [int][Math]::Ceiling($a)
-[int]$temp = $a
-[int]$b = ($temp * 2)
-[int]$c = ($LineCount / 3)
-$Row = @($a, $b, $c)
-$Col = @(1, 34, 69)
-[int]$pp = 0
-[int]$work = ($LineCount / 3)
-[int]$LineCount = 0
-[int]$LineCount = (Get-Content $FileINI).count
-[int]$PMenu = ($Work / 3)
-[int]$PMenu = ($PMenu - 1)
-[int]$tpp = (9 + $PMenu)
-[Console]::SetCursorPosition(0, $tpp)
-$WinHeight = ($tpp + 4)
-$BuffHeight = $WinHeight
-if (($WPosition)) { FlexWindow }
+if ($ScriptMode -eq "SM3") {
+    [int]$LineCount = 0
+    [int]$LineCount = (Get-Content $FileINI).count
+    $temp = ($LineCount / 3)
+    $a = ($temp / 3)
+    [int]$a = [int][Math]::Ceiling($a)
+    [int]$temp = $a
+    [int]$b = ($temp * 2)
+    [int]$c = ($LineCount / 3)
+    $Row = @($a, $b, $c)
+    $Col = @(1, 34, 69)
+    [int]$pp = 0
+    [int]$work = ($LineCount / 3)
+    [int]$LineCount = 0
+    [int]$LineCount = (Get-Content $FileINI).count
+    [int]$PMenu = ($Work / 3)
+    [int]$PMenu = ($PMenu - 1)
+    [int]$tpp = (9 + $PMenu)
+    [Console]::SetCursorPosition(0, $tpp)
+    $WinHeight = ($tpp + 4)
+    $BuffHeight = $WinHeight
+    if (($WPosition)) { FlexWindow }
+}
+if ($ScriptMode -eq "SM4") {
+    [int]$LineCount = 0
+    [int]$LineCount = (Get-Content $Filetmp).count
+    $a = ($LineCount / 3)
+    [int]$a = [int][Math]::Ceiling($a)
+    [int]$temp = $a
+    [int]$b = ($temp * 2)
+    [int]$c = ($LineCount / 3)
+    $Row = @($a, $b, $c)
+    $Col = @(1, 34, 69)
+    [int]$pp = 0
+    [int]$work = $LineCount
+    [int]$LineCount = 0
+    [int]$LineCount = (Get-Content $Filetmp).count
+    [int]$PMenu = ($Work / 3)
+    [int]$PMenu = ($PMenu - 1)
+    <# ########## PP And Window Size ########## #>
+    [int]$pp = (9 + $PMenu)
+    [Console]::SetCursorPosition(0, $pp)
+    $WinHeight = ($pp + 4)
+    $BuffHeight = $WinHeight
+    if ($ScriptMode -eq "SM4") { $WinHeight = ($WinHeight / 1.5) }
+    if (($WPosition)) { FlexWindow }
+}
+<# ########## Begining Of Screen One ########## #>
 Function ScreenOne {
     [Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
     [Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
@@ -152,7 +182,7 @@ Function ScreenOne {
     }
     [int]$l = 3
     $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-    $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "System Information", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+    $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Switch Program-Script Menus", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
     [int]$w = $Col[0]
     [int]$c = 0
     while ($c -le 8) {
@@ -166,31 +196,52 @@ Function ScreenOne {
     }
 }
 ScreenOne
-[int]$pp = 6
+<# ########## END Of Screen ONE ########## #>
+
+<# ########## Begining Of Screen TWO ########## #>
 Function ScreenTwo {
-    [int]$pp = 6
-    [Console]::SetCursorPosition(0, $pp)
-    Say $ProgramLine
-    $pp++
-    [int]$i = 0
-    [int]$l = 7
-    while ($i -le $PMenu) {
-        [Console]::SetCursorPosition(0, $l)
-        Say $SpacerLine
-        $i++
-        $l++
+    if ($ScriptMode -eq "SM3") {
+        [int]$pp = 6
+        [Console]::SetCursorPosition(0, $pp)
+        Say $ProgramLine
         $pp++
+        [int]$i = 0
+        [int]$l = 7
+        while ($i -le $PMenu) {
+            [Console]::SetCursorPosition(0, $l)
+            Say $SpacerLine
+            $i++
+            $l++
+            $pp++
+        }
     }
-    Say $NormalLine
+    if ($ScriptMode -eq "SM4") {
+        [int]$pp = 6
+        [Console]::SetCursorPosition(0, $pp)
+        Say $Scriptline
+        $pp++
+        [int]$i = 0
+        [int]$l = 7
+        while ($i -le $PMenu) {
+            [Console]::SetCursorPosition(0, $l)
+            Say $SpacerLine
+            $i++
+            $l++
+            $pp++
+        }
+    }
 }
 ScreenTwo
+<# ########## END Of Screen two ########## #>
+
+<# ########## PP And Window Size ########## #>
 [int]$pp = (9 + $PMenu)
 [Console]::SetCursorPosition(0, $pp)
 $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
+if ($ScriptMode -eq "SM4") { $WinHeight = ($WinHeight / 1.5) }
 if (($WPosition)) { FlexWindow }
-
-<# ########## MenuAdds Toggles ########## #>
+<# ########## MenuAdds Toggles ON ########## #>
 if ($MenuAdds -eq 1) {
     [int]$temp = ($LineCount / 3)
     #Say "Adding $temp Menu-Adds Items"
@@ -213,6 +264,7 @@ if ($MenuAdds -eq 1) {
         $j++
     }
 }
+<# ########## MenuAdds Toggle OFF ########## #>
 if ($MenuAdds -eq 0) {
     #Say "Removing MenuAdds Items"
     $AddItem = "AddItem-1"
@@ -233,82 +285,71 @@ if ($MenuAdds -eq 0) {
         }
     }
 }
-<# ########## Menu Adds ########## #>
+<# ########## Begining Of Screen THREE ########## #>
 Function ScreenThree {
-    [int]$l = 7
-    [int]$c = 0
-    [int]$w = $col[0]
-    [int]$i = 1
-    $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
-    While ($i -le $work) {
-        if ($i -le $work) {
-            #$Line = (Get-Content $FileINI)[$c]
-            $Line = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-            $moo = $line.split("=")
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
-            $ltwo = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-            $lthree = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+    if ($ScriptMode -eq "SM3") {
+        Say $NormalLine
+        [int]$l = 7
+        [int]$c = 0
+        [int]$w = $col[0]
+        [int]$i = 1
+        $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
+        While ($i -le $work) {
+            if ($i -le $work) {
+                #$Line = (Get-Content $FileINI)[$c]
+                $Line = $Reader.ReadLine()
+                if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+                $moo = $line.split("=")
+                [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$i$ESC[91m]$ESC[96m" $moo[1]
+                $ltwo = $Reader.ReadLine()
+                if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+                $lthree = $Reader.ReadLine()
+                if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+            }
+            if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
+            if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
+            $i++
+            $c = ($c + 3)
+            $L++
         }
-        if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
-        if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
-        $i++
-        $c = ($c + 3)
-        $L++
+        $Reader.close()
+        [Console]::SetCursorPosition(0, $pp)
     }
-    $Reader.close()
-    [Console]::SetCursorPosition(0, $pp)
 }
 ScreenThree
-<#
-if ($ScriptRead -eq $True) {
-    Say $ScriptLine
-    $PCount = (Get-ChildItem -file $Base -Filter "*.ps1").count
-    [Console]::SetCursorPosition(15, ($pp + 4)); Say -NoNewLine "$ESC[96m[$ESC[33m$PCount$ESC[96m]$ESC[91m"
-    [Console]::SetCursorPosition(0, ($pp + 5))
-}
-else { Say $NormalLine }
-[Console]::SetCursorPosition(0, $pp)
-if ($scriptRead -eq $True) {
-    $cmd1 = "$ESC[92m[$ESC[97m"
-    $cmd2 = "$ESC[92m]"
-    Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name -Replace ".ps1", "" } | Sort-Object | ForEach-Object { $cmd1 + $_ + $cmd2 } | Out-File $Filetmp
-    [int]$roll = @(Get-Content -Path $Filetmp).Count
-    $roll--
-    [int]$w = 0
-    [int]$l = $pp
-    [int]$i = 1
-    [Console]::SetCursorPosition($w, $l)
-    [int]$i = 0
-    [int]$w = $col[0]
-    [int]$t = 0
-    $MaxLine = 95
-    $c = 0
-    [Console]::SetCursorPosition($w, $pp)
-    while ($i -lt $roll) {
-        $UserScripts = $null
-        while ($c -lt $MaxLine) {
-            $LineR = (Get-Content $Filetmp)[$i]
-            $c = ($c + $LineR.length)
-            $c = ($c - 15)
-            if ($c -lt $MaxLine) { $UserScripts = $UserScripts + $LineR; $i++ }
-            else { $c = $MaxLine }
-            if ($i -eq $roll) { $c = $MaxLine }
+<# ########## Ending Of Screen THREE ########## #>
+
+<# ########## Begining Of Screen FOUR ########## #>
+Function ScreenFour {
+    if ($ScriptMode -eq "SM4") {
+        Say $NormalLine
+        [int]$l = 7
+        [int]$c = 0
+        [int]$w = $col[0]
+        [int]$i = 1
+        [Int]$num = 100
+        $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
+        While ($i -le $work) {
+            $Line = $Reader.ReadLine()
+            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$Num$ESC[91m]$ESC[96m" $Line
+            if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
+            if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
+            $i++
+            $c = ($c + 3)
+            $L++
+            $num++
         }
-        [Console]::SetCursorPosition(0, $l); Say -NoNewLine "$ESC[91m|"
-        [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[92mPS1$ESC[91m]$ESC[92m" $UserScripts
-        [Console]::SetCursorPosition(102, $l); Say -NoNewLine "$ESC[91m|"
-        $l++; $t++; $c = 0
+        $Reader.close()
+        [Console]::SetCursorPosition(0, $pp)
     }
-    $WinHeight = ($WinHeight + $t)
-    $BuffHeight = $WinHeight
 }
-#>
-#$pp = $l
-$Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+ScreenFour
+<# ########## END Of Screen FOUR ########## #>
+ScreenOne
+ScreenTwo
+if ($ScriptMode -eq "SM3") { ScreenThree }
+if ($ScriptMode -eq "SM4") { ScreenFour }
 [int]$w = 0
 [Console]::SetCursorPosition(0, $pp)
 FixLine
@@ -316,8 +357,6 @@ function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-[Console]::SetCursorPosition(0, $pp)
-FixLine
 $menu = "$ESC[91m[$ESC[97m Make A Selection $ESC[91m]$ESC[97m"
 Function MyMaker {
     #Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
@@ -327,6 +366,7 @@ if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 if (($WPosition)) { FlexWindow }
 $menuPrompt += $menu
 $ValidOption = "NO"
+<# ########## Begin The Menu Loop ########## #>
 While (1) {
     [Console]::SetCursorPosition(0, $pp)
     $ans = Read-Host -Prompt $menuprompt
@@ -419,7 +459,63 @@ While (1) {
         elseif ($ans -eq "B") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
-        elseif ($ans -eq "E") { FixLine; Start-Process "pwsh.exe" -ArguMentList ($Base + "\Get-SysInfo.ps1") -Verb RunAs; FixLine; FixLine }
+        elseif ($ans -eq "E") {
+            FixLine
+            $cmd = $null; $cmd1 = $null
+            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m][$ESC[97mScreenThree$ESC[91m] [$ESC[97m2$ESC[91m][$ESC[97mScreenFour$ESC[91m] [$ESC[97m3$ESC[91m][$ESC[97mScreenOne$ESC[91m] [$ESC[97m4$ESC[91m][$ESC[97mScreenTwo$ESC[91m] [$ESC[97m6$ESC[91m][$ESC[97mDirect Input$ESC[91m]"
+            $RMenu = "$ESC[91m[$ESC[97mSelect a QuickMenu option to make it so. Or $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
+            $cmd = Read-Host -Prompt $RMenu
+            #[$ESC[97m5$ESC[91m][$ESC[97mScreenThree$ESC[91m]
+            FixLine
+            if (($cmd)) {
+                $OneShot = "NO"
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4" -or $cmd -eq "5" -or $cmd -eq "6") { $QM = "YES" }
+                if ($cmd -eq "ScreenThree" -or $cmd -eq "ScreenFour" -or $cmd -eq "ScreenThree") { $OneShot = "YES" }
+                if ($OneShot -eq "YES") {
+                    $cmd = ($cmd.split(".")[0] + ".PS1")
+                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "1") {
+                    & ScreenTwo; ScreenThree
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") {
+                    & ScreenTwo; ScreenFour
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") {
+                    & ScreenOne
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") {
+                    & ScreenTwo
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") {
+                    & ScreenThree
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "6") {
+                    while (1) {
+                        $DInp = Read-Host -Prompt "Direct Input"
+                        Say "inputing" $DImp
+                        & $DInp
+                    }
+                }
+                else {
+                    $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
+                    $cmd1 = Read-Host -Prompt $RMenu
+                    FixLine
+                    $cmd = ($cmd.split(".")[0] + ".PS1")
+                    [string]$cmd = ("$cmd $cmd1")
+                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
+            }
+            FixLine
+            $ValidOption = "YES"
+        }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
         elseif ($ans -eq "G") {
             FixLine
@@ -494,7 +590,8 @@ While (1) {
     if (($WPosition)) { FlexWindow }
     ScreenOne
     ScreenTwo
-    ScreenThree
+    if ($ScriptMode -eq "SM3") { ScreenThree }
+    if ($ScriptMode -eq "SM4") { ScreenFour }
     if (($WPosition)) { FlexWindow }
 }
 $Filetest = Test-Path -path $Filetmp
