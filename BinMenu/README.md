@@ -31,6 +31,7 @@ limit to the number of menu items. Saved around 200 lines of script. (took out m
 Update: I put the INI maker back in it's own file BINIM.ps1 to make the menu a tiny bit faster.
 Update: Added a small QuickMenu when you press G (run a ps1 script) to get to the clearlogs and reboot options I use ALL the time. (Saves me typing)
 Update: Added an option 5 on the G QuickMenu to call the script Run-CheckDisk.ps1 Which I call Complete CheckDisk
+Adding a new method to show scripts for those of us that have A LOT of scripts. (Will be called ScriptMode)
 ```
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>

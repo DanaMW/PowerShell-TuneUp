@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: April 25, 2019
+        Last Modified Date: April 26, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.0.3"
+$FileVersion = "Version: 2.0.4"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -131,16 +131,16 @@ if ($ScriptMode -eq "SM3") {
     [int]$LineCount = (Get-Content $FileINI).count
     [int]$PMenu = ($Work / 3)
     [int]$PMenu = ($PMenu - 1)
-    [int]$tpp = (9 + $PMenu)
-    [Console]::SetCursorPosition(0, $tpp)
-    $WinHeight = ($tpp + 4)
+    [int]$pp = (9 + $PMenu)
+    [Console]::SetCursorPosition(0, $pp)
+    $WinHeight = ($pp + 4)
     $BuffHeight = $WinHeight
     if (($WPosition)) { FlexWindow }
 }
 if ($ScriptMode -eq "SM4") {
     [int]$LineCount = 0
     [int]$LineCount = (Get-Content $Filetmp).count
-    $a = ($LineCount / 3)
+    [int]$a = ($LineCount / 3)
     [int]$a = [int][Math]::Ceiling($a)
     [int]$temp = $a
     [int]$b = ($temp * 2)
@@ -288,6 +288,8 @@ if ($MenuAdds -eq 0) {
 <# ########## Begining Of Screen THREE ########## #>
 Function ScreenThree {
     if ($ScriptMode -eq "SM3") {
+        $pp--
+        [Console]::SetCursorPosition(0, $pp)
         Say $NormalLine
         [int]$l = 7
         [int]$c = 0
@@ -322,6 +324,8 @@ ScreenThree
 <# ########## Begining Of Screen FOUR ########## #>
 Function ScreenFour {
     if ($ScriptMode -eq "SM4") {
+        $pp--
+        [Console]::SetCursorPosition(0, $pp)
         Say $NormalLine
         [int]$l = 7
         [int]$c = 0
@@ -329,10 +333,10 @@ Function ScreenFour {
         [int]$i = 1
         [Int]$num = 100
         $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
-        While ($i -le $work) {
+        While ($i -le $Work) {
             $Line = $Reader.ReadLine()
             if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$Num$ESC[91m]$ESC[96m" $Line
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m$Num$ESC[91m]$ESC[92m" $Line
             if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
             if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
             $i++
@@ -350,22 +354,29 @@ ScreenOne
 ScreenTwo
 if ($ScriptMode -eq "SM3") { ScreenThree }
 if ($ScriptMode -eq "SM4") { ScreenFour }
-[int]$w = 0
-[Console]::SetCursorPosition(0, $pp)
-FixLine
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-$menu = "$ESC[91m[$ESC[97m Make A Selection $ESC[91m]$ESC[97m"
+$menu = "$ESC[91m[$ESC[97mMake A Selection$ESC[91m]$ESC[97m"
 Function MyMaker {
-    #Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 if (($WPosition)) { FlexWindow }
 $menuPrompt += $menu
 $ValidOption = "NO"
+Function SwitchScreen {
+    if ($ScriptMode -eq "SM3") {
+        $ScriptMode = "SM4"
+    }
+    else { $ScriptMode = "SM3" }
+    ScreenOne
+    ScreenTwo
+    if ($ScriptMode -eq "SM3") { ScreenThree }
+    if ($ScriptMode -eq "SM4") { ScreenFour }
+}
 <# ########## Begin The Menu Loop ########## #>
 While (1) {
     [Console]::SetCursorPosition(0, $pp)
@@ -461,58 +472,14 @@ While (1) {
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         elseif ($ans -eq "E") {
             FixLine
-            $cmd = $null; $cmd1 = $null
-            Say "$ESC[91m[$ESC[33mQuickMenu$ESC[91m][$ESC[97m1$ESC[91m][$ESC[97mScreenThree$ESC[91m] [$ESC[97m2$ESC[91m][$ESC[97mScreenFour$ESC[91m] [$ESC[97m3$ESC[91m][$ESC[97mScreenOne$ESC[91m] [$ESC[97m4$ESC[91m][$ESC[97mScreenTwo$ESC[91m] [$ESC[97m6$ESC[91m][$ESC[97mDirect Input$ESC[91m]"
-            $RMenu = "$ESC[91m[$ESC[97mSelect a QuickMenu option to make it so. Or $ESC[91m($ESC[97mEnter to Cancel$ESC[91m)]$ESC[97m"
-            $cmd = Read-Host -Prompt $RMenu
-            #[$ESC[97m5$ESC[91m][$ESC[97mScreenThree$ESC[91m]
-            FixLine
-            if (($cmd)) {
-                $OneShot = "NO"
-                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4" -or $cmd -eq "5" -or $cmd -eq "6") { $QM = "YES" }
-                if ($cmd -eq "ScreenThree" -or $cmd -eq "ScreenFour" -or $cmd -eq "ScreenThree") { $OneShot = "YES" }
-                if ($OneShot -eq "YES") {
-                    $cmd = ($cmd.split(".")[0] + ".PS1")
-                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "1") {
-                    & ScreenTwo; ScreenThree
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "2") {
-                    & ScreenTwo; ScreenFour
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "3") {
-                    & ScreenOne
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") {
-                    & ScreenTwo
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") {
-                    & ScreenThree
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "6") {
-                    while (1) {
-                        $DInp = Read-Host -Prompt "Direct Input"
-                        Say "inputing" $DImp
-                        & $DInp
-                    }
-                }
-                else {
-                    $RMenu = "$ESC[91m[$ESC[97mWant any parameters? $ESC[91m($ESC[97mEnter for none$ESC[91m)]$ESC[97m"
-                    $cmd1 = Read-Host -Prompt $RMenu
-                    FixLine
-                    $cmd = ($cmd.split(".")[0] + ".PS1")
-                    [string]$cmd = ("$cmd $cmd1")
-                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
-                    FixLine
-                }
+            if ($ScriptMode -eq "SM3") {
+                $ScriptMode = "SM4"
             }
+            else { $ScriptMode = "SM3" }
+            ScreenOne
+            ScreenTwo
+            if ($ScriptMode -eq "SM3") { ScreenThree }
+            if ($ScriptMode -eq "SM4") { ScreenFour }
             FixLine
             $ValidOption = "YES"
         }
@@ -587,6 +554,7 @@ While (1) {
             else { FixLine }
         }
     }
+    [Console]::SetCursorPosition(0, $pp)
     if (($WPosition)) { FlexWindow }
     ScreenOne
     ScreenTwo
