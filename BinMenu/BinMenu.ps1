@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: April 26, 2019
+        Last Modified Date: April 28, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.0.4"
+$FileVersion = "Version: 2.0.5"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -182,7 +182,7 @@ Function ScreenOne {
     }
     [int]$l = 3
     $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-    $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Switch Program-Script Menus", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+    $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Switch Script Screens", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
     [int]$w = $Col[0]
     [int]$c = 0
     while ($c -le 8) {
@@ -298,7 +298,6 @@ Function ScreenThree {
         $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
         While ($i -le $work) {
             if ($i -le $work) {
-                #$Line = (Get-Content $FileINI)[$c]
                 $Line = $Reader.ReadLine()
                 if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
                 $moo = $line.split("=")
@@ -384,50 +383,59 @@ While (1) {
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
-        $ValidOption = "NO"
-        $DidIt = "NO"
-        $IntCom = ("[" + $ans + "B]")
-        $Argue = ("[" + $ans + "C]")
-        if (!($IntCom)) {
-            Say -ForeGroundColor Red "Error In Sent Param" $IntCom
-            Read-Host
-            return
+        if ($OutNumber -gt 99) {
+            $cmd = ($ans - 100)
+            $Read = (Get-Content $Filetmp)[$cmd]
+            Start-Process "pwsh.exe" -Argumentlist $Read -Verb RunAs
+            $ValidOption = "YES"
+            $DidIt = "YES"
         }
-        $moo = (Select-String -SimpleMatch $IntCom $FileINI)
-        $cow = $moo -split "="
-        $horn = $cow[1]
-        if (($horn)) {
-            if ($horn -match "shell:::") {
-                try { Start-Process "explorer.exe" -ArgumentList $horn -Verb RunAs }
-                catch { continue }
-                $ValidOption = "YES"
-                $DidIt = "YES"
+        if ($OutNumber -lt 99) {
+            $ValidOption = "NO"
+            $DidIt = "NO"
+            $IntCom = ("[" + $ans + "B]")
+            $Argue = ("[" + $ans + "C]")
+            if (!($IntCom)) {
+                Say -ForeGroundColor Red "Error In Sent Param" $IntCom
+                Read-Host
+                return
             }
-            elseif ((Get-Item $horn) -is [System.IO.DirectoryInfo] -eq $True) {
-                try { Invoke-Item $horn }
-                catch { continue }
-                $ValidOption = "YES"
-                $DidIt = "YES"
-            }
-            elseif ($DidIt -eq "NO") {
-                [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
-                $bus = $car -split "="
-                $truck = $bus[1]
-                if (($truck)) {
-                    $MakeMove = Split-Path $truck
-                    try { Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove }
+            $moo = (Select-String -SimpleMatch $IntCom $FileINI)
+            $cow = $moo -split "="
+            $horn = $cow[1]
+            if (($horn)) {
+                if ($horn -match "shell:::") {
+                    try { Start-Process "explorer.exe" -ArgumentList $horn -Verb RunAs }
                     catch { continue }
                     $ValidOption = "YES"
                     $DidIt = "YES"
                 }
-                else {
-                    try { Start-Process $horn -Verb RunAs }
+                elseif ((Get-Item $horn) -is [System.IO.DirectoryInfo] -eq $True) {
+                    try { Invoke-Item $horn }
                     catch { continue }
                     $ValidOption = "YES"
                     $DidIt = "YES"
                 }
+                elseif ($DidIt -eq "NO") {
+                    [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
+                    $bus = $car -split "="
+                    $truck = $bus[1]
+                    if (($truck)) {
+                        $MakeMove = Split-Path $truck
+                        try { Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove }
+                        catch { continue }
+                        $ValidOption = "YES"
+                        $DidIt = "YES"
+                    }
+                    else {
+                        try { Start-Process $horn -Verb RunAs }
+                        catch { continue }
+                        $ValidOption = "YES"
+                        $DidIt = "YES"
+                    }
+                }
+                else { FixLine }
             }
-            else { FixLine }
         }
         else {
             if ($ValidOption -eq "NO") {
@@ -472,15 +480,13 @@ While (1) {
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs }
         elseif ($ans -eq "E") {
             FixLine
-            if ($ScriptMode -eq "SM3") {
-                $ScriptMode = "SM4"
-            }
-            else { $ScriptMode = "SM3" }
-            ScreenOne
-            ScreenTwo
-            if ($ScriptMode -eq "SM3") { ScreenThree }
-            if ($ScriptMode -eq "SM4") { ScreenFour }
-            FixLine
+            if (($Config.basic.ScriptMode) -eq "SM3") { $Config.basic.ScriptMode = "SM4" }
+            else { $Config.basic.ScriptMode = "SM3" }
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            Invoke-Item ($Base + "\BinMenu.lnk")
+            Clear-Host
+            return
+
             $ValidOption = "YES"
         }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine }
