@@ -1,45 +1,52 @@
-$FileVersion = "Version: 0.1.3"
-if ($args) {
-    if ($null -ne $args[0]) { $filename = $args[0] }
-    if ($null -ne $args[1]) { $SDrive = $args[1] }
-}
-if (!($filename)) {
+param([string]$sname, [string]$sdrive)
+$FileVersion = "Version: 0.1.5"
+if (!($sname)) {
     Say "Search $FileVersion"
     Say "Remember this can be done SEARCH <FileName> <SearchFolder>"
     Say ""
     $ans = $null
     $ans = Read-Host -Prompt "Enter JUST the file name to search for. [Enter will exit]"
-    if ($ans) { $filename = $ans }
+    if ($ans) { $sname = $ans }
     else { return }
 }
-if (!($SDrive)) {
+if (!($sdrive)) {
+    Say "Search $FileVersion"
+    Say "Remember this can be done SEARCH -SNAME <FileName> -SDRIVE <SearchFolder>"
+    Say ""
     $ans = $null
     $ans = Read-Host -Prompt "Enter the Drive-Directory-Path to search in. [Enter will exit]"
-    if ($ans) { $SDrive = $ans }
+    if ($ans) { $sdrive = $ans }
     else { return }
 }
-$SDrive = $SDrive.replace("*", "")
-$filename = $filename.replace("*", "")
-$Filetmp = $SDrive
+$sdrive = $sdrive.replace("*", "")
+#$sname = $sname.replace("*", "")
+$sname = $sname.TrimStart("*")
+$sname = $sname.TrimEnd("*")
+$Filetmp = $sdrive
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -ne $true) {
     Say ""
-    Say -ForeGroundColor RED "Search is not able to find the folder" $SDrive.ToUpper()
+    Say -ForeGroundColor RED "Search is not able to find the folder" $sdrive.ToUpper()
     Say ""
     Return
 }
-if ($SDrive[-1..-1] -ne "\") { $SDrive = $SDrive + "\" }
+if ($sdrive[-1..-1] -ne "\") { $sdrive = $sdrive + "\" }
 Say ""
-Say "Searching for" $filename.ToUpper() "in" $SDrive.ToUpper()
+Say "Searching for" $sname.ToUpper() "in" $sdrive.ToUpper()
 Say ""
 $i = 0
-Get-ChildItem -Path $SDrive -recurse -filter "*${filename}*" -Name -Force | foreach-object {
+Get-ChildItem -Path $sdrive  -filter "*${sname}*" -recurse -Name -Force | foreach-object {
     $i++
+    #$sname = $sname.replace("*", " ")
     Say -NoNewLine -ForeGroundColor WHITE ((Split-Path -Parent $_) + "\")
     $Workit = (Split-Path -Leaf $_)
-    Say -NoNewLine -ForeGroundColor YELLOW ($Workit -Split $filename)[0]
-    Say -NoNewLine -ForeGroundColor RED $filename.ToUpper()
-    Say -ForeGroundColor YELLOW ($Workit -Split $filename)[1]
+    if ($Workit -match "-") { $sname = $sname.replace("*", "-") }
+    elseif ($Workit -match "_") { $sname = $sname.replace("*", "_") }
+    elseif ($Workit -match ".") { $sname = $sname.replace("*", ".") }
+    elseif ($Workit -match " ") { $sname = $sname.replace("*", " ") }
+    Say -NoNewLine -ForeGroundColor YELLOW ($Workit -Split $sname)[0]
+    Say -NoNewLine -ForeGroundColor RED $sname.ToUpper()
+    Say -ForeGroundColor YELLOW ($Workit -Split $sname)[1]
 }
 Say ""
 Say "Search found $i matches"
