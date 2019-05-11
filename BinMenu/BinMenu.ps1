@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: May 01, 2019
+        Last Modified Date: May 08, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.0.6"
+$FileVersion = "Version: 2.0.7"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -71,7 +71,6 @@ Function SpinItems {
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
         else { $si = 50 }
     }
-    #$Script:AddCount
 }
 SpinItems
 Function FixLine {
@@ -385,21 +384,25 @@ While (1) {
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
-        if ($OutNumber -gt 99) {
+        $ValidOption = "NO"
+        $DidIt = "NO"
+        $MaxYes1 = (Get-Content $Filetmp).count
+        $MaxYes2 = (Get-Content $FileINI).count
+        $MaxYes2 = ($MaxYes2 / 3)
+        $MaxYes2 = [int][Math]::Ceiling($MaxYes2)
+        if ($OutNumber -gt 99 -and $OutNumber -lt $MaxYes1) {
             $cmd = ($ans - 100)
             $Read = (Get-Content $Filetmp)[$cmd]
             Start-Process "pwsh.exe" -Argumentlist $Read -Verb RunAs
             $ValidOption = "YES"
             $DidIt = "YES"
         }
-        if ($OutNumber -lt 99) {
-            $ValidOption = "NO"
-            $DidIt = "NO"
-            $IntCom = ("[" + $ans + "B]")
-            $Argue = ("[" + $ans + "C]")
+        if ($OutNumber -gt 0 -and $OutNumber -lt 99 -and $OutNumber -le $MaxYes2 -and $DidIt -eq "NO") {
+            $IntCom = ("[" + $OutNumber + "B]")
+            $Argue = ("[" + $OutNumber + "C]")
             if (!($IntCom)) {
                 Say -ForeGroundColor Red "Error In Sent Param" $IntCom
-                Read-Host
+                Read-Host -Prompt "[Press Enter]"
                 return
             }
             $moo = (Select-String -SimpleMatch $IntCom $FileINI)

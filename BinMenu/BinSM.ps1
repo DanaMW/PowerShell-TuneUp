@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 2.0.6"
+    $FileVersion = "Version: 2.0.7"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -324,6 +324,7 @@ while (1) {
     if ($pop -eq "113") {
         PrettyLine; Say "Enter the Number of RunItem to Verify."; [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        [Console]::SetCursorPosition($w, $pp); Say "                                                               "
         PrettyLine
         if (($q1)) {
             $AddItem = "AddItem-$q1"
@@ -338,8 +339,8 @@ while (1) {
                 if ($Filetest -eq $True) { $GTG2 = "YES" }
                 else { $GTG2 = "NO" }
             }
-            if ($GTG1 -eq "YES" -and $GTG2 -eq "YES") { $GoodToGo = "Verified" }
             PrettyLine
+            if ($GTG1 -eq "YES" -and $GTG2 -eq "YES") { $GoodToGo = "Verified" }
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
     }

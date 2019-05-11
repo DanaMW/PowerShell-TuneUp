@@ -126,7 +126,7 @@
   "AddItem-19": {
     "Name": "Ubuntu Bash",
     "Argument": "",
-    "Command": "Bash.exe"
+    "Command": "C:\\Windows\\System32\\bash.exe"
   },
   "AddItem-20": {
     "Name": "Sound Blaster C2",
