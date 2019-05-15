@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 2.0.7"
+    $FileVersion = "Version: 2.1.0"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -30,7 +30,7 @@ while (1) {
     Set-Location $Base.substring(0, 3)
     Set-Location $Base
     [string]$ScriptName = ($Config.basic.ScriptName)
-    [string]$ScriptMode = ($Config.basic.ScriptMode)
+    [bool]$DeBug = ($Config.basic.DeBug)
     [bool]$ScriptRead = ($Config.basic.ScriptRead)
     [string]$Editor = ($Config.basic.Editor)
     [bool]$MenuAdds = ($Config.basic.MenuAdds)
@@ -109,7 +109,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m..........$ESC[93mRead in Scripts$ESC[97m:$ESC[97m [$ESC[92m$ScriptRead$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m...........$ESC[93mDefined Editor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m..............$ESC[93mScript Name$ESC[97m:$ESC[97m [$ESC[92m$ScriptName$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m..............$ESC[93mScript Mode$ESC[97m:$ESC[97m [$ESC[92m$ScriptMode$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$Debug$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m......$ESC[93mUse Win Positioning$ESC[97m:$ESC[97m [$ESC[92m$WPosition$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m.............$ESC[93mWindow Width$ESC[97m:$ESC[97m [$ESC[92m$WinWidth$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m............$ESC[93mWindow Height$ESC[97m:$ESC[97m [$ESC[92m$WinHeight$ESC[97m]$ESC[40m"; $l++
@@ -194,8 +194,8 @@ while (1) {
         }
     }
     if ($pop -eq "104") {
-        if (($Config.basic.ScriptMode) -eq "SM3") { $Config.basic.ScriptMode = "SM4" }
-        else { $Config.basic.ScriptMode = "SM3" }
+        if (($Config.basic.DeBug) -eq 0) { $Config.basic.DeBug = 1 }
+        else { $Config.basic.DeBug = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         $ReRun = 1
         $pop = ""

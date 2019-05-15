@@ -16,8 +16,6 @@
     "ScriptName": "BinMenu",
     "_Base": "[string] The starting folder that BinMenu reads from.",
     "Base": "D:\\bin",
-    "_ScriptMode": "[string] Sets one of two modes to run the script in. (Not complete)",
-    "ScriptMode": "SM3",
     "_ScriptRead": "[bool] Determines if the PS1 scripts are read in (Being removed)",
     "ScriptRead": false,
     "_Editor": "[string] Defines a text editor to use from BinMenu",
@@ -30,8 +28,8 @@
     "WinHeight": 13,
     "_WinWidth": "[int] How wide to draw the window.",
     "WinWidth": "104",
-    "_DBug": "[bool] My Internal script debug information.(not used)",
-    "DBug": 0
+    "_DeBug": "[bool] My Internal script debug information.",
+    "DeBug": 0
   },
   "AddItem-1": {
     "Name": "RegEdit",
