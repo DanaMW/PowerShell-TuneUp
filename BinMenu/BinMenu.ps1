@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: May 14, 2019
+        Last Modified Date: May 15, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.0"
+$FileVersion = "Version: 2.1.1"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -118,6 +118,48 @@ if ($Filetest -ne $True) {
     [bool]$NoINI = $True
     My-Maker
 }
+<# ########## MenuAdds Toggles ON ########## #>
+if ($MenuAdds -eq 1) {
+    [int]$temp = ($LineCount / 3)
+    [int]$temp2 = ($temp + 1)
+    [int]$J = 1
+    while ($j -le $AddCount) {
+        $AddItem = "AddItem-$j"
+        $k = ($Config.$AddItem).name
+        $t = $(Select-String -Pattern $k $FileINI)
+        if ($null -eq $t) {
+            $value1 = ("[" + $temp2 + "A]=") + ($Config.$AddItem).name
+            (Add-Content $FileINI $value1)
+            $value2 = ("[" + $temp2 + "B]=") + ($Config.$AddItem).command
+            (Add-Content $FileINI $value2)
+            $value3 = ("[" + $temp2 + "C]=") + ($Config.$AddItem).argument
+            if (!($value3)) { (Add-Content $FileINI $value3) }
+            else { (Add-Content $FileINI $value3) }
+            $Temp2++
+        }
+        $j++
+    }
+}
+<# ########## MenuAdds Toggle OFF ########## #>
+if ($MenuAdds -eq 0) {
+    $AddItem = "AddItem-1"
+    $wow = ($Config.$AddItem).name
+    if (($wow)) {
+        $name = "=" + ($Config.$AddItem).name
+        [int]$it = (Select-String -SimpleMatch $name $FileINI).linenumber
+        if (($it)) {
+            $it = ($it - 1)
+            $q = 0
+            While ($q -lt $it) {
+                $tr = (Get-Content $FileINI)[$q]
+                (Add-Content ./BinMenu.no $tr)
+                $q++
+            }
+            Remove-Item $FileINI
+            Rename-Item -Path ./BinMenu.no -NewName $FileINI
+        }
+    }
+}
 $ptemp = ($Base + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [int]$PCount = ($PCount - 1)
@@ -147,50 +189,6 @@ $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
 if (($WPosition)) { FlexWindow }
 if (($DeBug)) { DeBug }
-<# ########## MenuAdds Toggles ON ########## #>
-if ($MenuAdds -eq 1) {
-    [int]$temp = ($LineCount / 3)
-    #Say "Adding $temp Menu-Adds Items"
-    [int]$temp2 = ($temp + 1)
-    [int]$J = 1
-    while ($j -le $AddCount) {
-        $AddItem = "AddItem-$j"
-        $k = ($Config.$AddItem).name
-        $t = $(Select-String -Pattern $k $FileINI)
-        if ($null -eq $t) {
-            $value1 = ("[" + $temp2 + "A]=") + ($Config.$AddItem).name
-            (Add-Content $FileINI $value1)
-            $value2 = ("[" + $temp2 + "B]=") + ($Config.$AddItem).command
-            (Add-Content $FileINI $value2)
-            $value3 = ("[" + $temp2 + "C]=") + ($Config.$AddItem).argument
-            if (!($value3)) { (Add-Content $FileINI $value3) }
-            else { (Add-Content $FileINI $value3) }
-            $Temp2++
-        }
-        $j++
-    }
-}
-<# ########## MenuAdds Toggle OFF ########## #>
-if ($MenuAdds -eq 0) {
-    #Say "Removing MenuAdds Items"
-    $AddItem = "AddItem-1"
-    $wow = ($Config.$AddItem).name
-    if (($wow)) {
-        $name = "=" + ($Config.$AddItem).name
-        [int]$it = (Select-String -SimpleMatch $name $FileINI).linenumber
-        if (($it)) {
-            $it = ($it - 1)
-            $q = 0
-            While ($q -lt $it) {
-                $tr = (Get-Content $FileINI)[$q]
-                (Add-Content ./BinMenu.no $tr)
-                $q++
-            }
-            Remove-Item $FileINI
-            Rename-Item -Path ./BinMenu.no -NewName $FileINI
-        }
-    }
-}
 [Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
 [Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
 [Console]::SetCursorPosition(0, 2); Say $Menu1Line; $pp++
