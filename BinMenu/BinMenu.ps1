@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.1"
+$FileVersion = "Version: 2.1.2"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -279,7 +279,7 @@ $ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
 While (1) {
     [Console]::SetCursorPosition(0, $pp)
-    $ans = Read-Host -Prompt $menuprompt
+    $ans = Read-Host $menuprompt
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -289,8 +289,8 @@ While (1) {
         $MaxYes = ($MaxYes / 3)
         $MaxYes = [int][Math]::Ceiling($MaxYes)
         if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
-            $IntCom = ("[" + $OutNumber + "B]")
-            $Argue = ("[" + $OutNumber + "C]")
+            [string]$IntCom = ("[" + $ans + "B]")
+            [string]$Argue = ("[" + $ans + "C]")
             if (!($IntCom)) {
                 Say -ForeGroundColor Red "Error In Sent Param" $IntCom
                 Read-Host -Prompt "[Press Enter]"
@@ -313,11 +313,16 @@ While (1) {
                     $DidIt = "YES"
                 }
                 elseif ($DidIt -eq "NO") {
-                    [string]$car = (Select-String -SimpleMatch $Argue $FileINI)
+                    $car = $null
+                    $truck = $null
+                    $bus = $null
+                    $car = (Select-String -SimpleMatch $Argue $FileINI)
+                    #Say $car
+                    #Read-Host
                     $bus = $car -split "="
                     $truck = $bus[1]
                     if (($truck)) {
-                        $MakeMove = Split-Path $truck
+                        [string]$MakeMove = Split-Path $truck
                         try { Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove }
                         catch { continue }
                         $ValidOption = "YES"
