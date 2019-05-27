@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.3"
+$FileVersion = "Version: 2.1.4"
 $Base = $env:BASE
 if (!($Base)) {
     $Base = ReadHost -Prompt = "Enter the path to make your BASE directory (No trailing \)"

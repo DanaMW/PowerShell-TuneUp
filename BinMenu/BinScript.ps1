@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.3"
+$FileVersion = "Version: 2.1.4"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -10,7 +10,7 @@ $ESC = [char]27
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 [string]$ScriptName = "BinScript"
-$menu = "$ESC[1;91m[$ESC[1;97mMake A Selection$ESC[1;91m]$ESC[1;97m"
+$menu = "$ESC[1;91m[$ESC[1;97mMake A Selection or (Q)uit$ESC[1;91m]$ESC[1;97m"
 $menuPrompt += $menu
 if (!($WinWidth)) {
     $WinWidth = 105

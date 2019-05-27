@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.1.3"
+$FileVersion = "Version: 0.1.4"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -8,7 +8,7 @@ function Test-Administrator {
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))) {
-    Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\Do-Repair.ps1" -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\Repair-Windows.ps1" -Verb RunAs
     exit
     break
 }
@@ -82,7 +82,7 @@ If ($RunFix -eq "") {
     if ($cmd -eq "3") { $RunFix = "REPAIR" }
     if ($cmd -eq "4") { $RunFix = "RESET" }
     if ($cmd -eq "H") {
-        Start-Process "pwsh.exe" -ArgumentList "./Do-Repair.ps1" -Verb RunAs
+        Start-Process "pwsh.exe" -ArgumentList "./Repair-Windows.ps1" -Verb RunAs
         Exit
         break
     }
@@ -93,7 +93,7 @@ If ($RunFix -eq "") {
     }
     #if ($cmd -eq "") { return }
     #else {
-    #    Start-Process "pwsh.exe" ($env:BASE + "\Do-Repair.ps1") -Verb RunAs
+    #    Start-Process "pwsh.exe" ($env:BASE + "\Repair-Windows.ps1") -Verb RunAs
     #    try { $command = "stop-process -Id $PID" }
     #    Catch { [System.Windows.Forms.MessageBox]::Show($_ , 'Status') }
     #    Invoke-Expression $command
