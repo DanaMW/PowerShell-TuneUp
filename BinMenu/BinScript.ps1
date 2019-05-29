@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.4"
+$FileVersion = "Version: 2.1.5"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -9,15 +9,15 @@ Set-Location $Base
 $ESC = [char]27
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[string]$ScriptName = "BinScript"
+$ScriptName = "BinScript"
 $menu = "$ESC[1;91m[$ESC[1;97mMake A Selection or (Q)uit$ESC[1;91m]$ESC[1;97m"
 $menuPrompt += $menu
 if (!($WinWidth)) {
-    $WinWidth = 105
+    $WinWidth = 166
     $BuffWidth = $WinWidth
 }
 if (!($WinHeight)) {
-    $WinHeight = 160
+    $WinHeight = 100
     $BuffHeight = $WinHeight
 }
 Function FlexWindow {
@@ -52,15 +52,19 @@ While (1) {
     [int]$pp = 0
     [int]$LineCount = 0
     [int]$LineCount = (Get-Content $Filetmp).count
-    $Work = $LineCount
-    $a = ($Work / 3)
-    $a = [int][Math]::Ceiling($a)
-    $PMenu = $a
-    [int]$b = ($a * 2)
-    [int]$c = ($Work - $b)
-    $Row = @($a, $b, $c)
-    $Col = @(1, 34, 69)
-    [int]$pp = $PMenu
+    [int]$Work = $LineCount
+    [int]$tmp = ($Work / 5)
+    [int]$tmp = [int][Math]::Ceiling($tmp)
+    [int]$PMenu = $tmp
+    [int]$a = $tmp
+    [int]$b = ($tmp + $a)
+    [int]$c = ($tmp + $b)
+    [int]$d = ($tmp + $c)
+    [int]$e = $work
+    [int]$e = ($work - $d)
+    $Row = @($a, $b, $c, $d, $e)
+    $Col = @(1, 34, 67, 100, 133)
+    [int]$pp = ($PMenu)
     [Console]::SetCursorPosition(0, $pp)
     $WinHeight = ($pp + 4)
     $BuffHeight = $WinHeight
@@ -68,7 +72,6 @@ While (1) {
     [Console]::SetCursorPosition(0, $pp)
     Say $NormalLine
     [int]$l = 0
-    [int]$c = 0
     [int]$w = $col[0]
     [int]$i = 1
     [Int]$num = 1
@@ -77,11 +80,13 @@ While (1) {
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-        [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[1;91m[$ESC[1;97m$Num$ESC[1;91m]$ESC[1;92m" $Line
+        [Console]::SetCursorPosition($w, $l)
+        Say -NoNewLine "$ESC[1;91m[$ESC[1;97m$Num$ESC[1;91m]$ESC[1;92m" $Line
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = -1; [int]$w = $Col[2] }
+        if ($i -eq $Row[2]) { [int]$l = -1; [int]$w = $Col[3] }
+        if ($i -eq $Row[3]) { [int]$l = -1; [int]$w = $Col[4] }
         $i++
-        $c = ($c + 3)
         $L++
         $num++
     }
@@ -92,8 +97,6 @@ While (1) {
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
         $MaxYes = (Get-Content $Filetmp).count
-        #$MaxYes = ($MaxYes / 3)
-        #$MaxYes = [int][Math]::Ceiling($MaxYes)
         if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]

@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: May 27, 2019
+        Last Modified Date: May 28, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.4"
+$FileVersion = "Version: 2.1.5"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -169,7 +169,7 @@ $ptemp = ($Base + "\*.ps1")
 [string]$PrettyLine = "$ESC[1;91m|$ESC[1;97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[1;91m|$ESC[1;97m"
 [string]$SpacerLine = "$ESC[1;91m|                                                                                                     $ESC[1;91m|$ESC[1;97m"
 [string]$ProgramLine = "$ESC[1;91m#$ESC[1;96m[$ESC[33mProgram Menu$ESC[1;96m]$ESC[1;91m=======================================================================================#$ESC[1;97m"
-[string]$Menu1Line = "$ESC[1;91m#$ESC[1;96m[$ESC[33mBuilt-in Menu$ESC[1;96m]$ESC[1;91m=======================================================================$ESC[1;96m[$ESC[33mScripts:     $ESC[1;96m]$ESC[1;91m#$ESC[1;97m"
+[string]$Menu1Line = "$ESC[1;91m#$ESC[1;96m[$ESC[33mBuilt-in Menu$ESC[1;96m]$ESC[1;91m========================================================================$ESC[1;96m[$ESC[33mScripts:    $ESC[1;96m]$ESC[1;91m#$ESC[1;97m"
 [string]$ScriptLine = "$ESC[1;91m#$ESC[1;96m[$ESC[33mScripts Menu$ESC[1;96m]$ESC[1;91m=======================================================================================#$ESC[1;97m"
 [int]$pp = 0
 [int]$LineCount = 0
@@ -193,7 +193,7 @@ if (($DeBug)) { DeBug }
 [Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
 [Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
 [Console]::SetCursorPosition(0, 2); Say $Menu1Line; $pp++
-[Console]::SetCursorPosition(97, 2); Say $PCount
+[Console]::SetCursorPosition(98, 2); Say $PCount
 [Console]::SetCursorPosition(0, 3); Say $SpacerLine; $pp++
 [Console]::SetCursorPosition(0, 4); Say $SpacerLine; $pp++
 [Console]::SetCursorPosition(0, 5); Say $SpacerLine; $pp++
