@@ -1,7 +1,29 @@
-Param([bool]$loud)
+<#
+.SYNOPSIS
+        Clearlogs (Clear Windows Logs)
+        Created By: Dana Meli
+        Created Date: August, 2018
+        Last Modified Date: May 28, 2019
+
+.DESCRIPTION
+        This is a simple script to clear all your windows logs. (That are not in use.)
+        You Can run it in three ways. No Parameter, -Loud and -Silent
+        Normal has a progress bar. Loud shows each log processed and silent just shows results.
+        Command Line: ClearLogs.ps1 [[-loud] <bool>] [[-Silent] <bool>]
+
+.EXAMPLE
+        ClearLogs.ps1 (Normal operation)
+        ClearLogs.ps1 -loud 1
+        ClearLogs.ps1 -Silent 1
+
+.NOTES
+        Still under development.
+
+#>
+Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.13"
+$FileVersion = "Version: 0.2.15"
 $host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -47,10 +69,20 @@ FlexWindow
 [Console]::SetCursorPosition(0, 4); Say "You have $ClearSet logs on this machine. Setting Up the math."
 $ClearSet = ($ClearSet / 100)
 $i = 0
-if ($loud -eq $True) {
+if (($loud)) {
     [Console]::SetCursorPosition(0, 5)
     wevtutil.exe el | ForEach-Object {
         Say "Deleting: " $_
+        wevtutil.exe cl $_
+        $i++
+    }
+    Say -NoNewline "ClearWindows Logs Processed $i log files."
+    Read-Host -Prompt "[Slap Enter to Exit]"
+    return
+}
+elseif (($Silent)) {
+    [Console]::SetCursorPosition(0, 5)
+    wevtutil.exe el | ForEach-Object {
         wevtutil.exe cl $_
         $i++
     }
