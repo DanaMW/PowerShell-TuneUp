@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: May 28, 2019
+        Last Modified Date: June 03, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.5"
+$FileVersion = "Version: 2.1.7"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -42,9 +42,15 @@ if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
 [int]$WinWidth = ($Config.basic.WinWidth)
+if (!($WinWidth)) { $WinWidth = 104 }
 [int]$BuffWidth = $WinWidth
 [int]$WinHeight = ($Config.basic.WinHeight)
+if (!($WinHeight)) { $WinWidth = 36 }
 [int]$BuffHeight = $WinHeight
+[int]$WinX = ($Config.basic.WinX)
+if (!($WinX)) { $WinX = 530 }
+[int]$WinY = ($Config.basic.WinY)
+if (!($WinY)) { $WinY = 200 }
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -60,7 +66,10 @@ Function FlexWindow {
     $pswindow.windowsize = $newsize
     $ErrorActionPreference = $SaveError
 }
-if (($WPosition)) { FlexWindow }
+if (($WPosition)) {
+    FlexWindow
+    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+}
 Function SpinItems {
     $si = 1
     $Sc = 50
@@ -188,7 +197,10 @@ $Col = @(1, 34, 69)
 [Console]::SetCursorPosition(0, $pp)
 $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
-if (($WPosition)) { FlexWindow }
+if (($WPosition)) {
+    FlexWindow
+    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+}
 if (($DeBug)) { DeBug }
 [Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
 [Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
@@ -262,7 +274,10 @@ $pp = ($a + 8)
 [Console]::SetCursorPosition(0, $pp)
 $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
-if (($WPosition)) { FlexWindow }
+if (($WPosition)) {
+    FlexWindow
+    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+}
 [Console]::SetCursorPosition(0, $pp)
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -274,7 +289,10 @@ Function MyMaker {
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
-if (($WPosition)) { FlexWindow }
+if (($WPosition)) {
+    FlexWindow
+    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+}
 $menuPrompt += $menu
 $ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
@@ -345,7 +363,10 @@ While (1) {
                 Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) { FlexWindow }
+                if (($WPosition)) {
+                    FlexWindow
+                    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+                }
             }
             else { FixLine }
         }
@@ -454,13 +475,19 @@ While (1) {
                 Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) { FlexWindow }
+                if (($WPosition)) {
+                    FlexWindow
+                    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+                }
             }
             else { FixLine }
         }
     }
     [Console]::SetCursorPosition(0, $pp)
-    if (($WPosition)) { FlexWindow }
+    if (($WPosition)) {
+        FlexWindow
+        Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+    }
 }
 $Filetest = Test-Path -path $Filetmp
 if ($Filetest -eq $True) { Remove-Item –path $Filetmp }

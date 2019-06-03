@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 2.1.5"
+    $FileVersion = "Version: 2.1.7"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -39,6 +39,8 @@ while (1) {
     $BuffHeight = $WinHeight
     [int]$WinWidth = ($Config.basic.WinWidth)
     $BuffWidth = $WinWidth
+    [int]$WinX = ($Config.basic.WinX)
+    [int]$WinY = ($Config.basic.WinY)
     if (!($AWinHeight)) {
         $AWinHeight = 44
         $ABuffHeight = $AWinHeight
@@ -114,13 +116,15 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m.............$ESC[93mWindow Width$ESC[97m:$ESC[97m [$ESC[92m$WinWidth$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m............$ESC[93mWindow Height$ESC[97m:$ESC[97m [$ESC[92m$WinHeight$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m..........$ESC[93mUse Add Entries$ESC[97m:$ESC[97m [$ESC[92m$MenuAdds$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m........$ESC[93mWindow X Position$ESC[97m:$ESC[97m [$ESC[92m$WinX$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m........$ESC[93mWindow Y Position$ESC[97m:$ESC[97m [$ESC[92m$WinY$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[96mNumber of Program Adds in JSON$ESC[97m: $ESC[97m[$ESC[96m" $AddCount "$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini Directly$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini Directly$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
@@ -236,12 +240,30 @@ while (1) {
         $pop = ""
     }
     if ($pop -eq "109") {
+        $blah = "Please enter The window position from LEFT."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.X = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+    }
+    if ($pop -eq "110") {
+        $blah = "Please enter The window position from TOP."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinY = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+    }
+    if ($pop -eq "111") {
         $go1 = ($Base + "\BinMenu.ini")
         $go2 = ($Base + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
     }
-    if ($pop -eq "110") {
+    if ($pop -eq "112") {
         SpinItems
         $qq = ($AddCount + 1)
         $AddItem = "AddItem-$qq"
@@ -251,7 +273,7 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "111") {
+    if ($pop -eq "113") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
@@ -288,7 +310,7 @@ while (1) {
         }
         SpinItems
     }
-    if ($pop -eq "112") {
+    if ($pop -eq "114") {
         PrettyLine
         Say "Enter the Number of AddItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -321,7 +343,7 @@ while (1) {
         }
         PrettyLine
     }
-    if ($pop -eq "113") {
+    if ($pop -eq "115") {
         PrettyLine; Say "Enter the Number of RunItem to Verify."; [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         [Console]::SetCursorPosition($w, $pp); Say "                                                               "
@@ -344,7 +366,7 @@ while (1) {
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
     }
-    if ($pop -eq "114") {
+    if ($pop -eq "116") {
         PrettyLine
         Say "Enter the Number of AddItem to Execute."
         [Console]::SetCursorPosition($w, ($pp + 1))

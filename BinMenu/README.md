@@ -33,8 +33,12 @@ Update: Added a small QuickMenu when you press G (run a ps1 script) to get to th
 Update: Added an option 5 on the G QuickMenu to call the script Run-CheckDisk.ps1 Which I call Complete CheckDisk
 Update: Pressing E allows you to switch back and forth from the Program Screen and the Script Screen where you find all your scripts numbered from 100 on up. Pressing that corresponding number at any time in the script will run that script for you. The Scripts screen does not need to be visible to run a ps1 script. I will tie this new stuff into the other menus and whole script completely over the next little while.
 Update: Corrected when an entry is invalid to return "not valid" properly
-Update: Turned the script reads into their own script so I can do more with them. This is just a first draft of BinScript.ps1 a lot more to come.
-Also FINALLY got the math correct for the columns (I am pretty sure) so it splits up correctly. Took scriptmode OUT of the json and shortened the code.
+Update: Turned the script reads into their own script so I can do more with them.
+This is just a first draft of BinScript.ps1 a lot more to come.
+Also FINALLY got the math correct for the columns (I am pretty sure) so it splits up correctly.
+Took scriptmode OUT of the json and shortened the code.
+Update: Added a call to the new script Put-WinPosition and entries in the BinMenu.json
+The adds center the window for me when it runs or when you hit enter.
 ```
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>

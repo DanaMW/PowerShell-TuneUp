@@ -90,15 +90,9 @@
     "Argument": ""
   },
   "RunItem-11": {
-    "HostOnly": "NONE",
-    "RunPath": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Name": "MineTest",
-    "Argument": "D:\\bin\\MineTest.ps1 -NoProfile -NoLogo"
-  },
-  "RunItem-12": {
-    "HostOnly": "NONE",
-    "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
     "Name": "AdiIRC",
-    "Argument": ""
+    "HostOnly": "NONE",
+    "Argument": "",
+    "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe"
   }
 }

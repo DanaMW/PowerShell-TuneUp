@@ -23,7 +23,7 @@
 Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.15"
+$FileVersion = "Version: 0.2.16"
 $host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -121,7 +121,7 @@ else {
     Catch { Continue }
     if ($LastExitCode -ne 0) { $ec++ }
     $ErrorActionPreference = $OrgError
-    asay.ps1 ClearWindows Logs Processed $i log files.
+    Asay.ps1 ClearWindows Logs Processed $i log files.
     [Console]::SetCursorPosition(0, 11); Say -NoNewline "ClearWindows Logs Processed $i log files."
     [Console]::SetCursorPosition(0, 12); Say -NoNewline $ec "Files were in use and not cleared."
     [Console]::SetCursorPosition(0, 13); Read-Host -Prompt "[Slap Enter to Exit]"
