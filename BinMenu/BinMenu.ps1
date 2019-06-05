@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.7"
+$FileVersion = "Version: 2.1.8"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -51,6 +51,7 @@ if (!($WinHeight)) { $WinWidth = 36 }
 if (!($WinX)) { $WinX = 530 }
 [int]$WinY = ($Config.basic.WinY)
 if (!($WinY)) { $WinY = 200 }
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -68,7 +69,7 @@ Function FlexWindow {
 }
 if (($WPosition)) {
     FlexWindow
-    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
 }
 Function SpinItems {
     $si = 1
@@ -114,13 +115,13 @@ Clear-Host
 [string]$FileINI = ($Base + "\BinMenu.ini")
 [string]$Filetmp = ($Base + "\BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+if (($Filetest)) { Remove-Item –path $Filetmp }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 SpinItems
 $ESC = [char]27
 $Filetest = Test-Path -path $FileINI
-if ($Filetest -ne $True) {
+if (!($Filetest)) {
     Say "The File $FileINI is missing. We Can not continue without it."
     Say "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
@@ -404,7 +405,7 @@ While (1) {
         elseif ($ans -eq "E") {
             FixLine
             $Filetest = Test-Path -path $Filetmp
-            if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+            if (($Filetest)) { Remove-Item –path $Filetmp }
             Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
             Start-Process pwsh.exe -ArgumentList ($Base + "\BinScript.Ps1") -Verb RunAs; FixLine
             $ValidOption = "YES"
@@ -465,7 +466,7 @@ While (1) {
             FixLine
             $ValidOption = "YES"
         }
-        elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
+        elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if (($Filetest)) { Remove-Item –path $Filetmp }; Clear-Host; Return }
         elseif ($ans -eq "R") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; FixLine; $ValidOption = "YES" }
         else {
@@ -490,4 +491,4 @@ While (1) {
     }
 }
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $True) { Remove-Item –path $Filetmp }
+if (($Filetest)) { Remove-Item –path $Filetmp }

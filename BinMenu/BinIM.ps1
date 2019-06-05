@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.7"
+$FileVersion = "Version: 2.1.8"
 $Base = $env:BASE
 if (!($Base)) {
     $Base = ReadHost -Prompt = "Enter the path to make your BASE directory (No trailing \)"
@@ -9,13 +9,13 @@ Set-Location $Base
 Clear-Host
 $FileINI = ($Base + "\BinMenu.ini")
 $Filetest = Test-Path -path $FileINI
-if ($Filetest -eq $True) { Remove-Item –path $FileINI }
+if (($Filetest)) { Remove-Item –path $FileINI }
 $FileTXT = ($Base + "\BinMenu.txt")
 $Filetest = Test-Path -path $FileTXT
-if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
+if (($Filetest)) { Remove-Item –path $FileTXT }
 $FileCSv = ($Base + "\BinMenu.csv")
 $Filetest = Test-Path -path $FileCSV
-if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
+if (($Filetest)) { Remove-Item –path $FileCSV }
 Say $fileVersion "Reading in directory" $Base
 Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
 @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
@@ -66,9 +66,9 @@ Clear-Host
 Say "Done Writing EXE files to the Menu ini."
 Say ""
 $Filetest = Test-Path -path $FileTXT
-if ($Filetest -eq $True) { Remove-Item –path $FileTXT }
+if (($Filetest)) { Remove-Item –path $FileTXT }
 $Filetest = Test-Path -path $FileCSV
-if ($Filetest -eq $True) { Remove-Item –path $FileCSV }
+if (($Filetest)) { Remove-Item –path $FileCSV }
 Clear-Host
 Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinMenu.ps1") -Verb RunAs
 return

@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.7"
+$FileVersion = "Version: 2.1.8"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -46,9 +46,14 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, $pp)
 }
+<# SET THE BELOW TO POSITION THE SCRIPT WINDOW #>
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$POSX = 285
+$POSY = 335
 While (1) {
     Clear-Host
     FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     [int]$pp = 0
     [int]$LineCount = 0
     [int]$LineCount = (Get-Content $Filetmp).count
@@ -69,6 +74,7 @@ While (1) {
     $WinHeight = ($pp + 4)
     $BuffHeight = $WinHeight
     FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     [Console]::SetCursorPosition(0, $pp)
     Say $NormalLine
     [int]$l = 0
@@ -76,6 +82,7 @@ While (1) {
     [int]$i = 1
     [Int]$num = 1
     FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
@@ -107,7 +114,7 @@ While (1) {
             FixLine
         }
     }
-    elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if ($Filetest -eq $True) { Remove-Item –path $Filetmp }; Clear-Host; Return }
+    elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if (($Filetest)) { Remove-Item –path $Filetmp }; Clear-Host; Return }
     else {
         FixLine
         [Console]::SetCursorPosition(0, $pp)
@@ -115,7 +122,8 @@ While (1) {
         Start-Sleep -Milliseconds 500
         FixLine
         FlexWindow
+        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     }
 }
 $Filetest = Test-Path -path $Filetmp
-if ($Filetest -eq $True) { Remove-Item -path $Filetmp }
+if (($Filetest)) { Remove-Item -path $Filetmp }

@@ -1,5 +1,5 @@
 while (1) {
-    $FileVersion = "Version: 2.1.7"
+    $FileVersion = "Version: 2.1.8"
     $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
     if (!($ReRun)) { $ReRun = 0 }
     Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -358,7 +358,7 @@ while (1) {
             else { $GTG1 = "NO" }
             if (($TestRun2)) {
                 $Filetest = Test-Path -path $TestRun2
-                if ($Filetest -eq $True) { $GTG2 = "YES" }
+                if (($Filetest)) { $GTG2 = "YES" }
                 else { $GTG2 = "NO" }
             }
             PrettyLine
