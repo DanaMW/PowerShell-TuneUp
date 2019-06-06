@@ -13,6 +13,8 @@ and
 Computer\HKEY_CLASSES_ROOT\Microsoft.PowerShellScript.1\Shell\0\Command
 is:
 "pwsh.exe" "-NoLogo" "-NoProfile" "-WindowStyle" "Hidden" "-Command" ""& {Start-Process pwsh.exe -ArgumentList '-NoLogo -ExecutionPolicy RemoteSigned -File \"%1\"' -Verb RunAs}"
+** Above is MY EXACT line I put in the Registry to let powershell (pwsh.exe) run as I like at the above Key. **
+Now when I click a *.ps1 it elevates and runs.
 
 I changed the following key to 0(zero):
 Computer\HKEY_CLASSES_ROOT\Microsoft.PowerShellScript.1\Shell
