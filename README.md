@@ -89,6 +89,7 @@ Usage: GET-SYSINFO.PS1
 I Wanted something to replace Read-Host that timed out for my scripts.
 
 Usage: Put-Pause -Prompt <[String] Standard prompt> -Max <[int] Milliseconds> -Default <[string] single key default>
+Usage: Example: $a = Put-Pause -Prompt "Do you seem interested? (Y/N):" -Default "N"; Say $a
 ```
 # Put-WinSize (Formally Set-WinSize)
 ```

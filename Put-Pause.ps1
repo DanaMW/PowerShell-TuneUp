@@ -1,5 +1,5 @@
 Param([string]$Prompt, [int]$max, [String]$Default)
-$FileVersion = "Version: 0.0.3"
+$FileVersion = "Version: 0.0.4"
 $i = 0
 if (!($max)) { $max = 5000 }
 if (($Prompt)) { Say -NoNewLine ($Prompt + " ") }
@@ -16,6 +16,9 @@ while ($i -lt $max) {
     $i = ($i + 100)
     if ($i -ge $max) {
         if (($ans)) { $ans }
-        if (!($ans) -and ($Default)) { $ans = $Default }
+        if (!($ans) -and ($Default)) {
+            $ans = $Default
+            $ans
+        }
     }
 }
