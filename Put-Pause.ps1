@@ -1,8 +1,13 @@
 Param([string]$Prompt, [int]$max, [String]$Default)
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "Version: 0.0.6"
 $i = 0
+$ESC = [char]27
+### ESC is replaced with char27 for color codes ###
 if (!($max)) { $max = 5000 }
-if (($Prompt)) { Say -NoNewLine ($Prompt + " ") }
+if (($Prompt)) {
+    $Prompt = $Prompt.Replace("ESC", $ESC)
+    Say -NoNewLine ($Prompt + " ")
+}
 if (($Default)) { $ans = $Default }
 while ($i -lt $max) {
     Start-Sleep -MilliSeconds 100
