@@ -84,6 +84,12 @@ Usage: GET-SYSINFO.PS1
 ```
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
+# Put-Pause
+```
+I Wanted something to replace Read-Host that timed out for my scripts.
+
+Usage: Put-Pause -Prompt <[String] Standard prompt> -Max <[int] Milliseconds> -Default <[string] single key default>
+```
 # Put-WinSize (Formally Set-WinSize)
 ```
 My script paste-in that allows the console buffer and window to be resized.
