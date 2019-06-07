@@ -1,17 +1,18 @@
-param([string]$myargs)
-$FileVersion = "Version: 0.2.0"
-if (!($myargs)) {
-    Write-Output "ASay" $FileVersion
+param([string]$MyArgs)
+$FileVersion = "Version: 0.2.2"
+if (!($MyArgs)) {
+    Write-Output "Notify $FileVersion"
     Write-Output "ERROR No params on the command line"
     Write-Output " "
-    Write-Output "Please use: NOTIFY <message to send to output>"
-    Write-Output "or use: ASAY <message to send to output>"
-    Write-Output " "
+    Write-Output "Please use: NOTIFY <message to send to output> (without quotes)"
+    Write-Output "Or use: ASAY <message to send to output> (without quotes)"
     Write-Output " "
     return
 }
-$TheArgs = "$myargs $args"
-$png = ($env:BASE + "\notify.png")
-#$sys = "PowerShell Core System Message"
-$UID = "BinMess"
-New-BurntToastNotification -Text "$TheArgs" -AppLogo "$png" -UniqueIdentifier "$UID"
+$TheArgs = "$MyArgs $args"
+$Fill = "                       "
+$png = ($env:BASE + "\Notify.png")
+$sys = "-<[ PowerShell Core System Notification ]>-"
+$UID = ("Notify" + $(Get-Random -maximum 999 -minimum 100))
+$ToastHeader = New-BTHeader -Id $UID -Title $sys
+Toast -Text "$TheArgs", "$Fill" -AppLogo "$png" -Header $ToastHeader -UniqueIdentifier "$UID"
