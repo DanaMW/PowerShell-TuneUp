@@ -138,6 +138,9 @@ Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 ```
 # ASAY and NOTIFY
 ```
+This now uses BurntToast from the PowerShellGallery
+https://www.powershellgallery.com/packages/BurntToast
+
 ASAY and NOTIFY are really the same file. They will send a notification to the standard
  windows notification center.
 I use it in my scripts to let me know when any event has happened I might want to see.
