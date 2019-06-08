@@ -1,38 +1,64 @@
+$FileVersion = "Version: 1.3.9"
+$host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
+Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
+Function MyConfig {
+    $Script:MyConfig = $(Get-ScriptDir) + "\Delay-StartUp.json"
+    $MyConfig
+}
+$Script:ConfigFile = MyConfig
+try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+if (!($Config)) {
+    Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
+    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
+    break
+}
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
+[string]$Editor = ($Config.basic.Editor)
+[bool]$TestRun = ($Config.basic.TestRun)
+[int]$StartDelay = ($Config.basic.StartDelay)
+[int]$Delay = ($Config.basic.Delay)
+[bool]$Prevent = ($Config.basic.Prevent)
+[int]$WinWidth = ($Config.basic.WinWidth)
+[int]$WinHeight = ($Config.basic.WinHeight)
+[int]$BuffWidth = $WinWidth
+[int]$BuffHeight = $WinHeight
+if (!($BWHeight)) { $BWHeight = "37" }
+if (!($BWWidth)) { $BWWidth = "90" }
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$WinX = 590
+$WinY = 205
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 820 -Height 820  > $null }
+$Script:ESC = [char]27
+[string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
+[string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
+[string]$LeftLine = "$ESC[31m|"
+[string]$RightLine = "$ESC[31m|"
 while (1) {
-    $FileVersion = "Version: 1.3.7"
-    $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
-    Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
-    Function MyConfig {
-        $Script:MyConfig = $(Get-ScriptDir) + "\Delay-StartUp.json"
-        $MyConfig
+    Function FlexWindow {
+        $SaveError = $ErrorActionPreference
+        $ErrorActionPreference = "SilentlyContinue"
+        if (!($BWHeight)) { $BWHeight = "37" }
+        if (!($BWWidth)) { $BWWidth = "90" }
+        $pshost = Get-Host
+        $pswindow = $pshost.ui.rawui
+        $newsize = $pswindow.buffersize
+        $newsize.height = $BWHeight
+        $newsize.width = $BWWidth
+        $pswindow.buffersize = $newsize
+        $newsize = $pswindow.windowsize
+        $newsize.height = $BWHeight
+        $newsize.width = $BWWidth
+        $pswindow.windowsize = $newsize
+        $ErrorActionPreference = $SaveError
     }
-    $Script:ConfigFile = MyConfig
-    try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
-    catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
-    if (!($Config)) {
-        Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-        Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
-        break
-    }
-    $Base = $env:Base
-    if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-    if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-    Set-Location $Base.substring(0, 3)
-    Set-Location $Base
-    [string]$Editor = ($Config.basic.Editor)
-    [bool]$TestRun = ($Config.basic.TestRun)
-    [int]$StartDelay = ($Config.basic.StartDelay)
-    [int]$Delay = ($Config.basic.Delay)
-    [bool]$Prevent = ($Config.basic.Prevent)
-    [int]$WinWidth = ($Config.basic.WinWidth)
-    [int]$WinHeight = ($Config.basic.WinHeight)
-    [int]$BuffWidth = $WinWidth
-    [int]$BuffHeight = $WinHeight
-    $Script:ESC = [char]27
-    [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
-    [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[91m|$ESC[97m"
-    [string]$LeftLine = "$ESC[31m|"
-    [string]$RightLine = "$ESC[31m|"
+    FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+    FlexWindow
     Function FuckOff {
         PrettyLine
         Say $blah
@@ -54,24 +80,6 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    Function FlexWindow {
-        $SaveError = $ErrorActionPreference
-        $ErrorActionPreference = "SilentlyContinue"
-        if (!($BWHeight)) { $BWHeight = "37" }
-        if (!($BWWidth)) { $BWWidth = "90" }
-        $pshost = Get-Host
-        $pswindow = $pshost.ui.rawui
-        $newsize = $pswindow.buffersize
-        $newsize.height = $BWHeight
-        $newsize.width = $BWWidth
-        $pswindow.buffersize = $newsize
-        $newsize = $pswindow.windowsize
-        $newsize.height = $BWHeight
-        $newsize.width = $BWWidth
-        $pswindow.windowsize = $newsize
-        $ErrorActionPreference = $SaveError
-    }
-    FlexWindow
     Function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                             "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
@@ -139,14 +147,21 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m...................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
     [int]$v = 3
     [int]$i = 1
-    #[int]$a = 8
     [int]$w = 1
     while ($i -le $AddCount) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"; [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m" ; $l++ }
+        if ($i -lt "10") {
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m....................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"
+            [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m"
+            $l++
+        }
+        if ($i -ge "10") {
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m...................$ESC[93mName$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]"
+            [Console]::SetCursorPosition(($w + 65), $l); Say -NoNewLine "$ESC[97m[$ESC[93mHost$ESC[96m: $it2$ESC[97m]$ESC[40m"
+            $l++
+        }
         $i++
         $a++
     }
@@ -158,25 +173,23 @@ while (1) {
     PrettyLine
     [int]$u = ($pp - 1)
     While ($v -le $u) {
-        [Console]::SetCursorPosition($w, $v)
-        Say -NoNewline $LeftLine
+        [Console]::SetCursorPosition($w, $v); Say -NoNewline $LeftLine
         $v++
     }
     [int]$v = 3
     [int]$u = ($pp - 2)
     [int]$w = 88
     While ($v -le $u) {
-        [Console]::SetCursorPosition($w, $v)
-        Say -NoNewline $RightLine; $v++
+        [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine
+        $v++
     }
     [int]$pp = ($l + 1)
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
     FlexWindow
     FlexWindow
-    PrettyLine
     [Console]::SetCursorPosition($w, $pp)
-    $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m"
+    $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNumber $ESC[96mto Edit, $ESC[91m($ESC[97mR$ESC[91m)$ESC[96meload, $ESC[91m($ESC[97mQ$ESC[91m)$ESC[96muit$ESC[91m]$ESC[97m"
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"
@@ -399,7 +412,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "X") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo -NoProfile"; return }
+    if ($pop -eq "R") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo -NoProfile"; return }
     if ($pop -eq "Q") { return }
     PrettyLine
 }

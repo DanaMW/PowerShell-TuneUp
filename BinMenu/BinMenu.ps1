@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: June 03, 2019
+        Last Modified Date: June 07, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.8"
+$FileVersion = "Version: 2.1.9"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -198,10 +198,7 @@ $Col = @(1, 34, 69)
 [Console]::SetCursorPosition(0, $pp)
 $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
-if (($WPosition)) {
-    FlexWindow
-    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
-}
+if (($WPosition)) { FlexWindow }
 if (($DeBug)) { DeBug }
 [Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
 [Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
@@ -275,10 +272,7 @@ $pp = ($a + 8)
 [Console]::SetCursorPosition(0, $pp)
 $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
-if (($WPosition)) {
-    FlexWindow
-    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
-}
+if (($WPosition)) { FlexWindow }
 [Console]::SetCursorPosition(0, $pp)
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -290,10 +284,7 @@ Function MyMaker {
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
-if (($WPosition)) {
-    FlexWindow
-    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
-}
+if (($WPosition)) { FlexWindow }
 $menuPrompt += $menu
 $ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
@@ -364,10 +355,7 @@ While (1) {
                 Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) {
-                    FlexWindow
-                    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
-                }
+                if (($WPosition)) { FlexWindow }
             }
             else { FixLine }
         }
@@ -476,10 +464,7 @@ While (1) {
                 Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) {
-                    FlexWindow
-                    Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
-                }
+                if (($WPosition)) { FlexWindow }
             }
             else { FixLine }
         }
@@ -487,7 +472,7 @@ While (1) {
     [Console]::SetCursorPosition(0, $pp)
     if (($WPosition)) {
         FlexWindow
-        Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null
+        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
     }
 }
 $Filetest = Test-Path -path $Filetmp

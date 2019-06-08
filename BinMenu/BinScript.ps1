@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.8"
+$FileVersion = "Version: 2.1.9"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -10,7 +10,7 @@ $ESC = [char]27
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 $ScriptName = "BinScript"
-$menu = "$ESC[1;91m[$ESC[1;97mMake A Selection or (Q)uit$ESC[1;91m]$ESC[1;97m"
+$menu = "$ESC[1;91m[$ESC[1;97mSelect A Number, $ESC[1;91m($ESC[1;97mR$ESC[1;91m)$ESC[1;97meload or $ESC[1;91m($ESC[1;97mQ$ESC[1;91m)$ESC[1;97muit$ESC[1;91m]$ESC[1;97m"
 $menuPrompt += $menu
 if (!($WinWidth)) {
     $WinWidth = 166
@@ -48,18 +48,18 @@ Function FixLine {
 }
 <# SET THE BELOW TO POSITION THE SCRIPT WINDOW #>
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
-$POSX = 285
-$POSY = 335
+$POSX = 325
+$POSY = 170
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
 While (1) {
     Clear-Host
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     [int]$pp = 0
     [int]$LineCount = 0
     [int]$LineCount = (Get-Content $Filetmp).count
     [int]$Work = $LineCount
-    [int]$tmp = ($Work / 5)
-    [int]$tmp = [int][Math]::Ceiling($tmp)
+    $tmp = ($Work / 5)
+    $tmp = [int][Math]::Ceiling($tmp)
     [int]$PMenu = $tmp
     [int]$a = $tmp
     [int]$b = ($tmp + $a)
@@ -74,7 +74,6 @@ While (1) {
     $WinHeight = ($pp + 4)
     $BuffHeight = $WinHeight
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     [Console]::SetCursorPosition(0, $pp)
     Say $NormalLine
     [int]$l = 0
@@ -82,7 +81,6 @@ While (1) {
     [int]$i = 1
     [Int]$num = 1
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
@@ -108,13 +106,14 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
-            $cmd2 = Read-Host "Enter Params For This Script"
+            $cmd2 = Read-Host "$ESC[1;91m[$ESC[1;97mEnter Any Parameters For Script$ESC[1;91m]$ESC[1;97m"
             FixLine
             Start-Process pwsh.exe -ArgumentList $cmd1$cmd2 -Verb RunAs
             FixLine
         }
     }
     elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if (($Filetest)) { Remove-Item –path $Filetmp }; Clear-Host; Return }
+    elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1"); exit }
     else {
         FixLine
         [Console]::SetCursorPosition(0, $pp)

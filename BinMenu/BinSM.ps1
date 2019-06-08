@@ -1,16 +1,45 @@
+$FileVersion = "Version: 2.1.9"
+$host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
+if (!($ReRun)) { $ReRun = 0 }
+Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
+Function MyConfig {
+    $Script:MyConfig = ($(Get-ScriptDir) + "\BinMenu.json")
+    $MyConfig
+}
+$Script:ConfigFile = MyConfig
+try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+catch { Write-Error -Message "The Base configuration file is missing!" }
+if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
+[string]$ScriptName = ($Config.basic.ScriptName)
+[bool]$DeBug = ($Config.basic.DeBug)
+[bool]$ScriptRead = ($Config.basic.ScriptRead)
+[string]$Editor = ($Config.basic.Editor)
+[bool]$MenuAdds = ($Config.basic.MenuAdds)
+[bool]$WPosition = ($Config.basic.WPosition)
+[int]$WinHeight = ($Config.basic.WinHeight)
+$BuffHeight = $WinHeight
+[int]$WinWidth = ($Config.basic.WinWidth)
+$BuffWidth = $WinWidth
+[int]$WinX = ($Config.basic.WinX)
+[int]$WinY = ($Config.basic.WinY)
+if (!($AWinHeight)) {
+    $AWinHeight = 44
+    $ABuffHeight = $AWinHeight
+}
+if (!($AWinWidth)) {
+    $AWinWidth = 90
+    $ABuffWidth = $AWinWidth
+}
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$WinX = 590
+$WinY = 130
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 751 -Height 800  > $null }
 while (1) {
-    $FileVersion = "Version: 2.1.8"
-    $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
-    if (!($ReRun)) { $ReRun = 0 }
-    Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
-    Function MyConfig {
-        $Script:MyConfig = ($(Get-ScriptDir) + "\BinMenu.json")
-        $MyConfig
-    }
-    $Script:ConfigFile = MyConfig
-    try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
-    catch { Write-Error -Message "The Base configuration file is missing!" }
-    if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -24,31 +53,6 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    $Base = $env:Base
-    if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-    if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-    Set-Location $Base.substring(0, 3)
-    Set-Location $Base
-    [string]$ScriptName = ($Config.basic.ScriptName)
-    [bool]$DeBug = ($Config.basic.DeBug)
-    [bool]$ScriptRead = ($Config.basic.ScriptRead)
-    [string]$Editor = ($Config.basic.Editor)
-    [bool]$MenuAdds = ($Config.basic.MenuAdds)
-    [bool]$WPosition = ($Config.basic.WPosition)
-    [int]$WinHeight = ($Config.basic.WinHeight)
-    $BuffHeight = $WinHeight
-    [int]$WinWidth = ($Config.basic.WinWidth)
-    $BuffWidth = $WinWidth
-    [int]$WinX = ($Config.basic.WinX)
-    [int]$WinY = ($Config.basic.WinY)
-    if (!($AWinHeight)) {
-        $AWinHeight = 44
-        $ABuffHeight = $AWinHeight
-    }
-    if (!($AWinWidth)) {
-        $AWinWidth = 90
-        $ABuffWidth = $AWinWidth
-    }
     Function FlexWindow {
         $SaveError = $ErrorActionPreference
         $ErrorActionPreference = "SilentlyContinue"
@@ -65,6 +69,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-$ESC[91m|$ESC[97m"
@@ -147,7 +152,7 @@ while (1) {
     FlexWindow; FlexWindow; $pp = ($pp - 1); PrettyLine; $pp++
     [Console]::SetCursorPosition($w, $pp); PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
-    else { $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNum $ESC[96mto Edit, $ESC[97mX $ESC[96mReload, $ESC[97mQ $ESC[96mQuit$ESC[91m]$ESC[97m" }
+    else { $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNumber $ESC[96mto Edit, $ESC[91m($ESC[97mR$ESC[91m)$ESC[96meload, $ESC[91m($ESC[97mQ$ESC[91m)$ESC[96muit$ESC[91m]$ESC[97m" }
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
@@ -383,7 +388,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
+    if ($pop -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow
     PrettyLine
