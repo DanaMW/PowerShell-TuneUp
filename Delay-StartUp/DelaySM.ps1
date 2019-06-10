@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.9"
+$FileVersion = "Version: 1.3.10"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -189,7 +189,11 @@ while (1) {
     FlexWindow
     FlexWindow
     [Console]::SetCursorPosition($w, $pp)
-    $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNumber $ESC[96mto Edit, $ESC[91m($ESC[97mR$ESC[91m)$ESC[96meload, $ESC[91m($ESC[97mQ$ESC[91m)$ESC[96muit$ESC[91m]$ESC[97m"
+    if (($Drop2Edit)) {
+        $Pop = "111"
+        $Drop2Edit = 0
+    }
+    else { $Pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNumber $ESC[96mto Edit, $ESC[91m($ESC[97mR$ESC[91m)$ESC[96meload, $ESC[91m($ESC[97mQ$ESC[91m)$ESC[96muit$ESC[91m]$ESC[97m" }
     if ($pop -eq "100") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"
@@ -198,6 +202,7 @@ while (1) {
             $Config.basic.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global
     }
     if ($pop -eq "101") {
         $blah = "Please enter the seconds to delay start."
@@ -207,6 +212,7 @@ while (1) {
             $Config.basic.StartDelay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$StartDelay = ($Config.basic.StartDelay)
     }
     if ($pop -eq "102") {
         $blah = "Please enter the seconds to delay between each."
@@ -216,16 +222,19 @@ while (1) {
             $Config.basic.Delay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$Delay = ($Config.basic.Delay)
     }
     if ($pop -eq "103") {
         if (($Config.basic.Prevent) -eq 0) { $Config.basic.Prevent = 1 }
         else { $Config.basic.Prevent = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$Prevent = ($Config.basic.Prevent)
     }
     if ($pop -eq "104") {
         if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }
         else { $Config.basic.TestRun = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$TestRun = ($Config.basic.TestRun)
     }
     if ($pop -eq "105") {
         $blah = "Please enter The Console Window Width."
@@ -237,6 +246,7 @@ while (1) {
             $Config.basic.WinWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinWidth = ($Config.basic.WinWidth)
     }
     if ($pop -eq "106") {
         $blah = "Please enter The Console Height."
@@ -248,6 +258,7 @@ while (1) {
             $Config.basic.WinHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinHeight = ($Config.basic.WinHeight)
     }
     if ($pop -eq "107") {
         $blah = "Please enter the Complete path and file name to your text editor"
@@ -257,6 +268,7 @@ while (1) {
             $Config.basic.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [string]$Editor = ($Config.basic.Editor)
     }
     if ($pop -eq "108") {
         $go = ($Base + "\Delay-StartUp.json")
@@ -272,6 +284,7 @@ while (1) {
         $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
+        $Drop2Edit = 1
     }
     if ($pop -eq "110") {
         SpinItems
@@ -354,6 +367,7 @@ while (1) {
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
+        $Pop = ""
     }
     if ($pop -eq "112") {
         PrettyLine
@@ -414,5 +428,6 @@ while (1) {
     PrettyLine
     if ($pop -eq "R") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo -NoProfile"; return }
     if ($pop -eq "Q") { return }
+    $Pop = ""
     PrettyLine
 }

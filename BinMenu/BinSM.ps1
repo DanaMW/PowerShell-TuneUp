@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.9"
+$FileVersion = "Version: 2.1.10"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -17,7 +17,7 @@ Set-Location $Base.substring(0, 3)
 Set-Location $Base
 [string]$ScriptName = ($Config.basic.ScriptName)
 [bool]$DeBug = ($Config.basic.DeBug)
-[bool]$ScriptRead = ($Config.basic.ScriptRead)
+#[bool]$ScriptRead = ($Config.basic.ScriptRead)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)
@@ -38,8 +38,8 @@ if (!($AWinWidth)) {
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 590
 $WinY = 130
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 751 -Height 800  > $null }
 while (1) {
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 751 -Height 800  > $null }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -113,7 +113,7 @@ while (1) {
     Say $NormalLine; Say $TitleLine; Say $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m..............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m..........$ESC[93mRead in Scripts$ESC[97m:$ESC[97m [$ESC[92m$ScriptRead$ESC[97m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m...................$ESC[93mUnUsed$ESC[97m:$ESC[97m [$ESC[92mUnUsed$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m...........$ESC[93mDefined Editor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m..............$ESC[93mScript Name$ESC[97m:$ESC[97m [$ESC[92m$ScriptName$ESC[97m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$Debug$ESC[97m]$ESC[40m"; $l++
@@ -161,28 +161,29 @@ while (1) {
             $Config.basic.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global
     }
     if ($pop -eq "101") {
-        if (($Config.basic.ScriptRead) -eq 1) {
-            [bool]$Config.basic.ScriptRead = 0
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-            [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp - 10)
-            [int]$Config.basic.WinHeight = [int]$poptmp
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-            [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp - 10)
-            [int]$Config.basic.BuffHeight = [int]$poptmp
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-        }
-        else {
-            [bool]$Config.basic.ScriptRead = 1
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-            [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp + 10)
-            [int]$Config.basic.WinHeight = [int]$poptmp
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-            [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp + 10)
-            [int]$Config.basic.BuffHeight = [int]$poptmp
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
-        }
+       # if (($Config.basic.ScriptRead) -eq 1) {
+       #     [bool]$Config.basic.ScriptRead = 0
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       #     [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp - 10)
+       #     [int]$Config.basic.WinHeight = [int]$poptmp
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       #     [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp - 10)
+       #     [int]$Config.basic.BuffHeight = [int]$poptmp
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       # }
+       # else {
+       #     [bool]$Config.basic.ScriptRead = 1
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       #     [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp + 10)
+       #     [int]$Config.basic.WinHeight = [int]$poptmp
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       #     [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp + 10)
+       #     [int]$Config.basic.BuffHeight = [int]$poptmp
+       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
+       # }
     }
     if ($pop -eq "102") {
         $blah = "Please enter the Complete path and file name to your text editor"
@@ -192,6 +193,7 @@ while (1) {
             $Config.basic.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [string]$Editor = ($Config.basic.Editor)
     }
     if ($pop -eq "103") {
         $blah = "Please enter a name to be given and used for this script."
@@ -201,19 +203,20 @@ while (1) {
             $Config.basic.ScriptName = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [string]$ScriptName = ($Config.basic.ScriptName)
     }
     if ($pop -eq "104") {
         if (($Config.basic.DeBug) -eq 0) { $Config.basic.DeBug = 1 }
         else { $Config.basic.DeBug = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $ReRun = 1
+        [bool]$DeBug = ($Config.basic.DeBug)
         $pop = ""
     }
     if ($pop -eq "105") {
         if (($Config.basic.WPosition) -eq 1) { $Config.basic.WPosition = 0 }
         else { $Config.basic.WPosition = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-
+        [bool]$WPosition = ($Config.basic.WPosition)
     }
     if ($pop -eq "106") {
         $blah = "Please enter The Console Window Width."
@@ -225,6 +228,8 @@ while (1) {
             $Config.basic.WinWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinWidth = ($Config.basic.WinWidth)
+        $BuffWidth = $WinWidth
     }
     if ($pop -eq "107") {
         $blah = "Please enter The Console Window Height."
@@ -236,12 +241,14 @@ while (1) {
             $Config.basic.WinHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinHeight = ($Config.basic.WinHeight)
+        $BuffHeight = $WinHeight
     }
     if ($pop -eq "108") {
         if (($Config.basic.MenuAdds) -eq 1) { $Config.basic.MenuAdds = 0 }
         else { $Config.basic.MenuAdds = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $ReRun = 1
+        [bool]$MenuAdds = ($Config.basic.MenuAdds)
         $pop = ""
     }
     if ($pop -eq "109") {
@@ -249,9 +256,10 @@ while (1) {
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.X = $Fixer
+            $Config.basic.WinX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinX = ($Config.basic.WinX)
     }
     if ($pop -eq "110") {
         $blah = "Please enter The window position from TOP."
@@ -261,6 +269,7 @@ while (1) {
             $Config.basic.WinY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
+        [int]$WinY = ($Config.basic.WinY)
     }
     if ($pop -eq "111") {
         $go1 = ($Base + "\BinMenu.ini")

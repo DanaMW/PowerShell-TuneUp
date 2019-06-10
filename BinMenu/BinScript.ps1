@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.9"
+$FileVersion = "Version: 2.1.10"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -50,8 +50,8 @@ Function FixLine {
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $POSX = 325
 $POSY = 170
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
 While (1) {
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY > $null }
     Clear-Host
     FlexWindow
     [int]$pp = 0

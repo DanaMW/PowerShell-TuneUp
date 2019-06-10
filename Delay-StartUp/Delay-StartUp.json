@@ -94,5 +94,11 @@
     "HostOnly": "NONE",
     "Argument": "",
     "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe"
+  },
+  "RunItem-12": {
+    "HostOnly": "TorchLight",
+    "RunPath": "C:\\Users\\dana\\Desktop\\MineTest Server.lnk",
+    "Argument": "",
+    "Name": "MineTest"
   }
 }
