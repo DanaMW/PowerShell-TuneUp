@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.10"
+$FileVersion = "Version: 2.1.11"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -32,14 +32,15 @@ if (!($AWinHeight)) {
     $ABuffHeight = $AWinHeight
 }
 if (!($AWinWidth)) {
-    $AWinWidth = 90
+    $AWinWidth = 65
     $ABuffWidth = $AWinWidth
 }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 590
 $WinY = 130
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 800  > $null }
 while (1) {
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 751 -Height 800  > $null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -71,8 +72,8 @@ while (1) {
     FlexWindow
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
     $Script:ESC = [char]27
-    [string]$NormalLine = "$ESC[91m#=======================================================================================#$ESC[97m"
-    [string]$TitleLine = "$ESC[91m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<$ESC[96m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[96m]$ESC[96m>$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-$ESC[91m|$ESC[97m"
+    [string]$NormalLine = "$ESC[31m#==============================================================#$ESC[97m"
+    [string]$TitleLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=-<$ESC[36m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"
     [string]$LeftLine = "$ESC[31m|"
     [string]$RightLine = "$ESC[31m|"
     Function FuckOff {
@@ -89,8 +90,8 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
+        #[Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        #[Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, $pp)
     }
@@ -112,48 +113,51 @@ while (1) {
     Clear-Host
     Say $NormalLine; Say $TitleLine; Say $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m100$ESC[91m]$ESC[36m..............$ESC[93mBase Folder$ESC[97m:$ESC[97m [$ESC[92m$Base$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m101$ESC[91m]$ESC[36m...................$ESC[93mUnUsed$ESC[97m:$ESC[97m [$ESC[92mUnUsed$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m102$ESC[91m]$ESC[36m...........$ESC[93mDefined Editor$ESC[97m:$ESC[97m [$ESC[92m$Editor$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m103$ESC[91m]$ESC[36m..............$ESC[93mScript Name$ESC[97m:$ESC[97m [$ESC[92m$ScriptName$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m104$ESC[91m]$ESC[36m....................$ESC[93mDebug$ESC[97m:$ESC[97m [$ESC[92m$Debug$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m105$ESC[91m]$ESC[36m......$ESC[93mUse Win Positioning$ESC[97m:$ESC[97m [$ESC[92m$WPosition$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m106$ESC[91m]$ESC[36m.............$ESC[93mWindow Width$ESC[97m:$ESC[97m [$ESC[92m$WinWidth$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m107$ESC[91m]$ESC[36m............$ESC[93mWindow Height$ESC[97m:$ESC[97m [$ESC[92m$WinHeight$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m108$ESC[91m]$ESC[36m..........$ESC[93mUse Add Entries$ESC[97m:$ESC[97m [$ESC[92m$MenuAdds$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m109$ESC[91m]$ESC[36m........$ESC[93mWindow X Position$ESC[97m:$ESC[97m [$ESC[92m$WinX$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m110$ESC[91m]$ESC[36m........$ESC[93mWindow Y Position$ESC[97m:$ESC[97m [$ESC[92m$WinY$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[96mNumber of Program Adds in JSON$ESC[97m: $ESC[97m[$ESC[96m" $AddCount "$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m111$ESC[91m]$ESC[36m.............$ESC[91mEdit the INI$ESC[97m:$ESC[97m [$ESC[91mEdit BinMenu.ini Directly$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m112$ESC[91m]$ESC[36m................$ESC[91mADD Entry$ESC[97m:$ESC[97m [$ESC[91mAdd New Item$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m113$ESC[91m]$ESC[36m.............$ESC[91mDELETE Entry$ESC[97m:$ESC[97m [$ESC[91mDelete Existing Item$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m114$ESC[91m]$ESC[36m...............$ESC[91mEdit Entry$ESC[97m:$ESC[97m [$ESC[91mEdit Run Entry$ESC[97m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m115$ESC[91m]$ESC[36m.............$ESC[91mVerify Entry$ESC[97m:$ESC[97m [$ESC[91mVerify One Of The Current Entries$ESC[97m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[91m[$ESC[97m116$ESC[91m]$ESC[36m................$ESC[91mRun Entry$ESC[97m:$ESC[97m [$ESC[91mTest Run One Of The Current Entries$ESC[97m]"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mB$ESC[31m)$ESC[36mase Folder$ESC[97m.................: $ESC[31m[$ESC[97m$Base$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mSet Ed$ESC[31m($ESC[97mI$ESC[31m)$ESC[36mtor$ESC[97m..................: $ESC[31m[$ESC[97m$Editor$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mScript $ESC[31m($ESC[97mN$ESC[31m)$ESC[36mame$ESC[97m.................: $ESC[31m[$ESC[97m$ScriptName$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mDebu$ESC[31m($ESC[97mG$ESC[31m)$ESC[97m.......................: $ESC[31m[$ESC[97m$Debug$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mUse Win $ESC[31m($ESC[97mP$ESC[31m)$ESC[36mositioning$ESC[97m.........: $ESC[31m[$ESC[97m$WPosition$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mW$ESC[31m)$ESC[36midth$ESC[97m................: $ESC[31m[$ESC[97m$WinWidth$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mH$ESC[31m)$ESC[36meight$ESC[97m...............: $ESC[31m[$ESC[97m$WinHeight$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mU$ESC[31m)$ESC[36mse Add Entries$ESC[97m.............: $ESC[31m[$ESC[97m$MenuAdds$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mX$ESC[31m)$ESC[36m Position$ESC[97m...........: $ESC[31m[$ESC[97m$WinX$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mY$ESC[31m)$ESC[36m Position$ESC[97m...........: $ESC[31m[$ESC[97m$WinY$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mNumber of Program Adds in JSON$ESC[97m: $ESC[31m[$ESC[97m$AddCount$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mJ$ESC[31m) $ESC[36mEdit BinMenu.ini Directly$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mA$ESC[31m)$ESC[36mdd$ESC[31m, ($ESC[97mD$ESC[31m)$ESC[36melete$ESC[31m, ($ESC[97mE$ESC[31m)$ESC[36mdit$ESC[31m, ($ESC[97mV$ESC[31m)$ESC[36merify$ESC[31m, ($ESC[97mR$ESC[31m)$ESC[36mun Entry$ESC[97m"; $l++
     [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
             $AddItem = "AddItem-$i"
             $it1 = ($Config.$AddItem).name
-            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m................Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[93mEntry $ESC[91m[$ESC[97m$i$ESC[91m]$ESC[36m.................Name$ESC[97m:$ESC[97m [$ESC[94m$it1$ESC[97m]$ESC[40m"; $l++ }
+            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m: $it1$ESC[40m" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m.: $it1$ESC[40m"; $l++ }
             $i++
             $a++
         }
     }
     [int]$pp = $l; [int]$w = 0
     [Console]::SetCursorPosition($w, $pp); Say $NormalLine; $pp++
-    $AWinHeight = ($pp + 4); $ABuffHeight = $AWinHeight
+    $AWinHeight = ($pp + 5); $ABuffHeight = $AWinHeight
     PrettyLine; [int]$u = ($pp - 2)
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $LeftLine; $v++ }
-    [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 88
+    [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 63
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine; $v++ }
-    [int]$w = 0; [Console]::SetCursorPosition($w, $pp); PrettyLine; [Console]::SetCursorPosition($w, $pp)
-    FlexWindow; FlexWindow; $pp = ($pp - 1); PrettyLine; $pp++
-    [Console]::SetCursorPosition($w, $pp); PrettyLine
+    [int]$w = 0
+    [Console]::SetCursorPosition($w, $pp)
+    PrettyLine
+    [Console]::SetCursorPosition($w, $pp)
+    FlexWindow
+    FlexWindow
+    $pp = ($pp - 1)
+    PrettyLine
+    $pp++
+    [Console]::SetCursorPosition($w, $pp)
+    PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
-    else { $pop = Read-Host -Prompt "$ESC[91m[$ESC[97mNumber $ESC[96mto Edit, $ESC[91m($ESC[97mR$ESC[91m)$ESC[96meload, $ESC[91m($ESC[97mQ$ESC[91m)$ESC[96muit$ESC[91m]$ESC[97m" }
-    if ($pop -eq "100") {
+    else { $pop = Read-Host -Prompt "$ESC[31m[$ESC[36mYour Selection or Re$ESC[31m($ESC[97mL$ESC[31m)$ESC[36moad, $ESC[31m($ESC[97mQ$ESC[31m)$ESC[36muit$ESC[31m]$ESC[97m" }
+    if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
         FuckOff
@@ -163,29 +167,7 @@ while (1) {
         }
         Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global
     }
-    if ($pop -eq "101") {
-       # if (($Config.basic.ScriptRead) -eq 1) {
-       #     [bool]$Config.basic.ScriptRead = 0
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       #     [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp - 10)
-       #     [int]$Config.basic.WinHeight = [int]$poptmp
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       #     [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp - 10)
-       #     [int]$Config.basic.BuffHeight = [int]$poptmp
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       # }
-       # else {
-       #     [bool]$Config.basic.ScriptRead = 1
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       #     [int]$poptmp = [int]($Config.basic.WinHeight); $poptmp = ($poptmp + 10)
-       #     [int]$Config.basic.WinHeight = [int]$poptmp
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       #     [int]$poptmp = [int]($Config.basic.BuffHeight); $poptmp = ($poptmp + 10)
-       #     [int]$Config.basic.BuffHeight = [int]$poptmp
-       #     $Config | ConvertTo-Json | Set-Content $ConfigFile
-       # }
-    }
-    if ($pop -eq "102") {
+    if ($pop -eq "I") {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
@@ -195,7 +177,7 @@ while (1) {
         }
         [string]$Editor = ($Config.basic.Editor)
     }
-    if ($pop -eq "103") {
+    if ($pop -eq "N") {
         $blah = "Please enter a name to be given and used for this script."
         $boop = "Name given this script or ENTER to cancel"
         FuckOff
@@ -205,20 +187,20 @@ while (1) {
         }
         [string]$ScriptName = ($Config.basic.ScriptName)
     }
-    if ($pop -eq "104") {
+    if ($pop -eq "G") {
         if (($Config.basic.DeBug) -eq 0) { $Config.basic.DeBug = 1 }
         else { $Config.basic.DeBug = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$DeBug = ($Config.basic.DeBug)
         $pop = ""
     }
-    if ($pop -eq "105") {
+    if ($pop -eq "P") {
         if (($Config.basic.WPosition) -eq 1) { $Config.basic.WPosition = 0 }
         else { $Config.basic.WPosition = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$WPosition = ($Config.basic.WPosition)
     }
-    if ($pop -eq "106") {
+    if ($pop -eq "W") {
         $blah = "Please enter The Console Window Width."
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
@@ -231,7 +213,7 @@ while (1) {
         [int]$WinWidth = ($Config.basic.WinWidth)
         $BuffWidth = $WinWidth
     }
-    if ($pop -eq "107") {
+    if ($pop -eq "H") {
         $blah = "Please enter The Console Window Height."
         $boop = "Number of console Height or ENTER to cancel"
         FuckOff
@@ -244,14 +226,14 @@ while (1) {
         [int]$WinHeight = ($Config.basic.WinHeight)
         $BuffHeight = $WinHeight
     }
-    if ($pop -eq "108") {
+    if ($pop -eq "U") {
         if (($Config.basic.MenuAdds) -eq 1) { $Config.basic.MenuAdds = 0 }
         else { $Config.basic.MenuAdds = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$MenuAdds = ($Config.basic.MenuAdds)
         $pop = ""
     }
-    if ($pop -eq "109") {
+    if ($pop -eq "X") {
         $blah = "Please enter The window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
@@ -261,7 +243,7 @@ while (1) {
         }
         [int]$WinX = ($Config.basic.WinX)
     }
-    if ($pop -eq "110") {
+    if ($pop -eq "Y") {
         $blah = "Please enter The window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
@@ -271,13 +253,13 @@ while (1) {
         }
         [int]$WinY = ($Config.basic.WinY)
     }
-    if ($pop -eq "111") {
+    if ($pop -eq "J") {
         $go1 = ($Base + "\BinMenu.ini")
         $go2 = ($Base + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
     }
-    if ($pop -eq "112") {
+    if ($pop -eq "A") {
         SpinItems
         $qq = ($AddCount + 1)
         $AddItem = "AddItem-$qq"
@@ -287,11 +269,11 @@ while (1) {
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         SpinItems
     }
-    if ($pop -eq "113") {
+    if ($pop -eq "D") {
         SpinItems
         [int]$qq = $AddCount
         PrettyLine
-        Say "Enter the Number of AddItem to remove."
+        Say "Enter the Number of AddItem to Delete."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
@@ -324,7 +306,7 @@ while (1) {
         }
         SpinItems
     }
-    if ($pop -eq "114") {
+    if ($pop -eq "E") {
         PrettyLine
         Say "Enter the Number of AddItem to Edit."
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -357,7 +339,7 @@ while (1) {
         }
         PrettyLine
     }
-    if ($pop -eq "115") {
+    if ($pop -eq "V") {
         PrettyLine; Say "Enter the Number of RunItem to Verify."; [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         [Console]::SetCursorPosition($w, $pp); Say "                                                               "
@@ -380,9 +362,9 @@ while (1) {
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
     }
-    if ($pop -eq "116") {
+    if ($pop -eq "R") {
         PrettyLine
-        Say "Enter the Number of AddItem to Execute."
+        Say "Enter the Number of AddItem to Run."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
@@ -397,7 +379,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
+    if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow
     PrettyLine
