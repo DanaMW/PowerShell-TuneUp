@@ -91,7 +91,7 @@ Update: I included "$ESC = [char]27" so I can use a color Prompt.
   That addition is in most of my scripts and how I do ASCII color.
   Normally in My scripts I use "$ESC = [chr]27"
   In the Prompt of this script ESC is replaced with that value. replace("ESC", $ESC)
-  So the following will result in a colored prompt.  
+  So the following will result in a colored prompt.
   Example: Put-Pause -Prompt "ESC[1;91m[ESC[1;97mMake A SelectionESC[1;91m]ESC[1;97m:"
 
 Usage: Put-Pause -Prompt <[String] Standard prompt> -Max <[int] Milliseconds> -Default <[string] single key default>
@@ -153,12 +153,16 @@ ASAY and NOTIFY are really the same file. They will send a notification to the s
  windows notification center.
 I use it in my scripts to let me know when any event has happened I might want to see.
 The format is simple, without quote ASAY <any text you want to send to the notify>
+  or WITH quotes if you use punctuation ASAY "This text, and that text"
 I also call these scripts from a LOT of my scripts to give notifications on windows 10.
 There is also a Linux and Dos version.
 The Linux files you need to edit and put your username over mine and edit atune
  to set the path to a valid sound file.
 
-Usage: Without Quotes do NOTIFY.PS1 [<message to send to output>] or ASAY.PS1 [<message to send to output>]
+Usage: Without Quotes do NOTIFY.PS1 [<message to send to output>]
+ or ASAY.PS1 [<message to send to output>]
+Usage: With Quotes do NOTIFY.PS1 [<"message to send, include punctuation, to output">]
+ or ASAY.PS1 [<"message to send, include punctuation, to output">]
 Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
 ```
 # Search

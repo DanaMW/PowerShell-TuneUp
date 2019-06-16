@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.12"
+$FileVersion = "Version: 1.3.13"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -207,5 +207,5 @@ while ($c -le $AddCount) {
 if ($tt -ne "") { $tt = "" }
 Write-Host "All Programs Loaded, Exiting."
 Start-Sleep -s 3
-Notify Delay-StartUp All Programs Loaded, Exiting.
+Notify "Delay-StartUp All Programs Loaded, Exiting."
 Exit-PSHostProcess
