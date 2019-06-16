@@ -136,6 +136,14 @@ Feed it a file and all the blank lines are removed.
 
 Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 ```
+# Remove-WindowsApps
+```
+Remove-WindowsApps deletes Windows 10 apps from your system.
+  Also makes it so they shouldn't reinstall by removing AppX Provisioning.
+  Edit the file and comment out those that you want to keep.
+
+Usage: REMOVE-WINDOWSAPPS.PS1
+```
 # ASAY and NOTIFY
 ```
 This now uses BurntToast from the PowerShellGallery

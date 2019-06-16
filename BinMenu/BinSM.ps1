@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.11"
+$FileVersion = "Version: 2.1.12"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -36,9 +36,9 @@ if (!($AWinWidth)) {
     $ABuffWidth = $AWinWidth
 }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
-$WinX = 590
+$WinX = 690
 $WinY = 130
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 800  > $null }
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 650  > $null }
 while (1) {
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
     Function SpinItems {
