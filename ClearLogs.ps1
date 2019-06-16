@@ -3,7 +3,7 @@
         Clearlogs (Clear Windows Logs)
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: May 28, 2019
+        Last Modified Date: June 16, 2019
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -23,8 +23,8 @@
 Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.16"
-$host.ui.RawUI.WindowTitle = "ClearWindows Logs $FileVersion"
+$FileVersion = "Version: 0.2.17"
+$host.ui.RawUI.WindowTitle = "ClearWindowsLogs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -62,7 +62,7 @@ $PShost = Get-Host
 $PSWin = $PShost.ui.rawui
 $PSWin.CursorSize = 0
 FlexWindow
-[Console]::SetCursorPosition(0, 3); Say "Running ClearWindows Logs" $FileVersion
+[Console]::SetCursorPosition(0, 3); Say "Running ClearWindowsLogs" $FileVersion
 $ClearSet = 0
 FlexWindow
 & wevtutil.exe el | ForEach-Object { $ClearSet++ }
@@ -76,7 +76,7 @@ if (($loud)) {
         wevtutil.exe cl $_
         $i++
     }
-    Say -NoNewline "ClearWindows Logs Processed $i log files."
+    Say -NoNewline "ClearWindowsLogs Processed $i log files."
     Read-Host -Prompt "[Slap Enter to Exit]"
     return
 }
@@ -86,7 +86,7 @@ elseif (($Silent)) {
         wevtutil.exe cl $_
         $i++
     }
-    Say -NoNewline "ClearWindows Logs Processed $i log files."
+    Say -NoNewline "ClearWindowsLogs Processed $i log files."
     Read-Host -Prompt "[Slap Enter to Exit]"
     return
 }
@@ -114,7 +114,7 @@ else {
             if (($p % 2) -eq 0 -and $h -gt $p) { $tip = "#"; $it = ($it + $tip) }
             [Console]::SetCursorPosition(0, 9); Say -NoNewline "[$it"
             [Console]::SetCursorPosition(51, 9); Say -NoNewline "]"
-            [Console]::SetCursorPosition(0, 8); Say -NoNewline "                                                                      "
+            [Console]::SetCursorPosition(0, 8); Say -NoNewline "                                                             "
             [Console]::SetCursorPosition(0, 8); Say -NoNewLine ""
         }
     }
@@ -122,7 +122,7 @@ else {
     if ($LastExitCode -ne 0) { $ec++ }
     $ErrorActionPreference = $OrgError
     Asay.ps1 ClearWindows Logs Processed $i log files.
-    [Console]::SetCursorPosition(0, 11); Say -NoNewline "ClearWindows Logs Processed $i log files."
+    [Console]::SetCursorPosition(0, 11); Say -NoNewline "ClearWindowsLogs Processed $i log files."
     [Console]::SetCursorPosition(0, 12); Say -NoNewline $ec "Files were in use and not cleared."
     [Console]::SetCursorPosition(0, 13); Read-Host -Prompt "[Slap Enter to Exit]"
     $PShost = Get-Host
