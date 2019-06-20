@@ -1,5 +1,5 @@
 Import-Module CimCmdlets
-$FileVersion = "Version: 0.1.28"
+$FileVersion = "Version: 0.1.29"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
 Clear-Host
@@ -44,7 +44,7 @@ $Net2 = $ComputerNET[1] | Select-Object -Property Name, LinkSpeed, Status, Inter
 $Net3 = $ComputerNET[2] | Select-Object -Property Name, LinkSpeed, Status, InterfaceDescription
 $Net4 = $ComputerNET[3] | Select-Object -Property Name, LinkSpeed, Status, InterfaceDescription
 $tt = "$ESC[31m[$ESC[37m"
-if ($null -ne ($Net1.name)) {
+if (($Net1.name)) {
     $Con11 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net1.name)
     $Con12 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net1.InterfaceDescription)
     if ($Net1.Status -eq "Up") { $N1tmp = "Connected" }
@@ -52,7 +52,7 @@ if ($null -ne ($Net1.name)) {
     $Con13 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N1tmp)
     $Con14 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net1.LinkSpeed)
 }
-if ($null -ne ($Net2.name)) {
+if (($Net2.name)) {
     $Con21 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net2.name)
     $Con22 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net2.InterfaceDescription)
     if ($Net2.Status -eq "Up") { $N2tmp = "Connected" }
@@ -60,7 +60,7 @@ if ($null -ne ($Net2.name)) {
     $Con23 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N2tmp)
     $Con24 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net2.LinkSpeed)
 }
-if ($null -ne ($Net3.name)) {
+if (($Net3.name)) {
     $Con31 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net3.name)
     $Con32 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net3.InterfaceDescription)
     if ($Net3.Status -eq "Up") { $N3tmp = "Connected" }
@@ -68,7 +68,7 @@ if ($null -ne ($Net3.name)) {
     $Con33 = "$tt" + "Status.$ESC[31m]$ESC[37m: $ESC[36m" + ($N3tmp)
     $Con34 = "$tt" + "Speed..$ESC[31m]$ESC[37m: $ESC[36m" + ($Net3.LinkSpeed)
 }
-if ($null -ne ($Net4.name)) {
+if (($Net4.name)) {
     $Con41 = "$tt" + "NetName$ESC[31m]$ESC[37m: $ESC[33m" + ($Net4.name)
     $Con42 = "$tt" + "Descrip$ESC[31m]$ESC[37m: $ESC[36m" + ($Net4.InterfaceDescription)
     if ($Net4.Status -eq "Up") { $N4tmp = "Connected" }
