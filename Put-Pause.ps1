@@ -1,5 +1,5 @@
 Param([string]$Prompt, [int]$max, [String]$Default)
-$FileVersion = "Version: 0.0.6"
+$FileVersion = "Version: 0.0.7"
 $i = 0
 $ESC = [char]27
 ### ESC is replaced with char27 for color codes ###
@@ -23,6 +23,7 @@ while ($i -lt $max) {
         if (($ans)) { $ans }
         if (!($ans) -and ($Default)) {
             $ans = $Default
+            Say $ans
             $ans
         }
     }

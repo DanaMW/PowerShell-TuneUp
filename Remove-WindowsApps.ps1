@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.3"
+$FileVersion = "Version: 0.0.4"
 Import-Module AppX
 Import-Module Dism
 #
@@ -48,7 +48,7 @@ Get-AppxPackage *CandyCrush* | Remove-AppxPackage
 Get-AppxPackage *Wunderlist* | Remove-AppxPackage
 Get-AppxPackage *Flipboard* | Remove-AppxPackage
 Get-AppxPackage *Twitter* | Remove-AppxPackage
-Get-AppxPackage *Facebook* | Remove-AppxPackage
+#Get-AppxPackage *Facebook* | Remove-AppxPackage
 Get-AppxPackage *Spotify* | Remove-AppxPackage
 #
 #Optional: Typically not removed but you can if you need to for some reason

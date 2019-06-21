@@ -17,7 +17,7 @@
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "D:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "30",
+    "StartDelay": "60",
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "0",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
