@@ -71,9 +71,9 @@
     "Argument": "D:\\bin\\Get-Firefox.ps1"
   },
   "AddItem-8": {
-    "Name": "Hyper-V Manager",
-    "Command": "C:\\Program\\Files\\PowerShell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-V.ps1"
+    "Name": "VirtualBox",
+    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": ""
   },
   "AddItem-9": {
     "Name": "Control Panel",

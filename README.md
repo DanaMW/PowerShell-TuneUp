@@ -1,7 +1,9 @@
 # PowerShell-TuneUp
 ```
 A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts.
-So include it in your profile or edit all the SAY to WRITE-HOST.
+I also use "$ESC = [char]27"
+So include them in your profile or edit all the SAY to WRITE-HOST,
+and edit out all the color codes.
 Lastly I Use the PowerShell environment $ENV:BASE in all my scripts.
 This is your base *.ps1 script folder.
 Feel free to write me an DanaMW at gmail.com if you want help.
