@@ -95,11 +95,14 @@ Update: I included "$ESC = [char]27" so I can use a color Prompt.
   In the Prompt of this script ESC is replaced with that value. replace("ESC", $ESC)
   So the following will result in a colored prompt.
   Example: Put-Pause -Prompt "ESC[1;91m[ESC[1;97mMake A SelectionESC[1;91m]ESC[1;97m:"
+Updated: Added -Max 0 When you use -Max 0 the prompt does not time out and continues to
+ wait for a keypress. -Default is disabled and -Echo is set to True.
 
 Usage: Put-Pause -Prompt <[String] Standard prompt> -Max <[int] Milliseconds> -Default <[string] single key default>
 Usage: Put-Pause -Prompt "[Make A Selection]:"
 Usage: Example: $a = Put-Pause -Prompt "Do you seem interested? (Y/N):" -Default "N"; Say $a
 Usage: Color Example: Put-Pause -Prompt "ESC[1;91m[ESC[1;97mMake A SelectionESC[1;91m]ESC[1;97m:"
+Usage: Color Example: Put-Pause -Prompt "[Make A Selection]:" -Max 0
 ```
 # Put-WinSize (Formally Set-WinSize)
 ```
