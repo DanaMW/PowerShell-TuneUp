@@ -111,23 +111,13 @@
     "Argument": "/name Microsoft.NetworkandSharingCenter"
   },
   "AddItem-16": {
-    "Name": "Visual Studio 2019",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe",
-    "Argument": ""
+    "Argument": "",
+    "Name": "Ubuntu Bash",
+    "Command": "C:\\Windows\\System32\\bash.exe"
   },
   "AddItem-17": {
-    "Name": "Visual Studio Installer",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vs_installer.exe",
-    "Argument": ""
-  },
-  "AddItem-18": {
-    "Name": "Ubuntu Bash",
-    "Command": "C:\\Windows\\System32\\bash.exe",
-    "Argument": ""
-  },
-  "AddItem-19": {
+    "Argument": "",
     "Name": "Sound Blaster C2",
-    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
-    "Argument": ""
+    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
   }
 }

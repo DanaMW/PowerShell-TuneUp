@@ -3,7 +3,7 @@
         Clearlogs (Clear Windows Logs)
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: June 16, 2019
+        Last Modified Date: June 30, 2019
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -23,8 +23,8 @@
 Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.17"
-$host.ui.RawUI.WindowTitle = "ClearWindowsLogs $FileVersion"
+$FileVersion = "Version: 0.2.18"
+$host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -62,11 +62,11 @@ $PShost = Get-Host
 $PSWin = $PShost.ui.rawui
 $PSWin.CursorSize = 0
 FlexWindow
-[Console]::SetCursorPosition(0, 3); Say "Running ClearWindowsLogs" $FileVersion
+[Console]::SetCursorPosition(0, 3); Say "Running ClearLogs" $FileVersion
 $ClearSet = 0
 FlexWindow
 & wevtutil.exe el | ForEach-Object { $ClearSet++ }
-[Console]::SetCursorPosition(0, 4); Say "You have $ClearSet logs on this machine. Setting Up the math."
+[Console]::SetCursorPosition(0, 4); Say "Located $ClearSet logs. Setting Up the math."
 $ClearSet = ($ClearSet / 100)
 $i = 0
 if (($loud)) {
@@ -76,8 +76,8 @@ if (($loud)) {
         wevtutil.exe cl $_
         $i++
     }
-    Say -NoNewline "ClearWindowsLogs Processed $i log files."
-    Read-Host -Prompt "[Slap Enter to Exit]"
+    Say -NoNewline "ClearLogs Processed $i log files."
+    Read-Host -Prompt "[Slap Enter To Exit]"
     return
 }
 elseif (($Silent)) {
@@ -86,8 +86,8 @@ elseif (($Silent)) {
         wevtutil.exe cl $_
         $i++
     }
-    Say -NoNewline "ClearWindowsLogs Processed $i log files."
-    Read-Host -Prompt "[Slap Enter to Exit]"
+    Say -NoNewline "ClearLogs Processed $i log files."
+    Read-Host -Prompt "[Slap Enter To Exit]"
     return
 }
 else {
@@ -107,8 +107,6 @@ else {
             [Console]::SetCursorPosition(0, 6); Say -NoNewline "Delete count is: $i"
             [Console]::SetCursorPosition(16, 7); Say -NoNewline "    "
             [Console]::SetCursorPosition(0, 7); Say -NoNewline "PercentComplete: $p%"
-            #[Console]::SetCursorPosition(16, 8); Say -NoNewline "                                                                    "
-            #[Console]::SetCursorPosition(0, 8); Say -NoNewline $error.count $error[0]
             if ($p -eq ($h + 2)) { $h = $p }; $it = "#" * $j
             if (($p % 2) -eq 1 -and $h -le $p) { $tip = "="; $it = ($it + $tip) }
             if (($p % 2) -eq 0 -and $h -gt $p) { $tip = "#"; $it = ($it + $tip) }
@@ -121,13 +119,15 @@ else {
     Catch { Continue }
     if ($LastExitCode -ne 0) { $ec++ }
     $ErrorActionPreference = $OrgError
-    Asay.ps1 ClearWindows Logs Processed $i log files.
-    [Console]::SetCursorPosition(0, 11); Say -NoNewline "ClearWindowsLogs Processed $i log files."
-    [Console]::SetCursorPosition(0, 12); Say -NoNewline $ec "Files were in use and not cleared."
-    [Console]::SetCursorPosition(0, 13); Read-Host -Prompt "[Slap Enter to Exit]"
+    $ans = ($i - $ec)
+    Asay.ps1 ClearLogs Cleared $ans Log Files.
     $PShost = Get-Host
     $PSWin = $PShost.ui.rawui
     $PSWin.CursorSize = 25
     $ErrorActionPreference = "$HoldError"
+    [Console]::SetCursorPosition(0, 11); Say -NoNewLine "Logs Located:" $i
+    [Console]::SetCursorPosition(0, 12); Say -NoNewLine "Logs In Use :" $ec
+    [Console]::SetCursorPosition(0, 14); Say -NoNewLine "ClearLogs Cleared $ans logs."
+    [Console]::SetCursorPosition(0, 15); Read-Host -Prompt "[Slap Enter To Exit]"
     return
 }
