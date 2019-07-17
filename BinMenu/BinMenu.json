@@ -119,5 +119,15 @@
     "Argument": "",
     "Name": "Sound Blaster C2",
     "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
+  },
+  "AddItem-18": {
+    "Name": "Visual Studio Installer",
+    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vs_installer.exe",
+    "Argument": ""
+  },
+  "AddItem-19": {
+    "Name": "Visual Studio 2019",
+    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe",
+    "Argument": ""
   }
 }

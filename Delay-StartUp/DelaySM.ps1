@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.13"
+$FileVersion = "Version: 1.3.14"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -343,7 +343,7 @@ while (1) {
             $Script:Fight4 = ($Config.$RunItem).Argument
             $rich1A = "Please enter the NAME or Title of the program for this entry."
             $rich1B = "Current Value: $Fight1"
-            $rich2A = "Enter the HOSTNAME that this will run on. [Also: All, NONE] "
+            $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, All or NONE]"
             $rich2B = "Current Value: $Fight2"
             $Rich3A = "Please enter the COMPLETE PATH and FILENAME for this entry"
             $Rich3B = "Current Value: $Fight3"

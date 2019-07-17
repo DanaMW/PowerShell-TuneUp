@@ -3,7 +3,7 @@
         Put-Pause
         Created By: Dana Meli
         Created Date: May, 2019
-        Last Modified Date: June 29, 2019
+        Last Modified Date: July 17, 2019
 
 .DESCRIPTION
         This script is designed to replace Read-Host.
@@ -51,7 +51,7 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.1.1"
+$FileVersion = "Version: 0.1.2"
 $ESC = [char]27
 $ans = ""
 ### ESC is replaced with char27 for color codes ###
@@ -69,7 +69,8 @@ if (($Prompt)) {
     $Prompt = $Prompt.Replace("ESC", $ESC)
     Write-Host -NoNewLine ($Prompt + " ")
 }
-if (($Default)) { $ans = $Default }
+if (($host.UI.RawUI.KeyAvailable)) { $Host.UI.RawUI.ReadKey() | Out-Null }
+$ans = ""
 while ($i -lt $max) {
     if ($Max -eq 0) { $i = -1 }
     else { Start-Sleep -MilliSeconds 100 }
