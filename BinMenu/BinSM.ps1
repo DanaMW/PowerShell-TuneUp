@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.12"
+$FileVersion = "Version: 2.1.13"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -38,9 +38,9 @@ if (!($AWinWidth)) {
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 690
 $WinY = 130
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 650  > $null }
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 650 | Out-Null }
 while (1) {
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -70,7 +70,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     $Script:ESC = [char]27
     [string]$NormalLine = "$ESC[31m#==============================================================#$ESC[97m"
     [string]$TitleLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=-<$ESC[36m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"

@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: June 12, 2019
+        Last Modified Date: July 17, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.12"
+$FileVersion = "Version: 2.1.13"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -69,7 +69,7 @@ Function FlexWindow {
 }
 if (($WPosition)) {
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
 }
 Function SpinItems {
     $si = 1
@@ -472,7 +472,7 @@ While (1) {
     [Console]::SetCursorPosition(0, $pp)
     if (($WPosition)) {
         FlexWindow
-        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     }
 }
 $Filetest = Test-Path -path $Filetmp

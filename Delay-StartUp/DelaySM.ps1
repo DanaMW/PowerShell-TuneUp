@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.14"
+$FileVersion = "Version: 1.3.15"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -32,7 +32,7 @@ if (!($BWWidth)) { $BWWidth = "66" }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 690
 $WinY = 205
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 800 -Height 800  > $null }
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 800 -Height 800 | Out-Null }
 $Script:ESC = [char]27
 [string]$NormalLine = "$ESC[31m#===============================================================#$ESC[97m"
 [string]$TitleLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=<$ESC[36m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"
@@ -57,7 +57,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY > $null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     FlexWindow
     Function FuckOff {
         PrettyLine

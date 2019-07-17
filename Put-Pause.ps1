@@ -53,7 +53,7 @@
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
 $FileVersion = "Version: 0.1.2"
 $ESC = [char]27
-$ans = ""
+$PKB = ""
 ### ESC is replaced with char27 for color codes ###
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
 else {
@@ -69,28 +69,26 @@ if (($Prompt)) {
     $Prompt = $Prompt.Replace("ESC", $ESC)
     Write-Host -NoNewLine ($Prompt + " ")
 }
-if (($host.UI.RawUI.KeyAvailable)) { $Host.UI.RawUI.ReadKey() | Out-Null }
-$ans = ""
 while ($i -lt $max) {
     if ($Max -eq 0) { $i = -1 }
     else { Start-Sleep -MilliSeconds 100 }
     if ($host.UI.RawUI.KeyAvailable) {
         $key = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyUp, IncludeKeyDown")
         if ($key.KeyDown -eq 1) {
-            $ans = $Key.Character
+            $PKB = $Key.Character
             $i = $max
         }
     }
     if ($Max -gt 0) { $i = ($i + 100) }
     if ($i -ge $max) {
-        if (($ans)) {
-            if (($Echo)) { Write-Host $ans }
-            Return $ans
+        if (($PKB)) {
+            if (($Echo)) { Write-Host $PKB }
+            Return $PKB
         }
-        if (!($ans) -and ($Default)) {
-            $ans = $Default
-            if (($Echo)) { Write-Host $ans }
-            Return $ans
+        if (!($PKB) -and ($Default)) {
+            $PKB = $Default
+            if (($Echo)) { Write-Host $PKB }
+            Return $PKB
         }
     }
 }
