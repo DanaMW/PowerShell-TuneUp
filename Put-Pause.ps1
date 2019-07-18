@@ -38,7 +38,7 @@
 .EXAMPLE
         $ans = Put-Pause.ps1 -Echo 1
 
-        -Echo determines if the output is echoed to the screen or not.
+        -Echo determines if the output is echoed to the screen (1) or not (0).
         -Echo is automatically set to 1 if you use -Max 0
 
 .EXAMPLE
@@ -51,9 +51,10 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.1.2"
+$FileVersion = "Version: 0.1.3"
 $ESC = [char]27
 $PKB = ""
+Say ""
 ### ESC is replaced with char27 for color codes ###
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
 else {
@@ -85,8 +86,8 @@ while ($i -lt $max) {
             if (($Echo)) { Write-Host $PKB }
             Return $PKB
         }
-        if (!($PKB) -and ($Default)) {
-            $PKB = $Default
+        if (!($PKB)) {
+            if (($Default)) { $PKB = $Default }
             if (($Echo)) { Write-Host $PKB }
             Return $PKB
         }
