@@ -129,5 +129,10 @@
     "Name": "Visual Studio 2019",
     "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe",
     "Argument": ""
+  },
+  "AddItem-20": {
+    "Name": "VMWare",
+    "Argument": "",
+    "Command": "C:\\Program Files (x86)\\VMware\\VMware Player\\vmplayer.exe"
   }
 }
