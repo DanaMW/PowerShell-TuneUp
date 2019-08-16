@@ -10,14 +10,16 @@ Feel free to write me an DanaMW at gmail.com if you want help.
 But I think just checking out the script will do it for ya.
 ----
 PowerShell Scripts and snips for the learning curve.
-All are working in PowerShell Code 6.2.X unless they say otherwise.
+ALL are working in PowerShell Core 6.x unless they say otherwise.
 If you have improvements to them please share them with me, thats what this is about for me.
 Hope they help someone else. Enjoy.
-NOTE: **In some of the scripts here I use console window resizing code.
-If you get weird error(s) just make the window larger than the displayed
+NOTE: **In a lot of the scripts here I use console window resizing code.
+ If you get weird error(s) just make the window larger than the displayed
  script and hit enter. In a perfect world will resize to the size of the
- script display.
- Sane thing with the Settings Managers**
+ script display. Same thing with the Settings Managers**
+Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs, Run-Checkdisk
+ AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the $env:BASE folder
+ or edit out the calls.**
 ```
 # BinMenu
 ```
