@@ -38,41 +38,47 @@ Update: Can load directories.
 Update: can define user file/folder adds to be appended to the menu after the folders are loaded.
  You add those in the BinMenu.json file as you will see.
 Update: can toggle Menu adds on off and Script reads On off.
-Corrected many small scripting methods concerning Integers.
+ Corrected many small scripting methods concerning Integers.
 Update: AddItems can now also be a Directory and explorer will open them.
 Update: Added the ability to include a argument to command lines of read in and add items.
  That allows for you to call one program to run another and opens up almost anything.
-Update: Created a BinMenu Settings Manager. All settings of BinMenu can be set changed or removed from it.
- I created it as a function but in its own file for now key Z from BinMenu to use it.
+Update: Created a BinMenu Settings Manager. All settings of BinMenu can be set changed or removed
+ from it. I created it as a function but in its own file for now key Z from BinMenu to use it.
 Update: Menuadds "0" now removes them from the menu as it should. "1" puts them back if you have any.
-Update: Changed the JSON config format for faster reading (Cant use new menu or settings manager unless you change).
-Finished the BinMenu Settings manager. ALL settings can be edited from the settings manager.
+Update: Changed the JSON config format for faster reading (Cant use new menu or settings manager
+ unless you change). Finished the BinMenu Settings manager. ALL settings can be edited from the
+ settings manager.
 Update: Shrunk up that way too big top of the menu.
 Update: Finalized the json style completed all scripts Version 1 released.
 Update: I improved the BinMenu Settings manager by cleaning up console window positioning as it runs.
-Added more options, mainly Verify and Test run. Verify will end up being something that runs auto every time you edit or add.
-Also added window fix routines when you hit enter in BinMenu similar to the Manager.
-Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it off and I am re-writing it.
+ Added more options, mainly Verify and Test run. Verify will end up being something that runs auto
+ every time you edit or add. Also added window fix routines when you hit enter in BinMenu similar to
+ the Manager. Note: Script read is goofy when you have almost 100 ps1 scripts so I toggle it off
+ and I am re-writing it.
 Update: ScriptRead was re-written to simply be ON or OFF and neatly display as it should.
-To many options messed it up. Now it displays nicely on the bottom.
-Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times if not.
-Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no longer a numeric
-limit to the number of menu items. Saved around 200 lines of script. (took out my debug crap too.)
+ To many options messed it up. Now it displays nicely on the bottom.
+ Also it SHOULD redraw the screen to the correct dimensions, Just hit ENTER a couple of times if not.
+Update: Got rid of the SLOW and limited switch menu and did my own While{} loop menu. REAL fast and no
+ longer a numeric  limit to the number of menu items. Saved around 200 lines of script.
+ (took out my debug crap too.)
 Update: I put the INI maker back in it's own file BINIM.ps1 to make the menu a tiny bit faster.
 Update: Added a small QuickMenu when you press G (run a ps1 script) to get to the clearlogs
  and reboot options I use ALL the time. (Saves me typing)
-Update: Added an option 5 on the G QuickMenu to call the script Run-CheckDisk.ps1 Which I call Complete CheckDisk
+Update: Added an option 5 on the G QuickMenu to call the script Run-CheckDisk.ps1 Which I call
+ Complete CheckDisk
 Update: Pressing E allows you to switch back and forth from the Program Screen and the
  Script Screen where you find all your scripts numbered from 100 on up.
- Pressing that corresponding number at any time in the script will run that script for you. The Scripts screen does not need to be visible to run a ps1 script.
+ Pressing that corresponding number at any time in the script will run that script for you.
+ The Scripts screen does not need to be visible to run a ps1 script.
  I will tie this new stuff into the other menus and whole script completely over the next little while.
 Update: Corrected when an entry is invalid to return "not valid" properly
 Update: Turned the script reads into their own script so I can do more with them.
-This is just a first draft of BinScript.ps1 a lot more to come.
-Also FINALLY got the math correct for the columns (I am pretty sure) so it splits up correctly.
-Took scriptmode OUT of the json and shortened the code.
+ This is just a first draft of BinScript.ps1 a lot more to come.
+ Also FINALLY got the math correct for the columns (I am pretty sure) so it splits up correctly.
+ Took scriptmode OUT of the json and shortened the code.
 Update: Added a call to the new script Put-WinPosition and entries in the BinMenu.json
-The adds center the window for me when it runs or when you hit enter.
+ This added call centers the window for me when it runs or when you hit enter.
+ You can edit window placement IN the call to the script.
 ```
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>
