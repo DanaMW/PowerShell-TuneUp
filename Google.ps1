@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.1.7"
+$FileVersion = "Version: 0.1.8"
 $host.ui.RawUI.WindowTitle = "Google $FileVersion"
 if (!($args)) {
     Say ""
@@ -26,8 +26,8 @@ if ($Key2 -eq "-NEWS") { [string]$Wander = "NEWS" }
 [string]$Search = $Search -replace "-IMAGE", ""
 [string]$Search = $Search -replace "-VIDEO", ""
 [string]$Search = $Search -replace "-NEWS", ""
-Say "Searching Category:" $Wander
-Say "Search String:" $Search
+Say "Google Searching Category:" $Wander
+Say "Google Search String:" $Search
 [string]$Search = $Search.trim(" ")
 [string]$Search = ($Search -Replace "\s+", " ")
 [string]$Search = ($Search -replace ' ', '+')
