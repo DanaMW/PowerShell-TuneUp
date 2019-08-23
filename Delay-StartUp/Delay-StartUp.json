@@ -36,7 +36,7 @@
     "HostOnly": "ALL"
   },
   "RunItem-2": {
-    "HostOnly": "NONE",
+    "HostOnly": "TINMAN",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
