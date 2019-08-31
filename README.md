@@ -109,10 +109,11 @@ Usage: Color Example: Put-Pause -Prompt "[Make A Selection]:" -Max 0
 ```
 # Put-Vivaldi
 ```
-I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface. My only beef was
-  that they update it a lot and I would have to edit the files and copy over the custom css to add my changes
-  every time they did. Well this script does the changes for me. You will only need to edit the top two
-  folders in the script. Your custom css and your Vivaldi install base folder. then just run it.
+I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface.
+ My only beef was that they update it a lot and I would have to edit the files and copy
+ over the custom css to add my changes every time they did. Well this script does the
+ changes for me. You will only need to edit the top two folders in the script. Your custom
+ css and your Vivaldi install base folder. then just run it.
 
 Usage: Put-Vivaldi
 ```
