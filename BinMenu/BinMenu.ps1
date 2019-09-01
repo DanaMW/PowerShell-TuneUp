@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: July 17, 2019
+        Last Modified Date: September 01, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.13"
+$FileVersion = "Version: 2.1.14"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -129,7 +129,7 @@ if (!($Filetest)) {
     My-Maker
 }
 <# ########## MenuAdds Toggles ON ########## #>
-if ($MenuAdds -eq 1) {
+if (($MenuAdds)) {
     [int]$LineCount = (Get-Content $FileINI).count
     [int]$temp = ($LineCount / 3)
     [int]$temp2 = ($temp + 1)
@@ -152,7 +152,7 @@ if ($MenuAdds -eq 1) {
     }
 }
 <# ########## MenuAdds Toggle OFF ########## #>
-if ($MenuAdds -eq 0) {
+if (!($MenuAdds)) {
     $AddItem = "AddItem-1"
     $wow = ($Config.$AddItem).name
     if (($wow)) {
