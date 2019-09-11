@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.15"
+$FileVersion = "Version: 1.3.16"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -23,6 +23,7 @@ Set-Location $Base
 [int]$StartDelay = ($Config.basic.StartDelay)
 [int]$Delay = ($Config.basic.Delay)
 [bool]$Prevent = ($Config.basic.Prevent)
+[bool]$Notify = ($Config.basic.Notify)
 [int]$WinWidth = ($Config.basic.WinWidth)
 [int]$WinHeight = ($Config.basic.WinHeight)
 [int]$BuffWidth = $WinWidth
@@ -134,6 +135,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mS$ESC[31m)$ESC[36mtartUp Delay (Secs)$ESC[97m.......:$ESC[31m [$ESC[97m$StartDelay$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mDela$ESC[31m($ESC[97mY$ESC[31m)$ESC[36m Between Program Runs$ESC[97m.:$ESC[31m [$ESC[97m$Delay$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mP$ESC[31m)$ESC[36mrevent From Running$ESC[97m.......:$ESC[31m [$ESC[97m$Prevent$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mN$ESC[31m)$ESC[36motify with asay/notify$ESC[97m....:$ESC[31m [$ESC[97m$Notify$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mT$ESC[31m)$ESC[36mest Run Shooting Blanks$ESC[97m...:$ESC[31m [$ESC[97m$TestRun$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mW$ESC[31m)$ESC[36midth$ESC[97m...............:$ESC[31m [$ESC[97m$WinWidth$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mH$ESC[31m)$ESC[36meight$ESC[97m..............:$ESC[31m [$ESC[97m$WinHeight$ESC[31m]$ESC[40m"; $l++
@@ -234,6 +236,12 @@ while (1) {
         else { $Config.basic.Prevent = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$Prevent = ($Config.basic.Prevent)
+    }
+    if ($pop -eq "N") {
+        if (($Config.basic.Notify) -eq 0) { $Config.basic.Notify = 1 }
+        else { $Config.basic.Notify = 0 }
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$Notify = ($Config.basic.Notify)
     }
     if ($pop -eq "T") {
         if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }

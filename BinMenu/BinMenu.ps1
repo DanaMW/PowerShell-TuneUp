@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: September 01, 2019
+        Last Modified Date: September 10, 2019
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
         It is designed to use an ini file created Internally.
@@ -13,7 +13,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 2.1.14"
+$FileVersion = "Version: 2.1.15"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -38,6 +38,7 @@ Set-Location $Base
 [string]$Editor = ($Config.basic.Editor)
 if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
 [bool]$DeBug = ($Config.basic.DeBug)
+[bool]$Notify = ($Config.basic.Notify)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$WPosition = ($Config.basic.WPosition)

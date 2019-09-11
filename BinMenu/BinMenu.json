@@ -6,7 +6,7 @@
   ],
   "InternalInfo": {
     "Project": "BinMenu2",
-    "Modified": "03/09/2019",
+    "Modified": "09/10/2019",
     "Author": "Dana Meli <danamw@gmail.com",
     "Support": "https://github.com/danamw/PowerShell-tuneup",
     "License": "MIT"
@@ -22,6 +22,8 @@
     "Editor": "D:\\bin\\NPP\\NotePad++.exe",
     "_MenuAdds": "[bool] Determines if the menu adds are used or not",
     "MenuAdds": 1,
+    "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
+    "Notify": 1,
     "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
     "WPosition": 1,
     "_WinHeight": "[int] How tall to draw the inner window.",

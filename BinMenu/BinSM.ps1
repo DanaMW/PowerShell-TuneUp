@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.14"
+$FileVersion = "Version: 2.1.15"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -20,6 +20,7 @@ Set-Location $Base
 #[bool]$ScriptRead = ($Config.basic.ScriptRead)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
+[bool]$Notify = ($Config.basic.Notify)
 [bool]$WPosition = ($Config.basic.WPosition)
 [int]$WinHeight = ($Config.basic.WinHeight)
 $BuffHeight = $WinHeight
@@ -115,8 +116,9 @@ while (1) {
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mB$ESC[31m)$ESC[36mase Folder$ESC[97m.................: $ESC[31m[$ESC[97m$Base$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mSet Ed$ESC[31m($ESC[97mI$ESC[31m)$ESC[36mtor$ESC[97m..................: $ESC[31m[$ESC[97m$Editor$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mScript $ESC[31m($ESC[97mN$ESC[31m)$ESC[36mame$ESC[97m.................: $ESC[31m[$ESC[97m$ScriptName$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mS$ESC[31m)$ESC[36mcript Name$ESC[97m.................: $ESC[31m[$ESC[97m$ScriptName$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mDebu$ESC[31m($ESC[97mG$ESC[31m)$ESC[97m.......................: $ESC[31m[$ESC[97m$Debug$ESC[31m]$ESC[40m"; $l++
+    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mN$ESC[31m)$ESC[36motify with asay/notify$ESC[97m.....: $ESC[31m[$ESC[97m$Notify$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mUse Win $ESC[31m($ESC[97mP$ESC[31m)$ESC[36mositioning$ESC[97m.........: $ESC[31m[$ESC[97m$WPosition$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mW$ESC[31m)$ESC[36midth$ESC[97m................: $ESC[31m[$ESC[97m$WinWidth$ESC[31m]$ESC[40m"; $l++
     [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mH$ESC[31m)$ESC[36meight$ESC[97m...............: $ESC[31m[$ESC[97m$WinHeight$ESC[31m]$ESC[40m"; $l++
@@ -177,7 +179,7 @@ while (1) {
         }
         [string]$Editor = ($Config.basic.Editor)
     }
-    if ($pop -eq "N") {
+    if ($pop -eq "S") {
         $blah = "Please enter a name to be given and used for this script."
         $boop = "Name given this script or ENTER to cancel"
         FuckOff
@@ -192,6 +194,13 @@ while (1) {
         else { $Config.basic.DeBug = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$DeBug = ($Config.basic.DeBug)
+        $pop = ""
+    }
+    if ($pop -eq "N") {
+        if (($Config.basic.Notify) -eq 0) { $Config.basic.Notify = 1 }
+        else { $Config.basic.Notify = 0 }
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$Notify = ($Config.basic.Notify)
         $pop = ""
     }
     if ($pop -eq "P") {

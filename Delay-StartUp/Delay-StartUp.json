@@ -6,7 +6,7 @@
   ],
   "InternalInfo": {
     "Project": "Delay-StartUp",
-    "Modified": "03/09/2019",
+    "Modified": "09/10/2019",
     "Author": "Dana Meli <danamw@gmail.com",
     "Support": "https://github.com/danamw/PowerShell-tuneup",
     "License": "MIT"
@@ -22,6 +22,8 @@
     "Delay": "1",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": false,
+    "_Notify": "[bool] If Notifications should be sent to asay/notify.",
+    "Notify": 1,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "TestRun": 0,
     "_WinWidth": "[int]",
@@ -100,5 +102,11 @@
     "RunPath": "C:\\Users\\dana\\Desktop\\MineTest Server.lnk",
     "Argument": "",
     "Name": "MineTest"
+  },
+  "RunItem-13": {
+    "RunPath": "d:\\bin\\Telegram\\Telegram.exe",
+    "Name": "TeleGram",
+    "Argument": "",
+    "HostOnly": "NONE"
   }
 }
