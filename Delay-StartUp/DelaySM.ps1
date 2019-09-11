@@ -189,17 +189,6 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    <#
-    [Int32]$OutNumber = $null
-    if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
-        FixLine
-        $ValidOption = "NO"
-        $DidIt = "NO"
-        $MaxYes = (Get-Content $FileINI).count
-        $MaxYes = ($MaxYes / 3)
-        $MaxYes = [int][Math]::Ceiling($MaxYes)
-        if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
-    #>
     else { $Pop = Read-Host -Prompt "$ESC[31m[$ESC[36mYour Selection or Re$ESC[31m($ESC[97mL$ESC[31m)$ESC[36moad, $ESC[31m($ESC[97mQ$ESC[31m)$ESC[36muit$ESC[31m]$ESC[97m" }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE."
