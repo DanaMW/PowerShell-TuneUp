@@ -8,6 +8,11 @@ Lastly I Use the PowerShell environment $ENV:BASE in all my scripts.
 This is your base *.ps1 script folder.
 Feel free to write me an DanaMW at gmail.com if you want help.
 But I think just checking out the script will do it for ya.
+I wanted to mention that BinSM and DelaySM are a good example
+ for writing to and reading from json files with PowerShell.
+ Instructions on the net sucked but I worked it out and those
+ two files work perfectly so you should have what you need to
+ clip them and add them to your work.
 ----
 PowerShell Scripts and snips for the learning curve.
 ALL are working in PowerShell Core 6.x unless they say otherwise.
