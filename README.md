@@ -84,6 +84,12 @@ Update: Added my own super simple progress bar that you can change the progress 
 
 Usage: CLEARLOGS.PS1
 ```
+# Get-Files
+```
+A script I call from the other scripts. Just a DIR sort of replacement. With colors.
+
+Usage: GET-FILES.PS1 <[normal filesearch parameters]>
+```
 # Get-SysInfo
 ```
 A simple system information example containing how to expand a looped composed ($var + #) variable,
