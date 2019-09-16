@@ -87,8 +87,12 @@ Usage: CLEARLOGS.PS1
 # Get-Files
 ```
 A script I call from the other scripts. Just a DIR sort of replacement. With colors.
+Includes a /w (wide) display
 
 Usage: GET-FILES.PS1 <[normal filesearch parameters]>
+Usage: GET-FILES.PS1 <[normal filesearch parameters]> /w (Wide format)
+Usage: GET-FILES.PS1 . or with no parmeters (Displays current folder)
+Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
 ```
 # Get-SysInfo
 ```
