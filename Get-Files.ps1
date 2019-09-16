@@ -100,7 +100,7 @@ if ($Wide -eq 1) {
     Finally { Say "" }
 }
 else {
-    try { Get-ChildItem -Path $Folder -Name -Directory -Hidden -ReadOnly -System -ErrorAction Stop | Sort-Object | ForEach-Object { Say $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]") } }
+    try { Get-ChildItem -Path $Folder -Name -Directory -ErrorAction Stop | Sort-Object | ForEach-Object { Say $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]") } }
     Catch { Say ""; Say -ForegroundColor RED "Folder" $Folder.ToUpper() "was not found. Maybe add a '*'"; return }
     Finally { Say "" }
     Try {
