@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.15"
+$FileVersion = "Version: 2.1.17"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -48,7 +48,7 @@ Function FixLine {
 }
 <# SET THE BELOW TO POSITION THE SCRIPT WINDOW #>
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
-$POSX = 325
+$POSX = 310
 $POSY = 170
 While (1) {
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
@@ -112,8 +112,16 @@ While (1) {
             FixLine
         }
     }
-    elseif ($ans -eq "Q") { $Filetest = Test-Path -path $Filetmp; if (($Filetest)) { Remove-Item –path $Filetmp }; Clear-Host; Return }
-    elseif ($ans -eq "R") { Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1"); exit }
+    elseif ($ans -eq "Q") {
+        $Filetest = Test-Path -path $Filetmp
+        if (($Filetest)) { Remove-Item ï¿½path $Filetmp -Force }
+        Clear-Host
+        Return
+    }
+    elseif ($ans -eq "R") {
+        Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
+        exit
+    }
     else {
         FixLine
         [Console]::SetCursorPosition(0, $pp)
