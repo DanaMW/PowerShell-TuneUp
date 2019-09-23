@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.1.4"
+$FileVersion = "Version: 0.1.5"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -15,8 +15,9 @@ if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator
 $ESC = [char]27
 $Scan = "SFC.EXE /SCANNOW"
 $Check = "DISM.EXE /Online /Cleanup-Image /ScanHealth"
-$Repair = "DISM.EXE /Online /Cleanup-Image /e /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1"
-$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\ sources\install.wim:1"
+#sources\install.wim:1
+$Repair = "DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\sources\install.wim:1"
+$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\sources\install.wim:1"
 Set-Location "C:"; Set-Location "C:\Windows"
 $nline = "$ESC[31m#=====================================================================#$ESC[37m"
 $dline = "$ESC[31m| $ESC[37m| $ESC[31m#=============================================================$ESC[31m# $ESC[37m| $ESC[31m|"
