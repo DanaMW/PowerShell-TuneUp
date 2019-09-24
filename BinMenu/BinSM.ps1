@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.17"
+$FileVersion = "Version: 2.1.18"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -133,8 +133,10 @@ while (1) {
         while ($i -le $AddCount) {
             $AddItem = "AddItem-$i"
             $it1 = ($Config.$AddItem).name
-            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m: $it1$ESC[40m" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m.: $it1$ESC[40m"; $l++ }
+            $it2 = ($Config.$AddItem).Command
+            $it2 = "$it2".split('\')[-1]
+            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97m$i$ESC[31m)$ESC[97m.: $ESC[31m[$ESC[97m$it1$ESC[31m] [$ESC[32m$it2$ESC[31m]$ESC[40m" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97m$i$ESC[31m)$ESC[97m..: $ESC[31m[$ESC[97m$it1$ESC[31m] [$ESC[32m$it2$ESC[31m]$ESC[40m" ; $l++ }
             $i++
             $a++
         }

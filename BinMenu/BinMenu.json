@@ -89,7 +89,7 @@
   },
   "AddItem-11": {
     "Name": "My Scripts",
-    "Command": "D:\\MyScripts",
+    "Command": "D:\\WebBase\\wwwroot\\scripts",
     "Argument": ""
   },
   "AddItem-12": {

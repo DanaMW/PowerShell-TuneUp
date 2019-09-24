@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.16"
+$FileVersion = "Version: 1.3.17"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -151,11 +151,11 @@ while (1) {
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
         if ($i -lt "10") {
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m.: $it1 $ESC[36mHost$ESC[97m:$ESC[31m[$ESC[97m$it2$ESC[31m]$ESC[40m"
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m..$ESC[97m: $it1 $ESC[31m[$ESC[92m$it2$ESC[31m]$ESC[40m"
             $l++
         }
         if ($i -ge "10") {
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mView $ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m: $it1 $ESC[36mHost$ESC[97m:$ESC[31m[$ESC[97m$it2$ESC[31m]$ESC[40m"
+            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m.: $it1 $ESC[31m[$ESC[92m$it2$ESC[31m]$ESC[40m"
             $l++
         }
         $i++
