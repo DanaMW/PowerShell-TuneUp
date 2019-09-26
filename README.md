@@ -26,6 +26,7 @@ Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs, Run-Checkdisk
  AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the $env:BASE folder
  or edit out the calls.**
 ```
+
 # BinMenu
 ```
 Bin Menu is a simple console based menu that reads in what exe's are in the base sub-folders
@@ -48,6 +49,34 @@ Usage: BINMENU.PS1
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>
 
+# Add To Profile For New Coloring Method
+```
+(Add the following to your profile to allow for my scripts new color method.)
+function Write-Color($message = "") {
+    [string]$pipedMessage = @($Input)
+    if (!$message) {
+        if ( $pipedMessage ) {
+            $message = $pipedMessage
+        }
+    }
+    if ( $message ) {
+        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
+        $defaultFGColor = $host.UI.RawUI.ForegroundColor
+        $CurrentColor = $defaultFGColor
+        $message = $message.split("#")
+        foreach ( $string in $message ) {
+            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
+            else {
+                write-host -NoNewLine -f $CurrentColor $string
+                $CurrentColor = $defaultFGColor
+            }
+        }
+        write-host
+    }
+}
+Set-Alias WC Write-Color
+```
+
 # Convert-Script
 ```
 This is my user.CSS to user.JS UserStyle to UserScript converter.
@@ -63,12 +92,14 @@ Update:  I open this script up and scared my self lol.
 Usage: Convert-Script.PS1 -INFILE [<FullPathToFileToRead>] -OUTFILE [<FullPathToFileToWrite>]
 Usage: Convert-Script.PS1 [<FullPathToFileToRead>] [<FullPathToFileToWrite>]
 ```
+
 # Imageto64
 ```
 Feed it a filename of a image file and it feeds you back the base64 info ready to put into your script files.
 
 Usage: IMAGETO64.PS1 -Path [<FullPathToImageFile>] -OutFile [<OptionalFullPathForTextFileOut>]
 ```
+
 # Clearlogs
 ```
 This clears most to all of your windows logs for you.
@@ -84,6 +115,7 @@ Update: Added my own super simple progress bar that you can change the progress 
 
 Usage: CLEARLOGS.PS1
 ```
+
 # Get-Files
 ```
 A script I call from the other scripts. Just a DIR sort of replacement. With colors.
@@ -94,6 +126,7 @@ Usage: GET-FILES.PS1 <[normal filesearch parameters]> /w (Wide format)
 Usage: GET-FILES.PS1 . or with no parmeters (Displays current folder)
 Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
 ```
+
 # Get-SysInfo
 ```
 A simple system information example containing how to expand a looped composed ($var + #) variable,
@@ -122,6 +155,7 @@ Usage: Example: $a = Put-Pause -Prompt "Do you seem interested? (Y/N):" -Default
 Usage: Color Example: Put-Pause -Prompt "ESC[1;91m[ESC[1;97mMake A SelectionESC[1;91m]ESC[1;97m:"
 Usage: Color Example: Put-Pause -Prompt "[Make A Selection]:" -Max 0
 ```
+
 # Put-Vivaldi
 ```
 I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface.
@@ -132,6 +166,7 @@ I use Vivaldi browser sometimes because it, like Firefox, can have a custom user
 
 Usage: Put-Vivaldi
 ```
+
 # Put-WinSize (Formally Set-WinSize)
 ```
 My script paste-in that allows the console buffer and window to be resized.
@@ -140,6 +175,7 @@ I tried 3 or 4 from others and they didn't work so I put this together and use i
 
 Usage: Paste into your script file as a function and call to it.
 ```
+
 # Put-Winposition
 ```
 This will set a named window to the desired position.
@@ -148,10 +184,12 @@ Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32>
        Optionally
 Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32> [[-Width] <Int32>] [[-height] <Int32>]
 ```
+
 # Discord Stuff
 ```
 Here is where I put any Discord related PowerShell script stuff.
 ```
+
 # Google
 ```
 This is my console script example that sends your search to Google in the browser.
@@ -162,6 +200,7 @@ Usage: GOOGLE.PS1 IMAGE [<something to search>]
 Usage: GOOGLE.PS1 VIDEO [<something to search>]
 Usage: GOOGLE.PS1 NEWS [<something to search>]
 ```
+
 # Remove-Empty
 ```
 Remove-Empty is a simple little script that removes all empty Lines in a given text file.
@@ -169,6 +208,7 @@ Feed it a file and all the blank lines are removed.
 
 Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 ```
+
 # Remove-WindowsApps
 ```
 Remove-WindowsApps deletes Windows 10 apps from your system.
@@ -177,6 +217,7 @@ Remove-WindowsApps deletes Windows 10 apps from your system.
 
 Usage: REMOVE-WINDOWSAPPS.PS1
 ```
+
 # ASAY and NOTIFY
 ```
 This now uses BurntToast from the PowerShellGallery
@@ -198,6 +239,7 @@ Usage: With Quotes do NOTIFY.PS1 [<"message to send, include punctuation, to out
  or ASAY.PS1 [<"message to send, include punctuation, to output">]
 Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
 ```
+
 # Search
 ```
 Search is a script that searches any text, as a filename parameter, in the path you give.
@@ -205,6 +247,7 @@ From the whole drive down to just a folder it will list all matches found.
 
 Usage: Without Star (SHIFT-8) SEARCH.PS1 [<SearchPhrase>] [<BasePathToStartIn>] (The star is added automatically)
 ```
+
 # Env (environment)
 ```
 This is my script to list a (one) environment variable from system ENV variable (no quotes)
@@ -214,12 +257,14 @@ Usage: Does all variables ENV.PS1
 Usage: Without quotes ENV.PS1 [<VaribleToSearch>]
 Usage: With single quote ENV.PS1 [<'VaribleToSearch'>] (Works on variable drive)
 ```
+
 # Ver (Version)
 ```
 I was missing the sort of version program I wanted so here it is. Just type VER.
 
 Usage: VER.PS1
 ```
+
 # Reboot
 ```
 I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT
@@ -230,6 +275,7 @@ Usage: REBOOT.PS1 (The same as REBOOT RESTART)
 Usage: REBOOT.PS1 STOP or REBOOT.PS1 SHUTDOWN
 Usage: REBOOT.PS1 RESTART or REBOOT.PS1 REBOOT`
 ```
+
 # Run-CheckDisk
 ```
 This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check.
@@ -239,6 +285,7 @@ It Will produce a message in Windows that you need to reboot to check the drives
 
 Usage: RUN-CHECKDISK.PS1
 ```
+
 # Repair-windows
 ```
 This is just a pretty console menu for SCF and DISM.
