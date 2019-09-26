@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: September 19, 2019
+        Last Modified Date: September 26, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.1.17"
+$FileVersion = "Version: 2.2.00"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -126,7 +126,6 @@ if (($Filetest)) {
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 SpinItems
-$ESC = [char]27
 $Filetest = Test-Path -path $FileINI
 if (!($Filetest)) {
     Say "The File $FileINI is missing. We Can not continue without it."
@@ -181,13 +180,13 @@ if (!($MenuAdds)) {
 $ptemp = ($Base + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [int]$PCount = ($PCount - 1)
-[string]$NormalLine = "$ESC[31m#=====================================================================================================#$ESC[97m"
-[string]$FancyLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<$ESC[36m[$ESC[41m $ESC[97mMy BinMenu Two $ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"
-[string]$PrettyLine = "$ESC[31m|$ESC[97m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=$ESC[31m|$ESC[97m"
-[string]$SpacerLine = "$ESC[31m|                                                                                                     $ESC[31m|$ESC[97m"
-[string]$ProgramLine = "$ESC[31m#$ESC[36m[$ESC[33mProgram Menu$ESC[36m]$ESC[31m=======================================================================================#$ESC[97m"
-[string]$Menu1Line = "$ESC[31m#$ESC[36m[$ESC[33mBuilt-in Menu$ESC[36m]$ESC[31m========================================================================$ESC[36m[$ESC[33mScripts:    $ESC[36m]$ESC[31m#$ESC[97m"
-[string]$ScriptLine = "$ESC[31m#$ESC[36m[$ESC[33mScripts Menu$ESC[36m]$ESC[31m=======================================================================================#$ESC[97m"
+[string]$NormalLine = "#RED#+##DARKRED#=====================================================================================================##RED#+#"
+[string]$FancyLine = "#DARKRED#|##WHITE#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<##CYAN#[# #RED#My BinMenu Two# #CYAN#]##WHITE#>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<##DARKRED#|#"
+[string]$PrettyLine = "#DARKRED#|##WHITE#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=##DARKRED#|#"
+[string]$SpacerLine = "#DARKRED#|                                                                                                     |#"
+[string]$ProgramLine = "#RED#+##CYAN#[##DARKYELLOW#Program Menu##CYAN#]##DARKRED#=======================================================================================##RED#+#"
+[string]$Menu1Line = "#RED#+##CYAN#[##DARKYELLOW#Built-in Menu##CYAN#]##DARKRED#========================================================================##CYAN#[##DARKYELLOW#Scripts:#    #CYAN#]##RED#+#"
+[string]$ScriptLine = "#RED#+##CYAN#[##DARKYELLOW#Scripts Menu##CYAN#]##DARKRED#=======================================================================================##RED#+#"
 [int]$pp = 0
 [int]$LineCount = 0
 [int]$LineCount = (Get-Content $FileINI).count
@@ -207,21 +206,21 @@ $WinHeight = ($pp + 4)
 $BuffHeight = $WinHeight
 if (($WPosition)) { FlexWindow }
 if (($DeBug)) { DeBug }
-[Console]::SetCursorPosition(0, 0); Say $NormalLine; $pp++
-[Console]::SetCursorPosition(0, 1); Say $FancyLine; $pp++
-[Console]::SetCursorPosition(0, 2); Say $Menu1Line; $pp++
+[Console]::SetCursorPosition(0, 0); WC $NormalLine; $pp++
+[Console]::SetCursorPosition(0, 1); WC $FancyLine; $pp++
+[Console]::SetCursorPosition(0, 2); WC $Menu1Line; $pp++
 [Console]::SetCursorPosition(98, 2); Say $PCount
-[Console]::SetCursorPosition(0, 3); Say $SpacerLine; $pp++
-[Console]::SetCursorPosition(0, 4); Say $SpacerLine; $pp++
-[Console]::SetCursorPosition(0, 5); Say $SpacerLine; $pp++
+[Console]::SetCursorPosition(0, 3); WC $SpacerLine; $pp++
+[Console]::SetCursorPosition(0, 4); WC $SpacerLine; $pp++
+[Console]::SetCursorPosition(0, 5); WC $SpacerLine; $pp++
 [Console]::SetCursorPosition(1, 0)
-Say "$ESC[36m[$ESC[97m" $FileVersion "$ESC[36m]$ESC[31m"
+WC "#CYAN#[##WHITE# $FileVersion ##CYAN#]#"
 [Console]::SetCursorPosition(0, 6)
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     [Console]::SetCursorPosition(85, 0)
-    Say "$ESC[36m[$ESC[97m Administrator $ESC[36m]$ESC[31m"
+    WC "#CYAN#[##WHITE# Administrator ##CYAN#]#"
     [Console]::SetCursorPosition(0, 6)
 }
 [int]$l = 3
@@ -232,7 +231,8 @@ $f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShe
 while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     [string]$tmp = $d[$c]
-    Say "$ESC[31m[$ESC[97m$tmp$ESC[31m]$ESC[35m" $f[$c]
+    [string]$tmpf = $f[$c]
+    WC "#DARKRED#[##WHITE#$tmp##DARKRED#]# #MAGENTA#$tmpf#"
     if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
     if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
     $l++
@@ -240,17 +240,17 @@ while ($c -le 8) {
 }
 [int]$pp = 6
 [Console]::SetCursorPosition(0, $pp)
-Say $ProgramLine
+WC $ProgramLine
 $pp++
 [int]$i = 0
 [int]$l = $pp
 while ($i -lt $PMenu) {
     [Console]::SetCursorPosition(0, $l)
-    Say $SpacerLine
+    WC $SpacerLine
     $i++
     $l++
 }
-Say $NormalLine
+WC $NormalLine
 [Console]::SetCursorPosition(0, $pp)
 [int]$l = $pp
 [int]$c = 0
@@ -262,7 +262,8 @@ While ($i -le $Work) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         $moo = $line.split("=")
-        [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[36m" $moo[1]
+        [string]$tmpm = $moo[1]
+        [Console]::SetCursorPosition($w, $l); WC "#DARKRED#[##WHITE#$i##DARKRED#]# #DARKCYAN#$tmpm#"
         $ltwo = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         $lthree = $Reader.ReadLine()
@@ -285,7 +286,7 @@ function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-$menu = "$ESC[36m[$ESC[33mMake A Selection$ESC[36m]$ESC[97m"
+$menu = "[Make A Selection]"
 Function MyMaker {
     Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
     break
@@ -335,8 +336,6 @@ While (1) {
                     $truck = $null
                     $bus = $null
                     $car = (Select-String -SimpleMatch $Argue $FileINI)
-                    #Say $car
-                    #Read-Host
                     $bus = $car -split "="
                     $truck = $bus[1]
                     if (($truck)) {
@@ -373,13 +372,13 @@ While (1) {
         if ($ans -eq "A") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            $RMenu = "$ESC[31m[$ESC[97mWhat EXE to run? $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            $RMenu = "[What EXE to run? (Enter to Cancel)]"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
             if (($cmd)) {
                 $cmd = ($cmd.split(".")[0] + ".EXE")
                 FixLine
-                $RMenu = "$ESC[31m[$ESC[97mAdd any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                $RMenu = "[Add any parameters? (Enter for none)]"
                 $cmd1 = Read-Host -Prompt $RMenu
                 FixLine
                 if (($cmd1)) {
@@ -411,8 +410,8 @@ While (1) {
         elseif ($ans -eq "G") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            Say "$ESC[31m[$ESC[33mQuickMenu$ESC[31m][$ESC[97m1$ESC[31m][$ESC[97mClearLogs$ESC[31m] [$ESC[97m2$ESC[31m][$ESC[97mReboot$ESC[31m] [$ESC[97m3$ESC[31m][$ESC[97mShut Down$ESC[31m] [$ESC[97m4$ESC[31m][$ESC[97mLogOff$ESC[31m] [$ESC[97m5$ESC[31m][$ESC[97mDo-Ghost$ESC[31m] [$ESC[97m6$ESC[31m][$ESC[97mComplete CheckDisk$ESC[31m]"
-            $RMenu = "$ESC[31m[$ESC[97mType a PS1 script name to run, a QuickMenu option or $ESC[31m($ESC[97mEnter to Cancel$ESC[31m)]$ESC[97m"
+            Say "[QuickMenu](1)[ClearLogs] (2)[Reboot] (3)[Shut Down] (4)[LogOff] (5)[Do-Ghost] (6)[Complete CheckDisk]"
+            $RMenu = "[Type a PS1 script name to run, a QuickMenu option or (Enter to Cancel)]"
             $cmd = Read-Host -Prompt $RMenu
             FixLine
             if (($cmd)) {
@@ -451,7 +450,7 @@ While (1) {
                     break
                 }
                 else {
-                    $RMenu = "$ESC[31m[$ESC[97mWant any parameters? $ESC[31m($ESC[97mEnter for none$ESC[31m)]$ESC[97m"
+                    $RMenu = "[Want any parameters? (Enter for none)]"
                     $cmd1 = Read-Host -Prompt $RMenu
                     FixLine
                     $cmd = ($cmd.split(".")[0] + ".PS1")

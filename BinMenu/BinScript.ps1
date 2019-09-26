@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.17"
+$FileVersion = "Version: 2.2.00"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -6,11 +6,10 @@ if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your 
 [string]$Filetmp = ($Base + "\BinTemp.del")
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-$ESC = [char]27
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 $ScriptName = "BinScript"
-$menu = "$ESC[36m[$ESC[33mSelect A Number, $ESC[31m($ESC[97mR$ESC[31m)$ESC[33meload or $ESC[31m($ESC[97mQ$ESC[31m)$ESC[33muit$ESC[36m]$ESC[97m"
+$menu = "[Select A Number, (R)eload or (Q)uit]"
 $menuPrompt += $menu
 if (!($WinWidth)) {
     $WinWidth = 166
@@ -86,7 +85,7 @@ While (1) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
-        Say -NoNewLine "$ESC[31m[$ESC[97m$Num$ESC[31m]$ESC[32m" $Line
+        WC "#DARKRED#[##WHITE#$Num##DARKRED#]# #GREEN#$Line#"
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = -1; [int]$w = $Col[2] }
         if ($i -eq $Row[2]) { [int]$l = -1; [int]$w = $Col[3] }
@@ -106,7 +105,7 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
-            $cmd2 = Read-Host "$ESC[31m[$ESC[97mEnter Any Parameters For Script$ESC[31m]$ESC[97m"
+            $cmd2 = Read-Host "[Enter Any Parameters For Script]"
             FixLine
             Start-Process pwsh.exe -ArgumentList $cmd1$cmd2 -Verb RunAs
             FixLine

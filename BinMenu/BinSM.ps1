@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.1.18"
+$FileVersion = "Version: 2.2.0"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -73,10 +73,10 @@ while (1) {
     FlexWindow
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     $Script:ESC = [char]27
-    [string]$NormalLine = "$ESC[31m#==============================================================#$ESC[97m"
-    [string]$TitleLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=-<$ESC[36m[$ESC[41m$ESC[97mBinMenu Settings Manager$ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"
-    [string]$LeftLine = "$ESC[31m|"
-    [string]$RightLine = "$ESC[31m|"
+    [string]$NormalLine = "#RED#+##DARKRED#==============================================================##RED#+#"
+    [string]$TitleLine = "#DARKRED#|##WHITE#>-=-=-=-=-=-=-=-<##CYAN#[##RED#BinMenu Settings Manager##CYAN#]##WHITE#>-=-=-=-=-=-=-=-=-<##DARKRED#|#"
+    [string]$LeftLine = "#DARKRED#|#"
+    [string]$RightLine = "#DARKRED#|#"
     Function FuckOff {
         PrettyLine
         Say $blah
@@ -112,22 +112,22 @@ while (1) {
         $Fight1; $Fight2; $Fight3
     }
     Clear-Host
-    Say $NormalLine; Say $TitleLine; Say $NormalLine
+    WC $NormalLine; WC $TitleLine; WC $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mB$ESC[31m)$ESC[36mase Folder$ESC[97m.................: $ESC[31m[$ESC[97m$Base$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mSet Ed$ESC[31m($ESC[97mI$ESC[31m)$ESC[36mtor$ESC[97m..................: $ESC[31m[$ESC[97m$Editor$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mS$ESC[31m)$ESC[36mcript Name$ESC[97m.................: $ESC[31m[$ESC[97m$ScriptName$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mDebu$ESC[31m($ESC[97mG$ESC[31m)$ESC[97m.......................: $ESC[31m[$ESC[97m$Debug$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mN$ESC[31m)$ESC[36motify with asay/notify$ESC[97m.....: $ESC[31m[$ESC[97m$Notify$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mUse Win $ESC[31m($ESC[97mP$ESC[31m)$ESC[36mositioning$ESC[97m.........: $ESC[31m[$ESC[97m$WPosition$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mW$ESC[31m)$ESC[36midth$ESC[97m................: $ESC[31m[$ESC[97m$WinWidth$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mH$ESC[31m)$ESC[36meight$ESC[97m...............: $ESC[31m[$ESC[97m$WinHeight$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mU$ESC[31m)$ESC[36mse Add Entries$ESC[97m.............: $ESC[31m[$ESC[97m$MenuAdds$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mX$ESC[31m)$ESC[36m Position$ESC[97m...........: $ESC[31m[$ESC[97m$WinX$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mY$ESC[31m)$ESC[36m Position$ESC[97m...........: $ESC[31m[$ESC[97m$WinY$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mNumber of Program Adds in JSON$ESC[97m: $ESC[31m[$ESC[97m$AddCount$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mJ$ESC[31m) $ESC[36mEdit BinMenu.ini Directly$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mA$ESC[31m)$ESC[36mdd$ESC[31m, ($ESC[97mD$ESC[31m)$ESC[36melete$ESC[31m, ($ESC[97mE$ESC[31m)$ESC[36mdit$ESC[31m, ($ESC[97mV$ESC[31m)$ESC[36merify$ESC[31m, ($ESC[97mR$ESC[31m)$ESC[36mun Entry$ESC[97m"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#B##DARKRED#)##DARKCYAN#ase Folder##WHITE#.................:# #DARKRED#[##WHITE#$Base##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Set Ed#DARKRED#(##WHITE#I##DARKRED#)##DARKCYAN#tor##WHITE#..................:# #DARKRED#[##WHITE#$Editor##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#S##DARKRED#)##DARKCYAN#cript Name##WHITE#.................:# #DARKRED#[##WHITE#$ScriptName##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Debu#DARKRED#(##WHITE#G##DARKRED#)##WHITE#.......................:# #DARKRED#[#WHITE#$Debug##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(#WHITE#N##DARKRED#)##DARKCYAN#otify with asay/notify##WHITE#.....:# #DARKRED#[##WHITE#$Notify##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Use Win #DARKRED#(##WHITE#P##DARKRED#)##DARKCYAN#ositioning##WHITE#.........:# #DARKRED#[##WHITE#$WPosition##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window ##DARKRED#(##WHITE#W#DARKRED#)##DARKCYAN#idth##WHITE#................:# #DARKRED#[##WHITE#$WinWidth##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window #DARKRED#(##WHITE#H#DARKRED#)#DARKCYAN#eight##WHITE#...............:# #DARKRED#[##WHITE#$WinHeight#DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#U##DARKRED#)##DARKCYAN#se Add Entries##WHITE#.............:# #DARKRED#[##WHITE#$MenuAdds##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window ##DARKRED#(##WHITE#X##DARKRED#)# #DARKCYAN#Position##WHITE#...........:# #DARKRED#[##WHITE#$WinX##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window ##DARKRED#(##WHITE#Y##DARKRED#)# #DARKCYAN#Position##WHITE#...........:# #DARKRED#[##WHITE#$WinY##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Number of Program Adds in JSON##WHITE#: ##DARKRED#[##WHITE#$AddCount##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#J##DARKRED#) ##DARKCYAN#Edit BinMenu.ini Directly#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#A##DARKRED#)##DARKCYAN#dd#DARKRED#, (##WHITE#D#DARKRED#)##DARKCYAN#elete##DARKRED#, (##WHITE#E##DARKRED#)##DARKCYAN#dit##DARKRED#, (##WHITE#V##DARKRED#)##DARKCYAN#erify##DARKRED#, (##WHITE#R##DARKRED#)##DARKCYAN#un Entry#"; $l++
     [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
@@ -135,19 +135,19 @@ while (1) {
             $it1 = ($Config.$AddItem).name
             $it2 = ($Config.$AddItem).Command
             $it2 = "$it2".split('\')[-1]
-            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97m$i$ESC[31m)$ESC[97m.: $ESC[31m[$ESC[97m$it1$ESC[31m] [$ESC[32m$it2$ESC[31m]$ESC[40m" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97m$i$ESC[31m)$ESC[97m..: $ESC[31m[$ESC[97m$it1$ESC[31m] [$ESC[32m$it2$ESC[31m]$ESC[40m" ; $l++ }
+            if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#$i##DARKRED#)##WHITE#.:# #DARKRED#[##WHITE#$it1##DARKRED#] [##GREEN#$it2##DARKRED#]#" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(#WHITE#$i##DARKRED#)##WHITE#..:# #DARKRED#[##WHITE#$it1##DARKRED#] [##GREEN#$it2##DARKRED#]#" ; $l++ }
             $i++
             $a++
         }
     }
     [int]$pp = $l; [int]$w = 0
-    [Console]::SetCursorPosition($w, $pp); Say $NormalLine; $pp++
+    [Console]::SetCursorPosition($w, $pp); WC $NormalLine; $pp++
     $AWinHeight = ($pp + 5); $ABuffHeight = $AWinHeight
     PrettyLine; [int]$u = ($pp - 2)
-    While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $LeftLine; $v++ }
+    While ($v -le $u) { [Console]::SetCursorPosition($w, $v); WC $LeftLine; $v++ }
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 63
-    While ($v -le $u) { [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine; $v++ }
+    While ($v -le $u) { [Console]::SetCursorPosition($w, $v); WC $RightLine; $v++ }
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
     PrettyLine
@@ -160,7 +160,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $pp)
     PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
-    else { $pop = Read-Host -Prompt "$ESC[31m[$ESC[36mYour Selection or Re$ESC[31m($ESC[97mL$ESC[31m)$ESC[36moad, $ESC[31m($ESC[97mQ$ESC[31m)$ESC[36muit$ESC[31m]$ESC[97m" }
+    else { $pop = Read-Host -Prompt "[Your Selection or Re(L)oad, (Q)uit]" }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"
