@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.17"
+$FileVersion = "Version: 1.3.20"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -34,11 +34,10 @@ $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 690
 $WinY = 205
 if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 800 -Height 800 | Out-Null }
-$Script:ESC = [char]27
-[string]$NormalLine = "$ESC[31m#===============================================================#$ESC[97m"
-[string]$TitleLine = "$ESC[31m|$ESC[97m>-=-=-=-=-=-=-=<$ESC[36m[$ESC[41m$ESC[97mDelay-StartUp Settings Manager$ESC[40m$ESC[36m]$ESC[97m>-=-=-=-=-=-=-<$ESC[31m|$ESC[97m"
-[string]$LeftLine = "$ESC[31m|"
-[string]$RightLine = "$ESC[31m|"
+[string]$NormalLine = "#RED#+##DARKRED#===============================================================##RED#+#"
+[string]$TitleLine = "#DARKRED#|##WHITE#>-=-=-=-=-=-=-=<##CYAN#[##RED#Delay-StartUp Settings Manager##CYAN#]##WHITE#>-=-=-=-=-=-=-<##DARKRED#|#"
+[string]$LeftLine = "#DARKRED#|#"
+[string]$RightLine = "#DARKRED#|#"
 while (1) {
     Function FlexWindow {
         $SaveError = $ErrorActionPreference
@@ -127,22 +126,22 @@ while (1) {
     SpinItems
     [int]$l = 0
     [int]$w = 0
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $TitleLine; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine $NormalLine; $l++
+    [Console]::SetCursorPosition($w, $l); WC $NormalLine; $l++
+    [Console]::SetCursorPosition($w, $l); WC $TitleLine; $l++
+    [Console]::SetCursorPosition($w, $l); WC $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mB$ESC[31m)$ESC[36mase Folder$ESC[97m................:$ESC[31m [$ESC[97m$Base$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mS$ESC[31m)$ESC[36mtartUp Delay (Secs)$ESC[97m.......:$ESC[31m [$ESC[97m$StartDelay$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mDela$ESC[31m($ESC[97mY$ESC[31m)$ESC[36m Between Program Runs$ESC[97m.:$ESC[31m [$ESC[97m$Delay$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mP$ESC[31m)$ESC[36mrevent From Running$ESC[97m.......:$ESC[31m [$ESC[97m$Prevent$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mN$ESC[31m)$ESC[36motify with asay/notify$ESC[97m....:$ESC[31m [$ESC[97m$Notify$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mT$ESC[31m)$ESC[36mest Run Shooting Blanks$ESC[97m...:$ESC[31m [$ESC[97m$TestRun$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mW$ESC[31m)$ESC[36midth$ESC[97m...............:$ESC[31m [$ESC[97m$WinWidth$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mWindow $ESC[31m($ESC[97mH$ESC[31m)$ESC[36meight$ESC[97m..............:$ESC[31m [$ESC[97m$WinHeight$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mSet Ed$ESC[31m($ESC[97mI$ESC[31m)$ESC[36mtor$ESC[97m.................:$ESC[31m [$ESC[97m$Editor$ESC[31m]$ESC[40m"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mNum of Program Runs in JSON$ESC[97m..: $ESC[31m[$ESC[97m$AddCount$ESC[31m]"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[36mEdit the $ESC[31m($ESC[97mJ$ESC[31m)$ESC[36mSON Directly"; $l++
-    [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m($ESC[97mA$ESC[31m)$ESC[36mdd$ESC[31m, ($ESC[97mD$ESC[31m)$ESC[36melete$ESC[31m, ($ESC[97mE$ESC[31m)$ESC[36mdit$ESC[31m, ($ESC[97mV$ESC[31m)$ESC[36merify$ESC[31m, ($ESC[97mR$ESC[31m)$ESC[36mun Entry"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#B##DARKRED#)##DARKCYAN#ase Folder##WHITE#................: ##DARKRED#[##WHITE#$Base##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#S##DARKRED#)##DARKCYAN#tartUp Delay (Secs)##WHITE#.......: ##DARKRED#[##WHITE#$StartDelay##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Dela##DARKRED#(##WHITE#Y##DARKRED#)# #DARKCYAN#Between Program Runs##WHITE#.: ##DARKRED#[##WHITE#$Delay##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#P##DARKRED#)##DARKCYAN#revent From Running##WHITE#.......: ##DARKRED#[##WHITE#$Prevent##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#N##DARKRED#)##DARKCYAN#otify with asay/notify##WHITE#....: ##DARKRED#[##WHITE#$Notify##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#T##DARKRED#)##DARKCYAN#est Run Shooting Blanks##WHITE#...: ##DARKRED#[##WHITE#$TestRun##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window #DARKRED#(##WHITE#W#DARKRED#)##DARKCYAN#idth##WHITE#...............: ##DARKRED#[##WHITE#$WinWidth##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Window #DARKRED#(##WHITE#H#DARKRED#)##DARKCYAN#eight##WHITE#..............: ##DARKRED#[##WHITE#$WinHeight##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Set Ed##DARKRED#(##WHITE#I##DARKRED#)##DARKCYAN#tor#WHITE#.................: ##DARKRED#[##WHITE#$Editor##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Num of Program Runs in JSON##WHITE#..: ##DARKRED#[##WHITE#$AddCount##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Edit the ##DARKRED#(##WHITE#J##DARKRED#)##DARKCYAN#SON Directly#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#A##DARKRED#)##DARKCYAN#dd##DARKRED#, (##WHITE#D##DARKRED#)##DARKCYAN#elete##DARKRED#, (##WHITE#E##DARKRED#)#DARKCYAN#dit##DARKRED#, (##WHITE#V##DARKRED#)##DARKCYAN#erify##DARKRED#, (##WHITE#R##DARKRED#)##DARKCYAN#un Entry#"; $l++
     [int]$v = 3
     [int]$i = 1
     [int]$w = 1
@@ -150,33 +149,27 @@ while (1) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") {
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m..$ESC[97m: $it1 $ESC[31m[$ESC[92m$it2$ESC[31m]$ESC[40m"
-            $l++
-        }
-        if ($i -ge "10") {
-            [Console]::SetCursorPosition($w, $l); Say -NoNewLine "$ESC[31m[$ESC[97m$i$ESC[31m]$ESC[97m.: $it1 $ESC[31m[$ESC[92m$it2$ESC[31m]$ESC[40m"
-            $l++
-        }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "#DARKRED#[##WHITE#$i##DARKRED#]##WHITE#..: $it1# #DARKRED#[##GREEN#$it2##DARKRED#]#"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "#DARKRED#[##WHITE#$i##DARKRED#]##WHITE#.: $it1# #DARKRED#[##GREEN#$it2##DARKRED#]#"; $l++ }
         $i++
         $a++
     }
     $w = 0
     [int]$pp = $l
-    [Console]::SetCursorPosition($w, $pp); Say $NormalLine
+    [Console]::SetCursorPosition($w, $pp); WC $NormalLine
     $pp++
     $BWHeight = ($pp + 5)
     PrettyLine
     [int]$u = ($pp - 1)
     While ($v -le $u) {
-        [Console]::SetCursorPosition($w, $v); Say -NoNewline $LeftLine
+        [Console]::SetCursorPosition($w, $v); WC $LeftLine
         $v++
     }
     [int]$v = 3
     [int]$u = ($pp - 2)
     [int]$w = 64
     While ($v -le $u) {
-        [Console]::SetCursorPosition($w, $v); Say -NoNewline $RightLine
+        [Console]::SetCursorPosition($w, $v); WC $RightLine
         $v++
     }
     [int]$pp = ($l + 1)
@@ -189,7 +182,7 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    else { $Pop = Read-Host -Prompt "$ESC[31m[$ESC[36mYour Selection or Re$ESC[31m($ESC[97mL$ESC[31m)$ESC[36moad, $ESC[31m($ESC[97mQ$ESC[31m)$ESC[36muit$ESC[31m]$ESC[97m" }
+    else { $Pop = Read-Host -Prompt "[Your Selection or Re(L)oad, (Q)uit]" }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"
