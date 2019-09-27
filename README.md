@@ -74,7 +74,35 @@ function Write-Color($message = "") {
         write-host
     }
 }
+function Write-ColorPrompt($message = "") {
+    [string]$pipedMessage = @($Input)
+    if (!$message) {
+        if ( $pipedMessage ) {
+            $message = $pipedMessage
+        }
+    }
+    if ( $message ) {
+        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
+        $defaultFGColor = $host.UI.RawUI.ForegroundColor
+        $CurrentColor = $defaultFGColor
+        $message = $message.split("#")
+        foreach ( $string in $message ) {
+            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
+            else {
+                write-host -NoNewLine -f $CurrentColor $string
+                $CurrentColor = $defaultFGColor
+            }
+        }
+        write-host -NoNewline
+    }
+}
 Set-Alias WC Write-Color
+Set-Alias WCP Write-ColorPrompt
+
+Usage: Write-Color "#RED#Test# #WHITE#Message#"
+Usage: WC "#RED#Test##WHITE#-Message#"
+Usage: $temp = Write-ColorPrompt $("#RED#Test# #WHITE#Message#: "); Read-Host -Prompt $temp
+Usage: $temp = WCP $("#RED#Test##WHITE#-Message#: "); Read-Host -Prompt $temp
 ```
 
 # Convert-Script
