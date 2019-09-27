@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.0"
+$FileVersion = "Version: 2.2.1"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -160,7 +160,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $pp)
     PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
-    else { $pop = Read-Host -Prompt "[Your Selection or Re(L)oad, (Q)uit]" }
+    else { $pop = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Your Selection Re##DARKRED#(##WHITE#L##DARKRED#)##DARKYELLOW#oad or ##DARKRED#(##WHITE#Q##DARKRED#)##DARKYELLOW#uit#DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt) }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE"
         $boop = "Folder path or ENTER to cancel"

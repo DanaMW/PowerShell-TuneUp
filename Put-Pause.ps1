@@ -3,18 +3,11 @@
         Put-Pause
         Created By: Dana Meli
         Created Date: May, 2019
-        Last Modified Date: September 18, 2019
+        Last Modified Date: September 26, 2019
 
 .DESCRIPTION
         This script is designed to replace Read-Host.
         It is similar except it has a definable timeout period.
-
-.EXAMPLE
-        Put-Pause -Prompt "Do It? (Y/N):"
-        Put-Pause -Prompt "ESC[37mDo It? ESC[31m(ESC[37mYESC[31m/ESC[37mNESC[31m)ESC[37m:"
-
-        -Prompt can include ESC which will be replaced with [char]27 so you may
-        include ANSI color sequences in the -Prompt string.
 
 .EXAMPLE
         Put-Pause.ps1 -Default "N"
@@ -51,8 +44,7 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.1.6"
-$ESC = [char]27
+$FileVersion = "Version: 0.1.7"
 $PKB = ""
 Say ""
 ### ESC is replaced with char27 for color codes ###
@@ -66,10 +58,7 @@ else {
     }
 }
 if ((!$i)) { [int]$i = 0 }
-if (($Prompt)) {
-    $Prompt = $Prompt.Replace("ESC", $ESC)
-    Write-Host -NoNewLine ($Prompt + " ")
-}
+if (($Prompt)) { Write-Host -NoNewLine $Prompt }
 $Host.UI.RawUI.FlushInputBuffer()
 while ($i -lt $max) {
     if ($Max -eq 0) { $i = -1 }

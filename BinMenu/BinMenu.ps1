@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.00"
+$FileVersion = "Version: 2.2.1"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -286,19 +286,17 @@ function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-$menu = "[Make A Selection]"
 Function MyMaker {
     Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
 if (($WPosition)) { FlexWindow }
-$menuPrompt += $menu
 $ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
 While (1) {
     [Console]::SetCursorPosition(0, $pp)
-    $ans = Read-Host $menuprompt
+    $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Make A Selection##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -372,14 +370,12 @@ While (1) {
         if ($ans -eq "A") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            $RMenu = "[What EXE to run? (Enter to Cancel)]"
-            $cmd = Read-Host -Prompt $RMenu
+            $cmd = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#What EXE to run?##DARKCYAN#]# #DARKRED#(##WHITE#Enter to Cancel##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
             FixLine
             if (($cmd)) {
                 $cmd = ($cmd.split(".")[0] + ".EXE")
                 FixLine
-                $RMenu = "[Add any parameters? (Enter for none)]"
-                $cmd1 = Read-Host -Prompt $RMenu
+                $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Add any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
                 FixLine
                 if (($cmd1)) {
                     Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
@@ -409,10 +405,9 @@ While (1) {
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine; $ValidOption = "YES" }
         elseif ($ans -eq "G") {
             FixLine
+            WC "#DARKCYAN#[##DARKYELLOW#QuickMenu##DARKCYAN#]##DARKRED#(##WHITE#1##DARKRED#)##GREEN#ClearLogs ##DARKRED#(##WHITE#2##DARKRED#)##GREEN#Reboot ##DARKRED#(##WHITE#3##DARKRED#)##GREEN#Shutdown ##DARKRED#(##WHITE#4##DARKRED#)##GREEN#LogOff ##DARKRED#(##WHITE#1##DARKRED#)##GREEN#Do-Ghost ##DARKRED#(##WHITE#6##DARKRED#)##GREEN#Do-Ghost#"
             $cmd = $null; $cmd1 = $null
-            Say "[QuickMenu](1)[ClearLogs] (2)[Reboot] (3)[Shut Down] (4)[LogOff] (5)[Do-Ghost] (6)[Complete CheckDisk]"
-            $RMenu = "[Type a PS1 script name to run, a QuickMenu option or (Enter to Cancel)]"
-            $cmd = Read-Host -Prompt $RMenu
+            $cmd = $($RMenu = WCP "#DARKCYAN#[##DARKYELLOW#Type a PS1 script name to run##DARKCYAN#,# #DARKYELLOW#a QuickMenu option or Enter to Cancel##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $RMenu)
             FixLine
             if (($cmd)) {
                 $OneShot = "NO"
@@ -450,8 +445,7 @@ While (1) {
                     break
                 }
                 else {
-                    $RMenu = "[Want any parameters? (Enter for none)]"
-                    $cmd1 = Read-Host -Prompt $RMenu
+                    $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Want any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
                     FixLine
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     [string]$cmd = ("$cmd $cmd1")

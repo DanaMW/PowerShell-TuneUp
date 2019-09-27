@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.20"
+$FileVersion = "Version: 1.3.21"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -182,7 +182,7 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    else { $Pop = Read-Host -Prompt "[Your Selection or Re(L)oad, (Q)uit]" }
+    else { $pop = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Your Selection Re##DARKRED#(##WHITE#L##DARKRED#)##DARKYELLOW#oad or ##DARKRED#(##WHITE#Q##DARKRED#)##DARKYELLOW#uit#DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt) }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"

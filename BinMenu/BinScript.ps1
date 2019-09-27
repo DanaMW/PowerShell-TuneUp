@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.00"
+$FileVersion = "Version: 2.2.1"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -9,8 +9,6 @@ Set-Location $Base
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
 $ScriptName = "BinScript"
-$menu = "[Select A Number, (R)eload or (Q)uit]"
-$menuPrompt += $menu
 if (!($WinWidth)) {
     $WinWidth = 166
     $BuffWidth = $WinWidth
@@ -96,7 +94,7 @@ While (1) {
     }
     $Reader.close()
     [Console]::SetCursorPosition(0, $pp)
-    $ans = Read-Host -Prompt $menuprompt
+    $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Select A Number ##DARKRED#(##WHITE#R##DARKRED#)##DARKYELLOW#eload or ##DARKRED#(##WHITE#Q##DARKRED#)##DARKYELLOW#uit#DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -105,7 +103,7 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
-            $cmd2 = Read-Host "[Enter Any Parameters For Script]"
+            $cmd2 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Enter Any Parameters For Script##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
             FixLine
             Start-Process pwsh.exe -ArgumentList $cmd1$cmd2 -Verb RunAs
             FixLine
