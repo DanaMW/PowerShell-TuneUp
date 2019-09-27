@@ -102,6 +102,7 @@ Set-Alias WCP Write-ColorPrompt
 Usage: Write-Color "#RED#Test# #WHITE#Message#"
 Usage: WC "#RED#Test##WHITE#-Message#"
 Usage: $temp = Write-ColorPrompt $("#RED#Test# #WHITE#Message#: "); Read-Host -Prompt $temp
+Usage: $tmp = WCP "#DARKCYAN#[##WHITE#Tap Enter to Exit##DARKCYAN#]##WHITE#:# "; Read-Host -Prompt $tmp
 Usage: $temp = WCP $("#RED#Test##WHITE#-Message#: "); Read-Host -Prompt $temp
 Usage: $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Make A Selection##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
 ```
