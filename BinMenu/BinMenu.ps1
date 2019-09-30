@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.1"
+$FileVersion = "Version: 2.2.2"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -33,14 +33,14 @@ if (!($Config)) {
     Say -ForeGroundColor RED "You need to create or edit BinMenu.json in BASE directory"
     break
 }
-$Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+$BASE = $env:Base
+if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $BASE.substring(0, 3)
+Set-Location $BASE
 [string]$ScriptName = ($Config.basic.ScriptName)
 [string]$Editor = ($Config.basic.Editor)
-if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
+if (!($editor)) { $editor = ($BASE + "\npp\Notepad++.exe") }
 [bool]$DeBug = ($Config.basic.DeBug)
 [bool]$Notify = ($Config.basic.Notify)
 [bool]$ScriptRead = ($Config.basic.ScriptRead)
@@ -56,7 +56,7 @@ if (!($WinHeight)) { $WinWidth = 36 }
 if (!($WinX)) { $WinX = 530 }
 [int]$WinY = ($Config.basic.WinY)
 if (!($WinY)) { $WinY = 200 }
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -117,14 +117,12 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp)
 }
 Clear-Host
-[string]$FileINI = ($Base + "\BinMenu.ini")
-[string]$Filetmp = ($Base + "\BinTemp.del")
+[string]$FileINI = ($BASE + "\BinMenu.ini")
+[string]$Filetmp = ($BASE + "\BinTemp.del")
 $Filetest = Test-Path -path $Filetmp
-if (($Filetest)) {
-    Remove-Item -Path $Filetmp
-}
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+if (($Filetest)) { Remove-Item -Path $Filetmp }
+Set-Location $BASE.substring(0, 3)
+Set-Location $BASE
 SpinItems
 $Filetest = Test-Path -path $FileINI
 if (!($Filetest)) {
@@ -177,7 +175,7 @@ if (!($MenuAdds)) {
         }
     }
 }
-$ptemp = ($Base + "\*.ps1")
+$ptemp = ($BASE + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [int]$PCount = ($PCount - 1)
 [string]$NormalLine = "#RED#+##DARKRED#=====================================================================================================##RED#+#"
@@ -287,7 +285,7 @@ function Test-Administrator {
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 Function MyMaker {
-    Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinIM.ps1") -Verb RunAs
+    Start-Process "pwsh.exe" -ArgumentList ($BASE + "\BinIM.ps1") -Verb RunAs
     break
 }
 if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
@@ -377,29 +375,21 @@ While (1) {
                 FixLine
                 $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Add any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
                 FixLine
-                if (($cmd1)) {
-                    Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs
-                    FixLine
-                }
-                else {
-                    Start-Process $cmd -Verb RunAs
-                    FixLine
-                }
+                if (($cmd1)) { Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs; FixLine }
+                else { Start-Process $cmd -Verb RunAs; FixLine }
             }
             FixLine
             $ValidOption = "YES"
         }
-        elseif ($ans -eq "B") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "B") { Invoke-Item ($BASE + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($BASE + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -Verb RunAs; $ValidOption = "YES" }
         elseif ($ans -eq "E") {
             FixLine
             $Filetest = Test-Path -path $Filetmp
-            if (($Filetest)) {
-                Remove-Item -Path $Filetmp
-            }
-            Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
-            Start-Process pwsh.exe -ArgumentList ($Base + "\BinScript.Ps1") -Verb RunAs; FixLine
+            if (($Filetest)) { Remove-Item -Path $Filetmp }
+            Get-ChildItem -file $BASE -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
+            Start-Process pwsh.exe -ArgumentList ($BASE + "\BinScript.Ps1") -Verb RunAs; FixLine
             $ValidOption = "YES"
         }
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine; $ValidOption = "YES" }
@@ -418,32 +408,12 @@ While (1) {
                     Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
                     FixLine
                 }
-                elseif ($QM -eq "YES" -and $cmd -eq "1") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\clearlogs.ps1") -Verb RunAs
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "2") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1") -Verb RunAs
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "3") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 STOP") -Verb RunAs
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 LOGOFF") -Verb RunAs
-                    FixLine
-                    break
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-Ghost.ps1") -Verb RunAs
-                    FixLine
-                }
-                elseif ($QM -eq "YES" -and $cmd -eq "6") {
-                    Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs
-                    FixLine
-                    break
-                }
+                elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\clearlogs.ps1") -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\reboot.ps1") -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\reboot.ps1 STOP") -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\reboot.ps1 LOGOFF") -Verb RunAs; FixLine; break }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\Run-Ghost.ps1") -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs; FixLine; break }
                 else {
                     $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Want any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
                     FixLine
@@ -457,12 +427,13 @@ While (1) {
             $ValidOption = "YES"
         }
         elseif ($ans -eq "Q") {
-            $Filetest = Test-Path -path $Filetmp; if (($Filetest)) {
-                Remove-Item -Path $Filetmp
-            }; Clear-Host; Return
+            $Filetest = Test-Path -path $Filetmp
+            if (($Filetest)) { Remove-Item -Path $Filetmp }
+            Clear-Host
+            Return
         }
-        elseif ($ans -eq "R") { Invoke-Item ($Base + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; FixLine; $ValidOption = "YES" }
+        elseif ($ans -eq "R") { Invoke-Item ($BASE + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($BASE + '\BinSM.ps1') -Verb RunAs; FixLine; $ValidOption = "YES" }
         else {
             if ($ValidOption -eq "NO") {
                 FixLine

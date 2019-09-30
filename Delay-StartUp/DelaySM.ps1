@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.21"
+$FileVersion = "Version: 1.3.22"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -10,14 +10,14 @@ try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
     Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
+    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $BASE
     break
 }
-$Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($Base)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+$BASE = $env:Base
+if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $BASE.substring(0, 3)
+Set-Location $BASE
 [string]$Editor = ($Config.basic.Editor)
 [bool]$TestRun = ($Config.basic.TestRun)
 [int]$StartDelay = ($Config.basic.StartDelay)
@@ -30,7 +30,7 @@ Set-Location $Base
 [int]$BuffHeight = $WinHeight
 if (!($BWHeight)) { $BWHeight = "37" }
 if (!($BWWidth)) { $BWWidth = "66" }
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
 $WinX = 690
 $WinY = 205
 if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 800 -Height 800 | Out-Null }
@@ -130,7 +130,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC $TitleLine; $l++
     [Console]::SetCursorPosition($w, $l); WC $NormalLine; $l++
     [int]$w = 1
-    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#B##DARKRED#)##DARKCYAN#ase Folder##WHITE#................: ##DARKRED#[##WHITE#$Base##DARKRED#]#"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#B##DARKRED#)##DARKCYAN#ase Folder##WHITE#................: ##DARKRED#[##WHITE#$BASE##DARKRED#]#"; $l++
     [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#S##DARKRED#)##DARKCYAN#tartUp Delay (Secs)##WHITE#.......: ##DARKRED#[##WHITE#$StartDelay##DARKRED#]#"; $l++
     [Console]::SetCursorPosition($w, $l); WC "#DARKCYAN#Dela##DARKRED#(##WHITE#Y##DARKRED#)# #DARKCYAN#Between Program Runs##WHITE#.: ##DARKRED#[##WHITE#$Delay##DARKRED#]#"; $l++
     [Console]::SetCursorPosition($w, $l); WC "#DARKRED#(##WHITE#P##DARKRED#)##DARKCYAN#revent From Running##WHITE#.......: ##DARKRED#[##WHITE#$Prevent##DARKRED#]#"; $l++
@@ -266,7 +266,7 @@ while (1) {
         [string]$Editor = ($Config.basic.Editor)
     }
     if ($pop -eq "J") {
-        $go = ($Base + "\Delay-StartUp.json")
+        $go = ($BASE + "\Delay-StartUp.json")
         Start-Process $Editor -ArgumentList $go -Verb RunAs
         PrettyLine
     }

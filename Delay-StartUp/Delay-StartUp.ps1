@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.21"
+$FileVersion = "Version: 1.3.22"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -28,14 +28,14 @@ try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
 catch { Write-Host -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
     Write-Host -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $Base
+    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $BASE
     break
 }
-$Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($Base)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+$BASE = $env:Base
+if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($BASE)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $BASE.substring(0, 3)
+Set-Location $BASE
 [int]$StartDelay = ($Config.basic.StartDelay)
 [int]$Delay = ($Config.basic.Delay)
 [bool]$Prevent = ($Config.basic.Prevent)
@@ -91,7 +91,7 @@ if ($Prevent -eq $True) {
         [bool]$Prevent = 0
         $Config.basic.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($Base + "\Delay-StartUp.ps1") to run now.'
+        Write-Host 'Ok all set to run next time.[Run ($BASE + "\Delay-StartUp.ps1") to run now.'
         return
     }
     if ($ans -eq "2") {
@@ -99,17 +99,17 @@ if ($Prevent -eq $True) {
         $Config.basic.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         Write-Host "Ok all set, Running Delay-StartUp for you now"
-        $command = ($Base + "\Delay-StartUp.ps1")
+        $command = ($BASE + "\Delay-StartUp.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $Base
+        $command = $command + " " + "-WorkingDirectory " + $BASE
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
     if ($ans -eq "3") {
         Write-Host "Running DelaySM for you now"
-        $command = ($Base + "\Delay-StartUp.ps1")
+        $command = ($BASE + "\Delay-StartUp.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $Base
+        $command = $command + " " + "-WorkingDirectory " + $BASE
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
@@ -200,8 +200,8 @@ while ($c -le $AddCount) {
             #$IsRunning = Get-Process $Runpath -ErrorAction SilentlyContinue
             #if (!($IsRunning)) { Write-Host -ForeGroundColor RED "$RunPath did not start correctly. Give a Look-See" }
         }
-        & Set-Location $Base.substring(0, 3)
-        & Set-Location $Base
+        & Set-Location $BASE.substring(0, 3)
+        & Set-Location $BASE
         if ($c -ne 0) { Start-Sleep -s $Delay }
         $a++
     }
