@@ -3,11 +3,14 @@
         Put-Pause
         Created By: Dana Meli
         Created Date: May, 2019
-        Last Modified Date: September 26, 2019
+        Last Modified Date: October 01, 2019
 
 .DESCRIPTION
         This script is designed to replace Read-Host.
         It is similar except it has a definable timeout period.
+
+.EXAMPLE
+        Put-Pause.ps1 -Prompt "#white#Clear the Screen?# #cyan#(##white#Y##cyan#/##white#N##cyan#)##white#:# " -Default "Y"
 
 .EXAMPLE
         Put-Pause.ps1 -Default "N"
@@ -44,10 +47,9 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.1.7"
+$FileVersion = "Version: 0.2.0"
 $PKB = ""
 Say ""
-### ESC is replaced with char27 for color codes ###
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
 else {
     if ($Max -le 0) { [int]$Max = 0 }
@@ -58,7 +60,10 @@ else {
     }
 }
 if ((!$i)) { [int]$i = 0 }
-if (($Prompt)) { Write-Host -NoNewLine $Prompt }
+if (($Prompt)) {
+    if ($Prompt -match "#") { WCP $Prompt }
+    else { Write-Host -NoNewLine $Prompt }
+}
 $Host.UI.RawUI.FlushInputBuffer()
 while ($i -lt $max) {
     if ($Max -eq 0) { $i = -1 }
