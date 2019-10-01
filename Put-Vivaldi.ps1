@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "Version: 0.0.5"
+$FileVersion = "Version: 0.0.6"
 Say -ForegroundColor Gray "Put-Vivaldi" $FileVersion
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
@@ -11,7 +11,7 @@ Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say ""
 $Success1 = [bool]0
 $Success2 = [bool]0
-$ModFile = "D:\WebBase\wwwroot\scripts\extra\CustomVivaldi.css"
+$ModFile = "D:\Development\GitHub\DanaMW.github.io\scripts\extra\CustomVivaldi.css"
 $VPath = "C:\Users\Dana\AppData\Local\Vivaldi\Application\"
 $Edit1 = Get-ChildItem -Path $VPath -filter "browser.html" -recurse -Name -Force
 $Edit2 = Get-ChildItem -Path $VPath -filter "common.css" -recurse -Name -Force
