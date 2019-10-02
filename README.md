@@ -322,7 +322,7 @@ And we all have used it hundreds of times to make sure our Windows 10 was operat
 Usage: REPAIR-WINDOWS.PS1 (Runs Menu)
 Usage: REPAIR-WINDOWS.PS1 SCAN (Directly runs SFC.EXE /SCANNOW)
 Usage: REPAIR-WINDOWS.PS1 Check (Directly runs DISM.EXE /Online /Cleanup-Image /ScanHealth)
-Usage: REPAIR-WINDOWS.PS1 REPAIR (Directly runs DISM.EXE /Online /Cleanup-Image /e /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1) (E=Cd Drive where I mount the windows cd when I run it.)
+Usage: REPAIR-WINDOWS.PS1 REPAIR (Directly runs DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1) (E=Cd Drive where I mount the windows cd when I run it.)
 Usage: REPAIR-WINDOWS.PS1 RESET (Directly runs DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\ sources\install.wim:) (E=Cd Drive)
 ```
 <img src="/img/Repair-Windows1.png" alt="Repair-Windows"/>
