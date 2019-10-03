@@ -1,3 +1,5 @@
+For help and/or information on my PowerShell Core setup head to the Development tab on my site: https://danamw.github.io
+
 # PowerShell-TuneUp
 ```
 A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts.
