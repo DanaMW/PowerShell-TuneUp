@@ -5,10 +5,10 @@
 For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
 
 ```
+
 ---
 
 ## PowerShell-TuneUp
-
 
 <a><p align=center>A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment $ENV:BASE in all my scripts. This is your base *.ps1 script folder. Feel free to write me an DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example  for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to your</p></a>
 
@@ -46,6 +46,7 @@ Usage: Convert-Script.PS1 FullPathToFileToRead FullPathToFileToWrite
 ```
 
 ---
+
 ## Imageto64
 
 <a><p align=center>Feed it a filename of a image file and it feeds you back the base64 info ready to put into your script files.</p></a>
