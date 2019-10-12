@@ -1,4 +1,4 @@
-﻿$FileVersion = "Version: 0.0.7"
+﻿$FileVersion = "Version: 0.0.8"
 $txtfile = ($env:BASE + "\check-prof.ini")
 $Filetest = Test-Path -path $txtfile
 if ($Filetest -eq $true) {
@@ -77,5 +77,5 @@ $l++; $l++
 Say ""
 $Filetest = Test-Path -path $txtfile
 if ($Filetest -eq $true) { Remove-Item -Path $txtfile }
-$tmp = WCP "#DARKCYAN#[##WHITE#Tap Enter to Exit##DARKCYAN#]##WHITE#:# "
+$tmp = WCP "~DARKCYAN~[~~WHITE~Tap Enter to Exit~~DARKCYAN~]~~WHITE~:~ "
 Read-Host -Prompt $tmP

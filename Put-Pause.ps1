@@ -10,7 +10,7 @@
         It is similar except it has a definable timeout period.
 
 .EXAMPLE
-        Put-Pause.ps1 -Prompt "#white#Clear the Screen?# #cyan#(##white#Y##cyan#/##white#N##cyan#)##white#:# " -Default "Y"
+        Put-Pause.ps1 -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Default "Y"
 
 .EXAMPLE
         Put-Pause.ps1 -Default "N"
@@ -47,7 +47,7 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.2.0"
+$FileVersion = "Version: 0.2.1"
 $PKB = ""
 Say ""
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
@@ -61,7 +61,7 @@ else {
 }
 if ((!$i)) { [int]$i = 0 }
 if (($Prompt)) {
-    if ($Prompt -match "#") { WCP $Prompt }
+    if ($Prompt -match "~") { WCP $Prompt }
     else { Write-Host -NoNewLine $Prompt }
 }
 $Host.UI.RawUI.FlushInputBuffer()

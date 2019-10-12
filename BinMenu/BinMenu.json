@@ -134,7 +134,7 @@
   },
   "AddItem-20": {
     "Name": "VMWare",
-    "Argument": "",
-    "Command": "C:\\Program Files (x86)\\VMware\\VMware Player\\vmplayer.exe"
+    "Argument": "D:\\bin\\Run-VMWare.ps1",
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe"
   }
 }

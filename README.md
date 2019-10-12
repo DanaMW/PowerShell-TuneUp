@@ -1,6 +1,9 @@
-For help and/or information on my PowerShell Core setup head to the Development tab on my site: https://danamw.github.io
+# Repo Information
 
-# PowerShell-TuneUp
+## For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
+
+## PowerShell-TuneUp
+
 ```
 A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts.
 I also use "$ESC = [char]27"
@@ -29,9 +32,10 @@ Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs, Run-Checkdisk
  or edit out the calls.**
 ```
 
-# BinMenu
+## BinMenu
+
 ```
-Bin Menu is a simple console based menu that reads in what exe's are in the base sub-folders
+Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders
  and which *PS1's are in the base and lists them on a menu for you.
 Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds.
 You can add your own entries to the end of the program menu list if you want up to 100.
@@ -48,68 +52,21 @@ For Updates check the description in the readme in the BinMenu folder.
 
 Usage: BINMENU.PS1
 ```
+
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>
 
-# Add To Profile For New Coloring Method
-```
-(Add the following to your profile to allow for my scripts new color method.)
-function Write-Color($message = "") {
-    [string]$pipedMessage = @($Input)
-    if (!$message) {
-        if ( $pipedMessage ) {
-            $message = $pipedMessage
-        }
-    }
-    if ( $message ) {
-        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
-        $defaultFGColor = $host.UI.RawUI.ForegroundColor
-        $CurrentColor = $defaultFGColor
-        $message = $message.split("#")
-        foreach ( $string in $message ) {
-            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
-            else {
-                write-host -NoNewLine -f $CurrentColor $string
-                $CurrentColor = $defaultFGColor
-            }
-        }
-        write-host
-    }
-}
-function Write-ColorPrompt($message = "") {
-    [string]$pipedMessage = @($Input)
-    if (!$message) {
-        if ( $pipedMessage ) {
-            $message = $pipedMessage
-        }
-    }
-    if ( $message ) {
-        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
-        $defaultFGColor = $host.UI.RawUI.ForegroundColor
-        $CurrentColor = $defaultFGColor
-        $message = $message.split("#")
-        foreach ( $string in $message ) {
-            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
-            else {
-                write-host -NoNewLine -f $CurrentColor $string
-                $CurrentColor = $defaultFGColor
-            }
-        }
-        write-host -NoNewline
-    }
-}
-Set-Alias WC Write-Color
-Set-Alias WCP Write-ColorPrompt
+## Write-Color (WC) and Write-ColorPrompt (WCP)
 
-Usage: Write-Color "#RED#Test# #WHITE#Message#"
-Usage: WC "#RED#Test##WHITE#-Message#"
-Usage: $temp = Write-ColorPrompt $("#RED#Test# #WHITE#Message#: "); Read-Host -Prompt $temp
-Usage: $tmp = WCP "#DARKCYAN#[##WHITE#Tap Enter to Exit##DARKCYAN#]##WHITE#:# "; Read-Host -Prompt $tmp
-Usage: $temp = WCP $("#RED#Test##WHITE#-Message#: "); Read-Host -Prompt $temp
-Usage: $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Make A Selection##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
+```
+Functions added To Profile For New Coloring Method.
+I use the "~" now. Not the "#"
+WC "#red~word1~ ~green~word 2~"
+Go to my website on the development tab for copies of my profiles. You might even find some help there, who knows.
 ```
 
-# Convert-Script
+## Convert-Script
+
 ```
 This is my user.CSS to user.JS UserStyle to UserScript converter.
 It is for use on scripts that you need to covert for use in Tampermonkey
@@ -125,14 +82,16 @@ Usage: Convert-Script.PS1 -INFILE [<FullPathToFileToRead>] -OUTFILE [<FullPathTo
 Usage: Convert-Script.PS1 [<FullPathToFileToRead>] [<FullPathToFileToWrite>]
 ```
 
-# Imageto64
+## Imageto64
+
 ```
 Feed it a filename of a image file and it feeds you back the base64 info ready to put into your script files.
 
 Usage: IMAGETO64.PS1 -Path [<FullPathToImageFile>] -OutFile [<OptionalFullPathForTextFileOut>]
 ```
 
-# Clearlogs
+## Clearlogs
+
 ```
 This clears most to all of your windows logs for you.
 (All of them except locked or in use as we fly by them).
@@ -148,7 +107,8 @@ Update: Added my own super simple progress bar that you can change the progress 
 Usage: CLEARLOGS.PS1
 ```
 
-# Get-Files
+## Get-Files
+
 ```
 A script I call from the other scripts. Just a DIR sort of replacement. With colors.
 Includes a /w (wide) display
@@ -159,16 +119,19 @@ Usage: GET-FILES.PS1 . or with no parmeters (Displays current folder)
 Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
 ```
 
-# Get-SysInfo
+## Get-SysInfo
+
 ```
 A simple system information example containing how to expand a looped composed ($var + #) variable,
  and how to  draw out simple info using Get-CimInstance. Updated: To only use Get-CimInstance.
 
 Usage: GET-SYSINFO.PS1
 ```
+
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
-# Put-Pause
+## Put-Pause
+
 ```
 I Wanted something to replace Read-Host that timed out for my scripts.
 Updated: Added -Max 0 When you use -Max 0 the prompt does not time out and continues to
@@ -183,7 +146,8 @@ Usage: Color Example: Put-Pause -Prompt Put-Pause.ps1 -Prompt "#white#Clear the 
 Usage: Color Example: Put-Pause -Prompt  "#white#Clear the Screen?# #cyan#(##white#Y##cyan#/##white#N##cyan#)##white#:# " -Max 0
 ```
 
-# Put-Vivaldi
+## Put-Vivaldi
+
 ```
 I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface.
  My only beef was that they update it a lot and I would have to edit the files and copy
@@ -194,7 +158,8 @@ I use Vivaldi browser sometimes because it, like Firefox, can have a custom user
 Usage: Put-Vivaldi
 ```
 
-# Put-WinSize (Formally Set-WinSize)
+## Put-WinSize (Formally Set-WinSize)
+
 ```
 My script paste-in that allows the console buffer and window to be resized.
 I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works.
@@ -203,7 +168,8 @@ I tried 3 or 4 from others and they didn't work so I put this together and use i
 Usage: Paste into your script file as a function and call to it.
 ```
 
-# Put-Winposition
+## Put-Winposition
+
 ```
 This will set a named window to the desired position.
 
@@ -212,12 +178,14 @@ Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32>
 Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32> [[-Width] <Int32>] [[-height] <Int32>]
 ```
 
-# Discord Stuff
+## Discord Stuff
+
 ```
 Here is where I put any Discord related PowerShell script stuff.
 ```
 
-# Google
+## Google
+
 ```
 This is my console script example that sends your search to Google in the browser.
 You can add IMAGE, VIDEO or NEWS to the beginning of the line to go directly to those search pages.
@@ -228,7 +196,8 @@ Usage: GOOGLE.PS1 VIDEO [<something to search>]
 Usage: GOOGLE.PS1 NEWS [<something to search>]
 ```
 
-# Remove-Empty
+## Remove-Empty
+
 ```
 Remove-Empty is a simple little script that removes all empty Lines in a given text file.
 Feed it a file and all the blank lines are removed.
@@ -236,7 +205,8 @@ Feed it a file and all the blank lines are removed.
 Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 ```
 
-# Remove-WindowsApps
+## Remove-WindowsApps
+
 ```
 Remove-WindowsApps deletes Windows 10 apps from your system.
   Also makes it so they shouldn't reinstall by removing AppX Provisioning.
@@ -245,7 +215,8 @@ Remove-WindowsApps deletes Windows 10 apps from your system.
 Usage: REMOVE-WINDOWSAPPS.PS1
 ```
 
-# ASAY and NOTIFY
+## ASAY and NOTIFY
+
 ```
 This now uses BurntToast from the PowerShellGallery
 https://www.powershellgallery.com/packages/BurntToast
@@ -267,7 +238,8 @@ Usage: With Quotes do NOTIFY.PS1 [<"message to send, include punctuation, to out
 Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
 ```
 
-# Search
+## Search
+
 ```
 Search is a script that searches any text, as a filename parameter, in the path you give.
 From the whole drive down to just a folder it will list all matches found.
@@ -275,7 +247,8 @@ From the whole drive down to just a folder it will list all matches found.
 Usage: Without Star (SHIFT-8) SEARCH.PS1 [<SearchPhrase>] [<BasePathToStartIn>] (The star is added automatically)
 ```
 
-# Env (environment)
+## Env (environment)
+
 ```
 This is my script to list a (one) environment variable from system ENV variable (no quotes)
  or from the variable drive ENV 'variable' (single quote). If you just do ENV it will list ALL variable
@@ -285,14 +258,16 @@ Usage: Without quotes ENV.PS1 [<VaribleToSearch>]
 Usage: With single quote ENV.PS1 [<'VaribleToSearch'>] (Works on variable drive)
 ```
 
-# Ver (Version)
+## Ver (Version)
+
 ```
 I was missing the sort of version program I wanted so here it is. Just type VER.
 
 Usage: VER.PS1
 ```
 
-# Reboot
+## Reboot
+
 ```
 I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT
 Just REBOOT alone is the same as REBOOT RESTART
@@ -303,7 +278,8 @@ Usage: REBOOT.PS1 STOP or REBOOT.PS1 SHUTDOWN
 Usage: REBOOT.PS1 RESTART or REBOOT.PS1 REBOOT`
 ```
 
-# Run-CheckDisk
+## Run-CheckDisk
+
 ```
 This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check.
 I also call this script from the G QuickMenu of the BinMenu above.
@@ -313,7 +289,8 @@ It Will produce a message in Windows that you need to reboot to check the drives
 Usage: RUN-CHECKDISK.PS1
 ```
 
-# Repair-windows
+## Repair-windows
+
 ```
 This is just a pretty console menu for SCF and DISM.
 I wrote it for my family and friends with plenty of help and explanations
@@ -327,5 +304,6 @@ Usage: REPAIR-WINDOWS.PS1 Check (Directly runs DISM.EXE /Online /Cleanup-Image /
 Usage: REPAIR-WINDOWS.PS1 REPAIR (Directly runs DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1) (E=Cd Drive where I mount the windows cd when I run it.)
 Usage: REPAIR-WINDOWS.PS1 RESET (Directly runs DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\ sources\install.wim:) (E=Cd Drive)
 ```
+
 <img src="/img/Repair-Windows1.png" alt="Repair-Windows"/>
 <img src="/img/Repair-Windows2.png" alt="Repair-Windows"/>

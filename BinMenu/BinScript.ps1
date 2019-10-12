@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.2"
+$FileVersion = "Version: 2.2.3"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $BASE = $env:Base
 if (!($BASE)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -83,7 +83,7 @@ While (1) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
-        WC "#DARKRED#[##WHITE#$Num##DARKRED#]# #GREEN#$Line#"
+        WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~"
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = -1; [int]$w = $Col[2] }
         if ($i -eq $Row[2]) { [int]$l = -1; [int]$w = $Col[3] }
@@ -94,7 +94,7 @@ While (1) {
     }
     $Reader.close()
     [Console]::SetCursorPosition(0, $pp)
-    $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Select A Number ##DARKRED#(##WHITE#R##DARKRED#)##DARKYELLOW#eload or ##DARKRED#(##WHITE#Q##DARKRED#)##DARKYELLOW#uit#DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
+    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Select A Number ~~DARKRED~(~~WHITE~R~~DARKRED~)~~DARKYELLOW~eload or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -103,7 +103,7 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
-            $cmd2 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Enter Any Parameters For Script##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
+            $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             FixLine
             Start-Process pwsh.exe -ArgumentList $cmd1$cmd2 -Verb RunAs
             FixLine

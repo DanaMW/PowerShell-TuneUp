@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: September 26, 2019
+        Last Modified Date: October 12, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.2"
+$FileVersion = "Version: 2.2.3"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -178,13 +178,13 @@ if (!($MenuAdds)) {
 $ptemp = ($BASE + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [int]$PCount = ($PCount - 1)
-[string]$NormalLine = "#RED#+##DARKRED#=====================================================================================================##RED#+#"
-[string]$FancyLine = "#DARKRED#|##WHITE#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<##CYAN#[# #RED#My BinMenu Two# #CYAN#]##WHITE#>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<##DARKRED#|#"
-[string]$PrettyLine = "#DARKRED#|##WHITE#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=##DARKRED#|#"
-[string]$SpacerLine = "#DARKRED#|                                                                                                     |#"
-[string]$ProgramLine = "#RED#+##CYAN#[##DARKYELLOW#Program Menu##CYAN#]##DARKRED#=======================================================================================##RED#+#"
-[string]$Menu1Line = "#RED#+##CYAN#[##DARKYELLOW#Built-in Menu##CYAN#]##DARKRED#========================================================================##CYAN#[##DARKYELLOW#Scripts:#    #CYAN#]##RED#+#"
-[string]$ScriptLine = "#RED#+##CYAN#[##DARKYELLOW#Scripts Menu##CYAN#]##DARKRED#=======================================================================================##RED#+#"
+[string]$NormalLine = "~RED~#~~DARKRED~=====================================================================================================~~RED~#~"
+[string]$FancyLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<~~CYAN~[~ ~RED~My BinMenu Two~ ~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<~~DARKRED~|~"
+[string]$PrettyLine = "~DARKRED~|~~WHITE~=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=~~DARKRED~|~"
+[string]$SpacerLine = "~DARKRED~|                                                                                                     |~"
+[string]$ProgramLine = "~RED~#~~CYAN~[~~DARKYELLOW~Program Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
+[string]$Menu1Line = "~RED~#~~CYAN~[~~DARKYELLOW~Built-in Menu~~CYAN~]~~DARKRED~========================================================================~~CYAN~[~~DARKYELLOW~Scripts:~    ~CYAN~]~~RED~#~"
+[string]$ScriptLine = "~RED~#~~CYAN~[~~DARKYELLOW~Scripts Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
 [int]$pp = 0
 [int]$LineCount = 0
 [int]$LineCount = (Get-Content $FileINI).count
@@ -212,13 +212,13 @@ if (($DeBug)) { DeBug }
 [Console]::SetCursorPosition(0, 4); WC $SpacerLine; $pp++
 [Console]::SetCursorPosition(0, 5); WC $SpacerLine; $pp++
 [Console]::SetCursorPosition(1, 0)
-WC "#CYAN#[##WHITE# $FileVersion ##CYAN#]#"
+WC "~CYAN~[~~WHITE~ $FileVersion ~~CYAN~]~"
 [Console]::SetCursorPosition(0, 6)
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     [Console]::SetCursorPosition(85, 0)
-    WC "#CYAN#[##WHITE# Administrator ##CYAN#]#"
+    WC "~CYAN~[~~WHITE~ Administrator ~~CYAN~]~"
     [Console]::SetCursorPosition(0, 6)
 }
 [int]$l = 3
@@ -230,7 +230,7 @@ while ($c -le 8) {
     [Console]::SetCursorPosition($w, $l)
     [string]$tmp = $d[$c]
     [string]$tmpf = $f[$c]
-    WC "#DARKRED#[##WHITE#$tmp##DARKRED#]# #MAGENTA#$tmpf#"
+    WC "~DARKRED~[~~WHITE~$tmp~~DARKRED~]~ ~MAGENTA~$tmpf~"
     if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
     if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
     $l++
@@ -261,7 +261,7 @@ While ($i -le $Work) {
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         $moo = $line.split("=")
         [string]$tmpm = $moo[1]
-        [Console]::SetCursorPosition($w, $l); WC "#DARKRED#[##WHITE#$i##DARKRED#]# #DARKCYAN#$tmpm#"
+        [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~ ~DARKCYAN~$tmpm~"
         $ltwo = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         $lthree = $Reader.ReadLine()
@@ -294,7 +294,7 @@ $ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
 While (1) {
     [Console]::SetCursorPosition(0, $pp)
-    $ans = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Make A Selection##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $menuPrompt)
+    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Make A Selection~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -368,12 +368,12 @@ While (1) {
         if ($ans -eq "A") {
             FixLine
             $cmd = $null; $cmd1 = $null
-            $cmd = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#What EXE to run?##DARKCYAN#]# #DARKRED#(##WHITE#Enter to Cancel##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
+            $cmd = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~What EXE to run?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter to Cancel~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             FixLine
             if (($cmd)) {
                 $cmd = ($cmd.split(".")[0] + ".EXE")
                 FixLine
-                $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Add any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
+                $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Add any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                 FixLine
                 if (($cmd1)) { Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs; FixLine }
                 else { Start-Process $cmd -Verb RunAs; FixLine }
@@ -395,9 +395,9 @@ While (1) {
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine; $ValidOption = "YES" }
         elseif ($ans -eq "G") {
             FixLine
-            WC "#DARKCYAN#[##DARKYELLOW#QuickMenu##DARKCYAN#]##DARKRED#(##WHITE#1##DARKRED#)##GREEN#ClearLogs ##DARKRED#(##WHITE#2##DARKRED#)##GREEN#Reboot ##DARKRED#(##WHITE#3##DARKRED#)##GREEN#Shutdown ##DARKRED#(##WHITE#4##DARKRED#)##GREEN#LogOff ##DARKRED#(##WHITE#1##DARKRED#)##GREEN#Do-Ghost ##DARKRED#(##WHITE#6##DARKRED#)##GREEN#Do-Ghost#"
+            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~ClearLogs ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~Reboot ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Shutdown ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~LogOff ~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~Do-Ghost ~~DARKRED~(~~WHITE~6~~DARKRED~)~~GREEN~Do-Ghost~"
             $cmd = $null; $cmd1 = $null
-            $cmd = $($RMenu = WCP "#DARKCYAN#[##DARKYELLOW#Type a PS1 script name to run##DARKCYAN#,# #DARKYELLOW#a QuickMenu option or Enter to Cancel##DARKCYAN#]##WHITE#: "; Read-Host -Prompt $RMenu)
+            $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a PS1 script name to run~~DARKCYAN~,~ ~DARKYELLOW~a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
             if (($cmd)) {
                 $OneShot = "NO"
@@ -415,7 +415,7 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\Run-Ghost.ps1") -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "pwsh.exe" -Argumentlist ($BASE + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs; FixLine; break }
                 else {
-                    $cmd1 = $($MenuPrompt = WCP "#DARKCYAN#[##DARKYELLOW#Want any parameters?##DARKCYAN#]# #DARKRED#(##WHITE#Enter for none##DARKRED#)##WHITE#: "; Read-Host -Prompt $menuPrompt)
+                    $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Want any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                     FixLine
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     [string]$cmd = ("$cmd $cmd1")
