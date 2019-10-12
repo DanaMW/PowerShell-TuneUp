@@ -1,8 +1,8 @@
-# Repo Information
+# <a><center>Repo Information</center></a>
 
-## For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
+For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
 
-## PowerShell-TuneUp
+## <center>PowerShell-TuneUp</center>
 
 ```
 
