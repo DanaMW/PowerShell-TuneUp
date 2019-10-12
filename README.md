@@ -2,7 +2,7 @@
 
 ```
 
-For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
+For help and/or information on my PowerShell Core setup head to the Development tab on my site: https://danamw.github.io
 
 ```
 
@@ -21,7 +21,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 <a><p align=center>Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders and which *PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. You can add your own entries to the end of the program menu list if you want up to 100. There is a toggle to show the add entries or not. Edit the json put the bin* files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder.</p></a>
 
 ```
-Usage: BINMENU.PS1
+Usage: BINMENU
 ```
 
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
@@ -37,13 +37,11 @@ Usage: BINMENU.PS1
 
 ## Convert-Script
 
-<a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge.</p></a>
-**Update:  I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.**
+<a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
 
-```
-Usage: Convert-Script.PS1 -INFILE FullPathToFileToRead -OUTFILE FullPathToFileToWrite
-Usage: Convert-Script.PS1 FullPathToFileToRead FullPathToFileToWrite
-```
+
+- Usage: Convert-Script1 -INFILE <FullPathToFileToRead> -OUTFILE <FullPathToFileToWrite>
+- Usage: Convert-Script <FullPathToFileToRead> <FullPathToFileToWrite>`
 
 ---
 
@@ -51,24 +49,15 @@ Usage: Convert-Script.PS1 FullPathToFileToRead FullPathToFileToWrite
 
 <a><p align=center>Feed it a filename of a image file and it feeds you back the base64 info ready to put into your script files.</p></a>
 
-```
-Usage: IMAGETO64.PS1 -Path FullPathToImageFile -OutFile OptionalFullPathForTextFileOut
-```
+- Usage: IMAGETO64 -Path <FullPathToImageFile> -OutFile <OptionalFullPathForTextFileOut>`
 
 ---
 
 ## Clearlogs
 
-<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users  in the form of a Progress Bar.</p></a>
+<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users  in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2.</p></a>
 
-<p>Update: Added the [bool] $Loud so that you can see the Verbose output.
-Clearlogs -Loud 1 or -Loud $True</p>
-<p>Update: It now gets the total number of log files, sets the math for the Progress bar and runs the routines.  It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now.</p>
-<p>Update: Added my own super simple progress bar that you can change the progress character. Updated to Version 2</p>
-
-```
-Usage: CLEARLOGS.PS1`
-```
+- Usage: CLEARLOGS
 
 ---
 
@@ -76,12 +65,11 @@ Usage: CLEARLOGS.PS1`
 
 <a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors. Includes a /w (wide) display</p></a>
 
-```
-Usage: GET-FILES.PS1 normal filesearch parameters
-Usage: GET-FILES.PS1 normal filesearch parameters /w (Wide format)
-Usage: GET-FILES.PS1 . or with no parmeters (Displays current folder)
-Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
-```
+- Usage: GET-FILES <normal filesearch parameters>
+- Usage: GET-FILES <normal filesearch parameters> /w (Wide format)
+- Usage: GET-FILES . or with no parmeters (Displays current folder)
+- Usage: GET-FILES . /w (Displays current folder WIDE format)
+
 
 ---
 
@@ -89,7 +77,7 @@ Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
 
 <a><p align=center>A simple system information example containing how to expand a looped composed ($var + #) variable, and how to  draw out simple info using Get-CimInstance. Updated yo only use Get-CimInstance.</p></a>
 
-```Usage: GET-SYSINFO.PS1```
+- Usage: GET-SYSINFO
 
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
 
@@ -97,20 +85,13 @@ Usage: GET-FILES.PS1 . /w (Displays current folder WIDE format)
 
 ## Put-Pause
 
-<a><p align=center>I Wanted something to replace Read-Host that timed out for my scripts.</p></a>
+<a><p align=center>I Wanted something to replace Read-Host that timed out for my scripts. Added -Max 0 When you use -Max 0 the prompt does not time out and continues to wait for a keypress. -Default is disabled and -Echo is set to True. Added a clear keyboard buffer to catch extra input and throw it away. It now uses the color method Write-ColorPrompt (WCP) Changed the Separator from # to ~.</p></a>
 
-<p>Update: Added -Max 0 When you use -Max 0 the prompt does not time out and continues to wait for a keypress. -Default is disabled and -Echo is set to True.</p>
-<p>Update: Added a clear keyboard buffer to catch extra input and throw it away.</p>
-<p>Update: It now uses the color method Write-ColorPrompt (WCP)</p>
-<p>Update: Changed the Separator from # to ~</p>
-
-```
-Usage: Put-Pause -Prompt <[String] Standard prompt> -Max <[int] Milliseconds> -Default <[string] single key default>
-Usage: Put-Pause -Prompt "[Make A Selection]: "
-Usage: $a = Put-Pause -Prompt "Do you seem interested? (Y/N): " -Default "N"; Say $a
-Usage: Color Example: Put-Pause -Prompt Put-Pause.ps1 -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~"
-Usage: Color Example: Put-Pause -Prompt  "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Max 0
-```
+- Usage: Put-Pause -Prompt <String> -Max <Milliseconds> -Default <single key default>
+- Usage: Put-Pause -Prompt "[Make A Selection]: "
+- Usage: $a = Put-Pause -Prompt "Do you seem interested? (Y/N): " -Default "N"
+- Color Usage: Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ "
+- Color Usage: Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Max 0`
 
 ---
 
@@ -118,9 +99,7 @@ Usage: Color Example: Put-Pause -Prompt  "~white~Clear the Screen?~ ~cyan~(~~whi
 
 <a><p align=center>I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface. My only beef was that they update it a lot and I would have to edit the files and copy over the custom css to add my changes every time they did. Well this script does the changes for me. You will only need to edit the top two folders in the script. Your custom css and your Vivaldi install base folder. then just run it.</p><a>
 
-```
-Usage: Put-Vivaldi
-```
+- Usage: Put-Vivaldi
 
 ---
 
@@ -128,9 +107,7 @@ Usage: Put-Vivaldi
 
 <a><p align=center>My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.</p></a>
 
-```
-Usage: Paste into your script file as a function and call to it.
-```
+- Usage: Paste into your script file as a function and call to it.`
 
 ---
 
@@ -138,11 +115,9 @@ Usage: Paste into your script file as a function and call to it.
 
 <a><p align=center>This will set a named window to the desired position.</p></a>
 
-```
-Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32>
+- Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32>
 Optionally
-Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32> [[-Width] <Int32>] [[-height] <Int32>]
-```
+- Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32> -Width <Int32> -height <Int32>
 
 ---
 
@@ -156,12 +131,10 @@ Usage: Put-WinPosition.ps1 [-WinName] <String> [-WinX] <Int32> [-WinY] <Int32> [
 
 <a><p align=center>This is my console script example that sends your search to Google in the browser. You can add IMAGE, VIDEO or NEWS to the beginning of the line to go directly to those search pages.</p></a>
 
-```
-Usage: GOOGLE.PS1 [<something to search>] Searches ALL normally.
-Usage: GOOGLE.PS1 IMAGE [<something to search>]
-Usage: GOOGLE.PS1 VIDEO [<something to search>]
-Usage: GOOGLE.PS1 NEWS [<something to search>]
-```
+- Usage: GOOGLE <something to search> Searches ALL normally.
+- Usage: GOOGLE IMAGE <something to search>
+- Usage: GOOGLE VIDEO <something to search>
+- Usage: GOOGLE NEWS <something to search>
 
 ---
 
@@ -170,9 +143,7 @@ Usage: GOOGLE.PS1 NEWS [<something to search>]
 <a><p align=center>Remove-Empty is a simple little script that removes all empty Lines in a given text file. Feed it a file and all the blank lines are removed.
 </p></a>
 
-```
-Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
-```
+- Usage: REMOVE-EMPTY <FullPathToFileToProcess>
 
 ---
 
@@ -180,9 +151,7 @@ Usage: REMOVE-EMPTY.PS1 [<FullPathToFileToProcess>]
 
 <a><p align=center>Remove-WindowsApps deletes Windows 10 apps from your system. Also makes it so they shouldn't reinstall by removing AppX Provisioning. Edit the file and comment out  those that you want to keep.</p></a>
 
-```
-Usage: REMOVE-WINDOWSAPPS.PS1
-```
+- Usage: REMOVE-WINDOWSAPPS
 
 ---
 
@@ -192,13 +161,9 @@ Usage: REMOVE-WINDOWSAPPS.PS1
 
 <a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard  windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
 
-```
-Usage: Without Quotes do NOTIFY.PS1 [<message to send to output>]
- or ASAY.PS1 [<message to send to output>]
-Usage: With Quotes do NOTIFY.PS1 [<"message to send, include punctuation, to output">]
- or ASAY.PS1 [<"message to send, include punctuation, to output">]
-Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
-```
+- Usage: NOTIFY or ASAY <message to send to output>
+- Usage: NOTIFY or ASAY <"message to send, include punctuation, to output">
+- Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
 
 ---
 
@@ -206,9 +171,7 @@ Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<m
 
 <a><p align=center>Search is a script that searches any text, as a filename parameter, in the path you give. From the whole drive down to just a folder it will list all matches found.</p></a>
 
-```
-Usage: Without Star (SHIFT-8) SEARCH.PS1 [<SearchPhrase>] [<BasePathToStartIn>] (The star is added automatically)
-```
+- Usage: SEARCH <SearchPhrase> [<BasePathToStartIn> (The star is added automatically)
 
 ---
 
@@ -216,11 +179,9 @@ Usage: Without Star (SHIFT-8) SEARCH.PS1 [<SearchPhrase>] [<BasePathToStartIn>] 
 
 <a><p align=center>This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote) If you just do ENV it will list ALL variable</p></a>
 
-```
-Usage: Does all variables ENV.PS1
-Usage: Without quotes ENV.PS1 [<VaribleToSearch>]
-Usage: With single quote ENV.PS1 [<'VaribleToSearch'>] (Works on variable drive)
-```
+- Usage: ENV (Does all variables)
+- Usage: ENV <VaribleToSearch> (Without quotes)
+- Usage: ENV <'VaribleToSearch'> (With single quote)(Works on variable drive)
 
 ---
 
@@ -228,9 +189,7 @@ Usage: With single quote ENV.PS1 [<'VaribleToSearch'>] (Works on variable drive)
 
 <a><p align=center>I was missing the sort of version program I wanted so here it is. Just type VER.</p></a>
 
-```
-Usage: VER.PS1
-```
+- Usage: VER.PS1
 
 ---
 
@@ -238,11 +197,9 @@ Usage: VER.PS1
 
 <a><p align=center>I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT Just REBOOT alone is the same as REBOOT RESTART I also call this script from the BinMenu above</p></a>
 
-```
-Usage: REBOOT.PS1 (The same as REBOOT RESTART)
-Usage: REBOOT.PS1 STOP or REBOOT.PS1 SHUTDOWN
-Usage: REBOOT.PS1 RESTART or REBOOT.PS1 REBOOT`
-```
+- Usage: REBOOT (The same as REBOOT RESTART)
+- Usage: REBOOT STOP or REBOOT SHUTDOWN
+- Usage: REBOOT RESTART or REBOOT REBOOT
 
 ---
 
@@ -250,9 +207,7 @@ Usage: REBOOT.PS1 RESTART or REBOOT.PS1 REBOOT`
 
 <a><p align=center>This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check. I also call this script from the G QuickMenu of the BinMenu above. NOTE: Check out the script because it DOES NOT ask again it JUST RUNS. But it does what it should. It Will produce a message in Windows that you need to reboot to check the drives, which is the idea.</p></a>
 
-```
-Usage: RUN-CHECKDISK.PS1
-```
+- Usage: RUN-CHECKDISK.PS1
 
 ---
 
@@ -260,13 +215,11 @@ Usage: RUN-CHECKDISK.PS1
 
 <a><p align=center>This is just a pretty console menu for SCF and DISM. I wrote it for my family and friends with plenty of help and explanations to get them through running it correctly. It includes the 4 normal possibilities. And we all have used it hundreds of times to make sure our Windows 10 was operating well.</p></a>
 
-```
-Usage: REPAIR-WINDOWS.PS1 (Runs Menu)
-Usage: REPAIR-WINDOWS.PS1 SCAN (Directly runs SFC.EXE /SCANNOW)
-Usage: REPAIR-WINDOWS.PS1 Check (Directly runs DISM.EXE /Online /Cleanup-Image /ScanHealth)
-Usage: REPAIR-WINDOWS.PS1 REPAIR (Directly runs DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\ sources\install.wim:1 /Source:WIM:E:\sources\install.wim:1) (E=Cd Drive where I mount the windows cd when I run it.)
-Usage: REPAIR-WINDOWS.PS1 RESET (Directly runs DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\ sources\install.wim:) (E=Cd Drive)
-```
+- Usage: REPAIR-WINDOWS.PS1 (Runs Menu)
+- Usage: REPAIR-WINDOWS.PS1 SCAN
+- Usage: REPAIR-WINDOWS.PS1 Check
+- Usage: REPAIR-WINDOWS.PS1 REPAIR
+- Usage: REPAIR-WINDOWS.PS1 RESET
 
 <img src="/img/Repair-Windows1.png" alt="Repair-Windows"/>
 <img src="/img/Repair-Windows2.png" alt="Repair-Windows"/>
