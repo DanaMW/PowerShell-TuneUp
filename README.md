@@ -20,9 +20,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 <a><p align=center>Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders and which *PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. You can add your own entries to the end of the program menu list if you want up to 100. There is a toggle to show the add entries or not. Edit the json put the bin* files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder.</p></a>
 
-```
-Usage: BINMENU
-```
+-Usage: BINMENU
 
 <img src="/img/BinMenu1.png" alt="BinMenu"/>
 <img src="/img/BinMenu2.png" alt="BinMenu"/>
@@ -38,7 +36,6 @@ Usage: BINMENU
 ## Convert-Script
 
 <a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
-
 
 - Usage: Convert-Script1 -INFILE <FullPathToFileToRead> -OUTFILE <FullPathToFileToWrite>
 - Usage: Convert-Script <FullPathToFileToRead> <FullPathToFileToWrite>`
@@ -69,7 +66,6 @@ Usage: BINMENU
 - Usage: GET-FILES <normal filesearch parameters> /w (Wide format)
 - Usage: GET-FILES . or with no parmeters (Displays current folder)
 - Usage: GET-FILES . /w (Displays current folder WIDE format)
-
 
 ---
 
