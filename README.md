@@ -1,10 +1,6 @@
 # Repository Information
 
-```
-
-For help and/or information on my PowerShell Core setup head to the Development tab on my site: https://danamw.github.io
-
-```
+For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
 
 ---
 
@@ -153,7 +149,10 @@ Optionally
 
 ## ASAY and NOTIFY
 
-<a><p align=center>This now uses BurntToast from the PowerShellGallery <https://www.powershellgallery.com/packages/BurntToast> </p></a>
+<a><p align=center>This now uses BurntToast from the PowerShellGallery</p></a>
+
+
+<a><center><https://www.powershellgallery.com/packages/BurntToast></center></a>
 
 <a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard  windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
 
