@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.3"
+$FileVersion = "Version: 2.2.4"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -7,14 +7,19 @@ Function MyConfig {
     $MyConfig
 }
 $Script:ConfigFile = MyConfig
+Say "Reading from $Script:ConfigFile"
 try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Write-Error -Message "The Base configuration file is missing!" }
 if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
-$BASE = $env:Base
-if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
-if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $BASE.substring(0, 3)
-Set-Location $BASE
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) {
+    $ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
+    Set-Variable -Name Base -Value $ans -Scope Global
+}
+if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 [string]$ScriptName = ($Config.basic.ScriptName)
 [bool]$DeBug = ($Config.basic.DeBug)
 #[bool]$ScriptRead = ($Config.basic.ScriptRead)
@@ -36,7 +41,7 @@ if (!($AWinWidth)) {
     $AWinWidth = 65
     $ABuffWidth = $AWinWidth
 }
-$PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $WinX = 690
 $WinY = 130
 if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 650 | Out-Null }
@@ -114,7 +119,7 @@ while (1) {
     Clear-Host
     WC $NormalLine; WC $TitleLine; WC $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.................:~ ~DARKRED~[~~WHITE~$BASE~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.................:~ ~DARKRED~[~~WHITE~$Base~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~..................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~cript Name~~WHITE~.................:~ ~DARKRED~[~~WHITE~$ScriptName~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Debu~DARKRED~(~~WHITE~G~~DARKRED~)~~WHITE~.......................:~ ~DARKRED~[~WHITE~$Debug~~DARKRED~]~"; $l++
@@ -162,7 +167,7 @@ while (1) {
     if ($ReRun -eq 1) { $ReRun = 0 }
     else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Your Selection Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
     if ($pop -eq "B") {
-        $blah = "Please enter the folder to set as BASE"
+        $blah = "Please enter the folder to set as Base"
         $boop = "Folder path or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -265,8 +270,8 @@ while (1) {
         [int]$WinY = ($Config.basic.WinY)
     }
     if ($pop -eq "J") {
-        $go1 = ($BASE + "\BinMenu.ini")
-        $go2 = ($BASE + "\BinMenu.json")
+        $go1 = ($Base + "\BinMenu.ini")
+        $go2 = ($Base + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
     }
@@ -390,7 +395,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($BASE + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
+    if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow
     PrettyLine

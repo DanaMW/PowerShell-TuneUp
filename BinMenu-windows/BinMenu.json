@@ -27,9 +27,9 @@
     "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
     "WPosition": 1,
     "_WinHeight": "[int] How tall to draw the inner window.",
-    "WinHeight": 46,
+    "WinHeight": "47",
     "_WinWidth": "[int] How wide to draw the inner window.",
-    "WinWidth": 104,
+    "WinWidth": "104",
     "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
     "WinX": 530,
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
@@ -89,7 +89,7 @@
   },
   "AddItem-11": {
     "Name": "My Scripts",
-    "Command": "D:\\WebBase\\wwwroot\\scripts",
+    "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
     "Argument": ""
   },
   "AddItem-12": {

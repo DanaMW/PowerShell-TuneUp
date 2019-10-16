@@ -1,13 +1,13 @@
 $FileVersion = "Version: 2.2.3"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
-$BASE = $env:Base
-if (!($BASE)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
-if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your Setup, profiles or in this Script. This shit uses that!"; break }
-[string]$Filetmp = ($BASE + "\BinTemp.del")
-Set-Location $BASE.substring(0, 3)
-Set-Location $BASE
-Set-Location $BASE.substring(0, 3)
-Set-Location $BASE
+$Base = $env:Base
+if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
+if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your Setup, profiles or in this Script. This shit uses that!"; break }
+[string]$Filetmp = ($Base + "\BinTemp.del")
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 $ScriptName = "BinScript"
 if (!($WinWidth)) {
     $WinWidth = 166
@@ -44,7 +44,7 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp)
 }
 <# SET THE BELOW TO POSITION THE SCRIPT WINDOW #>
-$PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 $POSX = 310
 $POSY = 170
 While (1) {
@@ -116,7 +116,7 @@ While (1) {
         Return
     }
     elseif ($ans -eq "R") {
-        Start-Process "pwsh.exe" -ArgumentList ($BASE + "\BinScript.ps1")
+        Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
         exit
     }
     else {

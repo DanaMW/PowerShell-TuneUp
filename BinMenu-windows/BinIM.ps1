@@ -1,23 +1,23 @@
-$FileVersion = "Version: 2.2.3"
-$BASE = $env:BASE
-if (!($BASE)) {
-    $BASE = Read-Host -Prompt "Enter the path to make your BASE directory (No trailing \)"
+$FileVersion = "Version: 2.2.4"
+$Base = $env:Base
+if (!($Base)) {
+    $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)"
 }
-if (!($BASE)) { Say -ForeGroundColor RED "The Environment Variable BASE must be set or this will not run, Set it or edit this script"; break }
-Set-Location $BASE.substring(0, 3)
-Set-Location $BASE
+if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }
+Set-Location $Base.substring(0, 3)
+Set-Location $Base
 Clear-Host
-$FileINI = ($BASE + "\BinMenu.ini")
+$FileINI = ($Base + "\BinMenu.ini")
 $Filetest = Test-Path -path $FileINI
 if (($Filetest)) { Remove-Item –path $FileINI }
-$FileTXT = ($BASE + "\BinMenu.txt")
+$FileTXT = ($Base + "\BinMenu.txt")
 $Filetest = Test-Path -path $FileTXT
 if (($Filetest)) { Remove-Item –path $FileTXT }
-$FileCSv = ($BASE + "\BinMenu.csv")
+$FileCSv = ($Base + "\BinMenu.csv")
 $Filetest = Test-Path -path $FileCSV
 if (($Filetest)) { Remove-Item –path $FileCSV }
-Say $fileVersion "Reading in directory" $BASE
-Get-ChildItem -Path $BASE -Recurse -Include "*.exe" | Select-Object `
+Say $fileVersion "Reading in directory" $Base
+Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
 @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
 Name,
 FullName | Export-Csv -path $FileTXT -NoTypeInformation
@@ -28,7 +28,7 @@ $writer = [System.IO.file]::CreateText($FileINI)
 try {
     Import-Csv $FileCSV | ForEach-Object {
 
-        $tmpbase = $BASE
+        $tmpbase = $Base
         $tmpname = $_.fullname
         if ($tmpname -match "conemu" -and $tmpname -ne ($tmpbase + "\conemu\conemu64.exe")) { return }
         if ($tmpname -match "git" -and $tmpname -ne ($tmpbase + "\git\bin\bash.exe")) { return }
@@ -70,6 +70,6 @@ if (($Filetest)) { Remove-Item –path $FileTXT }
 $Filetest = Test-Path -path $FileCSV
 if (($Filetest)) { Remove-Item –path $FileCSV }
 Clear-Host
-Start-Process "pwsh.exe" -ArgumentList ($BASE + "\BinMenu.ps1") -Verb RunAs
+Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinMenu.ps1") -Verb RunAs
 return
 #>
