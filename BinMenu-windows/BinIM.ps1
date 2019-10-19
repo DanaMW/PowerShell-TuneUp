@@ -1,8 +1,6 @@
-$FileVersion = "Version: 2.2.4"
+$FileVersion = "Version: 2.2.5"
 $Base = $env:Base
-if (!($Base)) {
-    $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)"
-}
+if (!($Base)) { $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)" }
 if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
@@ -27,31 +25,51 @@ $writer = [System.IO.file]::CreateText($FileINI)
 [int]$i = 1
 try {
     Import-Csv $FileCSV | ForEach-Object {
-
         $tmpbase = $Base
+        $tmpfolder = $_.Foldername
         $tmpname = $_.fullname
-        if ($tmpname -match "conemu" -and $tmpname -ne ($tmpbase + "\conemu\conemu64.exe")) { return }
-        if ($tmpname -match "git" -and $tmpname -ne ($tmpbase + "\git\bin\bash.exe")) { return }
-        if ($tmpname -match "musicbee" -and $tmpname -ne ($tmpbase + "\musicbee\musicbee.exe")) { return }
-        if ($tmpname -match "rainmeter" -and $tmpname -ne ($tmpbase + "\rainmeter\rainmeter.exe")) { return }
-        if ($tmpname -match "tc" -and $tmpname -ne ($tmpbase + "\tc\TOTALCMD64.EXE")) { return }
-        if ($tmpname -match "uget" -and $tmpname -ne ($tmpbase + "\uget\bin\uget.exe")) { return }
-        if ($tmpname -match "wscc" -and $tmpname -ne ($tmpbase + "\wscc\wscc.exe")) { return }
-        if ($tmpname -match "yakyak" -and $tmpname -ne ($tmpbase + "\yakyak\yakyak.exe")) { return }
+        if ($tmpfolder -eq "ConEmu" -and $tmpname -ne ($tmpbase + "\conemu\conemu64.exe")) { return }
+        if ($tmpfolder -eq "git" -and $tmpname -ne ($tmpbase + "\git\bin\bash.exe")) { return }
+        if ($tmpfolder -eq "MusicBee" -and $tmpname -ne ($tmpbase + "\musicbee\musicbee.exe")) { return }
+        if ($tmpfolder -eq "Rainmeter" -and $tmpname -ne ($tmpbase + "\rainmeter\rainmeter.exe")) { return }
+        if ($tmpfolder -eq "tc" -and $tmpname -ne ($tmpbase + "\tc\TOTALCMD64.EXE")) { return }
+        if ($tmpfolder -eq "uget" -and $tmpname -ne ($tmpbase + "\uget\bin\uget.exe")) { return }
+        if ($tmpfolder -eq "wscc" -and $tmpname -ne ($tmpbase + "\wscc\wscc.exe")) { return }
+        if ($tmpfolder -eq "yakyak" -and $tmpname -ne ($tmpbase + "\yakyak\yakyak.exe")) { return }
         $NameFix = Split-Path $tmpname -Leaf
-        $NameFix = $NameFix.tolower()
-        $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1)
+        #$NameFix = $NameFix.tolower()
+        $namesplit = $NameFix.split(" ")
+        if (($namesplit[2])) {
+            $namesplit[0].substring(0, 1).toupper() + $namesplit[0].substring(1) | Out-Null
+            $namesplit[1].substring(0, 1).toupper() + $namesplit[1].substring(1) | Out-Null
+            $namesplit[2].substring(0, 1).toupper() + $namesplit[2].substring(1) | Out-Null
+            $NameFix = ($namesplit[0] + " " + $namesplit[1] + " " + $namesplit[2])
+        }
+        elseif (($namesplit[1])) {
+            $namesplit[0].substring(0, 1).toupper() + $namesplit[0].substring(1) | Out-Null
+            $namesplit[1].substring(0, 1).toupper() + $namesplit[1].substring(1) | Out-Null
+            $NameFix = ($namesplit[0] + " " + $namesplit[1])
+        }
+        else { $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1) }
         if ($NameFix -eq "bash.exe") { $NameFix = "Git Bash.exe" }
-        if ($NameFix -eq "procexp64.exe") { $NameFix = "Process Explorer.exe" }
         if ($NameFix -eq "Totalcmd64.exe") { $NameFix = "Total Commander.exe" }
-        $Decidep = "Add $NameFix ? (Y)es-(N)o-[Enter is No]"
+        if ($NameFix -eq "conemu64.exe") { $NameFix = "ConsoleEmulator.exe" }
+        if ($NameFix -eq "yakyak.exe") { $NameFix = "YakYak.exe" }
+        $Decidep = "Add $NameFix ? (Y/N/Q/Edit)[Enter is No]"
         Say "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
         Say $_
-        Say "["$_.fullname"]"
+        Say $_.fullname
+        Say "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
         $Decide = Read-Host -Prompt $Decidep
+        if ($Decide -eq "Q") { $writer.close(); break }
+        if ($Decide -eq "E") {
+            $NameFix = Read-Host -Prompt "Edit to your liking"
+            if ($NameFix -eq "") { return }
+            $Decide = "Y"
+        }
         if ($Decide -eq "Y") {
             $NameFix = $NameFix.replace(".exe", "")
-            Say "Adding to Menu: " $NameFix
+            Say "Adding to Menu: $NameFix"
             $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
             $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
             $Writer.WriteLine("[" + $i + "C]=")

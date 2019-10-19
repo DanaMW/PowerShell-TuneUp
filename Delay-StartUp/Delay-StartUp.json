@@ -51,7 +51,7 @@
   },
   "RunItem-4": {
     "HostOnly": "ALL",
-    "RunPath": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
     "Argument": "/background"
   },
