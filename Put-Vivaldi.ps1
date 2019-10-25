@@ -1,8 +1,8 @@
 <#
 
 #>
-$FileVersion = "Version: 0.0.6"
-Say -ForegroundColor Gray "Put-Vivaldi" $FileVersion
+$FileVersion = "Version: 0.0.7"
+Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
 Say -ForegroundColor White -NoNewline " Script to copy over your Vivaldi mods "
@@ -49,6 +49,7 @@ if (($edit2)) {
     $Temp2 = ($VPAth + $Edit2)
     $Copy2 = split-path $temp2 -Parent
     $Copy2 = ($Copy2 + "\")
+    Say "Copying your ModFile into ViValdi."
     Copy-Item $ModFile -Destination $Copy2 -Force
     $Read2 = (Get-content $Temp2)[0]
     if ($Read2 -ne '@Import url("CustomVivaldi.css");') {
@@ -64,5 +65,5 @@ if (($Success1)) { Say "Successfully patched Browser.html" }
 else { Say -ForegroundColor RED  "Failed to patch Browser.html" }
 if (($Success2)) { Say "Successfully patched common.css" }
 else { Say -ForegroundColor RED  "Failed to patch common.css" }
-if (($Success1) -and ($Success2)) { Say "All Done, Completed Both patches" }
+if (($Success1) -and ($Success2)) { Say "All Done, Completed Both patches and copy." }
 else { Say -ForegroundColor Red "Something failed" }
