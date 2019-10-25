@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: October 19, 2019
+        Last Modified Date: October 23, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.5"
+$FileVersion = "Version: 2.2.6"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -401,7 +401,7 @@ While (1) {
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine; $ValidOption = "YES" }
         elseif ($ans -eq "G") {
             FixLine
-            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~ClearLogs ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~Reboot ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Shutdown ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~LogOff ~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~Do-Ghost ~~DARKRED~(~~WHITE~6~~DARKRED~)~~GREEN~Do-Ghost~"
+            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~ClearLogs ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~Reboot ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Shutdown ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~LogOff ~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~Do-Ghost ~~DARKRED~(~~WHITE~6~~DARKRED~)~~GREEN~Run CheckDisk~"
             $cmd = $null; $cmd1 = $null
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a PS1 script name to run~~DARKCYAN~,~ ~DARKYELLOW~a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
