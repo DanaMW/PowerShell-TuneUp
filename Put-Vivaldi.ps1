@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "Version: 0.0.7"
+$FileVersion = "Version: 0.0.9"
 Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
@@ -11,8 +11,16 @@ Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say ""
 $Success1 = [bool]0
 $Success2 = [bool]0
-$ModFile = "D:\Development\GitHub\DanaMW.github.io\scripts\extra\CustomVivaldi.css"
-$VPath = "C:\Users\Dana\AppData\Local\Vivaldi\Application\"
+if ($HOME -match "C:\\Users\\") {
+    $ModFile = "D:\Development\GitHub\DanaMW.github.io\scripts\extra\CustomVivaldi.css"
+    $VPath = "C:\Users\Dana\AppData\Local\Vivaldi\Application\"
+    Say "Discovered Windows..."
+}
+if ($HOME -match "//home//") {
+    $ModFile = "/home/dana/Downloads/Firefox_BU/CustomVivaldi.css"
+    $VPath = "/opt/vivaldi-snapshot/resources/vivaldi/"
+    Say "Discovered Linux..."
+}
 $Edit1 = Get-ChildItem -Path $VPath -filter "browser.html" -recurse -Name -Force
 $Edit2 = Get-ChildItem -Path $VPath -filter "common.css" -recurse -Name -Force
 if (($edit1)) {
@@ -25,12 +33,11 @@ if (($edit1)) {
     while ($i -le $Lines) {
         [string]$Read = (Get-content $Temp1)[$i]
         if ($null -eq $Read) { $i = $Lines }
-        if ($Read -match '    <link rel="stylesheet" href="style/CustomVivaldi.css" />') {
-            Say "Browser.html is already patched."
-            $Success1 = [bool]0
+        if ($Read -match '<link rel="stylesheet" href="style/CustomVivaldi.css" />') {
+            $Success1 = [bool]2
         }
         else {
-            if ($Read -match '<link rel="stylesheet" href="style/common.css" />' -and ($Success1)) {
+            if ($Read -match '<link rel="stylesheet" href="style/common.css" />' -and $Success1 -eq 1) {
                 Add-Content $TempW1 '    <link rel="stylesheet" href="style/CustomVivaldi.css" />'
             }
         }
@@ -45,10 +52,11 @@ else { Say "Could not find browser.html" }
 $Success2 = [bool]0
 if (($edit2)) {
     $Success2 = [bool]1
-    Say ($VPAth + $Edit2)
     $Temp2 = ($VPAth + $Edit2)
+    Say $Temp2
     $Copy2 = split-path $temp2 -Parent
-    $Copy2 = ($Copy2 + "\")
+    if ($HOME -match 'C:\\Users\\') { $Copy2 = ($Copy2 + "\") }
+    if ($HOME -match '//home//') { $Copy2 = ($Copy2 + "/") }
     Say "Copying your ModFile into ViValdi."
     Copy-Item $ModFile -Destination $Copy2 -Force
     $Read2 = (Get-content $Temp2)[0]
@@ -56,14 +64,17 @@ if (($edit2)) {
         @('@Import url("CustomVivaldi.css");') + (Get-Content $Temp2) | Set-Content $Temp2
     }
     if ($Read2 -eq '@Import url("CustomVivaldi.css");') {
-        Say "Common.css is already patched."
-        $Success2 = [bool]0
+        $Success2 = [bool]2
     }
 }
 else { Say "Could not find common.css" }
-if (($Success1)) { Say "Successfully patched Browser.html" }
-else { Say -ForegroundColor RED  "Failed to patch Browser.html" }
-if (($Success2)) { Say "Successfully patched common.css" }
-else { Say -ForegroundColor RED  "Failed to patch common.css" }
-if (($Success1) -and ($Success2)) { Say "All Done, Completed Both patches and copy." }
-else { Say -ForegroundColor Red "Something failed" }
+if ($Success1 -eq 1) { Say "Successfully patched Browser.html." }
+elseif ($Success1 -eq 2) { Say "Browser.html is already patched." }
+else { Say -ForegroundColor RED  "Failed to patch Browser.html." }
+if ($Success2 -eq 1) { Say "Successfully patched common.css." }
+elseif ($Success2 -eq 2) { Say "common.css is already patched." }
+else { Say -ForegroundColor RED  "Failed to patch common.css." }
+if ($Success1 -eq 0 -or $Success2 -eq 0) { Say -ForegroundColor Red "Something failed" }
+elseif ($Success1 -eq 1 -and $Success2 -eq 1) { Say "All Done, Completed Both patches and copy." }
+elseif ($Success1 -eq 2 -and $Success2 -eq 2) { Say "All Done, Both previously patched." }
+else { Say "All Done, Check results." }
