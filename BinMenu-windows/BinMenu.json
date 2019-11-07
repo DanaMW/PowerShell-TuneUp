@@ -34,6 +34,10 @@
     "WinX": 530,
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": 200,
+    "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
+    "WinSX": "310",
+    "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
+    "WinSY": "160",
     "_DeBug": "[bool] My Internal script debug information.",
     "DeBug": 0
   },

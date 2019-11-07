@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.6"
+$FileVersion = "Version: 2.2.7"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -33,6 +33,8 @@ $BuffHeight = $WinHeight
 $BuffWidth = $WinWidth
 [int]$WinX = ($Config.basic.WinX)
 [int]$WinY = ($Config.basic.WinY)
+[int]$WinSX = ($Config.basic.WinSX)
+[int]$WinSY = ($Config.basic.WinSY)
 if (!($AWinHeight)) {
     $AWinHeight = 44
     $ABuffHeight = $AWinHeight
@@ -130,6 +132,8 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~U~~DARKRED~)~~DARKCYAN~se Add Entries~~WHITE~.............:~ ~DARKRED~[~~WHITE~$MenuAdds~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~X~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...........:~ ~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~Y~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...........:~ ~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~C~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...:~ ~DARKRED~[~~WHITE~$WinSX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~Z~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...:~ ~DARKRED~[~~WHITE~$WinSY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Number of Program Adds in JSON~~WHITE~: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~J~~DARKRED~) ~~DARKCYAN~Edit BinMenu.ini Directly~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~DARKRED~, (~~WHITE~D~DARKRED~)~~DARKCYAN~elete~~DARKRED~, (~~WHITE~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~, (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~, (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
@@ -250,7 +254,7 @@ while (1) {
         $pop = ""
     }
     if ($pop -eq "X") {
-        $blah = "Please enter The window position from LEFT."
+        $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -260,7 +264,7 @@ while (1) {
         [int]$WinX = ($Config.basic.WinX)
     }
     if ($pop -eq "Y") {
-        $blah = "Please enter The window position from TOP."
+        $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -268,6 +272,26 @@ while (1) {
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
         [int]$WinY = ($Config.basic.WinY)
+    }
+    if ($pop -eq "C") {
+        $blah = "Please enter the SCRIPTS window position from LEFT."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSX = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSX = ($Config.basic.WinSX)
+    }
+    if ($pop -eq "Z") {
+        $blah = "Please enter the SCRIPTS window position from TOP."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSY = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSY = ($Config.basic.WinSY)
     }
     if ($pop -eq "J") {
         $go1 = ($Base + "\BinMenu.ini")

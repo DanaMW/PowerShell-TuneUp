@@ -1,13 +1,28 @@
-$FileVersion = "Version: 2.2.6"
+$FileVersion = "Version: 2.2.7"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your Setup, profiles or in this Script. This shit uses that!"; break }
+Function MyConfig {
+    $MyConfig = ($Base + "\BinMenu.json")
+    $MyConfig
+}
+[string]$ConfigFile = MyConfig
+Say "Reading from config files."
+try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
+catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+if (!($Config)) {
+    Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
+    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in Base directory"
+    break
+}
 [string]$Filetmp = ($Base + "\BinTemp.del")
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+[int]$POSX = ($Config.basic.WinSX)
+if (!($POSX)) { $POSX = 0 }
+[int]$POSY = ($Config.basic.WinSY)
+if (!($POSY)) { $POSY = 0 }
 $ScriptName = "BinScript"
 if (!($WinWidth)) {
     $WinWidth = 166
@@ -43,10 +58,7 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, $pp)
 }
-<# SET THE BELOW TO POSITION THE SCRIPT WINDOW #>
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
-$POSX = 310
-$POSY = 170
 While (1) {
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     Clear-Host
