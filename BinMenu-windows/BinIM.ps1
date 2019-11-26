@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.8"
+$FileVersion = "Version: 2.2.9"
 $Base = $env:Base
 if (!($Base)) { $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)" }
 if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }

@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: November 10, 2019
+        Last Modified Date: November 16, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,8 +17,14 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.8"
+$FileVersion = "Version: 2.2.9"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
+# Register-EngineEvent PowerShell.Exiting -Action { exit }
+# Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
+# {
+#     Clear-Host
+#     return
+# }
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
