@@ -1,5 +1,5 @@
 param([string]$MyArgs)
-$FileVersion = "Version: 0.0.5"
+$FileVersion = "Version: 0.0.6"
 $TheArgs = "$myargs $args"
 $hookUrl = 'https://discordapp.com/api/webhooks/YourWebHookURLHere'
 $title0 = $Env:USERDOMAIN
@@ -14,7 +14,7 @@ if ($MyArgs -eq "") {
  }]
 }
 "@
-    Invoke-RestMethod -Uri $hookUrl -Method Post -Body $content
+    Invoke-RestMethod -Uri $hookUrl -Method Post -Body $content -ContentType 'application/json'
     return
 }
 else {
@@ -27,6 +27,6 @@ else {
  }]
 }
 "@
-    Invoke-RestMethod -Uri $hookUrl -Method Post -Body $content
+    Invoke-RestMethod -Uri $hookUrl -Method Post -Body $content -ContentType 'application/json'
     return
 }
