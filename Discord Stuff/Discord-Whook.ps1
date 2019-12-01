@@ -1,5 +1,5 @@
 param([string]$MyArgs)
-$FileVersion = "Version: 0.0.3"
+$FileVersion = "Version: 0.0.4"
 if ($myargs -eq "") {
     $hookUrl = 'https://discordapp.com/api/webhooks/YourWebhookUrl'
     $title0 = $Env:USERDOMAIN
@@ -12,7 +12,7 @@ Webhook: WzErO
     $payload = [PSCustomObject]@{
         content = $content
     }
-    Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json)
+    Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'application/json'
     return
 }
 $TheArgs = "$myargs $args"
@@ -29,4 +29,4 @@ $payload = [PSCustomObject]@{
     content = $content
 }
 Write-Host $payload
-Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json)
+Invoke-RestMethod -Uri $hookUrl -Method Post -Body ($payload | ConvertTo-Json) -ContentType 'application/json'
