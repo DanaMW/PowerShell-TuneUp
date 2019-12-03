@@ -29,6 +29,13 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ---
 
+## Check-Prof
+<a><p align=center>This is a simple script to display the path of your profile files. It is an example of reading and writing files along with simple formatting. It requires Write-Color in your profile.ps1 and the external script of Remove-Empty.ps1</p></a>
+
+- Usage: Check-Prof
+
+---
+
 ## Convert-Script
 
 <a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
