@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.1.7"
+$FileVersion = "Version: 0.1.8"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -72,7 +72,7 @@ if ($RunFix -eq "HelpOnly") {
     [Console]::SetCursorPosition(7, 15); WC "~CYAN~[~~YELLOW~Do-Repair CHECK~~CYAN~] ~~WHITE~next after rebooting~"
     [Console]::SetCursorPosition(0, 19)
     $RunFix = ""
-    $menuPrompt = WCP "~CYAN~[~~WHITE~Enter to Continue~~CYAN~]~~WHITE~:~ "
+    $menuPrompt = WCP "~CYAN~[~~darkyellow~Enter to Continue~~CYAN~]~~WHITE~:~ "
     Read-Host -Prompt $menuPrompt
 }
 If ($RunFix -eq "") {
@@ -96,7 +96,7 @@ If ($RunFix -eq "") {
     [Console]::SetCursorPosition(7, 7); WC "(4) Do-Repair RESET  [Redoes your machine, last resort]"
     [Console]::SetCursorPosition(7, 8); WC "(H)elp or (Q)uit"
     [Console]::SetCursorPosition(0, 12)
-    $menuPrompt = WCP "~CYAN~[~~WHITE~Select 1, 2, 3, 4, H or Q~~CYAN~]~~WHITE~:~ "
+    $menuPrompt = WCP "~CYAN~[~~darkyellow~Select 1, 2, 3, 4, H or Q~~CYAN~]~~WHITE~:~ "
     $cmd = Read-Host -Prompt $menuPrompt
     if ($cmd -eq "1") { $RunFix = "SCAN" }
     if ($cmd -eq "2") { $RunFix = "CHECK" }
@@ -127,5 +127,5 @@ if ($RunFix -eq "Scan") { Invoke-Expression $Scan }
 if ($RunFix -eq "Check") { Invoke-Expression $Check }
 if ($RunFix -eq "Repair") { Invoke-Expression $Repair }
 if ($RunFix -eq "Reset") { Invoke-Expression $Reset }
-$menuPrompt = WCP "~CYAN~[~~WHITE~Enter To Continue~~CYAN~]~~WHITE~:~ "
+$menuPrompt = WCP "~CYAN~[~~darkyellow~Enter To Continue~~CYAN~]~~WHITE~:~ "
 Read-Host -prompt $menuPrompt
