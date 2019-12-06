@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.9"
+$FileVersion = "Version: 2.2.10"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -90,12 +90,14 @@ While (1) {
     [int]$i = 1
     [Int]$num = 1
     FlexWindow
+    $header = "Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
-        WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~"
+        if ($header -match $line) { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~yellow~$Line~" }
+        else { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~" }
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = -1; [int]$w = $Col[2] }
         if ($i -eq $Row[2]) { [int]$l = -1; [int]$w = $Col[3] }
