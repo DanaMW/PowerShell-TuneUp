@@ -7,7 +7,7 @@
   "InternalInfo": {
     "Project": "BinMenu2",
     "Modified": "09/10/2019",
-    "Author": "Dana Meli <danamw@gmail.com",
+    "Author": "Dana Meli <danamw@gmail.com>",
     "Support": "https://github.com/danamw/PowerShell-tuneup",
     "License": "MIT"
   },
@@ -128,13 +128,13 @@
   },
   "AddItem-18": {
     "Name": "Visual Studio Installer",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\vs_installer.exe",
-    "Argument": ""
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VS1.ps1"
   },
   "AddItem-19": {
     "Name": "Visual Studio 2019",
-    "Command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe",
-    "Argument": ""
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VS2.ps1"
   },
   "AddItem-20": {
     "Name": "VMWare",
