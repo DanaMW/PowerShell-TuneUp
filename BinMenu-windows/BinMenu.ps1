@@ -251,6 +251,7 @@ while ($c -le 8) {
 [Console]::SetCursorPosition(0, $pp)
 WC $ProgramLine
 $pp++
+if ($PMenu -lt $a) { $PMenu = $a }
 [int]$i = 0
 [int]$l = $pp
 while ($i -lt $PMenu) {
