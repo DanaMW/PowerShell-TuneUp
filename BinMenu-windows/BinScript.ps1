@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.10"
+$FileVersion = "Version: 2.2.11"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -96,8 +96,14 @@ While (1) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
-        if ($header -match $line) { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~yellow~$Line~" }
-        else { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~" }
+        if ($Num -le 9) {
+            if ($header -match $line) { WC "~DARKRED~[~~cyan~ $Num~~DARKRED~]~ ~cyan~$Line~" }
+            else { WC "~DARKRED~[~~WHITE~ $Num~~DARKRED~]~ ~GREEN~$Line~" }
+        }
+        else {
+            if ($header -match $line) { WC "~DARKRED~[~~cyan~$Num~~DARKRED~]~ ~cyan~$Line~" }
+            else { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~" }
+        }
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = -1; [int]$w = $Col[2] }
         if ($i -eq $Row[2]) { [int]$l = -1; [int]$w = $Col[3] }

@@ -17,13 +17,13 @@
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "D:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "10",
+    "StartDelay": "20",
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "1",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": false,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
-    "Notify": 0,
+    "Notify": 1,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "TestRun": 0,
     "_WinWidth": "[int]",
@@ -35,7 +35,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "ALL"
+    "HostOnly": "NONE"
   },
   "RunItem-2": {
     "HostOnly": "ALL",
@@ -84,23 +84,5 @@
     "HostOnly": "ALL",
     "Argument": "",
     "Name": "Ditto"
-  },
-  "RunItem-10": {
-    "RunPath": "D:\\bin\\AdiIRC\\AdiIRC.exe",
-    "HostOnly": "NONE",
-    "Argument": "",
-    "Name": "AdiIRC"
-  },
-  "RunItem-11": {
-    "RunPath": "C:\\Users\\dana\\Desktop\\MineTest Server.lnk",
-    "HostOnly": "TorchLight",
-    "Argument": "",
-    "Name": "MineTest"
-  },
-  "RunItem-12": {
-    "RunPath": "D:\\bin\\Telegram\\Telegram.exe",
-    "HostOnly": "NONE",
-    "Argument": "",
-    "Name": "TeleGram"
   }
 }
