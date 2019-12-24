@@ -1,5 +1,5 @@
 param([string]$sname, [string]$sdrive)
-$FileVersion = "Version: 0.1.5"
+$FileVersion = "Version: 0.1.6"
 if (!($sname)) {
     Say "Search $FileVersion"
     Say "Remember this can be done SEARCH <FileName> <SearchFolder>"
@@ -34,6 +34,7 @@ if ($sdrive[-1..-1] -ne "\") { $sdrive = $sdrive + "\" }
 Say ""
 Say "Searching for" $sname.ToUpper() "in" $sdrive.ToUpper()
 Say ""
+$sw = [Diagnostics.Stopwatch]::StartNew()
 $i = 0
 Get-ChildItem -Path $sdrive  -filter "*${sname}*" -recurse -Name -Force | foreach-object {
     $i++
@@ -48,6 +49,8 @@ Get-ChildItem -Path $sdrive  -filter "*${sname}*" -recurse -Name -Force | foreac
     Say -NoNewLine -ForeGroundColor RED $sname.ToUpper()
     Say -ForeGroundColor YELLOW ($Workit -Split $sname)[1]
 }
+$sw.Stop()
 Say ""
 Say "Search found $i matches"
+Say "Search took" $sw.Elapsed
 Say ""

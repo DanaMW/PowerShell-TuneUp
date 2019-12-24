@@ -17,9 +17,9 @@
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "D:\\bin\\NPP\\Notepad++.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "20",
+    "StartDelay": "30",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "1",
+    "Delay": "5",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": false,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
@@ -35,7 +35,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "NONE"
+    "HostOnly": "ALL"
   },
   "RunItem-2": {
     "HostOnly": "ALL",
@@ -44,7 +44,7 @@
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "ALL",
+    "HostOnly": "NONE",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
     "Name": "Redragon Gaming Mouse",
     "Argument": ""

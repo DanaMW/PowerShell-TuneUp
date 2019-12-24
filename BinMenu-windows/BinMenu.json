@@ -129,12 +129,12 @@
   "AddItem-18": {
     "Name": "Visual Studio Installer",
     "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VS1.ps1"
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1"
   },
   "AddItem-19": {
     "Name": "Visual Studio 2019",
     "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VS2.ps1"
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1"
   },
   "AddItem-20": {
     "Name": "VMWare",

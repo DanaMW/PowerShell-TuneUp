@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.11"
+$FileVersion = "Version: 2.2.12"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -124,29 +124,40 @@ While (1) {
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
             $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+            [string]$FileRun = ($Base + "\BSTempRun.ps1")
+            $Filetest = Test-Path -path $FileRun
+            if (($Filetest)) { Remove-Item $FileRun -Force }
+            Write-Output "pwsh.exe $cmd1$cmd2" > $FileRun
+            Write-Output 'Put-Pause -Prompt "~darkcyan~[~~darkyellow~Press any key to return to  menu~~darkcyan~]~white~:~ " -Max 0 -Echo 1' >> $FileRun
             FixLine
-            Start-Process pwsh.exe -ArgumentList $cmd1$cmd2 -Verb RunAs
+            Start-Process pwsh.exe -ArgumentList $FileRun -Verb RunAs -Wait
             FixLine
+            $Filetest = Test-Path -path $FileRun
+            if (($Filetest)) { Remove-Item $FileRun -Force }
+            Set-Location $Base.substring(0, 3)
+            Set-Location $Base
         }
     }
     elseif ($ans -eq "Q") {
         $Filetest = Test-Path -path $Filetmp
-        if (($Filetest)) { Remove-Item �path $Filetmp -Force }
-        Clear-Host
-        Return
-    }
-    elseif ($ans -eq "R") {
-        Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
-        exit
-    }
-    else {
-        FixLine
-        [Console]::SetCursorPosition(0, $pp)
-        Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
-        Start-Sleep -Milliseconds 500
-        FixLine
-        FlexWindow
-        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
+        if (($Filetest)) {
+            Remove-Item $Filetmp
+            Clear-Host
+            Return
+        }
+        elseif ($ans -eq "R") {
+            Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
+            exit
+        }
+        else {
+            FixLine
+            [Console]::SetCursorPosition(0, $pp)
+            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+            Start-Sleep -Milliseconds 500
+            FixLine
+            FlexWindow
+            if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
+        }
     }
 }
 $Filetest = Test-Path -path $Filetmp
