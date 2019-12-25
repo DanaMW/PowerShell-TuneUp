@@ -86,11 +86,11 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 <a><p align=center>I Wanted something to replace Read-Host that timed out for my scripts. Added -Max 0 When you use -Max 0 the prompt does not time out and continues to wait for a keypress. -Default is disabled and -Echo is set to True. Added a clear keyboard buffer to catch extra input and throw it away. It now uses the color method Write-ColorPrompt (WCP) Changed the Separator from # to ~.</p></a>
 
-- Usage: Put-Pause -Prompt <String> -Max <Milliseconds> -Default <single key default>
-- Usage: Put-Pause -Prompt "[Make A Selection]: "
-- Usage: $a = Put-Pause -Prompt "Do you seem interested? (Y/N): " -Default "N"
-- Color Usage: Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ "
-- Color Usage: Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Max 0`
+- Usage: `Put-Pause -Prompt <String> -Max <Milliseconds> -Default <single key default>`
+- Usage: `Put-Pause -Prompt "[Make A Selection]: "`
+- Usage: `$a = Put-Pause -Prompt "Do you seem interested? (Y/N): " -Default "N"`
+- Color Usage: `Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ "`
+- Color Usage: `Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Max 0`
 
 ---
 
