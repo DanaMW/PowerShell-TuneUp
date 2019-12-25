@@ -44,7 +44,7 @@
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "NONE",
+    "HostOnly": "ALL",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
     "Name": "Redragon Gaming Mouse",
     "Argument": ""

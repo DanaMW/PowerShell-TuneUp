@@ -53,9 +53,9 @@ try {
         else { $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1) }
         if ($NameFix -eq "bash.exe") { $NameFix = "Git Bash.exe" }
         if ($NameFix -eq "Totalcmd64.exe") { $NameFix = "Total Commander.exe" }
-        if ($NameFix -eq "conemu64.exe") { $NameFix = "ConsoleEmulator.exe" }
+        if ($NameFix -eq "conemu64.exe") { $NameFix = "Console Emulator.exe" }
         if ($NameFix -eq "yakyak.exe") { $NameFix = "YakYak.exe" }
-        $Decidep = "Add $NameFix ? (Y/N/Q/Edit)[Enter is No]"
+        $Decidep = "Add $NameFix ? (Y/N/Q/(E)dit)[Enter is No]"
         Say "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
         Say $_
         Say $_.fullname

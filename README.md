@@ -177,6 +177,14 @@ Optionally
 
 ---
 
+## Edit-Config
+
+<a><p align=center>This is my generic read and write to json files as config files.</p></a>
+
+- Usage: `Edit-Config -Confile [string] -Read [string] -Write [string] -Section [string] -SValue [string] -BValue [bool]`
+
+---
+
 ## Env (environment)
 
 <a><p align=center>This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote) If you just do ENV it will list ALL variable</p></a>

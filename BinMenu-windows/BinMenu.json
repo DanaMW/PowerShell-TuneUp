@@ -21,11 +21,11 @@
     "_Editor": "[string] Defines a text editor to use from BinMenu",
     "Editor": "D:\\bin\\NPP\\NotePad++.exe",
     "_MenuAdds": "[bool] Determines if the menu adds are used or not",
-    "MenuAdds": 1,
+    "MenuAdds": true,
     "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
-    "Notify": 1,
+    "Notify": true,
     "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
-    "WPosition": 1,
+    "WPosition": true,
     "_WinHeight": "[int] How tall to draw the inner window.",
     "WinHeight": "47",
     "_WinWidth": "[int] How wide to draw the inner window.",
@@ -39,7 +39,7 @@
     "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
     "WinSY": "160",
     "_DeBug": "[bool] My Internal script debug information.",
-    "DeBug": 0
+    "DeBug": false
   },
   "AddItem-1": {
     "Name": "RegEdit",
