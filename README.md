@@ -181,7 +181,7 @@ Optionally
 
 <a><p align=center>This is my generic read and write to json files as config files.</p></a>
 
-- Usage: `Edit-Config -Confile [string] -Read [string] -Write [string] -Section [string] -SValue [string] -BValue [bool]`
+- Usage: `Edit-Config -Confile [string] -Count [string] -Read [string] -Write [string] -Section [string] -SValue [string] -BValue [bool] -Sub [int]`
 
 ---
 
