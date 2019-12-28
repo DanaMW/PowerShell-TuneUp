@@ -12,7 +12,7 @@ try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Write-Error -Message "The Base configuration file is missing!" }
 if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
 $Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($Base)) {
     $ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
     Set-Variable -Name Base -Value $ans -Scope Global
@@ -20,22 +20,22 @@ if (!($Base)) {
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[string]$ScriptName = ($Config.basic.ScriptName)
-[bool]$DeBug = ($Config.basic.DeBug)
-[string]$Editor = ($Config.basic.Editor)
-[bool]$MenuAdds = ($Config.basic.MenuAdds)
-[bool]$Notify = ($Config.basic.Notify)
-[bool]$WPosition = ($Config.basic.WPosition)
-[int]$WinHeight = ($Config.basic.WinHeight)
+[string]$ScriptName = ($Config.Setup.ScriptName)
+[bool]$DeBug = ($Config.Setup.DeBug)
+[string]$Editor = ($Config.Setup.Editor)
+[bool]$MenuAdds = ($Config.Setup.MenuAdds)
+[bool]$Notify = ($Config.Setup.Notify)
+[bool]$WPosition = ($Config.Setup.WPosition)
+[int]$WinHeight = ($Config.Setup.WinHeight)
 $BuffHeight = $WinHeight
-[int]$WinWidth = ($Config.basic.WinWidth)
+[int]$WinWidth = ($Config.Setup.WinWidth)
 $BuffWidth = $WinWidth
-[int]$WinX = ($Config.basic.WinX)
-[int]$WinY = ($Config.basic.WinY)
-[int]$WinSX = ($Config.basic.WinSX)
-[int]$WinSY = ($Config.basic.WinSY)
-[int]$WinSMX = ($Config.basic.WinSMX)
-[int]$WinSMY = ($Config.basic.WinSMY)
+[int]$WinX = ($Config.Setup.WinX)
+[int]$WinY = ($Config.Setup.WinY)
+[int]$WinSX = ($Config.Setup.WinSX)
+[int]$WinSY = ($Config.Setup.WinSY)
+[int]$WinSMX = ($Config.Setup.WinSMX)
+[int]$WinSMY = ($Config.Setup.WinSMY)
 if (!($AWinHeight)) {
     $AWinHeight = 44
     $ABuffHeight = $AWinHeight
@@ -177,62 +177,62 @@ while (1) {
         $boop = "Folder path or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.Base = $Fixer
+            $Config.Setup.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global
+        Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global
     }
     if ($pop -eq "I") {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.Editor = $Fixer
+            $Config.Setup.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [string]$Editor = ($Config.basic.Editor)
+        [string]$Editor = ($Config.Setup.Editor)
     }
     if ($pop -eq "S") {
         $blah = "Please enter a name to be given and used for this script."
         $boop = "Name given this script or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.ScriptName = $Fixer
+            $Config.Setup.ScriptName = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [string]$ScriptName = ($Config.basic.ScriptName)
+        [string]$ScriptName = ($Config.Setup.ScriptName)
     }
     if ($pop -eq "G") {
-        if (($Config.basic.DeBug) -eq 0) { $Config.basic.DeBug = 1 }
-        else { $Config.basic.DeBug = 0 }
+        if (($Config.Setup.DeBug) -eq 0) { $Config.Setup.DeBug = 1 }
+        else { $Config.Setup.DeBug = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$DeBug = ($Config.basic.DeBug)
+        [bool]$DeBug = ($Config.Setup.DeBug)
         $pop = ""
     }
     if ($pop -eq "N") {
-        if (($Config.basic.Notify) -eq 0) { $Config.basic.Notify = 1 }
-        else { $Config.basic.Notify = 0 }
+        if (($Config.Setup.Notify) -eq 0) { $Config.Setup.Notify = 1 }
+        else { $Config.Setup.Notify = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$Notify = ($Config.basic.Notify)
+        [bool]$Notify = ($Config.Setup.Notify)
         $pop = ""
     }
     if ($pop -eq "P") {
-        if (($Config.basic.WPosition) -eq 1) { $Config.basic.WPosition = 0 }
-        else { $Config.basic.WPosition = 1 }
+        if (($Config.Setup.WPosition) -eq 1) { $Config.Setup.WPosition = 0 }
+        else { $Config.Setup.WPosition = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$WPosition = ($Config.basic.WPosition)
+        [bool]$WPosition = ($Config.Setup.WPosition)
     }
     if ($pop -eq "W") {
         $blah = "Please enter The Console Window Width."
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.BuffWidth = $Fixer
+            $Config.Setup.BuffWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
-            $Config.basic.WinWidth = $Fixer
+            $Config.Setup.WinWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinWidth = ($Config.basic.WinWidth)
+        [int]$WinWidth = ($Config.Setup.WinWidth)
         $BuffWidth = $WinWidth
     }
     if ($pop -eq "H") {
@@ -240,19 +240,19 @@ while (1) {
         $boop = "Number of console Height or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.BuffHeight = $Fixer
+            $Config.Setup.BuffHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
-            $Config.basic.WinHeight = $Fixer
+            $Config.Setup.WinHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinHeight = ($Config.basic.WinHeight)
+        [int]$WinHeight = ($Config.Setup.WinHeight)
         $BuffHeight = $WinHeight
     }
     if ($pop -eq "U") {
-        if (($Config.basic.MenuAdds) -eq 1) { $Config.basic.MenuAdds = 0 }
-        else { $Config.basic.MenuAdds = 1 }
+        if (($Config.Setup.MenuAdds) -eq 1) { $Config.Setup.MenuAdds = 0 }
+        else { $Config.Setup.MenuAdds = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$MenuAdds = ($Config.basic.MenuAdds)
+        [bool]$MenuAdds = ($Config.Setup.MenuAdds)
         $pop = ""
     }
     if ($pop -eq "X") {
@@ -260,60 +260,60 @@ while (1) {
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinX = $Fixer
+            $Config.Setup.WinX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinX = ($Config.basic.WinX)
+        [int]$WinX = ($Config.Setup.WinX)
     }
     if ($pop -eq "Y") {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinY = $Fixer
+            $Config.Setup.WinY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinY = ($Config.basic.WinY)
+        [int]$WinY = ($Config.Setup.WinY)
     }
     if ($pop -eq "XX") {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSMX = $Fixer
+            $Config.Setup.WinSMX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSMX = ($Config.basic.WinSMX)
+        [int]$WinSMX = ($Config.Setup.WinSMX)
     }
     if ($pop -eq "YY") {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSMY = $Fixer
+            $Config.Setup.WinSMY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSMY = ($Config.basic.WinSMY)
+        [int]$WinSMY = ($Config.Setup.WinSMY)
     }
     if ($pop -eq "XXX") {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSX = $Fixer
+            $Config.Setup.WinSX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSX = ($Config.basic.WinSX)
+        [int]$WinSX = ($Config.Setup.WinSX)
     }
     if ($pop -eq "YYY") {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSY = $Fixer
+            $Config.Setup.WinSY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSY = ($Config.basic.WinSY)
+        [int]$WinSY = ($Config.Setup.WinSY)
     }
     if ($pop -eq "J") {
         $go1 = ($Base + "\BinMenu.ini")

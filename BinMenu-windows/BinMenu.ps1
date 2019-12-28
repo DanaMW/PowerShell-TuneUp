@@ -41,7 +41,7 @@ if (!($Config)) {
     break
 }
 $Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($Base)) {
     $ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
     Set-Variable -Name Base -Value $ans -Scope Global
@@ -49,19 +49,19 @@ if (!($Base)) {
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[string]$ScriptName = ($Config.Basic.ScriptName)
-[string]$Editor = ($Config.Basic.Editor)
-[bool]$DeBug = ($Config.Basic.DeBug)
-[bool]$Notify = ($Config.Basic.Notify)
-[bool]$MenuAdds = ($Config.Basic.MenuAdds)
-[bool]$WPosition = ($Config.Basic.WPosition)
-[int]$WinWidth = ($Config.Basic.WinWidth)
+[string]$ScriptName = ($Config.Setup.ScriptName)
+[string]$Editor = ($Config.Setup.Editor)
+[bool]$DeBug = ($Config.Setup.DeBug)
+[bool]$Notify = ($Config.Setup.Notify)
+[bool]$MenuAdds = ($Config.Setup.MenuAdds)
+[bool]$WPosition = ($Config.Setup.WPosition)
+[int]$WinWidth = ($Config.Setup.WinWidth)
 [int]$BuffWidth = $WinWidth
-[int]$WinHeight = ($Config.Basic.WinHeight)
+[int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffHeight = $WinHeight
-[int]$WinX = ($Config.Basic.WinX)
+[int]$WinX = ($Config.Setup.WinX)
 if (!($WinX)) { $WinX = 1 }
-[int]$WinY = ($Config.Basic.WinY)
+[int]$WinY = ($Config.Setup.WinY)
 if (!($WinY)) { $WinY = 1 }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {

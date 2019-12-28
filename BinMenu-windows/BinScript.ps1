@@ -19,9 +19,9 @@ if (!($Config)) {
 [string]$Filetmp = ($Base + "\BinTemp.del")
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[int]$POSX = ($Config.Basic.WinSX)
+[int]$POSX = ($Config.Setup.WinSX)
 if (!($POSX)) { $POSX = 1 }
-[int]$POSY = ($Config.Basic.WinSY)
+[int]$POSY = ($Config.Setup.WinSY)
 if (!($POSY)) { $POSY = 1 }
 $ScriptName = "BinScript"
 if (!($WinWidth)) {

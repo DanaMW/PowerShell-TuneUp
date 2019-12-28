@@ -14,22 +14,22 @@ if (!($Config)) {
     break
 }
 $BASE = $env:Base
-if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-[string]$Editor = ($Config.Basic.Editor)
-[bool]$TestRun = ($Config.Basic.TestRun)
-[int]$WinX = ($Config.Basic.WinX)
-[int]$WinY = ($Config.Basic.WinY)
-[int]$WinSMX = ($Config.Basic.WinSMX)
-[int]$WinSMY = ($Config.Basic.WinSMY)
-[int]$StartDelay = ($Config.Basic.StartDelay)
-[int]$Delay = ($Config.Basic.Delay)
-[bool]$Prevent = ($Config.Basic.Prevent)
-[bool]$Notify = ($Config.Basic.Notify)
-[int]$WinWidth = ($Config.Basic.WinWidth)
-[int]$WinHeight = ($Config.Basic.WinHeight)
+[string]$Editor = ($Config.Setup.Editor)
+[bool]$TestRun = ($Config.Setup.TestRun)
+[int]$WinX = ($Config.Setup.WinX)
+[int]$WinY = ($Config.Setup.WinY)
+[int]$WinSMX = ($Config.Setup.WinSMX)
+[int]$WinSMY = ($Config.Setup.WinSMY)
+[int]$StartDelay = ($Config.Setup.StartDelay)
+[int]$Delay = ($Config.Setup.Delay)
+[bool]$Prevent = ($Config.Setup.Prevent)
+[bool]$Notify = ($Config.Setup.Notify)
+[int]$WinWidth = ($Config.Setup.WinWidth)
+[int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
 if (!($BWHeight)) { $BWHeight = "37" }
@@ -197,82 +197,82 @@ while (1) {
         $boop = "Folder path or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.Base = $Fixer
+            $Config.Setup.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global
+        Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global
     }
     if ($pop -eq "S") {
         $blah = "Please enter the seconds to delay start."
         $boop = "Seconds to delay start or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.StartDelay = $Fixer
+            $Config.Setup.StartDelay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$StartDelay = ($Config.basic.StartDelay)
+        [int]$StartDelay = ($Config.Setup.StartDelay)
     }
     if ($pop -eq "Y") {
         $blah = "Please enter the seconds to delay between each."
         $boop = "Seconds to delay between or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.Delay = $Fixer
+            $Config.Setup.Delay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$Delay = ($Config.basic.Delay)
+        [int]$Delay = ($Config.Setup.Delay)
     }
     if ($pop -eq "P") {
-        if (($Config.basic.Prevent) -eq 0) { $Config.basic.Prevent = 1 }
-        else { $Config.basic.Prevent = 0 }
+        if (($Config.Setup.Prevent) -eq 0) { $Config.Setup.Prevent = 1 }
+        else { $Config.Setup.Prevent = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$Prevent = ($Config.basic.Prevent)
+        [bool]$Prevent = ($Config.Setup.Prevent)
     }
     if ($pop -eq "N") {
-        if (($Config.basic.Notify) -eq 0) { $Config.basic.Notify = 1 }
-        else { $Config.basic.Notify = 0 }
+        if (($Config.Setup.Notify) -eq 0) { $Config.Setup.Notify = 1 }
+        else { $Config.Setup.Notify = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$Notify = ($Config.basic.Notify)
+        [bool]$Notify = ($Config.Setup.Notify)
     }
     if ($pop -eq "T") {
-        if (($Config.basic.TestRun) -eq 0) { $Config.basic.TestRun = 1 }
-        else { $Config.basic.TestRun = 0 }
+        if (($Config.Setup.TestRun) -eq 0) { $Config.Setup.TestRun = 1 }
+        else { $Config.Setup.TestRun = 0 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$TestRun = ($Config.basic.TestRun)
+        [bool]$TestRun = ($Config.Setup.TestRun)
     }
     if ($pop -eq "W") {
         $blah = "Please enter The Console Window Width."
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.BuffWidth = $Fixer
+            $Config.Setup.BuffWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
-            $Config.basic.WinWidth = $Fixer
+            $Config.Setup.WinWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinWidth = ($Config.basic.WinWidth)
+        [int]$WinWidth = ($Config.Setup.WinWidth)
     }
     if ($pop -eq "H") {
         $blah = "Please enter The Console Height."
         $boop = "Number of console Height or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.BuffHeight = $Fixer
+            $Config.Setup.BuffHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
-            $Config.basic.WinHeight = $Fixer
+            $Config.Setup.WinHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinHeight = ($Config.basic.WinHeight)
+        [int]$WinHeight = ($Config.Setup.WinHeight)
     }
     if ($pop -eq "I") {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.Editor = $Fixer
+            $Config.Setup.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [string]$Editor = ($Config.basic.Editor)
+        [string]$Editor = ($Config.Setup.Editor)
     }
     if ($pop -eq "J") {
         $go = ($BASE + "\Delay-StartUp.json")
@@ -284,40 +284,40 @@ while (1) {
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinX = $Fixer
+            $Config.Setup.WinX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinX = ($Config.basic.WinX)
+        [int]$WinX = ($Config.Setup.WinX)
     }
     if ($pop -eq "Y") {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinY = $Fixer
+            $Config.Setup.WinY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinY = ($Config.basic.WinY)
+        [int]$WinY = ($Config.Setup.WinY)
     }
     if ($pop -eq "XX") {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSMX = $Fixer
+            $Config.Setup.WinSMX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSMX = ($Config.basic.WinSMX)
+        [int]$WinSMX = ($Config.Setup.WinSMX)
     }
     if ($pop -eq "YY") {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.basic.WinSMY = $Fixer
+            $Config.Setup.WinSMY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [int]$WinSMY = ($Config.basic.WinSMY)
+        [int]$WinSMY = ($Config.Setup.WinSMY)
     }
     if ($pop -eq "A") {
         SpinItems

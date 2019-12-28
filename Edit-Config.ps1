@@ -3,7 +3,7 @@
         Edit-Config
         Created By: Dana Meli
         Created Date: December, 2019
-        Last Modified Date: December 26, 2019
+        Last Modified Date: December 28, 2019
 
 .DESCRIPTION
         This script is designed to read and edit json configuration files for all PowerShell scripts.
@@ -36,7 +36,7 @@ param(
     [Parameter(Mandatory = $false)]
     [string]$Sub
 )
-$FileVersion = "Version: 0.0.3"
+$FileVersion = "Version: 0.0.4"
 $Script:ConfigFile = $Confile
 try { $Script:Config = Get-Content $Configfile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "Edit-Config $FileVersion - The file $Confile is missing!"; break }
@@ -51,16 +51,36 @@ if (($Read)) {
 }
 if (($Write)) {
     if (($SValue)) {
-        $Config.$Write.$Section = [string]$SValue
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Read = $Write
-        $Feedback = ($Config.$Read.$Section)
+        if (($Sub)) {
+            ($Config.$Write)[$Section].$Sub = [string]$SValue
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Read = $Write
+            $Feedback = ($Config.$Read)[$Section].$Sub
+        }
+        else {
+            $Config.$Write.$Section = [string]$SValue
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Read = $Write
+            $Feedback = ($Config.$Read.$Section)
+        }
     }
-    if ($true -eq $BValue -or $false -eq $BValue) {
-        $Config.$Write.$Section = [bool]$BValue
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        $Read = $Write
-        $Feedback = ($Config.$Read.$Section)
-    }
+    #
+    # WORKING COMMAND FOR FINISH
+    # Edit-Config -Conf 'D:\bin\Test.json' -Write AddItems -Section 0 -Sub Command -SValue "C:\Windows\Regedit.exe"
+    #
+    #if ($true -eq $BValue -or $false -eq $BValue) {
+    #if (($Sub)) {
+    #    ($Config.$Write)[$Section].$Sub = [bool]$BValue
+    #    $Config | ConvertTo-Json | Set-Content $ConfigFile
+    #    $Read = $Write
+    #    $Feedback = ($Config.$Read)[$Section].$Sub
+    #}
+    #else {
+    #$Config.$Write.$Section = [bool]$BValue
+    #$Config | ConvertTo-Json | Set-Content $ConfigFile
+    #$Read = $Write
+    #$Feedback = ($Config.$Read.$Section)
+    #}
+    #}
 }
 return $Feedback

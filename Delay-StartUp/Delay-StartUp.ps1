@@ -32,22 +32,22 @@ if (!($Config)) {
     break
 }
 $BASE = $env:Base
-if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Global }
+if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($BASE)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-[int]$StartDelay = ($Config.Basic.StartDelay)
-[int]$Delay = ($Config.Basic.Delay)
-[bool]$Prevent = ($Config.Basic.Prevent)
-[bool]$Notify = ($Config.Basic.Notify)
-[bool]$TestRun = ($Config.Basic.TestRun)
-[int]$WinX = ($Config.Basic.WinX)
+[int]$StartDelay = ($Config.Setup.StartDelay)
+[int]$Delay = ($Config.Setup.Delay)
+[bool]$Prevent = ($Config.Setup.Prevent)
+[bool]$Notify = ($Config.Setup.Notify)
+[bool]$TestRun = ($Config.Setup.TestRun)
+[int]$WinX = ($Config.Setup.WinX)
 if (!($WinX)) { $WinX = 1 }
-[int]$WinY = ($Config.Basic.WinY)
+[int]$WinY = ($Config.Setup.WinY)
 if (!($WinY)) { $WinY = 1 }
-[bool]$WPosition = ($Config.Basic.WPosition)
-[int]$WinWidth = ($Config.Basic.WinWidth)
-[int]$WinHeight = ($Config.Basic.WinHeight)
+[bool]$WPosition = ($Config.Setup.WPosition)
+[int]$WinWidth = ($Config.Setup.WinWidth)
+[int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
@@ -101,14 +101,14 @@ if ($Prevent -eq $True) {
     $ans = Read-Host -Prompt $DSPrompt
     if ($ans -eq "1") {
         [bool]$Prevent = 0
-        $Config.basic.Prevent = [bool]$Prevent
+        $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         Write-Host 'Ok all set to run next time.[Run ($BASE + "\Delay-StartUp.ps1") to run now.'
         return
     }
     if ($ans -eq "2") {
         [bool]$Prevent = 0
-        $Config.basic.Prevent = [bool]$Prevent
+        $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         Write-Host "Ok all set, Running Delay-StartUp for you now"
         $command = ($BASE + "\Delay-StartUp.ps1")
