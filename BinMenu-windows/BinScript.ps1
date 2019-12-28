@@ -19,10 +19,10 @@ if (!($Config)) {
 [string]$Filetmp = ($Base + "\BinTemp.del")
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[int]$POSX = ($Config.basic.WinSX)
-if (!($POSX)) { $POSX = 0 }
-[int]$POSY = ($Config.basic.WinSY)
-if (!($POSY)) { $POSY = 0 }
+[int]$POSX = ($Config.Basic.WinSX)
+if (!($POSX)) { $POSX = 1 }
+[int]$POSY = ($Config.Basic.WinSY)
+if (!($POSY)) { $POSY = 1 }
 $ScriptName = "BinScript"
 if (!($WinWidth)) {
     $WinWidth = 166
@@ -145,19 +145,20 @@ While (1) {
             Clear-Host
             Return
         }
-        elseif ($ans -eq "R") {
-            Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
-            exit
-        }
-        else {
-            FixLine
-            [Console]::SetCursorPosition(0, $pp)
-            Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
-            Start-Sleep -Milliseconds 500
-            FixLine
-            FlexWindow
-            if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
-        }
+    }
+    elseif ($ans -eq "R") {
+        Clear-Host
+        Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
+        return
+    }
+    else {
+        FixLine
+        [Console]::SetCursorPosition(0, $pp)
+        Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+        Start-Sleep -Milliseconds 500
+        FixLine
+        FlexWindow
+        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     }
 }
 $Filetest = Test-Path -path $Filetmp

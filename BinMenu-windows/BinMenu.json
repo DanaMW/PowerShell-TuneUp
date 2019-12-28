@@ -39,7 +39,7 @@
     "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
     "WinSX": "310",
     "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSY": "160",
+    "WinSY": "200",
     "_DeBug": "[bool] My Internal script debug information.",
     "DeBug": false
   },
