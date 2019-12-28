@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.12"
+$FileVersion = "Version: 2.2.13"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -22,7 +22,6 @@ Set-Location $Base.substring(0, 3)
 Set-Location $Base
 [string]$ScriptName = ($Config.basic.ScriptName)
 [bool]$DeBug = ($Config.basic.DeBug)
-#[bool]$ScriptRead = ($Config.basic.ScriptRead)
 [string]$Editor = ($Config.basic.Editor)
 [bool]$MenuAdds = ($Config.basic.MenuAdds)
 [bool]$Notify = ($Config.basic.Notify)
@@ -35,6 +34,8 @@ $BuffWidth = $WinWidth
 [int]$WinY = ($Config.basic.WinY)
 [int]$WinSX = ($Config.basic.WinSX)
 [int]$WinSY = ($Config.basic.WinSY)
+[int]$WinSMX = ($Config.basic.WinSMX)
+[int]$WinSMY = ($Config.basic.WinSMY)
 if (!($AWinHeight)) {
     $AWinHeight = 44
     $ABuffHeight = $AWinHeight
@@ -44,11 +45,11 @@ if (!($AWinWidth)) {
     $ABuffWidth = $AWinWidth
 }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
-$WinX = 690
-$WinY = 130
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 550 -Height 650 | Out-Null }
+if (!($WinSMX)) { $WinSMX = 1 }
+if (!($WinSMX)) { $WinSMY = 1 }
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 650 | Out-Null }
 while (1) {
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     Function SpinItems {
         $si = 1
         $Sc = 50
@@ -78,7 +79,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     $Script:ESC = [char]27
     [string]$NormalLine = "~RED~#~~DARKRED~==============================================================~~RED~#~"
     [string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-<~~CYAN~[~~RED~BinMenu Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-<~~DARKRED~|~"
@@ -122,21 +123,22 @@ while (1) {
     WC $NormalLine; WC $TitleLine; WC $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.................:~ ~DARKRED~[~~WHITE~$Base~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~..................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~..................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~cript Name~~WHITE~.................:~ ~DARKRED~[~~WHITE~$ScriptName~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Debu~DARKRED~(~~WHITE~G~~DARKRED~)~~WHITE~.......................:~ ~DARKRED~[~WHITE~$Debug~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Debu~~DARKRED~(~~WHITE~G~~DARKRED~)~~WHITE~.......................:~ ~DARKRED~[~WHITE~$Debug~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~.....:~ ~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Use Win ~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~ositioning~~WHITE~.........:~ ~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~DARKRED~)~~DARKCYAN~idth~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~DARKRED~(~~WHITE~H~DARKRED~)~DARKCYAN~eight~~WHITE~...............:~ ~DARKRED~[~~WHITE~$WinHeight~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Use Win ~~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~ositioning~~WHITE~.........:~ ~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~DARKCYAN~eight~~WHITE~...............:~ ~DARKRED~[~~WHITE~$WinHeight~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~U~~DARKRED~)~~DARKCYAN~se Add Entries~~WHITE~.............:~ ~DARKRED~[~~WHITE~$MenuAdds~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~X~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...........:~ ~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~Y~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...........:~ ~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~C~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...:~ ~DARKRED~[~~WHITE~$WinSX~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~Z~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~...:~ ~DARKRED~[~~WHITE~$WinSY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Number of Program Adds in JSON~~WHITE~: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~J~~DARKRED~) ~~DARKCYAN~Edit BinMenu.ini Directly~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~DARKRED~, (~~WHITE~D~DARKRED~)~~DARKCYAN~elete~~DARKRED~, (~~WHITE~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~, (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~, (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~X~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~Y~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window ~~DARKRED~(~~WHITE~XX~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~:~ ~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window ~~DARKRED~(~~WHITE~YY~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~:~ ~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~XXX~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~......:~ ~DARKRED~[~~WHITE~$WinSX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Scripts Window ~~DARKRED~(~~WHITE~YYY~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~......:~ ~DARKRED~[~~WHITE~$WinSY~~DARKRED~]~"; $l++
+    #[Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Number of Program Adds in JSON~~WHITE~: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~son~ ~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~DARKRED~ (~~WHITE~D~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
@@ -273,8 +275,28 @@ while (1) {
         }
         [int]$WinY = ($Config.basic.WinY)
     }
-    if ($pop -eq "C") {
-        $blah = "Please enter the SCRIPTS window position from LEFT."
+    if ($pop -eq "XX") {
+        $blah = "Please enter the window position from LEFT."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSMX = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSMX = ($Config.basic.WinSMX)
+    }
+    if ($pop -eq "YY") {
+        $blah = "Please enter the window position from TOP."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSMY = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSMY = ($Config.basic.WinSMY)
+    }
+    if ($pop -eq "XXX") {
+        $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
@@ -283,8 +305,8 @@ while (1) {
         }
         [int]$WinSX = ($Config.basic.WinSX)
     }
-    if ($pop -eq "Z") {
-        $blah = "Please enter the SCRIPTS window position from TOP."
+    if ($pop -eq "YYY") {
+        $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {

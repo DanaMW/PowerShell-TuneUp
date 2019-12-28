@@ -18,22 +18,26 @@ if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Globa
 if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-[string]$Editor = ($Config.basic.Editor)
-[bool]$TestRun = ($Config.basic.TestRun)
-[int]$StartDelay = ($Config.basic.StartDelay)
-[int]$Delay = ($Config.basic.Delay)
-[bool]$Prevent = ($Config.basic.Prevent)
-[bool]$Notify = ($Config.basic.Notify)
-[int]$WinWidth = ($Config.basic.WinWidth)
-[int]$WinHeight = ($Config.basic.WinHeight)
+[string]$Editor = ($Config.Basic.Editor)
+[bool]$TestRun = ($Config.Basic.TestRun)
+[int]$WinX = ($Config.Basic.WinX)
+[int]$WinY = ($Config.Basic.WinY)
+[int]$WinSMX = ($Config.Basic.WinSMX)
+[int]$WinSMY = ($Config.Basic.WinSMY)
+[int]$StartDelay = ($Config.Basic.StartDelay)
+[int]$Delay = ($Config.Basic.Delay)
+[bool]$Prevent = ($Config.Basic.Prevent)
+[bool]$Notify = ($Config.Basic.Notify)
+[int]$WinWidth = ($Config.Basic.WinWidth)
+[int]$WinHeight = ($Config.Basic.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
 if (!($BWHeight)) { $BWHeight = "37" }
 if (!($BWWidth)) { $BWWidth = "66" }
 $PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
-$WinX = 690
-$WinY = 205
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY -Width 800 -Height 800 | Out-Null }
+if (!($WinSMX)) { $WinSMX = 690 }
+if (!($WinSMY)) { $WinSMY = 205 }
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 800 -Height 800 | Out-Null }
 [string]$NormalLine = "~RED~+~~DARKRED~===============================================================~~RED~+~"
 [string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-<~~DARKRED~|~"
 [string]$LeftLine = "~DARKRED~|~"
@@ -57,7 +61,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     FlexWindow
     Function FuckOff {
         PrettyLine
@@ -131,17 +135,20 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC $NormalLine; $l++
     [int]$w = 1
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~................: ~~DARKRED~[~~WHITE~$BASE~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~WHITE~.................: ~~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~tartUp Delay (Secs)~~WHITE~.......: ~~DARKRED~[~~WHITE~$StartDelay~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Dela~~DARKRED~(~~WHITE~Y~~DARKRED~)~ ~DARKCYAN~Between Program Runs~~WHITE~.: ~~DARKRED~[~~WHITE~$Delay~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~revent From Running~~WHITE~.......: ~~DARKRED~[~~WHITE~$Prevent~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~....: ~~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~T~~DARKRED~)~~DARKCYAN~est Run Shooting Blanks~~WHITE~...: ~~DARKRED~[~~WHITE~$TestRun~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~DARKRED~(~~WHITE~W~DARKRED~)~~DARKCYAN~idth~~WHITE~...............: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~DARKRED~(~~WHITE~H~DARKRED~)~~DARKCYAN~eight~~WHITE~..............: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~WHITE~.................: ~~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~...............: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~..............: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~X~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Num of Program Runs in JSON~~WHITE~..: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Edit the ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON Directly~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~, (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~, (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~, (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~, (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$i = 1
     [int]$w = 1
@@ -149,8 +156,10 @@ while (1) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
         $it2 = ($Config.$RunItem).HostOnly
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~..: $it1~ ~DARKRED~[~~GREEN~$it2~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~GREEN~$it2~~DARKRED~]~"; $l++ }
+        $it3 = ($Config.$RunItem).RunPath
+        $it3 = "$it3".split('\')[-1]
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~..: $it1~ ~DARKRED~[~~yellow~Host:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Host:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $a++
     }
@@ -269,6 +278,46 @@ while (1) {
         $go = ($BASE + "\Delay-StartUp.json")
         Start-Process $Editor -ArgumentList $go -Verb RunAs
         PrettyLine
+    }
+    if ($pop -eq "X") {
+        $blah = "Please enter the window position from LEFT."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinX = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinX = ($Config.basic.WinX)
+    }
+    if ($pop -eq "Y") {
+        $blah = "Please enter the window position from TOP."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinY = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinY = ($Config.basic.WinY)
+    }
+    if ($pop -eq "XX") {
+        $blah = "Please enter the window position from LEFT."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSMX = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSMX = ($Config.basic.WinSMX)
+    }
+    if ($pop -eq "YY") {
+        $blah = "Please enter the window position from TOP."
+        $boop = "Number of window position or ENTER to cancel"
+        FuckOff
+        if ($Fixer -ne "") {
+            $Config.basic.WinSMY = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$WinSMY = ($Config.basic.WinSMY)
     }
     if ($pop -eq "A") {
         SpinItems

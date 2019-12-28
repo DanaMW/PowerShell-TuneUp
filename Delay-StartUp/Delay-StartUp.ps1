@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 26, 2019
+        Last Modified Date: December 28, 2019
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.22"
+$FileVersion = "Version: 1.3.23"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -36,15 +36,21 @@ if (!($BASE)) { Set-Variable -Name Base -Value ($Config.basic.Base) -Scope Globa
 if (!($BASE)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-[int]$StartDelay = ($Config.basic.StartDelay)
-[int]$Delay = ($Config.basic.Delay)
-[bool]$Prevent = ($Config.basic.Prevent)
-[bool]$Notify = ($Config.basic.Notify)
-[bool]$TestRun = ($Config.basic.TestRun)
-[int]$WinWidth = ($Config.basic.WinWidth)
-[int]$WinHeight = ($Config.basic.WinHeight)
+[int]$StartDelay = ($Config.Basic.StartDelay)
+[int]$Delay = ($Config.Basic.Delay)
+[bool]$Prevent = ($Config.Basic.Prevent)
+[bool]$Notify = ($Config.Basic.Notify)
+[bool]$TestRun = ($Config.Basic.TestRun)
+[int]$WinX = ($Config.Basic.WinX)
+if (!($WinX)) { $WinX = 1 }
+[int]$WinY = ($Config.Basic.WinY)
+if (!($WinY)) { $WinY = 1 }
+[bool]$WPosition = ($Config.Basic.WPosition)
+[int]$WinWidth = ($Config.Basic.WinWidth)
+[int]$WinHeight = ($Config.Basic.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
+$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -60,7 +66,10 @@ Function FlexWindow {
     $pswindow.windowsize = $newsize
     $ErrorActionPreference = $SaveError
 }
-FlexWindow
+if (($WPosition)) {
+    FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+}
 Function SpinItems {
     $si = 1
     $Sc = 20
@@ -72,7 +81,10 @@ Function SpinItems {
         else { $si = 20 }
     }
 }
-FlexWindow
+if (($WPosition)) {
+    FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+}
 if ($Prevent -eq $True) {
     Clear-Host
     Write-Host ""
@@ -130,7 +142,10 @@ if ($StartDelay -ne "0") {
     [Console]::SetCursorPosition(20, 2); & Write-Output "      "
     [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
 }
-FlexWindow
+if (($WPosition)) {
+    FlexWindow
+    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+}
 if ($StartDelay -eq "0") {
     Clear-Host
     [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay"

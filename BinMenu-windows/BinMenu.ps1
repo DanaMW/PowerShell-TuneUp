@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: December 22, 2019
+        Last Modified Date: December 28, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.12"
+$FileVersion = "Version: 2.2.13"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -49,24 +49,20 @@ if (!($Base)) {
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $Base.substring(0, 3)
 Set-Location $Base
-[string]$ScriptName = ($Config.basic.ScriptName)
-[string]$Editor = ($Config.basic.Editor)
-if (!($editor)) { $editor = ($Base + "\npp\Notepad++.exe") }
-[bool]$DeBug = ($Config.basic.DeBug)
-[bool]$Notify = ($Config.basic.Notify)
-[bool]$ScriptRead = ($Config.basic.ScriptRead)
-[bool]$MenuAdds = ($Config.basic.MenuAdds)
-[bool]$WPosition = ($Config.basic.WPosition)
-[int]$WinWidth = ($Config.basic.WinWidth)
-if (!($WinWidth)) { $WinWidth = 104 }
+[string]$ScriptName = ($Config.Basic.ScriptName)
+[string]$Editor = ($Config.Basic.Editor)
+[bool]$DeBug = ($Config.Basic.DeBug)
+[bool]$Notify = ($Config.Basic.Notify)
+[bool]$MenuAdds = ($Config.Basic.MenuAdds)
+[bool]$WPosition = ($Config.Basic.WPosition)
+[int]$WinWidth = ($Config.Basic.WinWidth)
 [int]$BuffWidth = $WinWidth
-[int]$WinHeight = ($Config.basic.WinHeight)
-if (!($WinHeight)) { $WinWidth = 36 }
+[int]$WinHeight = ($Config.Basic.WinHeight)
 [int]$BuffHeight = $WinHeight
-[int]$WinX = ($Config.basic.WinX)
-if (!($WinX)) { $WinX = 0 }
-[int]$WinY = ($Config.basic.WinY)
-if (!($WinY)) { $WinY = 0 }
+[int]$WinX = ($Config.Basic.WinX)
+if (!($WinX)) { $WinX = 1 }
+[int]$WinY = ($Config.Basic.WinY)
+if (!($WinY)) { $WinY = 1 }
 $PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
