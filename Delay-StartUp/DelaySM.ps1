@@ -459,7 +459,7 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
-            if ($TestRun2 -ne $env:USERDOMAIN) {
+            if ($TestRun2 -ne $env:USERDOMAIN -and $TestRun2 -ne "ALL") {
                 Say "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
                 [Console]::SetCursorPosition($w, ($pp + 1))
                 $fool = Read-Host -Prompt "Y to continue this foolishness or [Enter to Cancel]"
