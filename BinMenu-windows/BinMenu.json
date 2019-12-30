@@ -1,146 +1,146 @@
 {
-    "_Info": [
-        "This is the JSON based Configuration for BinMenu",
-        "AddItems Are your items not in the base that you",
-        "Want added to the menu for you every time."
-    ],
-    "InternalInfo": {
-        "Project": "BinMenu2",
-        "Modified": "09/10/2019",
-        "Author": "Dana Meli <danamw@gmail.com>",
-        "Support": "https://github.com/danamw/PowerShell-tuneup",
-        "License": "MIT"
-    },
-    "Setup": {
-        "_ScriptName": "[string] The starting folder that BinMenu reads from.",
-        "ScriptName": "BinMenu",
-        "_Base": "[string] The starting folder that BinMenu reads from.",
-        "Base": "D:\\bin",
-        "_Editor": "[string] Defines a text editor to use from BinMenu",
-        "Editor": "D:\\bin\\NPP\\NotePad++.exe",
-        "_MenuAdds": "[bool] Determines if the menu adds are used or not",
-        "MenuAdds": true,
-        "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
-        "Notify": true,
-        "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
-        "WPosition": true,
-        "_WinHeight": "[int] How tall to draw the inner window.",
-        "WinHeight": "47",
-        "_WinWidth": "[int] How wide to draw the inner window.",
-        "WinWidth": "104",
-        "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
-        "WinX": "550",
-        "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
-        "WinY": "200",
-        "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-        "WinSMX": "700",
-        "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
-        "WinSMY": "175",
-        "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-        "WinSX": "310",
-        "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-        "WinSY": "200",
-        "_DeBug": "[bool] My Internal script debug information.",
-        "DeBug": false
-    },
-    "AddItem-1": {
-        "Name": "RegEdit",
-        "Command": "C:\\Windows\\Regedit.exe",
-        "Argument": ""
-    },
-    "AddItem-2": {
-        "Name": "Clean Manager",
-        "Command": "C:\\Windows\\System32\\cleanmgr.exe",
-        "Argument": ""
-    },
-    "AddItem-3": {
-        "Name": "Process Manager",
-        "Command": "D:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
-        "Argument": ""
-    },
-    "AddItem-4": {
-        "Name": "My Downloads",
-        "Command": "D:\\Downloads",
-        "Argument": ""
-    },
-    "AddItem-5": {
-        "Name": "My Bin",
-        "Command": "D:\\bin\\tc\\TOTALCMD64.EXE",
-        "Argument": "D:\\bin"
-    },
-    "AddItem-6": {
-        "Name": "My Home",
-        "Command": "C:\\Users\\Dana",
-        "Argument": ""
-    },
-    "AddItem-7": {
-        "Name": "Firefox Developers Edition",
-        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-        "Argument": "D:\\bin\\Get-Firefox.ps1"
-    },
-    "AddItem-8": {
-        "Name": "VirtualBox",
-        "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
-        "Argument": ""
-    },
-    "AddItem-9": {
-        "Name": "Control Panel",
-        "Command": "C:\\Windows\\System32\\control.exe",
-        "Argument": ""
-    },
-    "AddItem-10": {
-        "Name": "Stardock Skin Studio",
-        "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
-        "Argument": ""
-    },
-    "AddItem-11": {
-        "Name": "My Scripts",
-        "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
-        "Argument": ""
-    },
-    "AddItem-12": {
-        "Name": "Delay-StartUp SM",
-        "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-        "Argument": "D:\\bin\\DelaySM.ps1"
-    },
-    "AddItem-13": {
-        "Name": "Event Viewer",
-        "Command": "C:\\Windows\\system32\\eventvwr.msc",
-        "Argument": "/s"
-    },
-    "AddItem-14": {
-        "Name": "Network Adapter Settings",
-        "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
-        "Argument": ""
-    },
-    "AddItem-15": {
-        "Name": "Network And Sharing",
-        "Command": "C:\\Windows\\System32\\control.exe",
-        "Argument": "/name Microsoft.NetworkandSharingCenter"
-    },
-    "AddItem-16": {
-        "Argument": "",
-        "Name": "Ubuntu Bash",
-        "Command": "C:\\Windows\\System32\\bash.exe"
-    },
-    "AddItem-17": {
-        "Argument": "",
-        "Name": "Sound Blaster C2",
-        "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
-    },
-    "AddItem-18": {
-        "Name": "Visual Studio Installer",
-        "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-        "Argument": "D:\\bin\\Run-VisualStudios.ps1 1"
-    },
-    "AddItem-19": {
-        "Name": "Visual Studio 2019",
-        "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-        "Argument": "D:\\bin\\Run-VisualStudios.ps1"
-    },
-    "AddItem-20": {
-        "Name": "VMWare",
-        "Argument": "D:\\bin\\Run-VMWare.ps1",
-        "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe"
-    }
+  "_Info": [
+    "This is the JSON based Configuration for BinMenu",
+    "AddItems Are your items not in the base that you",
+    "Want added to the menu for you every time."
+  ],
+  "InternalInfo": {
+    "Project": "BinMenu2",
+    "Modified": "09/10/2019",
+    "Author": "Dana Meli <danamw@gmail.com>",
+    "Support": "https://github.com/danamw/PowerShell-tuneup",
+    "License": "MIT"
+  },
+  "Setup": {
+    "_ScriptName": "[string] The starting folder that BinMenu reads from.",
+    "ScriptName": "BinMenu",
+    "_Base": "[string] The starting folder that BinMenu reads from.",
+    "Base": "D:\\bin",
+    "_Editor": "[string] Defines a text editor to use from BinMenu",
+    "Editor": "D:\\bin\\NPP\\NotePad++.exe",
+    "_MenuAdds": "[bool] Determines if the menu adds are used or not",
+    "MenuAdds": 1,
+    "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
+    "Notify": true,
+    "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
+    "WPosition": true,
+    "_WinHeight": "[int] How tall to draw the inner window.",
+    "WinHeight": "47",
+    "_WinWidth": "[int] How wide to draw the inner window.",
+    "WinWidth": "104",
+    "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
+    "WinX": "550",
+    "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
+    "WinY": "200",
+    "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
+    "WinSMX": "700",
+    "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
+    "WinSMY": "125",
+    "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
+    "WinSX": "310",
+    "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
+    "WinSY": "200",
+    "_DeBug": "[bool] My Internal script debug information.",
+    "DeBug": false
+  },
+  "AddItem-1": {
+    "Name": "RegEdit",
+    "Command": "C:\\Windows\\Regedit.exe",
+    "Argument": ""
+  },
+  "AddItem-2": {
+    "Name": "Clean Manager",
+    "Command": "C:\\Windows\\System32\\cleanmgr.exe",
+    "Argument": ""
+  },
+  "AddItem-3": {
+    "Name": "Process Manager",
+    "Command": "D:\\bin\\wscc\\SysInternals Suite\\procexp64.exe",
+    "Argument": ""
+  },
+  "AddItem-4": {
+    "Name": "My Downloads",
+    "Command": "D:\\Downloads",
+    "Argument": ""
+  },
+  "AddItem-5": {
+    "Name": "My Bin",
+    "Command": "D:\\bin\\tc\\TOTALCMD64.EXE",
+    "Argument": "D:\\bin"
+  },
+  "AddItem-6": {
+    "Name": "My Home",
+    "Command": "C:\\Users\\Dana",
+    "Argument": ""
+  },
+  "AddItem-7": {
+    "Name": "Firefox Developers Edition",
+    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Get-Firefox.ps1"
+  },
+  "AddItem-8": {
+    "Name": "VirtualBox",
+    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": ""
+  },
+  "AddItem-9": {
+    "Name": "Control Panel",
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": ""
+  },
+  "AddItem-10": {
+    "Name": "Stardock Skin Studio",
+    "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
+    "Argument": ""
+  },
+  "AddItem-11": {
+    "Name": "My Scripts",
+    "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
+    "Argument": ""
+  },
+  "AddItem-12": {
+    "Name": "Delay-StartUp SM",
+    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\DelaySM.ps1"
+  },
+  "AddItem-13": {
+    "Name": "Event Viewer",
+    "Command": "C:\\Windows\\system32\\eventvwr.msc",
+    "Argument": "/s"
+  },
+  "AddItem-14": {
+    "Name": "Network Adapter Settings",
+    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
+    "Argument": ""
+  },
+  "AddItem-15": {
+    "Name": "Network And Sharing",
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": "/name Microsoft.NetworkandSharingCenter"
+  },
+  "AddItem-16": {
+    "Argument": "",
+    "Name": "Ubuntu Bash",
+    "Command": "C:\\Windows\\System32\\bash.exe"
+  },
+  "AddItem-17": {
+    "Argument": "",
+    "Name": "Sound Blaster C2",
+    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
+  },
+  "AddItem-18": {
+    "Name": "Visual Studio Installer",
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1"
+  },
+  "AddItem-19": {
+    "Name": "Visual Studio 2019",
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1"
+  },
+  "AddItem-20": {
+    "Name": "VMWare",
+    "Argument": "D:\\bin\\Run-VMWare.ps1",
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe"
+  }
 }

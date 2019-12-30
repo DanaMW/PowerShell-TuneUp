@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.13"
+$FileVersion = "Version: 2.2.14"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -80,7 +80,6 @@ while (1) {
     }
     FlexWindow
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
-    $Script:ESC = [char]27
     [string]$NormalLine = "~RED~#~~DARKRED~==============================================================~~RED~#~"
     [string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-<~~CYAN~[~~RED~BinMenu Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-<~~DARKRED~|~"
     [string]$LeftLine = "~DARKRED~|~"
@@ -154,7 +153,7 @@ while (1) {
     }
     [int]$pp = $l; [int]$w = 0
     [Console]::SetCursorPosition($w, $pp); WC $NormalLine; $pp++
-    $AWinHeight = ($pp + 5); $ABuffHeight = $AWinHeight
+    $AWinHeight = ($pp + 4); $ABuffHeight = $AWinHeight
     PrettyLine; [int]$u = ($pp - 2)
     While ($v -le $u) { [Console]::SetCursorPosition($w, $v); WC $LeftLine; $v++ }
     [int]$v = 3; [int]$u = ($pp - 2); [int]$w = 63
@@ -253,6 +252,10 @@ while (1) {
         else { $Config.Setup.MenuAdds = 1 }
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         [bool]$MenuAdds = ($Config.Setup.MenuAdds)
+        if ($MenuAdds -eq 1) {
+            $AWinHeight = 46
+            if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 800 | Out-Null }
+        }
         $pop = ""
     }
     if ($pop -eq "X") {
