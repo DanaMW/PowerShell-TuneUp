@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.24"
+$FileVersion = "Version: 1.3.25"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -138,7 +138,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~...................: ~~DARKRED~[~~WHITE~$BASE~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~WHITE~....................: ~~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~tartUp Delay (Secs)~~WHITE~..........: ~~DARKRED~[~~WHITE~$StartDelay~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Dela~~DARKRED~(~~WHITE~Y~~DARKRED~)~ ~DARKCYAN~Between Program Runs~~WHITE~....: ~~DARKRED~[~~WHITE~$Delay~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~DELAY~~DARKRED~)~~DARKCYAN~ Between Program Runs~~WHITE~....: ~~DARKRED~[~~WHITE~$Delay~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~revent From Running~~WHITE~..........: ~~DARKRED~[~~WHITE~$Prevent~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~.......: ~~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~T~~DARKRED~)~~DARKCYAN~est Run Shooting Blanks~~WHITE~......: ~~DARKRED~[~~WHITE~$TestRun~~DARKRED~]~"; $l++
@@ -214,7 +214,7 @@ while (1) {
         }
         [int]$StartDelay = ($Config.Setup.StartDelay)
     }
-    if ($pop -eq "Y") {
+    if ($pop -eq "DELAY") {
         $blah = "Please enter the seconds to delay between each."
         $boop = "Seconds to delay between or ENTER to cancel"
         FuckOff

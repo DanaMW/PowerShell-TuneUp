@@ -19,7 +19,7 @@
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
     "StartDelay": "30",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "5",
+    "Delay": "2",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": false,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
