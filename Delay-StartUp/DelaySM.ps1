@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.25"
+$FileVersion = "Version: 1.3.26"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -193,7 +193,37 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Your Selection Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Option, Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad, ~DARKRED~(~~WHITE~#~~DARKRED~)~~DARKYELLOW~Number to view or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    [Int32]$OutNumber = $null
+    if ([Int32]::TryParse($pop, [ref]$OutNumber)) {
+        $MaxYes = $AddCount
+        $MaxYes = [int][Math]::Ceiling($MaxYes)
+        if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
+            $v = $OutNumber
+            $RI = "RunItem-$v"
+            $vt1 = ($Config.$RI).name
+            $vt2 = ($Config.$RI).HostOnly
+            $vt3 = ($Config.$RI).RunPath
+            $vt4 = ($Config.$RI).Argument
+            $tw = 1
+            $tp = 19
+            [Console]::SetCursorPosition($tw, $tp)
+            $i = 1
+            while ($i -le $MaxYes) {
+                [Console]::SetCursorPosition($tw, $tp); Say "                                                              "
+                $i++
+                $tp++
+            }
+            $tw = 1
+            $tp = 19
+            [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "    Host: $vt2"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "Argument: $vt4"; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Read-Host -Prompt "[Enter to continue]"
+        }
+    }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"

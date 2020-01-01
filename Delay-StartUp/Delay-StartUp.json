@@ -29,13 +29,13 @@
     "_WPosition": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "WPosition": 1,
     "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
-    "WinX": "550",
+    "WinX": "700",
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": "200",
     "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-    "WinSMX": "690",
+    "WinSMX": "700",
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
-    "WinSMY": "205",
+    "WinSMY": "200",
     "_WinWidth": "[int]",
     "WinWidth": "60",
     "_WinHeight": "[int]",
@@ -94,5 +94,17 @@
     "HostOnly": "ALL",
     "Argument": "",
     "Name": "Ditto"
+  },
+  "RunItem-10": {
+    "Name": "SideSlide",
+    "RunPath": "D:\\bin\\SideSlide\\SideSlide.exe",
+    "Argument": "",
+    "HostOnly": "TINMAN"
+  },
+  "RunItem-11": {
+    "Argument": "",
+    "HostOnly": "ALL",
+    "Name": "Firefox Developers",
+    "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
   }
 }
