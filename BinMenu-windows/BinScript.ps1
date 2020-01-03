@@ -97,11 +97,17 @@ While (1) {
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
         if ($Num -le 9) {
-            if ($header -match $line) { WC "~DARKRED~[~~cyan~ $Num~~DARKRED~]~ ~cyan~$Line~" }
+            if ($header -match $line) {
+                $footer = ("$footer" + "$num" + " ")
+                WC "~DARKRED~[~~cyan~ $Num~~DARKRED~]~ ~cyan~$Line~"
+            }
             else { WC "~DARKRED~[~~WHITE~ $Num~~DARKRED~]~ ~GREEN~$Line~" }
         }
         else {
-            if ($header -match $line) { WC "~DARKRED~[~~cyan~$Num~~DARKRED~]~ ~cyan~$Line~" }
+            if ($header -match $line) {
+                $footer = ("$footer" + "$num" + " ")
+                WC "~DARKRED~[~~cyan~$Num~~DARKRED~]~ ~cyan~$Line~"
+            }
             else { WC "~DARKRED~[~~WHITE~$Num~~DARKRED~]~ ~GREEN~$Line~" }
         }
         if ($i -eq $Row[0]) { [int]$l = -1; [int]$w = $Col[1] }
@@ -124,8 +130,11 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
-            WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"
-            $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+            $OutNumber = ($OutNumber + 1)
+            if ($footer -notmatch $outnumber) {
+                WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"
+                $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+            }
             [string]$FileRun = ($Base + "\BSTempRun.ps1")
             $Filetest = Test-Path -path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
