@@ -37,9 +37,9 @@
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
     "WinSMY": "125",
     "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSX": "310",
+    "WinSX": "300",
     "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSY": "200",
+    "WinSY": "125",
     "_DeBug": "[bool] My Internal script debug information.",
     "DeBug": false
   },

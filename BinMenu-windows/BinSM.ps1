@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.14"
+$FileVersion = "Version: 2.2.15"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -171,6 +171,34 @@ while (1) {
     PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
     else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Your Selection Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    [Int32]$OutNumber = $null
+    if ([Int32]::TryParse($pop, [ref]$OutNumber)) {
+        $MaxYes = $AddCount
+        $MaxYes = [int][Math]::Ceiling($MaxYes)
+        if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
+            $v = $OutNumber
+            $RI = "AddItem-$v"
+            $vt1 = ($Config.$RI).name
+            $vt2 = ($Config.$RI).Command
+            $vt3 = ($Config.$RI).Argument
+            $tw = 1
+            $tp = 19
+            [Console]::SetCursorPosition($tw, $tp)
+            $i = 1
+            while ($i -le $MaxYes) {
+                [Console]::SetCursorPosition($tw, $tp); Say "                                                              "
+                $i++
+                $tp++
+            }
+            $tw = 1
+            $tp = 19
+            [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say " Command: $vt2"; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "Argument: $vt3"; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Read-Host -Prompt "[Enter to continue]"
+        }
+    }
     if ($pop -eq "B") {
         $blah = "Please enter the folder to set as Base"
         $boop = "Folder path or ENTER to cancel"

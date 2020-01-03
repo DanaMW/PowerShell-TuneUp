@@ -73,8 +73,8 @@
   },
   "RunItem-6": {
     "HostOnly": "TINMAN",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
-    "Name": "SoundBlaster Audigy Fx",
+    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe",
+    "Name": "SoundBlaster Command",
     "Argument": ""
   },
   "RunItem-7": {

@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.13"
+$FileVersion = "Version: 2.2.15"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -90,7 +90,7 @@ While (1) {
     [int]$i = 1
     [Int]$num = 1
     FlexWindow
-    $header = "Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
+    $header = "Base.ps1 Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
@@ -114,7 +114,8 @@ While (1) {
     }
     $Reader.close()
     [Console]::SetCursorPosition(0, $pp)
-    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Select A Number ~~DARKRED~(~~WHITE~R~~DARKRED~)~~DARKYELLOW~eload or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+    WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"
+    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Select A Number~DARKRED~(~~WHITE~##~~DARKRED~) (~~WHITE~R~~DARKRED~)~~DARKYELLOW~eload or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -123,6 +124,7 @@ While (1) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
             $cmd1 = $Read
+            WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"
             $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             [string]$FileRun = ($Base + "\BSTempRun.ps1")
             $Filetest = Test-Path -path $FileRun
