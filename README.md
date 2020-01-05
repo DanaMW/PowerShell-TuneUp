@@ -29,6 +29,13 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ---
 
+## MiniMenu
+<a><p align=center>This is a simple menu that you just edit in the options and then the commands to run. Then you just run the menu and pick the option. You should have nearly unlimited options room limited only by memory.</p></a>
+
+- Usage: MiniMenu
+
+---
+
 ## Check-Prof
 <a><p align=center>This is a simple script to display the path of your profile files. It is an example of reading and writing files along with simple formatting. It requires Write-Color in your profile.ps1 and the external script of Remove-Empty.ps1</p></a>
 

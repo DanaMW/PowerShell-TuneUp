@@ -99,7 +99,7 @@
     "Name": "SideSlide",
     "RunPath": "D:\\bin\\SideSlide\\SideSlide.exe",
     "Argument": "",
-    "HostOnly": "TINMAN"
+    "HostOnly": "NONE"
   },
   "RunItem-11": {
     "Argument": "",
