@@ -73,7 +73,7 @@
   },
   "RunItem-6": {
     "HostOnly": "TINMAN",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe",
+    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
     "Name": "SoundBlaster Command",
     "Argument": ""
   },
@@ -103,8 +103,14 @@
   },
   "RunItem-11": {
     "Argument": "",
-    "HostOnly": "ALL",
+    "HostOnly": "TINMAN",
     "Name": "Firefox Developers",
     "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
+  },
+  "RunItem-12": {
+    "Name": "Google Drive Sync",
+    "HostOnly": "TORCHLIGHT",
+    "RunPath": "C:\\Program Files\\Google\\Drive\\googledrivesync.exe",
+    "Argument": ""
   }
 }

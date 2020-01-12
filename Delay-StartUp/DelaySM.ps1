@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.26"
+$FileVersion = "Version: 1.3.27"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -160,7 +160,7 @@ while (1) {
         $it2 = ($Config.$RunItem).HostOnly
         $it3 = ($Config.$RunItem).RunPath
         $it3 = "$it3".split('\')[-1]
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~..: $it1~ ~DARKRED~[~~yellow~Host:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Host:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Host:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $a++
