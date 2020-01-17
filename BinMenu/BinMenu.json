@@ -5,16 +5,16 @@
     "Want added to the menu for you every time."
   ],
   "InternalInfo": {
-    "Project": "BinMenu2",
-    "Modified": "09/10/2019",
+    "Project": "Bin Menu 3",
+    "Modified": "01/17/2020",
     "Author": "Dana Meli <danamw@gmail.com>",
     "Support": "https://github.com/danamw/PowerShell-tuneup",
     "License": "MIT"
   },
   "Setup": {
-    "_ScriptName": "[string] The starting folder that BinMenu reads from.",
-    "ScriptName": "BinMenu",
-    "_Base": "[string] The starting folder that BinMenu reads from.",
+    "_ScriptBase": "[string] The starting folder that BinMenu reads from.",
+    "ScriptBase": "D:\\bin\\BinMenu",
+    "_Base": "[string] The base folder containing all your PS1 scripts.",
     "Base": "D:\\bin",
     "_Editor": "[string] Defines a text editor to use from BinMenu",
     "Editor": "D:\\bin\\NPP\\NotePad++.exe",

@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.17"
+$FileVersion = "Version: 3.0.0"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -18,9 +18,9 @@ if (!($Base)) {
     Set-Variable -Name Base -Value $ans -Scope Global
 }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
-[string]$ScriptName = ($Config.Setup.ScriptName)
+[string]$ScriptBase = ($Config.Setup.ScriptBase)
+Set-Location $ScriptBase.substring(0, 3)
+Set-Location $ScriptBase
 [bool]$DeBug = ($Config.Setup.DeBug)
 [string]$Editor = ($Config.Setup.Editor)
 [bool]$MenuAdds = ($Config.Setup.MenuAdds)
@@ -123,7 +123,7 @@ while (1) {
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.................:~ ~DARKRED~[~~WHITE~$Base~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~..................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~cript Name~~WHITE~.................:~ ~DARKRED~[~~WHITE~$ScriptName~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~cript Base~~WHITE~.................:~ ~DARKRED~[~~WHITE~$ScriptBase~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Debu~~DARKRED~(~~WHITE~G~~DARKRED~)~~WHITE~.......................:~ ~DARKRED~[~WHITE~$Debug~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~.....:~ ~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Use Win ~~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~ositioning~~WHITE~.........:~ ~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
@@ -220,14 +220,14 @@ while (1) {
         [string]$Editor = ($Config.Setup.Editor)
     }
     if ($pop -eq "S") {
-        $blah = "Please enter a name to be given and used for this script."
-        $boop = "Name given this script or ENTER to cancel"
+        $blah = "Please enter the folder where BinMenu is located."
+        $boop = "BinMenu folder or ENTER to cancel"
         FuckOff
         if ($Fixer -ne "") {
-            $Config.Setup.ScriptName = $Fixer
+            $Config.Setup.ScriptBase = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
-        [string]$ScriptName = ($Config.Setup.ScriptName)
+        [string]$ScriptBase = ($Config.Setup.ScriptBase)
     }
     if ($pop -eq "G") {
         if (($Config.Setup.DeBug) -eq 0) { $Config.Setup.DeBug = 1 }
@@ -347,8 +347,8 @@ while (1) {
         [int]$WinSY = ($Config.Setup.WinSY)
     }
     if ($pop -eq "J") {
-        $go1 = ($Base + "\BinMenu.ini")
-        $go2 = ($Base + "\BinMenu.json")
+        $go1 = ($ScriptBase + "\BinMenu.ini")
+        $go2 = ($ScriptBase + "\BinMenu.json")
         $goall = "$go1 $go2"
         Start-Process $Editor -ArgumentList $goall -Verb RunAs
     }
@@ -472,7 +472,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($Base + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
+    if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
     if ($pop -eq "Q") { return }
     FlexWindow
     PrettyLine

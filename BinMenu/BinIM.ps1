@@ -1,17 +1,18 @@
-$FileVersion = "Version: 2.2.17"
+$FileVersion = "Version: 3.0.0"
 $Base = $env:Base
 if (!($Base)) { $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)" }
 if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+$ScriptBase = ($Base + "\BinMenu")
+Set-Location $ScriptBase.substring(0, 3)
+Set-Location $ScriptBase
 Clear-Host
-$FileINI = ($Base + "\BinMenu.ini")
+$FileINI = ($ScriptBase + "\BinMenu.ini")
 $Filetest = Test-Path -path $FileINI
 if (($Filetest)) { Remove-Item –path $FileINI }
-$FileTXT = ($Base + "\BinMenu.txt")
+$FileTXT = ($ScriptBase + "\BinMenu.txt")
 $Filetest = Test-Path -path $FileTXT
 if (($Filetest)) { Remove-Item –path $FileTXT }
-$FileCSv = ($Base + "\BinMenu.csv")
+$FileCSv = ($ScriptBase + "\BinMenu.csv")
 $Filetest = Test-Path -path $FileCSV
 if (($Filetest)) { Remove-Item –path $FileCSV }
 Say $fileVersion "Reading in directory" $Base
@@ -88,6 +89,6 @@ if (($Filetest)) { Remove-Item –path $FileTXT }
 $Filetest = Test-Path -path $FileCSV
 if (($Filetest)) { Remove-Item –path $FileCSV }
 Clear-Host
-Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinMenu.ps1") -Verb RunAs
+Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinMenu.ps1") -Verb RunAs
 return
 #>

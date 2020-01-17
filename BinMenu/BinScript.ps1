@@ -1,10 +1,11 @@
-$FileVersion = "Version: 2.2.17"
+$FileVersion = "Version: 3.0.0"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your Setup, profiles or in this Script. This shit uses that!"; break }
+$ScriptBase = ($Base + "\BinMenu")
 Function MyConfig {
-    $MyConfig = ($Base + "\BinMenu.json")
+    $MyConfig = ($ScriptBase + "\BinMenu.json")
     $MyConfig
 }
 [string]$ConfigFile = MyConfig
@@ -16,14 +17,13 @@ if (!($Config)) {
     Say -ForeGroundColor RED "You need to create or edit BinMenu.json in Base directory"
     break
 }
-[string]$Filetmp = ($Base + "\BinTemp.del")
-Set-Location $Base.substring(0, 3)
-Set-Location $Base
+[string]$Filetmp = ($ScriptBase + "\BinTemp.del")
+Set-Location $ScriptBase.substring(0, 3)
+Set-Location $ScriptBase
 [int]$POSX = ($Config.Setup.WinSX)
 if (!($POSX)) { $POSX = 1 }
 [int]$POSY = ($Config.Setup.WinSY)
 if (!($POSY)) { $POSY = 1 }
-$ScriptName = "BinScript"
 if (!($WinWidth)) {
     $WinWidth = 166
     $BuffWidth = $WinWidth
@@ -135,7 +135,7 @@ While (1) {
                 WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"
                 $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             }
-            [string]$FileRun = ($Base + "\BSTempRun.ps1")
+            [string]$FileRun = ($ScriptBase + "\BSTempRun.ps1")
             $Filetest = Test-Path -path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
             Write-Output "pwsh.exe $cmd1$cmd2" > $FileRun
@@ -145,8 +145,8 @@ While (1) {
             FixLine
             $Filetest = Test-Path -path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
-            Set-Location $Base.substring(0, 3)
-            Set-Location $Base
+            Set-Location $ScriptBase.substring(0, 3)
+            Set-Location $ScriptBase
         }
     }
     elseif ($ans -eq "Q") {
@@ -159,7 +159,7 @@ While (1) {
     }
     elseif ($ans -eq "R") {
         Clear-Host
-        Start-Process "pwsh.exe" -ArgumentList ($Base + "\BinScript.ps1")
+        Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinScript.ps1")
         return
     }
     else {
