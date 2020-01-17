@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: January 12, 2019
+        Last Modified Date: January 17, 2019
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 2.2.16"
+$FileVersion = "Version: 2.2.17"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -185,7 +185,7 @@ if (!($MenuAdds)) {
 $ptemp = ($Base + "\*.ps1")
 [int]$PCount = (Get-ChildItem -Path $ptemp).count
 [string]$NormalLine = "~RED~#~~DARKRED~=====================================================================================================~~RED~#~"
-[string]$FancyLine = "~DARKRED~|~~WHITE~>=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<~~CYAN~[~ ~RED~My BinMenu 2~ ~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=<~~DARKRED~|~"
+[string]$FancyLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<~~CYAN~[~ ~RED~My BinMenu II~ ~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=<~~DARKRED~|~"
 [string]$PrettyLine = "~DARKRED~|~~WHITE~=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=~~DARKRED~|~"
 [string]$SpacerLine = "~DARKRED~|                                                                                                     |~"
 [string]$ProgramLine = "~RED~#~~CYAN~[~~DARKYELLOW~Program Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"

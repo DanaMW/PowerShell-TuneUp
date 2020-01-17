@@ -1,4 +1,4 @@
-$FileVersion = "Version: 2.2.16"
+$FileVersion = "Version: 2.2.17"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
