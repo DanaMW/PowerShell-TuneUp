@@ -33,7 +33,7 @@
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": "200",
     "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-    "WinSMX": "700",
+    "WinSMX": "650",
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
     "WinSMY": "200",
     "_WinWidth": "[int]",
@@ -45,7 +45,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "ALL"
+    "HostOnly": "NONE"
   },
   "RunItem-2": {
     "HostOnly": "ALL",
@@ -66,7 +66,7 @@
     "Argument": "/background"
   },
   "RunItem-5": {
-    "HostOnly": "ALL",
+    "HostOnly": "NONE",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
     "Argument": "-Min"

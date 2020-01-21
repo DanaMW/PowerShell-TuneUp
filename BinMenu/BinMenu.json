@@ -74,73 +74,73 @@
     "Argument": ""
   },
   "AddItem-7": {
-    "Name": "Firefox Developers Edition",
-    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Get-Firefox.ps1"
+    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": "",
+    "Name": "VirtualBox"
   },
   "AddItem-8": {
-    "Name": "VirtualBox",
-    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
-    "Argument": ""
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": "",
+    "Name": "Control Panel"
   },
   "AddItem-9": {
-    "Name": "Control Panel",
-    "Command": "C:\\Windows\\System32\\control.exe",
-    "Argument": ""
+    "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
+    "Argument": "",
+    "Name": "Stardock Skin Studio"
   },
   "AddItem-10": {
-    "Name": "Stardock Skin Studio",
-    "Command": "C:\\Program Files (x86)\\Stardock\\SkinStudio\\SkinStudio.exe",
-    "Argument": ""
+    "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
+    "Argument": "",
+    "Name": "My Scripts"
   },
   "AddItem-11": {
-    "Name": "My Scripts",
-    "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
-    "Argument": ""
+    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\DelaySM.ps1",
+    "Name": "Delay-StartUp SM"
   },
   "AddItem-12": {
-    "Name": "Delay-StartUp SM",
-    "Command": "C:\\Program Files\\PowerShell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\DelaySM.ps1"
+    "Command": "C:\\Windows\\system32\\eventvwr.msc",
+    "Argument": "/s",
+    "Name": "Event Viewer"
   },
   "AddItem-13": {
-    "Name": "Event Viewer",
-    "Command": "C:\\Windows\\system32\\eventvwr.msc",
-    "Argument": "/s"
+    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
+    "Argument": "",
+    "Name": "Network Adapter Settings"
   },
   "AddItem-14": {
-    "Name": "Network Adapter Settings",
-    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
-    "Argument": ""
+    "Command": "C:\\Windows\\System32\\control.exe",
+    "Argument": "/name Microsoft.NetworkandSharingCenter",
+    "Name": "Network And Sharing"
   },
   "AddItem-15": {
-    "Name": "Network And Sharing",
-    "Command": "C:\\Windows\\System32\\control.exe",
-    "Argument": "/name Microsoft.NetworkandSharingCenter"
+    "Command": "C:\\Windows\\System32\\bash.exe",
+    "Argument": "",
+    "Name": "Ubuntu Bash"
   },
   "AddItem-16": {
+    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
     "Argument": "",
-    "Name": "Ubuntu Bash",
-    "Command": "C:\\Windows\\System32\\bash.exe"
+    "Name": "Sound Blaster C2"
   },
   "AddItem-17": {
-    "Argument": "",
-    "Name": "Sound Blaster C2",
-    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
+    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1",
+    "Name": "Visual Studio Installer"
   },
   "AddItem-18": {
-    "Name": "Visual Studio Installer",
     "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1"
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1",
+    "Name": "Visual Studio 2019"
   },
   "AddItem-19": {
-    "Name": "Visual Studio 2019",
     "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1"
+    "Argument": "D:\\bin\\Run-VMWare.ps1",
+    "Name": "VMWare"
   },
   "AddItem-20": {
-    "Name": "VMWare",
-    "Argument": "D:\\bin\\Run-VMWare.ps1",
-    "Command": "C:\\Program Files\\Powershell\\6\\pwsh.exe"
+    "Command": "Wt.exe",
+    "Argument": "",
+    "Name": "Windows Terminal"
   }
 }
