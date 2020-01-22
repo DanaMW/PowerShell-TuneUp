@@ -36,6 +36,14 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ---
 
+## Nano
+<a><p align=center>This is a simple call to nano in Windows WSL bash. It convert a windows path into a linux one and opens the file to edit.</p></a>
+
+- Usage: nano Filename.txt
+- Usage: nano C:\Windows\Filename.txt
+
+---
+
 ## Check-Prof
 <a><p align=center>This is a simple script to display the path of your profile files. It is an example of reading and writing files along with simple formatting. It requires Write-Color in your profile.ps1 and the external script of Remove-Empty.ps1</p></a>
 
