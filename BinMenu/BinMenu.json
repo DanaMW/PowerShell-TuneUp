@@ -142,5 +142,10 @@
     "Command": "Wt.exe",
     "Argument": "",
     "Name": "Windows Terminal"
+  },
+  "AddItem-21": {
+    "Argument": "",
+    "Name": "MineTest",
+    "Command": "D:\\MineTest\\bin\\minetest.exe"
   }
 }

@@ -45,7 +45,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "NONE"
+    "HostOnly": "ALL"
   },
   "RunItem-2": {
     "HostOnly": "ALL",
@@ -60,13 +60,13 @@
     "Argument": ""
   },
   "RunItem-4": {
-    "HostOnly": "NONE",
+    "HostOnly": "ALL",
     "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
     "Argument": "/background"
   },
   "RunItem-5": {
-    "HostOnly": "NONE",
+    "HostOnly": "ALL",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
     "Argument": "-Min"

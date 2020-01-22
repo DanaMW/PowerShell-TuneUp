@@ -96,7 +96,12 @@ if ($Wide -eq 1) {
             }
         }
     }
-    Catch { Say ""; Say -ForegroundColor RED "Folder" $Folder.ToUpper() "was not found. Maybe add a '*'"; return }
+    Catch {
+        Say ""
+        Say -ForegroundColor RED "Folder" $Folder.ToUpper() "was not found. Maybe add a '*'"
+        re
+        return
+    }
     Finally { Say "" }
 }
 else {
