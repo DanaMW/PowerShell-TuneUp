@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.0"
+$FileVersion = "Version: 3.0.1"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -129,7 +129,7 @@ While (1) {
         if ($OutNumber -gt 0 -and $OutNumber -le $MaxYes) {
             $OutNumber = ($OutNumber - 1)
             $Read = (Get-Content $Filetmp)[$OutNumber]
-            $cmd1 = $Read
+            $cmd1 = ($Base + "\" + $Read)
             $OutNumber = ($OutNumber + 1)
             if ($footer -notmatch $outnumber) {
                 WC "~white~#>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<#"

@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: January 17, 2019
+        Last Modified Date: January 24, 2020
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.0"
+$FileVersion = "Version: 3.0.1"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -345,13 +345,13 @@ While (1) {
                     $truck = $bus[1]
                     if (($truck)) {
                         [string]$MakeMove = Split-Path $truck
-                        try { Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove }
+                        try { Start-Process "$horn" -ArgumentList "$truck" -Verb RunAs -WorkingDirectory "$MakeMove" }
                         catch { continue }
                         $ValidOption = "YES"
                         $DidIt = "YES"
                     }
                     else {
-                        try { Start-Process $horn -Verb RunAs }
+                        try { Start-Process "$horn" -Verb RunAs }
                         catch { continue }
                         $ValidOption = "YES"
                         $DidIt = "YES"
@@ -404,7 +404,7 @@ While (1) {
         elseif ($ans -eq "F") { FixLine; Start-Process "C:\Program Files\Microsoft VS Code\Code.exe" -Verb RunAs; FixLine; $ValidOption = "YES" }
         elseif ($ans -eq "G") {
             FixLine
-            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~ClearLogs ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~Reboot ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Shutdown ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~LogOff ~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~Do-Ghost ~~DARKRED~(~~WHITE~6~~DARKRED~)~~GREEN~Run CheckDisk~"
+            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~ClearLogs ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~Reboot ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Shutdown ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~LogOff ~~DARKRED~(~~WHITE~5~~DARKRED~)~~GREEN~Do-Ghost ~~DARKRED~(~~WHITE~6~~DARKRED~)~~GREEN~Run CheckDisk~"
             $cmd = $null; $cmd1 = $null
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a PS1 script name to run~~DARKCYAN~,~ ~DARKYELLOW~a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine

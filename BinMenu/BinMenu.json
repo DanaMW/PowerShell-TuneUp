@@ -139,7 +139,7 @@
     "Name": "VMWare"
   },
   "AddItem-20": {
-    "Command": "Wt.exe",
+    "Command": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe",
     "Argument": "",
     "Name": "Windows Terminal"
   },
