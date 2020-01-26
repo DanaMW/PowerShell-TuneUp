@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.27"
+$FileVersion = "Version: 1.3.28"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -149,7 +149,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Num of Program Runs in JSON~~WHITE~.........: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~SWITCH~~DARKRED~)~~DARKCYAN~ item to OFF~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$i = 1
@@ -420,7 +420,7 @@ while (1) {
             $Script:Fight4 = ($Config.$RunItem).Argument
             $rich1A = "Please enter the NAME or Title of the program for this entry."
             $rich1B = "Current Value: $Fight1"
-            $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, All or NONE]"
+            $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, All or OFF]"
             $rich2B = "Current Value: $Fight2"
             $Rich3A = "Please enter the COMPLETE PATH and FILENAME for this entry"
             $Rich3B = "Current Value: $Fight3"
@@ -476,6 +476,20 @@ while (1) {
             if ($GTG1 -eq "YES" -and $GTG2 -eq "YES" -and $GTG3 -eq "YES") { $GoodToGo = "Verified" }
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
+    }
+    if ($pop -eq "SWITCH") {
+        PrettyLine
+        Say "Enter the Number of RunItem to Switch Off."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+        if (($q1)) {
+            $RunItem = "RunItem-$q1"
+            $Fight = "OFF"
+            $Config.$RunItem.HostOnly = $Fight
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        $Pop = ""
     }
     if ($pop -eq "R") {
         PrettyLine
