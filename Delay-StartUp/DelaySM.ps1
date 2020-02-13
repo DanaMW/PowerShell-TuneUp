@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.29"
+$FileVersion = "Version: 1.3.30"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -496,7 +496,7 @@ while (1) {
                 $Config.$RunItem.HostOnly = $Fight
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($toggle -eq $env:DOMAIN) {
+            if ($toggle -eq $env:USERDOMAIN) {
                 $Fight = "OFF"
                 $Config.$RunItem.HostOnly = $Fight
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
