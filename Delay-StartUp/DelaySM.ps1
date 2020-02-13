@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.3.28"
+$FileVersion = "Version: 1.3.29"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
@@ -149,7 +149,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~SWITCH~~DARKRED~)~~DARKCYAN~ item to OFF~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$i = 1
@@ -420,7 +420,7 @@ while (1) {
             $Script:Fight4 = ($Config.$RunItem).Argument
             $rich1A = "Please enter the NAME or Title of the program for this entry."
             $rich1B = "Current Value: $Fight1"
-            $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, All or OFF]"
+            $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, ON or OFF]"
             $rich2B = "Current Value: $Fight2"
             $Rich3A = "Please enter the COMPLETE PATH and FILENAME for this entry"
             $Rich3B = "Current Value: $Fight3"
@@ -477,17 +477,30 @@ while (1) {
             Read-Host -Prompt "$GoodToGo [Enter to Continue]"
         }
     }
-    if ($pop -eq "SWITCH") {
+    if ($pop -eq "TOG") {
         PrettyLine
-        Say "Enter the Number of RunItem to Switch Off."
+        Say "Enter the Number of RunItem to Toggle Off/ON."
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         PrettyLine
         if (($q1)) {
             $RunItem = "RunItem-$q1"
-            $Fight = "OFF"
-            $Config.$RunItem.HostOnly = $Fight
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Toggle = ($Config.$RunItem).HostOnly
+            if ($toggle -eq "OFF") {
+                $Fight = "ON"
+                $Config.$RunItem.HostOnly = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($toggle -eq "ON") {
+                $Fight = "OFF"
+                $Config.$RunItem.HostOnly = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($toggle -eq $env:DOMAIN) {
+                $Fight = "OFF"
+                $Config.$RunItem.HostOnly = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
         }
         $Pop = ""
     }
@@ -503,7 +516,7 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
-            if ($TestRun2 -ne $env:USERDOMAIN -and $TestRun2 -ne "ALL") {
+            if ($TestRun2 -ne $env:USERDOMAIN -and $TestRun2 -ne "ON") {
                 Say "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
                 [Console]::SetCursorPosition($w, ($pp + 1))
                 $fool = Read-Host -Prompt "Y to continue this foolishness or [Enter to Cancel]"

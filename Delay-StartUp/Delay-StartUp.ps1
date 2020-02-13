@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 26, 2020
+        Last Modified Date: February 12, 2020
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.28"
+$FileVersion = "Version: 1.3.29"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
@@ -88,18 +88,18 @@ if (($WPosition)) {
 }
 if ($Prevent -eq $True) {
     Clear-Host
-    Write-Host ""
     Write-Host "The script setting PREVENT is set to $Prevent."
-    Write-Host "This indicates we need to exit."
-    Write-Host "Set PREVENT to 0 to allow this to run."
-    Write-Host ""
-    Write-Host "Would you like to set it to zero now?"
-    Write-Host "(1) Set PREVENT to ZERO then exit."
-    Write-Host "(2) Set PREVENT to ZERO then run Delay-StartUp now."
-    Write-Host "(3) Exit this and run DelaySM Settings Manager."
+    Write-Host "This STOP is toggleable in the manager."
+    Write-Host "Changing PREVENT to 0 (false) will allow this to run."
+    Write-Host "[>-=-=-=-=-=-=-=-<[ Options ]>-=-=-=-=-=-=-=-<]"
+    Write-Host "(0) Leave PREVENT set 1 (true) and run Delay-StartUp anyway."
+    Write-Host "(1) Set PREVENT to 0 (false) then exit."
+    Write-Host "(2) Set PREVENT to 0 (false) then run Delay-StartUp now."
+    Write-Host "(3) Exit this menu and run DelaySM Settings Manager."
     Write-Host "(4) or (ENTER) Just exit do nothing."
-    $DSPrompt = "[(1), (2), (3), (4) or (ENTER) to EXIT]"
+    $DSPrompt = "[0, 1, 2, 3, 4 or ENTER to EXIT]"
     $ans = Read-Host -Prompt $DSPrompt
+    if ($ans -eq "0") { Write-Host "Running Delay-StartUp for you now" }
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.Setup.Prevent = [bool]$Prevent
@@ -126,7 +126,9 @@ if ($Prevent -eq $True) {
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
-    return
+    if ($ans -eq "4") { return }
+    if ($ans -ne "0") { return }
+
 }
 if ($StartDelay -ne "0") {
     Clear-Host
@@ -167,7 +169,7 @@ while ($c -le $AddCount) {
     $RunSplit = (Split-Path -parent $RunPath)
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
-    if ($RunHost -eq "ALL" -or $RunHost -eq $env:USERDOMAIN) {
+    if ($RunHost -eq "ON" -or $RunHost -eq $env:USERDOMAIN) {
         & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
         if ($TestRun -eq $True) {
             $X = $host.ui.rawui.CursorPosition.X

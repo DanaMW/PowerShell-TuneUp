@@ -21,7 +21,7 @@
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "2",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": false,
+    "Prevent": 1,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
     "Notify": 1,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
@@ -45,28 +45,28 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "ALL"
+    "HostOnly": "ON"
   },
   "RunItem-2": {
-    "HostOnly": "ALL",
+    "HostOnly": "ON",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "ALL",
+    "HostOnly": "ON",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
     "Name": "Redragon Gaming Mouse",
     "Argument": ""
   },
   "RunItem-4": {
-    "HostOnly": "ALL",
+    "HostOnly": "ON",
     "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
     "Argument": "/background"
   },
   "RunItem-5": {
-    "HostOnly": "ALL",
+    "HostOnly": "ON",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
     "Argument": "-Min"
@@ -91,7 +91,7 @@
   },
   "RunItem-9": {
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
-    "HostOnly": "ALL",
+    "HostOnly": "ON",
     "Argument": "",
     "Name": "Ditto"
   },
@@ -103,7 +103,7 @@
   },
   "RunItem-11": {
     "Argument": "",
-    "HostOnly": "ALL",
+    "HostOnly": "OFF",
     "Name": "Firefox Developers",
     "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
   }
