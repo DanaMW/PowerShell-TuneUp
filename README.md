@@ -37,7 +37,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 ---
 
 ## Nano
-<a><p align=center>This is a simple call to nano in Windows WSL bash. It convert a windows path into a linux one and opens the file to edit.</p></a>
+<a><p align=center>This is a simple call to nano in Windows WSL bash. It convert a windows path into a linux one and opens the file to edit. The routines in this script with strip off ".\" if your indicating a file in the current folder. You can do it without that bit if you use tab expanding of files/folders I stripped it out for us.</p></a>
 
 - Usage: nano Filename.txt
 - Usage: nano C:\Windows\Filename.txt
@@ -78,12 +78,10 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ## Get-Files
 
-<a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors. Includes a /w (wide) display</p></a>
+<a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors.</p></a>
 
 - Usage: GET-FILES <normal filesearch parameters>
-- Usage: GET-FILES <normal filesearch parameters> /w (Wide format)
 - Usage: GET-FILES . or with no parmeters (Displays current folder)
-- Usage: GET-FILES . /w (Displays current folder WIDE format)
 
 ---
 
@@ -111,7 +109,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ## Put-Vivaldi
 
-<a><p align=center>I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface. My only beef was that they update it a lot and I would have to edit the files and copy over the custom css to add my changes every time they did. Well this script does the changes for me. You will only need to edit the top two folders in the script. Your custom css and your Vivaldi install base folder. then just run it.</p><a>
+<a><p align=center>I use Vivaldi browser sometimes because it, like Firefox, can have a custom user interface. My only beef was that they update it a lot and I would have to edit the files and copy over the custom css to add my changes every time they did. Well this script does the changes for me. You will only need to edit the top two folders in the script once. Add your custom css and your Vivaldi install base folder then just run it.</p><a>
 
 - Usage: Put-Vivaldi
 
