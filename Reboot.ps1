@@ -1,10 +1,40 @@
+<#
+.SYNOPSIS
+        Reboot
+        Created By: Dana Meli
+        Created Date: May, 2019
+        Last Modified Date: February 18, 2020
+
+.DESCRIPTION
+        This script is designed to be sort of like linux reboot.
+        There are restart and logoff and shutdown options included.
+
+.EXAMPLE
+        Reboot.ps1 STOP
+
+.EXAMPLE
+        Reboot.ps1 SHUTDOWN
+
+.EXAMPLE
+        Reboot.ps1 RESTART
+
+.EXAMPLE
+        Reboot.ps1 REBOOT
+
+.EXAMPLE
+        Reboot.ps1 LOGOFF
+
+.NOTES
+        Still under development.
+
+#>
 [string]$DoWhat = $args
-$FileVersion = "Version: 0.1.5"
+$FileVersion = "Version: 0.1.6"
 if (!($DoWhat)) {
-    asay.ps1 "Reboot $FileVersion is rebooting this machine"
-    Start-Sleep -s 1
-    Say "Reboot $FileVersion is rebooting this machine"
-    & shutdown.exe /R /T 3 /C "Because I Fucking Said So."
+    Say "Reboot $FileVersion help."
+    Say "Reboot STOP or Reboot SHUTDOWN"
+    Say "Reboot RESTART or Reboot REBOOT"
+    Say "Reboot LOGOFF"
     return
 }
 if ($DoWhat -eq "STOP") {
