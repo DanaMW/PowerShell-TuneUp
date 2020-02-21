@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: January 24, 2020
+        Last Modified Date: February 19, 2020
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.1"
+$FileVersion = "Version: 3.0.2"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -418,7 +418,7 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\clearlogs.ps1") -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1") -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 REBOOT") -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 STOP") -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 LOGOFF") -Verb RunAs; FixLine; break }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-Ghost.ps1") -Verb RunAs; FixLine }
