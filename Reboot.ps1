@@ -10,6 +10,9 @@
         There are restart and logoff and shutdown options included.
 
 .EXAMPLE
+        Reboot.ps1 HELP
+
+.EXAMPLE
         Reboot.ps1 STOP
 
 .EXAMPLE
@@ -29,12 +32,18 @@
 
 #>
 [string]$DoWhat = $args
-$FileVersion = "Version: 0.1.6"
-if (!($DoWhat)) {
+$FileVersion = "Version: 0.1.7"
+if (!($DoWhat) -or $DoWhat -eq "HELP") {
+    Say ""
     Say "Reboot $FileVersion help."
-    Say "Reboot STOP or Reboot SHUTDOWN"
-    Say "Reboot RESTART or Reboot REBOOT"
+    Say ""
+    Say "Reboot STOP"
+    Say "Reboot SHUTDOWN"
+    Say "Reboot RESTART"
+    Say "Reboot REBOOT"
     Say "Reboot LOGOFF"
+    Say "Reboot HELP"
+    Say ""
     return
 }
 if ($DoWhat -eq "STOP") {
