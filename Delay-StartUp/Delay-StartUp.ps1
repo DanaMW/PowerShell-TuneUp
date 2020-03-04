@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: February 13, 2020
+        Last Modified Date: March 04, 2020
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,8 +16,9 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.3.30"
+$FileVersion = "Version: 1.4.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
+if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
@@ -27,8 +28,8 @@ $ConfigFile = MyConfig
 try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
 catch { Write-Host -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
-    Write-Host -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Write-Host -ForeGroundColor RED "You need to create or edit BinMenu.json in" $BASE
+    Write-Host -ForeGroundColor RED "The Delay-StartUp.json configuration file is missing!"
+    Write-Host -ForeGroundColor RED "You need to create or edit Delay-StartUp.json in $BASE"
     break
 }
 $BASE = $env:Base

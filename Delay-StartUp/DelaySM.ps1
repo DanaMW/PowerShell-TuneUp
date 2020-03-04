@@ -1,16 +1,17 @@
-$FileVersion = "Version: 1.3.30"
+$FileVersion = "Version: 1.4.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
+if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
 Function MyConfig {
-    $Script:MyConfig = $(Get-ScriptDir) + "\Delay-StartUp.json"
+    $Script:MyConfig = ($ScriptBase + "\Delay-StartUp.json")
     $MyConfig
 }
 $Script:ConfigFile = MyConfig
 try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
-    Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
-    Say -ForeGroundColor RED "You need to create or edit BinMenu.json in" $BASE
+    Say -ForeGroundColor RED "The Delay-StartUp.json configuration file is missing!"
+    Say -ForeGroundColor RED "You need to create or edit DelayStartUp.json in $BASE"
     break
 }
 $BASE = $env:Base
@@ -313,7 +314,7 @@ while (1) {
         [string]$Editor = ($Config.Setup.Editor)
     }
     if ($pop -eq "J") {
-        $go = ($BASE + "\Delay-StartUp.json")
+        $go = ($ScriptBase + "\Delay-StartUp.json")
         Start-Process $Editor -ArgumentList $go -Verb RunAs
         PrettyLine
     }
