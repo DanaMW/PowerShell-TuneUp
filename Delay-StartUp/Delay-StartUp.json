@@ -33,7 +33,7 @@
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": "200",
     "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-    "WinSMX": "650",
+    "WinSMX": "700",
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
     "WinSMY": "200",
     "_WinWidth": "[int]",
