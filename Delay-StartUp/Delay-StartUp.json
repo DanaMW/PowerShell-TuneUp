@@ -1,110 +1,110 @@
 {
-  "_Info": [
-    "This is the JSON based Configuration for Delay-StartUp",
-    "RunItems are your Startup items you are delaying",
-    "HostOnly is defined as the only host you want it to run on."
-  ],
-  "InternalInfo": {
-    "Project": "Delay-StartUp",
-    "Modified": "01/26/2020",
-    "Author": "Dana Meli <danamw@gmail.com",
-    "Support": "https://github.com/danamw/PowerShell-tuneup",
-    "License": "MIT"
-  },
-  "Setup": {
-    "_Base": "[string] The starting folder that Delay-StartUp reads from.",
-    "Base": "D:\\bin",
-    "_Editor": "[string] The Text Editor you would like to use.",
-    "Editor": "D:\\bin\\NPP\\Notepad++.exe",
-    "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "1",
-    "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "1",
-    "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": 1,
-    "_Notify": "[bool] If Notifications should be sent to asay/notify.",
-    "Notify": 1,
-    "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
-    "TestRun": 0,
-    "_WPosition": "[bool] 0 for normal 1 to test run script without loading any programs.",
-    "WPosition": 1,
-    "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
-    "WinX": "700",
-    "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
-    "WinY": "200",
-    "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-    "WinSMX": "700",
-    "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
-    "WinSMY": "200",
-    "_WinWidth": "[int]",
-    "WinWidth": "60",
-    "_WinHeight": "[int]",
-    "WinHeight": "25"
-  },
-  "RunItem-1": {
-    "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
-    "Name": "RainMeter",
-    "Argument": "",
-    "HostOnly": "ON"
-  },
-  "RunItem-2": {
-    "HostOnly": "ON",
-    "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
-    "Name": "uGet Download Manager",
-    "Argument": "--Quiet"
-  },
-  "RunItem-3": {
-    "HostOnly": "ON",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
-    "Name": "Redragon Gaming Mouse",
-    "Argument": ""
-  },
-  "RunItem-4": {
-    "HostOnly": "ON",
-    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
-    "Name": "OneDrive",
-    "Argument": "/background"
-  },
-  "RunItem-5": {
-    "HostOnly": "ON",
-    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
-    "Name": "Console Emulater",
-    "Argument": "-Min"
-  },
-  "RunItem-6": {
-    "HostOnly": "TINMAN",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
-    "Name": "SoundBlaster Command",
-    "Argument": ""
-  },
-  "RunItem-7": {
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
-    "HostOnly": "TORCHLIGHT",
-    "Argument": "",
-    "Name": "IDT PC Audio"
-  },
-  "RunItem-8": {
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
-    "HostOnly": "TORCHLIGHT",
-    "Argument": "",
-    "Name": "Beats64"
-  },
-  "RunItem-9": {
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
-    "HostOnly": "ON",
-    "Argument": "",
-    "Name": "Ditto"
-  },
-  "RunItem-10": {
-    "Name": "SideSlide",
-    "RunPath": "D:\\bin\\SideSlide\\SideSlide.exe",
-    "Argument": "",
-    "HostOnly": "OFF"
-  },
-  "RunItem-11": {
-    "Argument": "",
-    "HostOnly": "OFF",
-    "Name": "Firefox Developers",
-    "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
-  }
+    "_Info": [
+        "This is the JSON based Configuration for Delay-StartUp",
+        "RunItems are your Startup items you are delaying",
+        "HostOnly is defined as the only host you want it to run on."
+    ],
+    "InternalInfo": {
+        "Project": "Delay-StartUp",
+        "Modified": "01/26/2020",
+        "Author": "Dana Meli <danamw@gmail.com",
+        "Support": "https://github.com/danamw/PowerShell-tuneup",
+        "License": "MIT"
+    },
+    "Setup": {
+        "_Base": "[string] The starting folder that Delay-StartUp reads from.",
+        "Base": "D:\\bin",
+        "_Editor": "[string] The Text Editor you would like to use.",
+        "Editor": "D:\\bin\\NPP\\Notepad++.exe",
+        "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
+        "StartDelay": "1",
+        "_Delay": "[int] Defines the delay between each program run.",
+        "Delay": "1",
+        "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
+        "Prevent": 1,
+        "_Notify": "[bool] If Notifications should be sent to asay/notify.",
+        "Notify": 1,
+        "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
+        "TestRun": 0,
+        "_WPosition": "[bool] 0 for normal 1 to test run script without loading any programs.",
+        "WPosition": 1,
+        "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
+        "WinX": "700",
+        "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
+        "WinY": "200",
+        "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
+        "WinSMX": "700",
+        "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
+        "WinSMY": "200",
+        "_WinWidth": "[int]",
+        "WinWidth": "40",
+        "_WinHeight": "[int]",
+        "WinHeight": "15"
+    },
+    "RunItem-1": {
+        "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
+        "Name": "RainMeter",
+        "Argument": "",
+        "HostOnly": "ON"
+    },
+    "RunItem-2": {
+        "HostOnly": "ON",
+        "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
+        "Name": "uGet Download Manager",
+        "Argument": "--Quiet"
+    },
+    "RunItem-3": {
+        "HostOnly": "ON",
+        "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
+        "Name": "Redragon Gaming Mouse",
+        "Argument": ""
+    },
+    "RunItem-4": {
+        "HostOnly": "ON",
+        "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
+        "Name": "OneDrive",
+        "Argument": "/background"
+    },
+    "RunItem-5": {
+        "HostOnly": "ON",
+        "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
+        "Name": "Console Emulater",
+        "Argument": "-Min"
+    },
+    "RunItem-6": {
+        "HostOnly": "TINMAN",
+        "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
+        "Name": "SoundBlaster Command",
+        "Argument": ""
+    },
+    "RunItem-7": {
+        "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
+        "HostOnly": "TORCHLIGHT",
+        "Argument": "",
+        "Name": "IDT PC Audio"
+    },
+    "RunItem-8": {
+        "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
+        "HostOnly": "TORCHLIGHT",
+        "Argument": "",
+        "Name": "Beats64"
+    },
+    "RunItem-9": {
+        "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+        "HostOnly": "ON",
+        "Argument": "",
+        "Name": "Ditto"
+    },
+    "RunItem-10": {
+        "Name": "SideSlide",
+        "RunPath": "D:\\bin\\SideSlide\\SideSlide.exe",
+        "Argument": "",
+        "HostOnly": "OFF"
+    },
+    "RunItem-11": {
+        "Argument": "",
+        "HostOnly": "OFF",
+        "Name": "Firefox Developers",
+        "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
+    }
 }

@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.4.0"
+$FileVersion = "Version: 1.4.1"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function MyConfig {
@@ -89,23 +89,25 @@ if (($WPosition)) {
 }
 if ($Prevent -eq $True) {
     Clear-Host
-    Write-Host "The script setting PREVENT is set to $Prevent."
-    Write-Host "This STOP is toggleable in the manager."
-    Write-Host "Changing PREVENT to 0 (false) will allow this to run."
-    Write-Host "[>-=-=-=-=-=-=-=-<[ Options ]>-=-=-=-=-=-=-=-<]"
-    Write-Host "(0) Leave PREVENT set 1 (true) and run Delay-StartUp anyway."
-    Write-Host "(1) Set PREVENT to 0 (false) then exit."
-    Write-Host "(2) Set PREVENT to 0 (false) then run Delay-StartUp now."
-    Write-Host "(3) Exit this menu and run DelaySM Settings Manager."
-    Write-Host "(4) or (ENTER) Just exit do nothing."
-    $DSPrompt = "[0, 1, 2, 3, 4 or ENTER to EXIT]"
+    Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
+    Write-Host "   Delay-StartUp Program Launcher  "
+    Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
+    Write-Host " >-=- Prevent set to: 1 [True] -=-<"
+    Write-Host " -=-=-=-=-=-<[ Options ]>-=-=-=-=-="
+    Write-Host " "
+    Write-Host " [0] PREVENT: 1 run Delay-StartUp."
+    Write-Host " [1] PREVENT: 0 then exit."
+    Write-Host " [2] PREVENT: 0 run Delay-StartUp."
+    Write-Host " [3] Exit, run Settings Manager."
+    Write-Host " [4] or ENTER just exit do nothing."
+    $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]"
     $ans = Read-Host -Prompt $DSPrompt
     if ($ans -eq "0") { Write-Host "Running Delay-StartUp for you now" }
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($BASE + "\Delay-StartUp.ps1") to run now.'
+        Write-Host 'Ok all set to run next time.[Run ($BASE + "\Delay-StartUp.ps1") to run now.]'
         return
     }
     if ($ans -eq "2") {
