@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.2"
+$FileVersion = "Version: 3.0.3"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -138,7 +138,7 @@ While (1) {
             [string]$FileRun = ($ScriptBase + "\BSTempRun.ps1")
             $Filetest = Test-Path -path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
-            Write-Output "pwsh.exe $cmd1$cmd2" > $FileRun
+            Write-Output "pwsh.exe $cmd1 $cmd2" > $FileRun
             Write-Output 'Put-Pause -Prompt "~darkcyan~[~~darkyellow~Press any key to return to  menu~~darkcyan~]~white~:~ " -Max 0 -Echo 1' >> $FileRun
             FixLine
             Start-Process pwsh.exe -ArgumentList $FileRun -Verb RunAs -Wait
