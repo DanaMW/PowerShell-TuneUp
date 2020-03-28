@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 04, 2020
+        Last Modified Date: March 28, 2020
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.4.1"
+$FileVersion = "Version: 1.4.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function MyConfig {
@@ -37,6 +37,7 @@ if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Globa
 if (!($BASE)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
+$ScriptBase = (Split-Path -parent $PSCommandPath)
 [int]$StartDelay = ($Config.Setup.StartDelay)
 [int]$Delay = ($Config.Setup.Delay)
 [bool]$Prevent = ($Config.Setup.Prevent)
@@ -107,7 +108,7 @@ if ($Prevent -eq $True) {
         [bool]$Prevent = 0
         $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($BASE + "\Delay-StartUp.ps1") to run now.]'
+        Write-Host 'Ok all set to run next time.[Run ($ScriptBase + "\Delay-StartUp.ps1") to run now.]'
         return
     }
     if ($ans -eq "2") {
@@ -115,17 +116,17 @@ if ($Prevent -eq $True) {
         $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
         Write-Host "Ok all set, Running Delay-StartUp for you now"
-        $command = ($BASE + "\Delay-StartUp.ps1")
+        $command = ($ScriptBase + "\Delay-StartUp.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $BASE
+        $command = $command + " " + "-WorkingDirectory " + $ScriptBase
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
     if ($ans -eq "3") {
         Write-Host "Running DelaySM for you now"
-        $command = ($BASE + "\Delay-StartUp.ps1")
+        $command = ($ScriptBase + "\DelaySM.ps1")
         $command = $command + " " + "-NoLogo -NoProfile"
-        $command = $command + " " + "-WorkingDirectory " + $BASE
+        $command = $command + " " + "-WorkingDirectory " + $ScriptBase
         Start-Process "pwsh.exe" -ArgumentList $command
         return
     }
