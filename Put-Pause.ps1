@@ -3,13 +3,14 @@
         Put-Pause
         Created By: Dana Meli
         Created Date: May, 2019
-        Last Modified Date: November 01, 2019
+        Last Modified Date: March 28, 2020
 
 .DESCRIPTION
         This script is designed to replace Read-Host.
         It is similar except it has a definable timeout period and can define color prompts.
 
 .EXAMPLE
+        Color prompts are usable if you also have the function WCP {} in your profile.
         Put-Pause.ps1 -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ " -Default "Y"
 
 .EXAMPLE
@@ -47,9 +48,8 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.2.2"
+$FileVersion = "Version: 0.2.3"
 $PKB = ""
-Say ""
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
 else {
     if ($Max -le 0) { [int]$Max = 0 }

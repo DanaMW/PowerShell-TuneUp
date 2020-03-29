@@ -21,7 +21,7 @@
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "1",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": 1,
+    "Prevent": 0,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
     "Notify": 1,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
@@ -54,13 +54,13 @@
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
     "Name": "Redragon Gaming Mouse",
     "Argument": ""
   },
   "RunItem-4": {
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
     "Argument": "/background"
@@ -72,7 +72,7 @@
     "Argument": "-Min"
   },
   "RunItem-6": {
-    "HostOnly": "TINMAN",
+    "HostOnly": "OFF",
     "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
     "Name": "SoundBlaster Command",
     "Argument": ""
