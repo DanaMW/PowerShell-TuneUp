@@ -54,57 +54,9 @@
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "OFF",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON\\Gaming Mouse\\hid.exe",
-    "Name": "Redragon Gaming Mouse",
-    "Argument": ""
-  },
-  "RunItem-4": {
-    "HostOnly": "OFF",
-    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
-    "Name": "OneDrive",
-    "Argument": "/background"
-  },
-  "RunItem-5": {
-    "HostOnly": "ON",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
-    "Argument": "-Min"
-  },
-  "RunItem-6": {
-    "HostOnly": "OFF",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe",
-    "Name": "SoundBlaster Command",
-    "Argument": ""
-  },
-  "RunItem-7": {
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\sttray64.exe",
-    "HostOnly": "TORCHLIGHT",
-    "Argument": "",
-    "Name": "IDT PC Audio"
-  },
-  "RunItem-8": {
-    "RunPath": "C:\\Program Files\\IDT\\WDM\\Beats64.exe",
-    "HostOnly": "TORCHLIGHT",
-    "Argument": "",
-    "Name": "Beats64"
-  },
-  "RunItem-9": {
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "HostOnly": "ON",
-    "Argument": "",
-    "Name": "Ditto"
-  },
-  "RunItem-10": {
-    "Name": "SideSlide",
-    "RunPath": "D:\\bin\\SideSlide\\SideSlide.exe",
-    "Argument": "",
-    "HostOnly": "OFF"
-  },
-  "RunItem-11": {
-    "Argument": "",
-    "HostOnly": "OFF",
-    "Name": "Firefox Developers",
-    "RunPath": "C:\\Program Files\\Firefox Developer Edition\\Firefox.exe"
+    "Argument": "-Min"
   }
 }
