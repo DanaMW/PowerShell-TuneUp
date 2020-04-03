@@ -30,6 +30,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 ---
 
 ## MiniMenu
+
 <a><p align=center>This is a simple menu that you just edit in the options and then the commands to run. Then you just run the menu and pick the option. You should have nearly unlimited options room limited only by memory.</p></a>
 
 - Usage: MiniMenu
@@ -37,6 +38,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 ---
 
 ## Nano
+
 <a><p align=center>This is a simple call to nano in Windows WSL bash. It convert a windows path into a linux one and opens the file to edit. The routines in this script with strip off ".\" if your indicating a file in the current folder. You can do it without that bit if you use tab expanding of files/folders I stripped it out for us.</p></a>
 
 - Usage: nano Filename.txt
@@ -45,6 +47,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 ---
 
 ## Check-Prof
+
 <a><p align=center>This is a simple script to display the path of your profile files. It is an example of reading and writing files along with simple formatting. It requires Write-Color in your profile.ps1 and the external script of Remove-Empty.ps1</p></a>
 
 - Usage: Check-Prof
@@ -92,6 +95,16 @@ For help and/or information on my PowerShell Core setup head to the Development 
 - Usage: GET-SYSINFO
 
 <img src="/img/ShowSysInfo.png" alt="SysInfo"/>
+
+---
+
+## Put-Input
+
+<a><p align=center>This is new for PowerShell Core 7 and allows you to have a WinForm dialog for input. Make sure you have the newest DotNet SDK's.</p></a>
+
+- Usage: `Put-Input`
+- Usage: `Put-Input "Any text you want on the dialog:"`
+- Usage: `$ans = Put-Input "What is your answer this this question?"`
 
 ---
 
@@ -171,7 +184,6 @@ Optionally
 
 <a><p align=center>This now uses BurntToast from the PowerShellGallery</p></a>
 
-
 <a><center><https://www.powershellgallery.com/packages/BurntToast></center></a>
 
 <a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard  windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
@@ -218,9 +230,8 @@ Optionally
 
 ## Reboot
 
-<a><p align=center>I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT Just REBOOT alone is the same as REBOOT RESTART I also call this script from the BinMenu above</p></a>
+<a><p align=center>I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT Just REBOOT alone is the same as REBOOT RESTART I also call this script from the BinMenu above. I removed rebooting on REBOOT with no parameter. REBOOT.ps1 REBOOT is now required.</p></a>
 
-- Usage: REBOOT (The same as REBOOT RESTART)
 - Usage: REBOOT STOP or REBOOT SHUTDOWN
 - Usage: REBOOT RESTART or REBOOT REBOOT
 

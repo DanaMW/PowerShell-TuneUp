@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.2"
+$FileVersion = "Version: 1.4.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -221,7 +221,7 @@ while (1) {
             $tp = 19
             [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
-            [Console]::SetCursorPosition($tw, $tp); Say "    Host: $vt2"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "     Run: $vt2"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "Argument: $vt4"; $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Read-Host -Prompt "[Enter to continue]"

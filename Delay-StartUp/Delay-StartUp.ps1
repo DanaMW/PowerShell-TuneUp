@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 28, 2020
+        Last Modified Date: April 03, 2020
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "Version: 1.4.2"
+$FileVersion = "Version: 1.4.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function MyConfig {
@@ -174,7 +174,7 @@ while ($c -le $AddCount) {
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ON" -or $RunHost -eq $env:USERDOMAIN) {
-        & Write-Output " [$a] Starting $RunName [Host: $RunHost]"
+        & Write-Output " [$a] Starting $RunName [Run: $RunHost]"
         if ($TestRun -eq $True) {
             $X = $host.ui.rawui.CursorPosition.X
             $Y = $host.ui.rawui.CursorPosition.Y
