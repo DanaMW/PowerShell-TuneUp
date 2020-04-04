@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.5"
+$FileVersion = "Version: 3.0.7"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -14,7 +14,9 @@ if (!($Config)) { Write-Error -Message "The Base configuration file is missing!"
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($Base)) {
-    $ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
+    #$ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
+    $ans = Put-Input "Enter your Base directory (no trailing slash): "
+    if ($ans -eq "") { EXIT }
     Set-Variable -Name Base -Value $ans -Scope Global
 }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
@@ -88,7 +90,9 @@ while (1) {
         PrettyLine
         Say $blah
         [Console]::SetCursorPosition($w, ($pp + 1))
-        $Script:Fixer = Read-Host -Prompt $boop
+        #$Script:Fixer = Read-Host -Prompt $boop
+        $Script:Fixer = Put-Input $boop
+        if ($Fixer -eq "") { Clear-Variable -Name Fixer -Force  -Scope Script }
         PrettyLine
         $Fixer
     }
@@ -106,13 +110,16 @@ while (1) {
     Function FightOn {
         PrettyLine; Say $Rich1
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight1
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Read-Host -Prompt $boop
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Put-Input $boop
+        if ($Fight1 -eq "") { Clear-Variable -Name Fight1 -Force  -Scope Script }
         PrettyLine; Say $Rich2
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight2
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Read-Host -Prompt $boop
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Put-Input $boop
+        if ($Fight2 -eq "") { Clear-Variable -Name Fight2 -Force  -Scope Script }
         PrettyLine; Say $Rich3
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight3
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Read-Host -Prompt $boop
+        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Put-Input $boop
+        if ($Fight3 -eq "") { Clear-Variable -Name Fight3 -Force  -Scope Script }
         PrettyLine
         if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
         PrettyLine
@@ -473,8 +480,10 @@ while (1) {
     }
     PrettyLine
     if ($pop -eq "L") { Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + '\BinSM.ps1') -Verb RunAs; Clear-Host; return }
-    if ($pop -eq "RUN") { Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + '\BinMenu.ps1') -Verb RunAs; Clear-Host; return }
+    #if ($pop -eq "RUN") { Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + '\BinMenu.lnk') -Verb RunAs; Clear-Host; return }
+    if ($pop -eq "RUN") { Start-Process ($ScriptBase + '\BinMenu.lnk'); Clear-Host; return }
     if ($pop -eq "Q") { return }
+    if ($pop -eq "QUIT") { return }
     FlexWindow
     PrettyLine
 }

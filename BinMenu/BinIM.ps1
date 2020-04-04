@@ -1,6 +1,9 @@
-$FileVersion = "Version: 3.0.5"
+$FileVersion = "Version: 3.0.6"
 $Base = $env:Base
-if (!($Base)) { $Base = Read-Host -Prompt "Enter the path to make your Base directory (No trailing slash)" }
+if (!($Base)) {
+    $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
+    if ($Base -eq "") { EXIT }
+}
 if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }
 $ScriptBase = ($Base + "\BinMenu")
 Set-Location $ScriptBase.substring(0, 3)
@@ -64,7 +67,7 @@ try {
         $Decide = Read-Host -Prompt $Decidep
         if ($Decide -eq "Q") { $writer.close(); break }
         if ($Decide -eq "E") {
-            $NameFix = Read-Host -Prompt "Edit to your liking"
+            $NameFix = Put-Input "Edit to your liking"
             if ($NameFix -eq "") { return }
             $Decide = "Y"
         }
