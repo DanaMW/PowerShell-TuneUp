@@ -449,7 +449,7 @@ While (1) {
             if ($ValidOption -eq "NO") {
                 FixLine
                 [Console]::SetCursorPosition(0, $pp)
-                Say -NoNewLine "Sorry, that is not an option. Feel free to try again."
+                Say -NoNewLine -ForeGroundColor Yellow "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
                 if (($WPosition)) { FlexWindow }
