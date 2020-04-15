@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "Version: 0.0.9"
+$FileVersion = "Version: 0.0.10"
 Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
@@ -11,13 +11,13 @@ Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say ""
 $Success1 = [bool]0
 $Success2 = [bool]0
-if ($HOME -match "C:\\Users\\") {
+if ($env:HOME -match "C:\\Users\\") {
     $ModFile = "D:\Development\GitHub\DanaMW.github.io\scripts\extra\CustomVivaldi.css"
-    $VPath = "C:\Users\Dana\AppData\Local\Vivaldi\Application\"
+    $VPath = "C:\Users\Dana\AppData\Local\vivaldi\Application\"
     Say "Discovered Windows..."
 }
-if ($HOME -match "//home//") {
-    $ModFile = "/home/dana/Downloads/Firefox_BU/CustomVivaldi.css"
+if ($env:HOME -match "/home/dana" -or $env:HOME -match "/root") {
+    $ModFile = "/home/dana/Development/GitHub/DanaMW.github.io/scripts/extra/CustomVivaldi.css"
     $VPath = "/opt/vivaldi-snapshot/resources/vivaldi/"
     Say "Discovered Linux..."
 }
@@ -56,7 +56,7 @@ if (($edit2)) {
     Say $Temp2
     $Copy2 = split-path $temp2 -Parent
     if ($HOME -match 'C:\\Users\\') { $Copy2 = ($Copy2 + "\") }
-    if ($HOME -match '//home//') { $Copy2 = ($Copy2 + "/") }
+    if ($env:HOME -match "/home/dana" -or $env:HOME -match "/root") { $Copy2 = ($Copy2 + "/") }
     Say "Copying your ModFile into ViValdi."
     Copy-Item $ModFile -Destination $Copy2 -Force
     $Read2 = (Get-content $Temp2)[0]
