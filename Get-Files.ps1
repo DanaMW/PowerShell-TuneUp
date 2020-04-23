@@ -4,7 +4,7 @@
         Get-Files
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 15, 2019
+        Last Modified Date: April 23, 2020
 .DESCRIPTION
         This returns an output list of given files names in the given folder.
         The list is formatted and sorted.
@@ -14,7 +14,7 @@
         Still under development.
 #>
 $Folder = "$args"
-$FileVersion = "Version: 0.1.6"
+$FileVersion = "Version: 0.1.7"
 $ESC = [char]27
 if ($Folder -match "/W") {
     [bool]$Wide = "True"
@@ -26,7 +26,7 @@ if ($Folder -match "/W") {
 if ($Folder -eq "DIR") {
     if ($Wide -eq 1) {
         $Folder = "."
-        Say "Get-Files" $FileVersion "Listing" $Folder.ToUpper()
+        Say "Get-Files $FileVersion Listing $Folder.ToUpper()"
         Say ""
         Try {
             Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object {
@@ -40,7 +40,7 @@ if ($Folder -eq "DIR") {
     }
     else {
         $Folder = "."
-        Say "Get-Files" $FileVersion "Listing" $Folder.ToUpper()
+        Say "Get-Files $FileVersion Listing $Folder.ToUpper()"
         Say ""
         Try { Get-ChildItem -Path $Folder -Name -Directory | Sort-Object | ForEach-Object { Say $("$ESC[91m[$ESC[97m" + $_ + "$ESC[91m]") } }
         Catch { Say ""; Say -ForegroundColor RED "Folder" $Folder.ToUpper() "was not found. Maybe add a '*'"; return }
@@ -50,7 +50,7 @@ if ($Folder -eq "DIR") {
     }
 }
 if ($Folder -eq "") { $Folder = "." }
-Say "Get-Files" $FileVersion "Listing" $Folder.ToUpper()
+Say "Get-Files $FileVersion Listing $Folder.ToUpper()"
 if ($Wide -eq 1) {
     $i = 0
     $Stack1 = @()

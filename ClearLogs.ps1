@@ -3,7 +3,7 @@
         Clearlogs (Clear Windows Logs)
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: March 06, 2020
+        Last Modified Date: April 23, 2020
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -23,7 +23,7 @@
 Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "Version: 0.2.19"
+$FileVersion = "Version: 0.2.20"
 $host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -62,7 +62,7 @@ $PShost = Get-Host
 $PSWin = $PShost.ui.rawui
 $PSWin.CursorSize = 0
 FlexWindow
-[Console]::SetCursorPosition(0, 3); Say "Running ClearLogs" $FileVersion
+[Console]::SetCursorPosition(0, 3); Say "Running ClearLogs $FileVersion"
 $ClearSet = 0
 FlexWindow
 & wevtutil.exe el | ForEach-Object { $ClearSet++ }

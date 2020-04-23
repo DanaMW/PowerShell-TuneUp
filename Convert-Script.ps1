@@ -1,6 +1,6 @@
 if ($null -ne $args[0]) { $infile = $args[0] }
 if ($null -ne $args[1]) { $OutFile = $args[1] }
-$fileVersion = "Version: 0.2.0"
+$fileVersion = "Version: 0.2.1"
 if (!($infile)) {
     Say "You fucked up and didnt include -File [<FileToRead>]"
     Say "Take your hand off your dick, try again and type right."
@@ -14,7 +14,7 @@ if (!($infile)) {
 $filetest = Test-Path -path $InFile
 if ($filetest -ne $true) {
     Say "Ok I am done messing with you."
-    Say "You fucked up, The file you specified" $InFile.ToUpper() "is not there."
+    Say "You fucked up, The file you specified $InFile.ToUpper() is not there."
     Say "Put the drugs down and get out."
     return
 }
@@ -24,12 +24,12 @@ if (!($OutFile)) {
     $OutFile = ($tmp1 + "\" + $tmp2)
     $OutFile = ($OutFile -Replace ".user", "")
     $OutFile = ($OutFile + ".user.js")
-    Say "Auto setting the outfile to" $Outfile
+    Say "Auto setting the outfile to $Outfile"
 }
 $filetest = Test-Path -path $OutFile
 if ($filetest -eq $true) { Remove-Item -path $OutFile }
-Say "Convert-Script" $fileVersion "is begining"
-Say "Reading File:" $infile
+Say "Convert-Script $fileVersion is begining"
+Say "Reading File: $infile"
 $HU1 = [string]"// ==UserScript=="
 [int]$Lines = 0
 [int]$lines = (Get-content $infile).count
