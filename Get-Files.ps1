@@ -4,7 +4,7 @@
         Get-Files
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: April 23, 2020
+        Last Modified Date: May 03, 2020
 .DESCRIPTION
         This returns an output list of given files names in the given folder.
         The list is formatted and sorted.
@@ -14,7 +14,7 @@
         Still under development.
 #>
 $Folder = "$args"
-$FileVersion = "Version: 0.1.7"
+$FileVersion = "Version: 0.1.8"
 $ESC = [char]27
 if ($Folder -match "/W") {
     [bool]$Wide = "True"
@@ -50,7 +50,7 @@ if ($Folder -eq "DIR") {
     }
 }
 if ($Folder -eq "") { $Folder = "." }
-Say "Get-Files $FileVersion Listing $Folder.ToUpper()"
+Say "Get-Files $FileVersion Listing" $Folder.ToUpper()
 if ($Wide -eq 1) {
     $i = 0
     $Stack1 = @()
