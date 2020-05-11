@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.1.8"
+$FileVersion = "Version: 0.1.9"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -63,13 +63,13 @@ if ($RunFix -eq "HelpOnly") {
     [Console]::SetCursorPosition(7, 6); WC "~WHITE~need to run it in a certain order. The order is:~"
     [Console]::SetCursorPosition(7, 7); WC "~WHITE~(1)Scan, (2)Check, (3)Repair (4)Reset~"
     [Console]::SetCursorPosition(7, 8); WC "~WHITE~After each run you need to reboot. Normally you need~"
-    [Console]::SetCursorPosition(7, 9); WC "~WHITE~only run ~~CYAN~[~~YELLOW~Do-Repair SCAN~~CYAN~] ~~WHITE~to check it.~"
+    [Console]::SetCursorPosition(7, 9); WC "~WHITE~only run ~~CYAN~[~~YELLOW~Repair-Windows SCAN~~CYAN~] ~~WHITE~to check it.~"
     [Console]::SetCursorPosition(7, 10); WC "~WHITE~For a good check run that, reboot, then run~"
-    [Console]::SetCursorPosition(7, 11); WC "~CYAN~[~~YELLOW~Do-Repair CHECK~~CYAN~]~~WHITE~. Then reboot again. After both your~"
+    [Console]::SetCursorPosition(7, 11); WC "~CYAN~[~~YELLOW~Repair-Windows CHECK~~CYAN~]~~WHITE~. Then reboot again. After both your~"
     [Console]::SetCursorPosition(7, 12); WC "~WHITE~PC should be in good shape and your done even if it said~"
     [Console]::SetCursorPosition(7, 13); WC "~WHITE~it fixed or repaired errors, thats its job.~"
     [Console]::SetCursorPosition(7, 14); WC "~WHITE~Pick number 1 SCAN on the next menu then run~"
-    [Console]::SetCursorPosition(7, 15); WC "~CYAN~[~~YELLOW~Do-Repair CHECK~~CYAN~] ~~WHITE~next after rebooting~"
+    [Console]::SetCursorPosition(7, 15); WC "~CYAN~[~~YELLOW~Repair-Windows CHECK~~CYAN~] ~~WHITE~next after rebooting~"
     [Console]::SetCursorPosition(0, 19)
     $RunFix = ""
     $menuPrompt = WCP "~CYAN~[~~darkyellow~Enter to Continue~~CYAN~]~~WHITE~:~ "
@@ -90,10 +90,10 @@ If ($RunFix -eq "") {
     WC $fline
     WC $nline
     [Console]::SetCursorPosition(7, 3); WC "You Must Run this in a certain order:"
-    [Console]::SetCursorPosition(7, 4); WC "(1) Do-Repair SCAN   [OK to run anytime]"
-    [Console]::SetCursorPosition(7, 5); WC "(2) Do-Repair CHECK  [OK to run anytime]"
-    [Console]::SetCursorPosition(7, 6); WC "(3) Do-Repair REPAIR [Only if the last two don't do it]"
-    [Console]::SetCursorPosition(7, 7); WC "(4) Do-Repair RESET  [Redoes your machine, last resort]"
+    [Console]::SetCursorPosition(7, 4); WC "(1) Repair-Windows SCAN   [OK to run anytime]"
+    [Console]::SetCursorPosition(7, 5); WC "(2) Repair-Windows CHECK  [OK to run anytime]"
+    [Console]::SetCursorPosition(7, 6); WC "(3) Repair-Windows REPAIR [Only if the last two don't do it]"
+    [Console]::SetCursorPosition(7, 7); WC "(4) Repair-Windows RESET  [Redoes your machine, last resort]"
     [Console]::SetCursorPosition(7, 8); WC "(H)elp or (Q)uit"
     [Console]::SetCursorPosition(0, 12)
     $menuPrompt = WCP "~CYAN~[~~darkyellow~Select 1, 2, 3, 4, H or Q~~CYAN~]~~WHITE~:~ "
