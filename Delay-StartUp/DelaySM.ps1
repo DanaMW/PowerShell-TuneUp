@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.3"
+$FileVersion = "Version: 1.4.4"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -71,6 +71,7 @@ while (1) {
         Say $blah
         [Console]::SetCursorPosition($w, ($pp + 1))
         $Script:Fixer = Read-Host -Prompt $boop
+        if (!($Fixer)) { }
         PrettyLine
         $Fixer
     }
@@ -231,7 +232,7 @@ while (1) {
         $blah = "Please enter the folder to set as BASE."
         $boop = "Folder path or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -241,7 +242,7 @@ while (1) {
         $blah = "Please enter the seconds to delay start."
         $boop = "Seconds to delay start or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.StartDelay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -251,7 +252,7 @@ while (1) {
         $blah = "Please enter the seconds to delay between each."
         $boop = "Seconds to delay between or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.Delay = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -285,7 +286,7 @@ while (1) {
         $blah = "Please enter The Console Window Width."
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.BuffWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
             $Config.Setup.WinWidth = $Fixer
@@ -297,7 +298,7 @@ while (1) {
         $blah = "Please enter The Console Height."
         $boop = "Number of console Height or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.BuffHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
             $Config.Setup.WinHeight = $Fixer
@@ -309,7 +310,7 @@ while (1) {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -324,7 +325,7 @@ while (1) {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -334,7 +335,7 @@ while (1) {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -344,7 +345,7 @@ while (1) {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSMX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -354,7 +355,7 @@ while (1) {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSMY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -379,7 +380,7 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
-        if ($q1 -eq "") { $q1 = $qq }
+        if (!($q1)) { $q1 = $qq }
         $RunItem = "RunItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config = $Config | Select-Object -Property * -ExcludeProperty $RunItem
@@ -429,24 +430,24 @@ while (1) {
             $Rich3B = "Current Value: $Fight3"
             $rich4A = "Please enter any ARGUMENTS you need for this entry."
             $rich4B = "Current Value: $Fight4"
-            $boop = "[ENTER for No Change or - to Clear]"
+            $boop = "[OK for No Change or - to Clear]"
             FightOn
-            if ($Fight1 -ne "") {
+            if (($Fight1)) {
                 if ($Fight1 -eq "-") { $Fight1 = "" }
                 $Config.$RunItem.Name = $Fight1
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($Fight2 -ne "") {
+            if (($Fight2)) {
                 if ($Fight2 -eq "-") { $Fight2 = "" }
                 $Config.$RunItem.HostOnly = $Fight2
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($Fight3 -ne "") {
+            if (($Fight3)) {
                 if ($Fight3 -eq "-") { $Fight3 = "" }
                 $Config.$RunItem.RunPath = $Fight3
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($Fight4 -ne "") {
+            if (($Fight4)) {
                 if ($Fight4 -eq "-") { $Fight4 = "" }
                 $Config.$RunItem.Argument = $Fight4
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
@@ -526,13 +527,13 @@ while (1) {
                 PrettyLine
                 if ($Fool -eq "Y") {
                     Say "Test Running Entry $q1 $TestRun1"
-                    if ($TestRun4 -ne "") { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
+                    if (($TestRun4)) { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
                     else { Start-Process -FilePath $TestRun3 }
                 }
             }
             else {
                 Say "Test Running Entry $q1 $TestRun1"
-                if ($TestRun4 -ne "") { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
+                if (($TestRun4)) { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
                 else { Start-Process -FilePath $TestRun3 }
             }
         }

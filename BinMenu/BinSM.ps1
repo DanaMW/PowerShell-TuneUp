@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.7"
+$FileVersion = "Version: 3.0.8"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -111,15 +111,15 @@ while (1) {
         PrettyLine; Say $Rich1
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight1
         [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Put-Input $boop
-        if ($Fight1 -eq "") { Clear-Variable -Name Fight1 -Force  -Scope Script }
+        if ($Fight1 -eq "") { Clear-Variable -Name Fight1 -Force -Scope Script }
         PrettyLine; Say $Rich2
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight2
         [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Put-Input $boop
-        if ($Fight2 -eq "") { Clear-Variable -Name Fight2 -Force  -Scope Script }
+        if ($Fight2 -eq "") { Clear-Variable -Name Fight2 -Force -Scope Script }
         PrettyLine; Say $Rich3
         [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight3
         [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Put-Input $boop
-        if ($Fight3 -eq "") { Clear-Variable -Name Fight3 -Force  -Scope Script }
+        if ($Fight3 -eq "") { Clear-Variable -Name Fight3 -Force -Scope Script }
         PrettyLine
         if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
         PrettyLine
@@ -210,7 +210,7 @@ while (1) {
         $blah = "Please enter the folder to set as Base"
         $boop = "Folder path or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.Base = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -220,7 +220,7 @@ while (1) {
         $blah = "Please enter the Complete path and file name to your text editor"
         $boop = "path-file for editor or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.Editor = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -230,7 +230,7 @@ while (1) {
         $blah = "Please enter the folder where BinMenu is located."
         $boop = "BinMenu folder or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.ScriptBase = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -260,7 +260,7 @@ while (1) {
         $blah = "Please enter The Console Window Width."
         $boop = "Number of console Width or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.BuffWidth = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
             $Config.Setup.WinWidth = $Fixer
@@ -273,7 +273,7 @@ while (1) {
         $blah = "Please enter The Console Window Height."
         $boop = "Number of console Height or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.BuffHeight = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
             $Config.Setup.WinHeight = $Fixer
@@ -297,7 +297,7 @@ while (1) {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -307,7 +307,7 @@ while (1) {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -317,7 +317,7 @@ while (1) {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSMX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -327,7 +327,7 @@ while (1) {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSMY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -337,7 +337,7 @@ while (1) {
         $blah = "Please enter the window position from LEFT."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSX = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -347,7 +347,7 @@ while (1) {
         $blah = "Please enter the window position from TOP."
         $boop = "Number of window position or ENTER to cancel"
         FuckOff
-        if ($Fixer -ne "") {
+        if (($Fixer)) {
             $Config.Setup.WinSY = $Fixer
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
@@ -417,22 +417,22 @@ while (1) {
             $rich1 = "Please enter the NAME or Title of the program for this entry."
             $rich2 = "Please enter COMPLETE PATH and FILENAME for this entry."
             $rich3 = "Please enter any ARGUMENTS you need for this entry."
-            $boop = "[ENTER for No Change]"
+            $boop = "[OK for No Change]"
             $Fight1 = ($Config.$AddItem).Name
             $Fight2 = ($Config.$AddItem).Command
             $Fight3 = ($Config.$AddItem).Argument
             if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
             FightOn
             PrettyLine
-            if ($Fight1 -ne "") {
+            if (($Fight1)) {
                 $Config.$AddItem.Name = $Fight1
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($Fight2 -ne "") {
+            if (($Fight2)) {
                 $Config.$AddItem.Command = $Fight2
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
-            if ($Fight3 -ne "") {
+            if (($Fight3)) {
                 $Config.$AddItem.Argument = $Fight3
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
@@ -474,7 +474,7 @@ while (1) {
             $TestRun2 = ($Config.$AddItem).Command
             $TestRun3 = ($Config.$AddItem).Argument
             Say "Test Running Entry" $q1 $TestRun1
-            if ($TestRun3 -ne "") { Start-Process -FilePath $TestRun2 -ArgumentList $TestRun3 }
+            if (($TestRun3)) { Start-Process -FilePath $TestRun2 -ArgumentList $TestRun3 }
             else { Start-Process -FilePath $TestRun2 }
         }
     }
