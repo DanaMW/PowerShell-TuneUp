@@ -3,7 +3,7 @@
         Reboot
         Created By: Dana Meli
         Created Date: May, 2019
-        Last Modified Date: February 18, 2020
+        Last Modified Date: May 23, 2020
 
 .DESCRIPTION
         This script is designed to be sort of like linux reboot.
@@ -11,6 +11,9 @@
 
 .EXAMPLE
         Reboot.ps1 HELP
+
+.EXAMPLE
+        Reboot.ps1 (Reboot alone times out to no reboot but you can trigger one.)
 
 .EXAMPLE
         Reboot.ps1 STOP
@@ -32,8 +35,8 @@
 
 #>
 [string]$DoWhat = $args
-$FileVersion = "Version: 0.1.7"
-if (!($DoWhat) -or $DoWhat -eq "HELP") {
+$FileVersion = "Version: 0.1.8"
+if ($DoWhat -eq "HELP") {
     Say ""
     Say "Reboot $FileVersion help."
     Say ""
@@ -81,5 +84,16 @@ if ($DoWhat -eq "LOGOFF") {
     & shutdown.exe /L
     return
 }
-Say "Reboot $FileVersion [It should not get to here so ERROR]"
-Say "The parameter" $DoWhat.ToUpper() "did not match any options."
+$Ans = Put-Pause -Prompt "(Y)es to reboot: " -Max 3000 -Echo 1
+if ($Ans -eq "Y") {
+    asay.ps1 "Reboot $FileVersion is rebooting this machine"
+    Start-Sleep -s 1
+    Say "Reboot $FileVersion is rebooting this machine"
+    & shutdown.exe /R /T 3 /C "Because I Fucking Said So."
+    return
+}
+else {
+    Say "Reboot $FileVersion" '[Try "Reboot Help" if you are lost.]'
+    if (($DoWhat)) { Say "The parameter" $DoWhat.ToUpper() "did not match any options." }
+    else { Say "You are just spinning your wheels there buddy." }
+}
