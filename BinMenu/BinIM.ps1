@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.8"
+$FileVersion = "Version: 3.0.9"
 $Base = $env:Base
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
@@ -92,6 +92,5 @@ if (($Filetest)) { Remove-Item –path $FileTXT }
 $Filetest = Test-Path -path $FileCSV
 if (($Filetest)) { Remove-Item –path $FileCSV }
 Clear-Host
-Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinMenu.ps1") -Verb RunAs
+Invoke-Item ($ScriptBase + "\BinMenu.lnk");
 return
-#>
