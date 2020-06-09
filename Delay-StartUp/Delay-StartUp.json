@@ -45,7 +45,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "OFF"
+    "HostOnly": "ON"
   },
   "RunItem-2": {
     "HostOnly": "ON",

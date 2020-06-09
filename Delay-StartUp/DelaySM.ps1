@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.4"
+$FileVersion = "Version: 1.4.5"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -130,6 +130,9 @@ while (1) {
         $Fight3
         $Fight4
     }
+    #$Filechk = Test-Path -path ($ScriptBase + "\Delay-temp.tmp")
+    #if (($filechk)) { Remove-Item ($ScriptBase + "\Delay-temp.tmp") }
+    # Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List | Out-File ($ScriptBase + "\Delay-temp.tmp")
     Clear-Host
     SpinItems
     [int]$l = 0
@@ -156,8 +159,24 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
-    [int]$i = 1
     [int]$w = 1
+    [int]$i = 0
+    $StartUp = Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User; Start-Sleep -m 1000
+    $su = ($StartUp).count
+    $su = ($su - 1)
+    while ($i -le $su) {
+        $SUItem = $StartUp[$i]
+        $su1 = $SUItem.name
+        #$su2 = $SUItem.location
+        $su2 = "System"
+        $su3 = $SUItem.command
+        $su3 = "$su3".split('\')[-1]
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ 0~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~0~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+        $i++
+        $a++
+    }
+    [int]$i = 1
     while ($i -le $AddCount) {
         $RunItem = "RunItem-$i"
         $it1 = ($Config.$RunItem).name
@@ -167,6 +186,7 @@ while (1) {
         if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
+        $j++
         $a++
     }
     $w = 0
