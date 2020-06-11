@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.5"
+$FileVersion = "Version: 1.4.6"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -171,8 +171,8 @@ while (1) {
         $su2 = "System"
         $su3 = $SUItem.command
         $su3 = "$su3".split('\')[-1]
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ 0~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~0~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
         $i++
         $a++
     }
