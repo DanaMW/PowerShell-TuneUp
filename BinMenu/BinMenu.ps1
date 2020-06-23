@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.9"
+$FileVersion = "Version: 3.0.10"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -410,9 +410,9 @@ While (1) {
                     FixLine
                 }
                 elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "Ubuntu.exe"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist d:\bin\tc.ps1 -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 else {
                     $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Want any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                     FixLine
