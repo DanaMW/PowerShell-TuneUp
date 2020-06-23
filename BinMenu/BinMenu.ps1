@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: May 13, 2020
+        Last Modified Date: June 23, 2020
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.8"
+$FileVersion = "Version: 3.0.9"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -394,7 +394,37 @@ While (1) {
         }
         elseif ($ans -eq "B") { Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "D") { FixLine; Start-Process "pwsh.exe" -WorkingDirectory $Base -Verb RunAs; $ValidOption = "YES" }
+        elseif ($ans -eq "D") {
+            FixLine
+            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~~GREEN~PowerShell ~~DARKRED~(~~WHITE~2~~DARKRED~)~~GREEN~CMD ~~DARKRED~(~~WHITE~3~~DARKRED~)~~GREEN~Ubuntu ~~DARKRED~(~~WHITE~4~~DARKRED~)~~GREEN~Total Commander~"
+            $cmd = $null; $cmd1 = $null
+            $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
+            FixLine
+            if (($cmd)) {
+                $OneShot = "NO"
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4") { $QM = "YES" }
+                if ($cmd -eq "pwsh" -or $cmd -eq "cmd" -or $cmd -eq "ubuntu") { $OneShot = "YES" }
+                if ($OneShot -eq "YES") {
+                    #$cmd = ($cmd.split(".")[0] + ".PS1")
+                    Start-Process $cmd -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
+                elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "Ubuntu.exe"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist d:\bin\tc.ps1 -Verb RunAs; FixLine }
+                else {
+                    $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Want any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+                    FixLine
+                    $cmd = ($cmd.split(".")[0] + ".PS1")
+                    [string]$cmd = ("$cmd $cmd1")
+                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    FixLine
+                }
+            }
+            FixLine
+            $ValidOption = "YES"
+        }
         elseif ($ans -eq "E") {
             FixLine
             $Filetest = Test-Path -path $Filetmp
