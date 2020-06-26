@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: June 23, 2020
+        Last Modified Date: June 25, 2020
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.10"
+$FileVersion = "Version: 3.0.11"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -232,7 +232,7 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 }
 [int]$l = 3
 $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu", "Run INI Maker", "Run a PowerShell console", "Script Window", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+$f = @("Run an EXE directly", "Reload BinMenu (R also)", "Run INI Maker", "Run a PowerShell console", "Script Window", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
 [int]$w = $Col[0]
 [int]$c = 0
 while ($c -le 8) {
@@ -401,29 +401,19 @@ While (1) {
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
             if (($cmd)) {
-                $OneShot = "NO"
-                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4") { $QM = "YES" }
-                if ($cmd -eq "pwsh" -or $cmd -eq "cmd" -or $cmd -eq "ubuntu") { $OneShot = "YES" }
-                if ($OneShot -eq "YES") {
-                    #$cmd = ($cmd.split(".")[0] + ".PS1")
-                    Start-Process $cmd -Argumentlist $cmd -Verb RunAs
-                    FixLine
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4") {
+                    $QM = "YES"
+                    $ValidOption = "YES"
                 }
-                elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
+                if ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "Ubuntu.exe"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 else {
-                    $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Want any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                     FixLine
-                    $cmd = ($cmd.split(".")[0] + ".PS1")
-                    [string]$cmd = ("$cmd $cmd1")
-                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
-                    FixLine
+                    $ValidOption = "NO"
                 }
             }
-            FixLine
-            $ValidOption = "YES"
         }
         elseif ($ans -eq "E") {
             FixLine
