@@ -401,7 +401,7 @@ While (1) {
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
             if (($cmd)) {
-                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4") {
+                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4" -or $cmd -eq "5") {
                     $QM = "YES"
                     $ValidOption = "YES"
                 }
@@ -409,7 +409,7 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "Ubuntu.exe"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "terminal.exe"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "wt.exe"; FixLine }
                 else {
                     FixLine
                     $ValidOption = "NO"
