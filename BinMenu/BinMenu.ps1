@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.12"
+$FileVersion = "Version: 3.0.13"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -401,15 +401,20 @@ While (1) {
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
             if (($cmd)) {
-                if ($cmd -eq "1" -or $cmd -eq "2" -or $cmd -eq "3" -or $cmd -eq "4" -or $cmd -eq "5") {
+                if ($cmd -eq "1" -or $cmd -eq "1+" -or $cmd -eq "2" -or $cmd -eq "2+" -or $cmd -eq "3" -or $cmd -eq "3+" -or $cmd -eq "4" -or $cmd -eq "4+" -or $cmd -eq "5" -or $cmd -eq "5+"  ) {
                     $QM = "YES"
                     $ValidOption = "YES"
                 }
                 if ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "1+") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "Ubuntu.exe"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "Ubuntu.exe"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "wt.exe"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "wt.exe" -Verb RunAs; FixLine }
                 else {
                     FixLine
                     $ValidOption = "NO"
