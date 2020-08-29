@@ -134,13 +134,13 @@
     "Command": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
   },
   "AddItem-19": {
-    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
     "Argument": "",
-    "Name": "VirtualBox"
+    "Name": "VirtualBox",
+    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe"
   },
   "AddItem-20": {
     "Argument": "",
-    "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
-    "Name": "VMWare"
+    "Name": "VMWare",
+    "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe"
   }
 }
