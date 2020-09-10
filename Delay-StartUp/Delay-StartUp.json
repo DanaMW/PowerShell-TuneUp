@@ -56,7 +56,7 @@
   "RunItem-3": {
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Name": "Console Emulater",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Argument": "-Min"
   }
 }
