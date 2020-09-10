@@ -58,5 +58,11 @@
     "Name": "Console Emulater",
     "HostOnly": "OFF",
     "Argument": "-Min"
+  },
+  "RunItem-4": {
+    "RunPath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "Argument": "Run-WTHigh.ps1",
+    "HostOnly": "ON",
+    "Name": "Windows Terminal Admin"
   }
 }
