@@ -1,20 +1,21 @@
 # Repository Information
 
 For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>
+Another note: Windows positioning does not work on the new tabbed Windows Terminal yet. But I am working on including it in all the scripts. (or disabling if detected) Not to long.
 
 ---
 
 ## PowerShell-TuneUp
 
-<a><p align=center>A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment $ENV:BASE in all my scripts. This is your base *.ps1 script folder. Feel free to write me an DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example  for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to your</p></a>
+<a><p align=center>A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment \$ENV:BASE in all my scripts. This is your base \*.ps1 script folder. Feel free to write me an DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to your</p></a>
 
-<a><p align=center>PowerShell Scripts and snips for the learning curve. ALL are working in PowerShell Core 6.x unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. **NOTE: In a lot of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and hit enter. In a perfect world will resize to the size of the script display. Same thing with the Settings Managers** Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs Run-Checkdisk AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the $env:BASE folder or edit out the calls.**</p></a>
+<a><p align=center>PowerShell Scripts and snips for the learning curve. ALL are working in PowerShell Core 6.x unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. **NOTE: In a lot of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and hit enter. In a perfect world will resize to the size of the script display. Same thing with the Settings Managers** Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs Run-Checkdisk AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the \$env:BASE folder or edit out the calls.**</p></a>
 
 ---
 
 ## BinMenu
 
-<a><p align=center>Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders and which *PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. You can add your own entries to the end of the program menu list if you want up to 100. There is a toggle to show the add entries or not. Edit the json put the bin* files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder.</p></a>
+<a><p align=center>Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders and which _PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. You can add your own entries to the end of the program menu list if you want up to 100. There is a toggle to show the add entries or not. Edit the json put the bin_ files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder.</p></a>
 
 - Usage: BINMENU
 
@@ -56,7 +57,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ## Convert-Script
 
-<a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the *monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
+<a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the \*monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
 
 - Usage: Convert-Script1 -INFILE <FullPathToFileToRead> -OUTFILE <FullPathToFileToWrite>
 - Usage: Convert-Script <FullPathToFileToRead> <FullPathToFileToWrite>`
@@ -73,7 +74,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ## Clearlogs
 
-<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users  in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2.</p></a>
+<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2.</p></a>
 
 - Usage: CLEARLOGS
 
@@ -90,7 +91,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 
 ## Get-SysInfo
 
-<a><p align=center>A simple system information example containing how to expand a looped composed ($var + #) variable, and how to  draw out simple info using Get-CimInstance. Updated yo only use Get-CimInstance.</p></a>
+<a><p align=center>A simple system information example containing how to expand a looped composed (\$var + #) variable, and how to draw out simple info using Get-CimInstance. Updated yo only use Get-CimInstance.</p></a>
 
 - Usage: GET-SYSINFO
 
@@ -141,7 +142,7 @@ For help and/or information on my PowerShell Core setup head to the Development 
 <a><p align=center>This will set a named window to the desired position.</p></a>
 
 - Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32>
-Optionally
+  Optionally
 - Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32> -Width <Int32> -height <Int32>
 
 ---
@@ -166,6 +167,7 @@ Optionally
 ## Remove-Empty
 
 <a><p align=center>Remove-Empty is a simple little script that removes all empty Lines in a given text file. Feed it a file and all the blank lines are removed.
+
 </p></a>
 
 - Usage: REMOVE-EMPTY <FullPathToFileToProcess>
@@ -174,7 +176,7 @@ Optionally
 
 ## Remove-WindowsApps
 
-<a><p align=center>Remove-WindowsApps deletes Windows 10 apps from your system. Also makes it so they shouldn't reinstall by removing AppX Provisioning. Edit the file and comment out  those that you want to keep.</p></a>
+<a><p align=center>Remove-WindowsApps deletes Windows 10 apps from your system. Also makes it so they shouldn't reinstall by removing AppX Provisioning. Edit the file and comment out those that you want to keep.</p></a>
 
 - Usage: REMOVE-WINDOWSAPPS
 
@@ -186,7 +188,7 @@ Optionally
 
 <a><center><https://www.powershellgallery.com/packages/BurntToast></center></a>
 
-<a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard  windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
+<a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
 
 - Usage: NOTIFY or ASAY <message to send to output>
 - Usage: NOTIFY or ASAY <"message to send, include punctuation, to output">
