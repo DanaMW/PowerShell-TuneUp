@@ -1,5 +1,5 @@
 param([string]$MyArgs)
-$FileVersion = "Version: 0.2.3"
+$FileVersion = "Version: 0.2.4"
 if (!($MyArgs)) {
     Write-Output "ASay $FileVersion"
     Write-Output "ERROR No params on the command line"
@@ -15,4 +15,5 @@ $png = ($env:BASE + "\ASay.png")
 $sys = "-<[ PowerShell Core System Notification ]>-"
 $UID = ("ASay" + $(Get-Random -maximum 999 -minimum 100))
 $ToastHeader = New-BTHeader -Id $UID -Title $sys
-New-BurntToastNotification -Text "$TheArgs", "$Fill" -AppLogo "$png" -Header $ToastHeader -UniqueIdentifier "$UID"
+#New-BurntToastNotification -Text "$TheArgs", "$Fill" -AppLogo "$png" -Header $ToastHeader -UniqueIdentifier "$UID"
+Toast -Text "$TheArgs", "$Fill" -AppLogo "$png" -Header $ToastHeader -UniqueIdentifier "$UID"

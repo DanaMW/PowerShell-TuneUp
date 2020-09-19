@@ -55,8 +55,8 @@
   },
   "RunItem-3": {
     "HostOnly": "ON",
-    "RunPath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-    "Name": "Windows Terminal Admin",
-    "Argument": "Run-WTHigh.ps1"
+    "RunPath": "wt.exe",
+    "Name": "Windows Terminal",
+    "Argument": ""
   }
 }
