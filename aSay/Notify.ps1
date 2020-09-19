@@ -1,11 +1,12 @@
 param([string]$MyArgs)
-$FileVersion = "Version: 0.2.4"
+$FileVersion = "Version: 0.2.5"
 if (!($MyArgs)) {
     Write-Output "Notify $FileVersion"
     Write-Output "ERROR No params on the command line"
     Write-Output " "
     Write-Output "Please use: NOTIFY <message to send to output> (without quotes)"
     Write-Output "Or use: ASAY <message to send to output> (without quotes)"
+    Write-Output "Please use quotes if there are punctuation or special characters in the notify/asay  message"
     Write-Output " "
     return
 }
