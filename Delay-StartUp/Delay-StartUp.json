@@ -55,8 +55,8 @@
   },
   "RunItem-3": {
     "HostOnly": "ON",
-    "RunPath": "wt.exe",
-    "Name": "Windows Terminal",
+    "RunPath": "pwsh.exe",
+    "Name": "PowerShell",
     "Argument": ""
   }
 }
