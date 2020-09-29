@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.14"
+$FileVersion = "Version: 3.0.15"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -90,7 +90,7 @@ While (1) {
     [int]$i = 1
     [Int]$num = 1
     FlexWindow
-    $header = "Base.ps1 Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
+    $header = "Base.ps1 Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Remove.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
     While ($i -le $Work) {
         $Line = $Reader.ReadLine()
