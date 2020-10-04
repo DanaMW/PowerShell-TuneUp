@@ -17,10 +17,11 @@
         Still under development.
 
 #>
-$FileVersion = "Version: 3.0.17"
+$FileVersion = "Version: 3.0.18"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
+
 # {
 #     Clear-Host
 #     return
@@ -232,7 +233,7 @@ if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 }
 [int]$l = 3
 $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-$f = @("Run an EXE directly", "Reload BinMenu (R also)", "Run INI Maker", "Run a PowerShell console", "Script Window", "Run VS Code (New IDE)", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+$f = @("Run any program", "Reload BinMenu (R also)", "Run BinMenu INI Maker", "Pick an OS console", "Script Window", "Run VS Code", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
 [int]$w = $Col[0]
 [int]$c = 0
 while ($c -le 8) {
