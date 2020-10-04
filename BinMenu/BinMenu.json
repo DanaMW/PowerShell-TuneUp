@@ -84,61 +84,46 @@
     "Name": "Stardock Skin Studio"
   },
   "AddItem-9": {
-    "Command": "D:\\Development\\GitHub\\DanaMW.github.io\\scripts",
-    "Argument": "",
-    "Name": "My Scripts"
+    "Argument": "D:\\bin\\Delay-StartUp\\DelaySM.ps1",
+    "Name": "Delay-StartUp SM",
+    "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
   },
   "AddItem-10": {
-    "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-    "Argument": "D:\\bin\\Delay-StartUp\\DelaySM.ps1",
-    "Name": "Delay-StartUp SM"
+    "Argument": "/s",
+    "Name": "Event Viewer",
+    "Command": "C:\\Windows\\system32\\eventvwr.msc"
   },
   "AddItem-11": {
-    "Command": "C:\\Windows\\system32\\eventvwr.msc",
-    "Argument": "/s",
-    "Name": "Event Viewer"
+    "Argument": "",
+    "Name": "Network Adapter Settings",
+    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}"
   },
   "AddItem-12": {
-    "Command": "shell:::{992CFFA0-F557-101A-88EC-00DD010CCC48}",
-    "Argument": "",
-    "Name": "Network Adapter Settings"
+    "Argument": "/name Microsoft.NetworkandSharingCenter",
+    "Name": "Network And Sharing",
+    "Command": "C:\\Windows\\System32\\control.exe"
   },
   "AddItem-13": {
-    "Command": "C:\\Windows\\System32\\control.exe",
-    "Argument": "/name Microsoft.NetworkandSharingCenter",
-    "Name": "Network And Sharing"
+    "Argument": "",
+    "Name": "Sound Blaster C2",
+    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
   },
   "AddItem-14": {
-    "Command": "C:\\Windows\\System32\\bash.exe",
-    "Argument": "",
-    "Name": "Ubuntu Bash"
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1",
+    "Name": "Visual Studio Installer",
+    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe"
   },
   "AddItem-15": {
-    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe",
-    "Argument": "",
-    "Name": "Sound Blaster C2"
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1",
+    "Name": "Visual Studio 2019",
+    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe"
   },
   "AddItem-16": {
-    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1",
-    "Name": "Visual Studio Installer"
-  },
-  "AddItem-17": {
-    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe",
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1",
-    "Name": "Visual Studio 2019"
-  },
-  "AddItem-18": {
-    "Name": "Windows Terminal",
-    "Argument": "",
-    "Command": "C:\\Users\\Dana\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
-  },
-  "AddItem-19": {
     "Argument": "",
     "Name": "VirtualBox",
     "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe"
   },
-  "AddItem-20": {
+  "AddItem-17": {
     "Argument": "",
     "Name": "VMWare",
     "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe"

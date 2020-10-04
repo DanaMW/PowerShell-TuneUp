@@ -57,6 +57,6 @@
     "HostOnly": "ON",
     "RunPath": "pwsh.exe",
     "Name": "PowerShell",
-    "Argument": ""
+    "Argument": "-NoLogo -WorkingDirectory D:\\bin"
   }
 }
