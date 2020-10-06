@@ -21,11 +21,7 @@ $FileVersion = "Version: 3.0.18"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
-
-# {
-#     Clear-Host
-#     return
-# }
+# { Clear-Host; return }
 Function MyConfig {
     $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")

@@ -23,7 +23,7 @@
     "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
     "Notify": 1,
     "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
-    "WPosition": true,
+    "WPosition": 1,
     "_WinHeight": "[int] How tall to draw the inner window.",
     "WinHeight": "47",
     "_WinWidth": "[int] How wide to draw the inner window.",
