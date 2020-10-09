@@ -109,23 +109,13 @@
     "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
   },
   "AddItem-14": {
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1 1",
-    "Name": "Visual Studio Installer",
-    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe"
+    "Name": "VirtualBox",
+    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+    "Argument": ""
   },
   "AddItem-15": {
-    "Argument": "D:\\bin\\Run-VisualStudios.ps1",
-    "Name": "Visual Studio 2019",
-    "Command": "C:\\Program Files\\Powershell\\7\\pwsh.exe"
-  },
-  "AddItem-16": {
-    "Argument": "",
-    "Name": "VirtualBox",
-    "Command": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe"
-  },
-  "AddItem-17": {
-    "Argument": "",
     "Name": "VMWare",
-    "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe"
+    "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
+    "Argument": ""
   }
 }
