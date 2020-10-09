@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.18"
+$FileVersion = "Version: 3.0.19"
 $Base = $env:Base
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
@@ -32,9 +32,12 @@ try {
         $tmpbase = $Base
         $tmpfolder = $_.Foldername
         $tmpname = $_.fullname
+        if ($tmpfolder -eq "Blender" -and $tmpname -ne ($tmpbase + "\Blender\blender.exe")) { return }
         if ($tmpfolder -eq "ConEmu" -and $tmpname -ne ($tmpbase + "\conemu\conemu64.exe")) { return }
         if ($tmpfolder -eq "git" -and $tmpname -ne ($tmpbase + "\git\bin\bash.exe")) { return }
+        if ($tmpfolder -eq "inkscape" -and $tmpname -ne ($tmpbase + "\inkscape\bin\inkscape.exe")) { return }
         if ($tmpfolder -eq "MusicBee" -and $tmpname -ne ($tmpbase + "\musicbee\musicbee.exe")) { return }
+        if ($tmpfolder -eq "PulseAudio" -and $tmpname -ne ($tmpbase + "\PulseAudio\bin\pulseaudio.exe")) { return }
         if ($tmpfolder -eq "Rainmeter" -and $tmpname -ne ($tmpbase + "\rainmeter\rainmeter.exe")) { return }
         if ($tmpfolder -eq "tc" -and $tmpname -ne ($tmpbase + "\tc\TOTALCMD64.EXE")) { return }
         if ($tmpfolder -eq "uget" -and $tmpname -ne ($tmpbase + "\uget\bin\uget.exe")) { return }
