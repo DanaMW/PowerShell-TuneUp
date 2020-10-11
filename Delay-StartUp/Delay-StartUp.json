@@ -58,5 +58,11 @@
     "RunPath": "pwsh.exe",
     "Name": "PowerShell",
     "Argument": "-NoLogo -WorkingDirectory D:\\bin"
+  },
+  "RunItem-4": {
+    "Argument": "-Min",
+    "Name": "Console Emulator",
+    "HostOnly": "ON",
+    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe"
   }
 }
