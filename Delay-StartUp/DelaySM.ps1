@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.6"
+$FileVersion = "Version: 1.4.7"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -230,7 +230,7 @@ while (1) {
             $vt3 = ($Config.$RI).RunPath
             $vt4 = ($Config.$RI).Argument
             $tw = 1
-            $tp = 19
+            $tp = 20
             [Console]::SetCursorPosition($tw, $tp)
             $i = 1
             while ($i -le $MaxYes) {
@@ -239,12 +239,18 @@ while (1) {
                 $tp++
             }
             $tw = 1
-            $tp = 19
-            [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++; $tp++
+            $tp = 20
+            [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "     Run: $vt2"; $tp++
-            [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++; $tp++
-            [Console]::SetCursorPosition($tw, $tp); Say "Argument: $vt4"; $tp++; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "
+            [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++;
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "
+            [Console]::SetCursorPosition($tw, $tp); Say "Argument: $vt4"; $tp++;
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "
             [Console]::SetCursorPosition($tw, $tp); Read-Host -Prompt "[Enter to continue]"
         }
     }
