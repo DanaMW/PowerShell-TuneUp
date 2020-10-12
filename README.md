@@ -19,8 +19,8 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 - Usage: BINMENU
 
-<img src="/img/BinMenu1.png" alt="BinMenu"/>
-<img src="/img/BinMenu2.png" alt="BinMenu"/>
+<img src="/img/BinMenu1.jpg" alt="BinMenu"/>
+<img src="/img/BinMenu2.jpg" alt="BinMenu"/>
 
 ---
 
