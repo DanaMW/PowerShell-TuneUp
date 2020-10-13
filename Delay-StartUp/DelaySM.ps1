@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.7"
+$FileVersion = "Version: 1.4.8"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -92,11 +92,11 @@ while (1) {
         [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                             "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+        # [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
+        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, $pp)
     }
     Function FightOn {
@@ -565,7 +565,7 @@ while (1) {
         }
     }
     PrettyLine
-    if ($pop -eq "L") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo -NoProfile"; return }
+    if ($pop -eq "L") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo"; exit }
     if ($pop -eq "RUN") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\Delay-StartUp.ps1 -NoLogo -NoProfile"; return }
     if ($pop -eq "Q") { return }
     $Pop = ""
