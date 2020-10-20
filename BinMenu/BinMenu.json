@@ -105,8 +105,8 @@
   },
   "AddItem-13": {
     "Argument": "",
-    "Name": "Sound Blaster C2",
-    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Connect 2\\Creative.SBConnect.exe"
+    "Name": "Sound Blaster FX",
+    "Command": "C:\\Program Files (x86)\\Creative\\Sound Blaster Audigy Fx\\Sound Blaster Audigy Fx Control Panel\\SBAdgyFx.exe"
   },
   "AddItem-14": {
     "Name": "VirtualBox",

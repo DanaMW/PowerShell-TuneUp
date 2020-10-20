@@ -1,4 +1,4 @@
-$FileVersion = "Version: 3.0.19"
+$FileVersion = "Version: 3.0.20"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -18,6 +18,12 @@ if (!($Config)) {
     break
 }
 [string]$Filetmp = ($ScriptBase + "\BinTemp.del")
+$Filetest = Test-Path -path $Filetmp
+if (!($Filetest)) {
+    Say -ForegroundColor RED "Error: This script must be called from BinMenu E menu option."
+    Read-Host -Prompt "Hit a key to exit: "
+    return
+}
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
 [int]$POSX = ($Config.Setup.WinSX)
