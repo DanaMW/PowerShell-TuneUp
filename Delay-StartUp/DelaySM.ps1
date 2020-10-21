@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.4.8"
+$FileVersion = "Version: 1.5.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
@@ -41,7 +41,7 @@ $PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 690 }
 if (!($WinSMY)) { $WinSMY = 205 }
 if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 800 -Height 800 | Out-Null }
-[string]$NormalLine = "~RED~+~~DARKRED~===============================================================~~RED~+~"
+[string]$NormalLine = "~RED~#~~DARKRED~===============================================================~~RED~#~"
 [string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-<~~DARKRED~|~"
 [string]$LeftLine = "~DARKRED~|~"
 [string]$RightLine = "~DARKRED~|~"
@@ -195,7 +195,7 @@ while (1) {
     $pp++
     $BWHeight = ($pp + 5)
     PrettyLine
-    [int]$u = ($pp - 1)
+    [int]$u = ($pp - 2)
     While ($v -le $u) {
         [Console]::SetCursorPosition($w, $v); WC $LeftLine
         $v++
