@@ -117,5 +117,10 @@
     "Name": "VMWare",
     "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
     "Argument": ""
+  },
+  "AddItem-16": {
+    "Name": "OBS Studio",
+    "Argument": "",
+    "Command": "D:\\bin\\OBS-Studio\\bin\\64bit\\obs64.exe"
   }
 }
