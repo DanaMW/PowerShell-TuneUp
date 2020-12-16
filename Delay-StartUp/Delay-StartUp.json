@@ -53,7 +53,7 @@
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "RunPath": "pwsh.exe",
     "Name": "PowerShell",
     "Argument": "-NoLogo -WorkingDirectory D:\\bin"
