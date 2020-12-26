@@ -74,7 +74,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 ## Clearlogs
 
-<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $True. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2.</p></a>
+<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $true. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2.</p></a>
 
 - Usage: CLEARLOGS
 
@@ -91,7 +91,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 ## Get-SysInfo
 
-<a><p align=center>A simple system information example containing how to expand a looped composed (\$var + #) variable, and how to draw out simple info using Get-CimInstance. Updated yo only use Get-CimInstance.</p></a>
+<a><p align=center>A simple system information example containing how to expand a looped composed (\$var + #) variable, and how to draw out simple info using Get-CimInstance. Updated so it uses Get-CimInstance.</p></a>
 
 - Usage: GET-SYSINFO
 
