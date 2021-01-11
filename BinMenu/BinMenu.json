@@ -29,7 +29,7 @@
     "_WinWidth": "[int] How wide to draw the inner window.",
     "WinWidth": "104",
     "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
-    "WinX": "545",
+    "WinX": "540",
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": "200",
     "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
