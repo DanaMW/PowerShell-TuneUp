@@ -44,42 +44,36 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "ON"
+    "HostOnly": "OFF"
   },
   "RunItem-2": {
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
   },
   "RunItem-3": {
-    "HostOnly": "OFF",
-    "RunPath": "pwsh.exe",
-    "Name": "PowerShell",
-    "Argument": "-NoLogo -WorkingDirectory D:\\bin"
+    "HostOnly": "ON",
+    "Name": "Console Emulator",
+    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
+    "Argument": ""
   },
   "RunItem-4": {
-    "Argument": "",
-    "Name": "Console Emulator",
     "HostOnly": "ON",
-    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe"
+    "Name": "OneDrive",
+    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
+    "Argument": "/background"
   },
   "RunItem-5": {
     "HostOnly": "ON",
-    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
-    "Argument": "/background",
-    "Name": "OneDrive"
+    "Name": "Ditto",
+    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+    "Argument": ""
   },
   "RunItem-6": {
     "HostOnly": "ON",
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
-    "Argument": "",
-    "Name": "Ditto"
-  },
-  "RunItem-7": {
     "Name": "Redragon Griffin Mouse",
-    "Argument": "",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
-    "HostOnly": "ON"
+    "Argument": ""
   }
 }
