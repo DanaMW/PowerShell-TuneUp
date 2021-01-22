@@ -44,10 +44,10 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "OFF"
+    "HostOnly": "ON"
   },
   "RunItem-2": {
-    "HostOnly": "OFF",
+    "HostOnly": "ON",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
