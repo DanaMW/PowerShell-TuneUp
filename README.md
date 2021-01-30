@@ -254,6 +254,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 - Usage: REPAIR-WINDOWS.PS1 (Runs Menu)
 - Usage: REPAIR-WINDOWS.PS1 SCAN
 - Usage: REPAIR-WINDOWS.PS1 Check
+- Usage: REPAIR-WINDOWS.PS1 Image
 - Usage: REPAIR-WINDOWS.PS1 REPAIR
 - Usage: REPAIR-WINDOWS.PS1 RESET
 
