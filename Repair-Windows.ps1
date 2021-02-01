@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.2.0"
+$FileVersion = "Version: 0.2.2"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -123,7 +123,7 @@ while ($i -lt "5") {
 WC $dline
 WC $fline
 WC $nline
-[Console]::SetCursorPosition(11, 3); WC "~cyan~[~~white~1~~cyan~] ~~green~Scan ~-- ~cyan~[~~white~2~~cyan~] ~~green~Check ~-- ~cyan~[~~white~3~~cyan~] ~~green~Image ~-- ~cyan~[~~white~4~~cyan~] ~~green~Repair ~-- ~cyan~[~~white~5~~cyan~] ~~green~Reset~"
+[Console]::SetCursorPosition(5, 3); WC "~cyan~[~~white~1~~cyan~] ~~green~Scan ~-- ~cyan~[~~white~2~~cyan~] ~~green~Check ~-- ~cyan~[~~white~3~~cyan~] ~~green~Image ~-- ~cyan~[~~white~4~~cyan~] ~~green~Repair ~-- ~cyan~[~~white~5~~cyan~] ~~green~Reset~"
 [Console]::SetCursorPosition(16, 5); WC "   ~cyan~Currently Running the Process~~white~: ~~white~$RunFix~"
 $pa = 10
 [Console]::SetCursorPosition(0, $pa)
