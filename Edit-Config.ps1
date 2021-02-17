@@ -36,7 +36,7 @@ param(
     [Parameter(Mandatory = $false)]
     [string]$Sub
 )
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "0.0.4"
 $Script:ConfigFile = $Confile
 try { $Script:Config = Get-Content $Configfile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "Edit-Config $FileVersion - The file $Confile is missing!"; break }

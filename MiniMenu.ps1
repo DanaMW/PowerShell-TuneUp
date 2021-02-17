@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.2"
+$FileVersion = "0.0.2"
 $MenuOptions = @("PowerShell Core", "Total Commander", "VS Code", "MusicBee");
 $MenuRuns = @("$env:ShellSpec", "tc.ps1", "Code.exe", "D:\bin\Musicbee\MusicBee.exe");
 [int]$Count = $MenuOptions.count

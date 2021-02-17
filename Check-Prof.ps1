@@ -1,4 +1,4 @@
-﻿$FileVersion = "Version: 0.1.0"
+﻿$FileVersion = "0.1.0"
 Clear-Host
 WC "~white~System Profiles information $FileVersion~"
 Say ""

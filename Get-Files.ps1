@@ -14,7 +14,7 @@
         Still under development.
 #>
 $Folder = "$args"
-$FileVersion = "Version: 0.1.8"
+$FileVersion = "0.1.8"
 $ESC = [char]27
 if ($Folder -match "/W") {
     [bool]$Wide = "True"

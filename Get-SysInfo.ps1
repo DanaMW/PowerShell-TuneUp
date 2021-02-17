@@ -1,5 +1,5 @@
 Import-Module CimCmdlets
-$FileVersion = "Version: 0.1.29"
+$FileVersion = "0.1.29"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
 Clear-Host

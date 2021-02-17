@@ -1,5 +1,5 @@
 $MyArgs = ($args)
-$FileVersion = "Version: 0.0.6"
+$FileVersion = "0.0.6"
 if (($MyArgs)) {
     $MyArgs = $MyArgs.Replace(".\", "");
     $drive = (Split-Path -parent $MyArgs)

@@ -2,7 +2,7 @@ $MyArgs = "$args"
 if (($MyArgs)) { $SendLabel = $MyArgs }
 if (!($MyArgs)) { $SendLabel = 'Please enter the information in the space below:' }
 if (!($SendLabel)) { $SendLabel = 'Please enter the information below:' }
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "0.0.4"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 

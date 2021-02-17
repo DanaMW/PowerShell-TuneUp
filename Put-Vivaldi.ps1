@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "Version: 0.0.11"
+$FileVersion = "0.0.11"
 Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"

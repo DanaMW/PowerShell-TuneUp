@@ -1,4 +1,4 @@
-$FileVersion = "Version: 1.5.0"
+$FileVersion = "1.5.0"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -parent $PSCommandPath }

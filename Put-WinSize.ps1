@@ -3,7 +3,7 @@ It is designed to paste into your script then you call to it
 "FlexWindow" I call it like 3 or 4 times to complete
 the window adjustment. Never gets it on the first call.
 #>
-$FileVersion = "Version: 0.0.9"
+$FileVersion = "0.0.9"
 $host.ui.RawUI.WindowTitle = "Fix-Window $FileVersion"
 if (!($WinHeight)) { $WinHeight = "45" }
 if (!($WinWidth)) { $WinWidth = "120" }

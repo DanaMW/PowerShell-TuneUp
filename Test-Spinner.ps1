@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.1"
+$FileVersion = "0.0.1"
 $X = $host.ui.rawui.CursorPosition.X;
 $Y = $host.ui.rawui.CursorPosition.Y;
 $PShost = Get-Host

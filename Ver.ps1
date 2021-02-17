@@ -1,4 +1,4 @@
-﻿$FileVersion = "Version: 0.1.7"
+﻿$FileVersion = "0.1.7"
 Clear-Host
 if ($env:HOME -match "C:\\Users\\") {
     Say "Detected Windows Processing"

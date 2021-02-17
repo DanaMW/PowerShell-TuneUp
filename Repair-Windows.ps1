@@ -1,5 +1,5 @@
 Param([string]$RunFix)
-$FileVersion = "Version: 0.2.2"
+$FileVersion = "0.2.2"
 $host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();

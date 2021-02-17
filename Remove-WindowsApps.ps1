@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "0.0.4"
 Import-Module AppX
 Import-Module Dism
 #

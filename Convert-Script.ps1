@@ -1,6 +1,6 @@
 if ($null -ne $args[0]) { $infile = $args[0] }
 if ($null -ne $args[1]) { $OutFile = $args[1] }
-$fileVersion = "Version: 0.2.1"
+$fileVersion = "0.2.1"
 if (!($infile)) {
     Say "You fucked up and didnt include -File [<FileToRead>]"
     Say "Take your hand off your dick, try again and type right."

@@ -48,7 +48,7 @@
 
 #>
 Param([string]$Prompt, [int]$Max, [String]$Default, [bool]$Echo)
-$FileVersion = "Version: 0.2.3"
+$FileVersion = "0.2.3"
 $PKB = ""
 if (!$PSBoundParameters.ContainsKey('Max')) { [int]$Max = 5000 }
 else {

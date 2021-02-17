@@ -47,7 +47,7 @@ Param(
     [int]$Width,
     [Parameter(Position = 4, mandatory = $false)]
     [int]$height)
-$FileVersion = "Version: 0.0.3"
+$FileVersion = "0.0.3"
 if (!($WinName)) {
     Say "Usage: Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
     return

@@ -1,4 +1,4 @@
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "0.0.4"
 Say "Running Complete CheckDisk $FileVersion"
 Say "Setting CHKNTFS back to the defaults, then wait time 3 seconds"
 CHKNTFS /D

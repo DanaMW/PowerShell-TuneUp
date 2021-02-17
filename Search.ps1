@@ -1,5 +1,5 @@
 param([string]$sname, [string]$sdrive)
-$FileVersion = "Version: 0.1.6"
+$FileVersion = "0.1.6"
 if (!($sname)) {
     Say "Search $FileVersion"
     Say "Remember this can be done SEARCH <FileName> <SearchFolder>"

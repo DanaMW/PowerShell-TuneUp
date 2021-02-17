@@ -17,7 +17,7 @@
         Still under development.
 #>
 Param([bool]$Profile)
-$FileVersion = "Version: 0.0.4"
+$FileVersion = "0.0.4"
 if ($Profile -eq "" -or $Profile -eq 0) {
     & "C:\Program Files\Firefox Developer Edition\Firefox.exe"
 }

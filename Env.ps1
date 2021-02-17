@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$myargs)
-$FileVersion = "Version: 0.1.3"
+$FileVersion = "0.1.3"
 if (!($myargs)) {
     Say "Environment Lister $FileVersion"
     Say ""
