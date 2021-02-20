@@ -59,8 +59,8 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>This is my user.CSS to user.JS UserStyle to UserScript converter. It is for use on scripts that you need to covert for use in Tampermonkey or any of the \*monkey JS injection extensions. One example of a good use is for Old Edge browser. Update: Can convert VERY large files now. I don't read the whole file in now I read it in one line at a time so files can be huge. I open this script up and scared my self lol. I had written it very near the beginning of my learning curve I COMPLETELY rewrote it. Much smaller WAY safer and incredibly faster. NOW it deserves to be a public facing script.</p></a>
 
-- Usage: Convert-Script1 -INFILE <FullPathToFileToRead> -OUTFILE <FullPathToFileToWrite>
-- Usage: Convert-Script <FullPathToFileToRead> <FullPathToFileToWrite>`
+- Usage: Convert-Script1 -INFILE FullPathToFileToRead -OUTFILE FullPathToFileToWrite
+- Usage: Convert-Script FullPathToFileToRead FullPathToFileToWrite
 
 ---
 
@@ -68,7 +68,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>Feed it a filename of a image file and it feeds you back the base64 info ready to put into your script files.</p></a>
 
-- Usage: IMAGETO64 -Path <FullPathToImageFile> -OutFile <OptionalFullPathForTextFileOut>`
+- Usage: IMAGETO64 -Path FullPathToImageFile -OutFile OptionalFullPathForTextFileOut
 
 ---
 
@@ -84,7 +84,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors.</p></a>
 
-- Usage: GET-FILES <normal filesearch parameters>
+- Usage: GET-FILES normal_filesearch_parameters
 - Usage: GET-FILES . or with no parmeters (Displays current folder)
 
 ---
@@ -141,9 +141,9 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>This will set a named window to the desired position.</p></a>
 
-- Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32>
+- Usage: Put-WinPosition -WinName String -WinX Int32 -WinY Int32
   Optionally
-- Usage: Put-WinPosition -WinName <String> -WinX <Int32> -WinY <Int32> -Width <Int32> -height <Int32>
+- Usage: Put-WinPosition -WinName String -WinX Int32 -WinY Int32 -Width Int32 -height Int32
 
 ---
 
@@ -157,10 +157,10 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>This is my console script example that sends your search to Google in the browser. You can add IMAGE, VIDEO or NEWS to the beginning of the line to go directly to those search pages.</p></a>
 
-- Usage: GOOGLE <something to search> Searches ALL normally.
-- Usage: GOOGLE IMAGE <something to search>
-- Usage: GOOGLE VIDEO <something to search>
-- Usage: GOOGLE NEWS <something to search>
+- Usage: GOOGLE somethingtosearch (Searches ALL normally.)
+- Usage: GOOGLE IMAGE somethingtosearch
+- Usage: GOOGLE VIDEO somethingtosearch
+- Usage: GOOGLE NEWS somethingtosearch
 
 ---
 
@@ -170,7 +170,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 </p></a>
 
-- Usage: REMOVE-EMPTY <FullPathToFileToProcess>
+- Usage: REMOVE-EMPTY FullPathToFileToProcess
 
 ---
 
@@ -190,9 +190,9 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
 
-- Usage: NOTIFY or ASAY <message to send to output>
-- Usage: NOTIFY or ASAY <"message to send, include punctuation, to output">
-- Usage: Linux: Without Quotes do notify [<message to send to output>] or asay [<message to send to output>]
+- Usage: NOTIFY or ASAY message to send to output
+- Usage: NOTIFY or ASAY "message to send, include punctuation, to output"
+- Usage: Linux: Without Quotes do notify message to send to output or asay message to send to output
 
 ---
 
@@ -200,7 +200,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 <a><p align=center>Search is a script that searches any text, as a filename parameter, in the path you give. From the whole drive down to just a folder it will list all matches found.</p></a>
 
-- Usage: SEARCH <SearchPhrase> [<BasePathToStartIn> (The star is added automatically)
+- Usage: SEARCH SearchPhrase BasePathToStartIn (The star is added automatically)
 
 ---
 
@@ -211,14 +211,23 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 - Usage: `Edit-Config -Confile [string] -Count [string] -Read [string] -Write [string] -Section [string] -SValue [string] -BValue [bool] -Sub [int]`
 
 ---
+## Edit-SiteHost
+
+<a><p align=center>This adds and removes and views contents of Windows HOSTS file. Great for quickly blocking/unblocking internet addresses like shitty facebook.</p></a>
+
+- Usage: Edit-SiteHost Add address
+- Usage: Edit-SiteHost Remove address
+- Usage: Edit-SiteHost View
+
+---
 
 ## Env (environment)
 
 <a><p align=center>This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote) If you just do ENV it will list ALL variable</p></a>
 
 - Usage: ENV (Does all variables)
-- Usage: ENV <VaribleToSearch> (Without quotes)
-- Usage: ENV <'VaribleToSearch'> (With single quote)(Works on variable drive)
+- Usage: ENV VaribleToSearch (Without quotes)
+- Usage: ENV 'VaribleToSearch' (With single quote)(Works on variable drive)
 
 ---
 
