@@ -7,7 +7,111 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 ## PowerShell-TuneUp - Or as I like to say - I Love PowerShell
 
-<a><p align=center>A couple notes about my scripts. I use "SET-ALIAS SAY WRITE-HOST" in all my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment \$ENV:BASE in all my scripts. This is your base \*.ps1 script folder. Feel free to write me at DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to yours.</p></a>
+<a><p align=center>A couple notes about my scripts. I use `SET-ALIAS SAY WRITE-HOST` in *_all_* my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment \$ENV:BASE in all my scripts. This is your base \*.ps1 script folder. Feel free to write me at DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to yours.</p></a>
+
+## My Profile Functions
+
+```
+Import-Module posh-git;
+Import-Module oh-my-posh;
+Import-Module Get-ChildItemColor;
+Import-Module -Name PSReadline;
+Import-Module PsGet;
+Add-WindowsPSModulePath;
+function Test-Administrator {
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent()
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+function Resolve-Error ($ErrorRecord = $Error[0]) {
+    $ErrorRecord | Format-List * -Force
+    $ErrorRecord.InvocationInfo | Format-List *
+    $Exception = $ErrorRecord.Exception
+    for ($i = 0; $Exception; $i++, ($Exception = $Exception.InnerException)) {
+        $Exception | Format-List * -Force
+        "$i" * 80
+    }
+}
+function Write-Color($message = "") {
+    [string]$pipedMessage = @($Input)
+    if (!$message) {
+        if ( $pipedMessage ) {
+            $message = $pipedMessage
+        }
+    }
+    if ( $message ) {
+        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
+        $defaultFGColor = $host.UI.RawUI.ForegroundColor
+        $CurrentColor = $defaultFGColor
+        $message = $message.split("~")
+        foreach ( $string in $message ) {
+            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
+            else {
+                write-host -NoNewLine -f $CurrentColor $string
+                $CurrentColor = $defaultFGColor
+            }
+        }
+        write-host
+    }
+}
+function Write-ColorPrompt($message = "") {
+    [string]$pipedMessage = @($Input)
+    if (!$message) {
+        if ( $pipedMessage ) {
+            $message = $pipedMessage
+        }
+    }
+    if ( $message ) {
+        $colors = @("black", "blue", "cyan", "darkblue", "darkcyan", "darkgray", "darkgreen", "darkmagenta", "darkred", "darkyellow", "gray", "green", "magenta", "red", "white", "yellow");
+        $defaultFGColor = $host.UI.RawUI.ForegroundColor
+        $CurrentColor = $defaultFGColor
+        $message = $message.split("~")
+        foreach ( $string in $message ) {
+            if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
+            else {
+                write-host -NoNewLine -f $CurrentColor $string
+                $CurrentColor = $defaultFGColor
+            }
+        }
+        write-host -NoNewline
+    }
+}
+Function Get-SmallVer {
+    $MyVer = $PSVersiontable | Select-Object -property PSVERSION | Format-Table -HideTableheader | Out-String -NoNewLine
+    return WC "~darkcyan~[~~darkyellow~PowerShell $PSEdition $MyVer~~darkcyan~]~~white~ ~"
+}
+Set-Alias ghost Run-Ghost.ps1;
+Set-Alias say Write-Host;
+Set-Alias sayout Write-Output;
+Set-Alias re Resolve-Error;
+Set-Alias ge Get-Error;
+Set-Alias l Get-ChildItemColor -option AllScope;
+Set-Alias ls Get-ChildItemColorFormatWide -option AllScope;
+Set-Alias la Get-Files.ps1;
+Set-Alias cc D:\bin\ccleaner\ccleaner64.exe;
+Set-Alias whois "D:\bin\wscc\SysInternals Suite\WhoIs64.exe";
+Set-Alias wc Write-Color;
+Set-Alias wcp Write-ColorPrompt;
+Set-Alias ClearRecycle Clear-RecycleBin;
+Set-Alias ssh-agent "D:\bin\git\usr\bin\ssh-agent.exe";
+Set-Alias ssh-add "D:\bin\git\usr\bin\ssh-add.exe";
+Set-Alias wget Invoke-WebRequest;
+Set-Alias mods Get-InstalledModule;
+Set-Variable -Name BASE -Value D:\bin -Scope Global;
+Set-Variable -Name ShellSpec -Value 'C:\Program Files\PowerShell\7\pwsh.exe' -Scope Global;
+$agent_is_running = Get-Process | Where-Object { $_.ProcessName -like "ssh-agent*" };
+if (!($agent_is_running)) { Start-SshAgent -Quiet; };
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete;
+$host.privatedata.ProgressForegroundColor = "white";
+$host.privatedata.ProgressBackgroundColor = "red";
+# $host.UI.RawUI.BackgroundColor = “Black”;
+$Host.UI.RawUI.ForegroundColor = “Gray”;
+$Global:GetChildItemColorVerticalSpace = 0;
+$Env:POWERSHELL_UPDATECHECK = 'GA';
+# $ErrorView = 'CategoryView';
+$Errorview = 'ConciseView';
+D:\bin\repair-netloc.ps1;
+WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkcyan~]~~white~: Loaded all Functions and Aliases~";
+```
 
 <a><p align=center>PowerShell Scripts and snips for the learning curve. ALL are working in PowerShell Core 7.x unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. **NOTE: In a lot of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and hit enter. In a perfect world will resize to the size of the script display. Same thing with the Settings Managers** Note: **I also use calls to Put-Pause, Put-WinPosition, Clearlogs Run-Checkdisk AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the \$env:BASE folder or edit out the calls.**</p></a>
 
