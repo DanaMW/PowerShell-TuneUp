@@ -75,11 +75,5 @@
     "Name": "Redragon Griffin Mouse",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "Argument": ""
-  },
-  "RunItem-7": {
-    "Name": "Ditto Again",
-    "Argument": "",
-    "HostOnly": "ON",
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe"
   }
 }
