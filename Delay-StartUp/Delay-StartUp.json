@@ -65,7 +65,7 @@
     "Argument": "/background"
   },
   "RunItem-5": {
-    "HostOnly": "OFF",
+    "HostOnly": "ON",
     "Name": "Ditto",
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Argument": ""
