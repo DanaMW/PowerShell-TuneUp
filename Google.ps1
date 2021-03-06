@@ -1,4 +1,4 @@
-$FileVersion = "0.1.8"
+$FileVersion = "0.1.9"
 $host.ui.RawUI.WindowTitle = "Google $FileVersion"
 if (!($args)) {
     Say ""
@@ -15,8 +15,8 @@ if (!($args)) {
 [string]$Wander = "ALL"
 [string]$Key1 = $args[0].trim()
 [string]$Key1 = ($Key1).toupper()
-[string]$Key2 = $args[-1].trim()
-[string]$Key2 = ($Key2).toupper()
+[string]$Key2 = $args[-1]
+[string]$Key2 = ($Key2)
 if ($Key1 -eq "-IMAGE") { [string]$Wander = "IMAGE" }
 if ($Key2 -eq "-IMAGE") { [string]$Wander = "IMAGE" }
 if ($Key1 -eq "-VIDEO") { [string]$Wander = "VIDEO" }
