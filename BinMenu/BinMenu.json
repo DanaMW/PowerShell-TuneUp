@@ -117,5 +117,10 @@
     "Name": "VMWare",
     "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
     "Argument": ""
+  },
+  "AddItem-16": {
+    "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "Argument": "D:\\bin\\VS.ps1 INSTALLER",
+    "Name": "Visual Studios"
   }
 }
