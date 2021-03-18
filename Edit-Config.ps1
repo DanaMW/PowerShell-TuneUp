@@ -3,7 +3,7 @@
         Edit-Config
         Created By: Dana Meli
         Created Date: December, 2019
-        Last Modified Date: December 28, 2019
+        Last Modified Date: March 18, 2021
 
 .DESCRIPTION
         This script is designed to read and edit json configuration files for all PowerShell scripts.
@@ -14,6 +14,7 @@
 
 .NOTES
         Still under development.
+        But it has beeb awhile.
 
 #>
 [CmdLetBinding()]
@@ -36,7 +37,7 @@ param(
     [Parameter(Mandatory = $false)]
     [string]$Sub
 )
-$FileVersion = "0.0.4"
+$FileVersion = "0.0.5"
 $Script:ConfigFile = $Confile
 try { $Script:Config = Get-Content $Configfile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "Edit-Config $FileVersion - The file $Confile is missing!"; break }
