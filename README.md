@@ -192,8 +192,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors. I call it from the root group files. It works but is a very old and simple example.</p></a>
 
-- Usage: `GET-FILES` normal_filesearch_parameters
-- Usage: `GET-FILES .` or with no parmeters (Displays current folder)
+- Usage: `GET-FILES normal_filesearch_parameters`
+- Usage: `GET-FILES .` or `GET-FILES` (Displays current folder)
 
 ---
 
