@@ -1,24 +1,24 @@
 ﻿<#
 .SYNOPSIS
-        Ver
-        Created By: Dana Meli
-        Created Date: December, 2019
-        Last Modified Date: March 18, 2021
+    Ver
+    Created By: Dana Meli
+    Created Date: December, 2019
+    Last Modified Date: March 18, 2021
 
 .DESCRIPTION
-        My idea of a Windows version script.
+    My idea of a Windows version script.
 
 .EXAMPLE
-        VER
+    VER
 
 .NOTES
-        Still under development.
+    Still under development.
 
 #>
-$FileVersion = "0.2.0"
+$FileVersion = "0.2.1"
 Clear-Host
 if ($env:HOME -match "C:\\Users\\") {
-    Say "Detected Windows Processing"
+    Say "Detected Windows. Processing..."
     Start-Sleep -S 1
     Clear-Host
     $VarFile = ($env:BASE + "\ver.tmp")
@@ -46,7 +46,6 @@ if ($env:HOME -match "C:\\Users\\") {
         [Console]::SetCursorPosition(0, $p); Say -ForegroundColor darkcyan $read
         $i++; $j++; $p++
     }
-    # [Console]::SetCursorPosition(0, 4); Say -ForegroundColor red "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"; [Console]::SetCursorPosition(0, 19);
     $Filetest = Test-Path -Path $VarFile
     if ($Filetest -eq $True) { Remove-Item –Path $VarFile }
     return
