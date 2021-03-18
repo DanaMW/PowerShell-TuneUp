@@ -115,7 +115,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><p align=center>PowerShell Scripts and snips for the learning curve. ALL are working in PowerShell Core 7.x unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. **NOTE: In a lot of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and hit enter. In a perfect world will resize to the size of the script display. Same thing with the Settings Managers
 
-**Note:** `I also use calls to Put-Pause, Put-WinPosition, Clearlogs Run-Checkdisk AND ASAY and/or Notify (which uses BurntToast- see below) Add them to the $env:BASE folder or edit out the calls.`</p></a>
+**Note:** `I also use calls to Put-Pause, Put-WinPosition, Clearlogs, Run-Checkdisk and ASAY/Notify (which uses Module BurntToast- see below) Add these scripts to the $env:BASE folder or edit out ALL the calls.`</p></a>
 
 ---
 
