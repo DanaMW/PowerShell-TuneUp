@@ -2,10 +2,10 @@ $MyArgs = "$args"
 $Moo = "$MyArgs".split(" ")
 $Method = $Moo[0]
 $Url = $Moo[1]
-$FileVersion = "0.0.4"
+$FileVersion = "0.0.5"
 Say "Edit SiteHost $FileVersion"
 if (!($MyArgs)) {
-    Say -ForegroundColor red  "No Arguments provided. Stop wasting my time man. Try this..."
+    Say -ForegroundColor red "No Arguments provided. Stop wasting my time man. Try this..."
     Say -ForegroundColor yellow "Edit-SiteHost Add/Remove/View <site_to_add/remove>"
     break
 }

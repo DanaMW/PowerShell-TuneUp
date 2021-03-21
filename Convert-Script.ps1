@@ -11,7 +11,7 @@ if (!($infile)) {
         return
     }
 }
-$filetest = Test-Path -path $InFile
+$filetest = Test-Path -Path $InFile
 if ($filetest -ne $true) {
     Say "Ok I am done messing with you."
     Say "You fucked up, The file you specified $InFile.ToUpper() is not there."
@@ -26,18 +26,18 @@ if (!($OutFile)) {
     $OutFile = ($OutFile + ".user.js")
     Say "Auto setting the outfile to $Outfile"
 }
-$filetest = Test-Path -path $OutFile
-if ($filetest -eq $true) { Remove-Item -path $OutFile }
+$filetest = Test-Path -Path $OutFile
+if ($filetest -eq $true) { Remove-Item -Path $OutFile }
 Say "Convert-Script $fileVersion is begining"
 Say "Reading File: $infile"
 $HU1 = [string]"// ==UserScript=="
 [int]$Lines = 0
-[int]$lines = (Get-content $infile).count
+[int]$lines = (Get-Content $infile).count
 [int]$rc = 0
 $done = 0
 While ($rc -le $lines) {
     $doit = 1
-    [string]$read = (Get-content $infile)[$rc]
+    [string]$read = (Get-Content $infile)[$rc]
     if ($null -eq $read) { $doit = 0 }
     [string]$read = $read.replace("*", "")
     if ($read -match 'url') { $doit = 0 }

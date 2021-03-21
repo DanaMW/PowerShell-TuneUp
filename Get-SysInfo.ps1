@@ -1,5 +1,5 @@
 Import-Module CimCmdlets
-$FileVersion = "0.1.29"
+$FileVersion = "0.1.30"
 $ESC = [char]27
 $host.ui.RawUI.WindowTitle = "System Information Version $FileVersion"
 Clear-Host
@@ -130,6 +130,6 @@ while (1) {
     [Console]::SetCursorPosition(0, ($Spin + 1))
     $pop = Read-Host -Prompt "$ESC[31m[$ESC[37mEnter To Continue Q to QUIT X to Reload$ESC[31m]$ESC[37m"
     if ($pop -eq "Q") { break }
-    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + '\Get-SysInfo.ps1'); return }
+    if ($pop -eq "X") { Start-Process "pwsh.exe" -ArgumentList ($env:BASE + '/Get-SysInfo.ps1'); return }
 
 }

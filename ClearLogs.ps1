@@ -3,7 +3,7 @@
         Clearlogs (Clear Windows Logs)
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: April 23, 2020
+        Last Modified Date: March 21, 2021
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -23,7 +23,7 @@
 Param([bool]$loud, [bool]$Silent)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "0.2.20"
+$FileVersion = "0.2.21"
 $host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
