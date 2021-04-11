@@ -1,7 +1,7 @@
-$FileVersion = "3.0.20"
+$FileVersion = "3.0.22"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
-Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
+Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
 Function MyConfig {
     $Script:MyConfig = ($(Get-ScriptDir) + "\BinMenu.json")
     $MyConfig
@@ -46,7 +46,7 @@ if (!($AWinWidth)) {
     $AWinWidth = 65
     $ABuffWidth = $AWinWidth
 }
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 1 }
 if (!($WinSMX)) { $WinSMY = 1 }
 if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 650 | Out-Null }
@@ -92,7 +92,7 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 1))
         #$Script:Fixer = Read-Host -Prompt $boop
         $Script:Fixer = Put-Input $boop
-        if ($Fixer -eq "") { Clear-Variable -Name Fixer -Force  -Scope Script }
+        if ($Fixer -eq "") { Clear-Variable -Name Fixer -Force -Scope Script }
         PrettyLine
         $Fixer
     }
@@ -453,7 +453,7 @@ while (1) {
             if (($TestRun1)) { $GTG1 = "YES" }
             else { $GTG1 = "NO" }
             if (($TestRun2)) {
-                $Filetest = Test-Path -path $TestRun2
+                $Filetest = Test-Path -Path $TestRun2
                 if (($Filetest)) { $GTG2 = "YES" }
                 else { $GTG2 = "NO" }
             }

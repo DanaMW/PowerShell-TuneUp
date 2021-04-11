@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: October 19, 2020
+        Last Modified Date: April 11, 2021
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,13 +17,13 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.21"
+$FileVersion = "3.0.22"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
 # { Clear-Host; return }
 Function MyConfig {
-    $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
+    $MyConfig = (Split-Path -Parent $PSCommandPath) + "\" + (Split-Path -Leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
     $MyConfig = $MyConfig.trimstart(" ")
     $MyConfig
@@ -46,7 +46,7 @@ if (!($Base)) {
 }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
 [string]$ScriptBase = ($Config.Setup.ScriptBase)
-if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
+if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
 [string]$Editor = ($Config.Setup.Editor)
@@ -62,7 +62,7 @@ Set-Location $ScriptBase
 if (!($WinX)) { $WinX = 1 }
 [int]$WinY = ($Config.Setup.WinY)
 if (!($WinY)) { $WinY = 1 }
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -125,12 +125,12 @@ Function FixLine {
 Clear-Host
 [string]$FileINI = ($ScriptBase + "\BinMenu.ini")
 [string]$Filetmp = ($ScriptBase + "\BinTemp.del")
-$Filetest = Test-Path -path $Filetmp
+$Filetest = Test-Path -Path $Filetmp
 if (($Filetest)) { Remove-Item -Path $Filetmp }
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
 SpinItems
-$Filetest = Test-Path -path $FileINI
+$Filetest = Test-Path -Path $FileINI
 if (!($Filetest)) {
     Say "The File $FileINI is missing. We Can not continue without it."
     Say "We are going to run the INI creator function now"
@@ -383,7 +383,7 @@ While (1) {
                 FixLine
                 $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Add any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                 FixLine
-                if (($cmd1)) { Start-Process $cmd -Argumentlist $cmd1 -Verb RunAs; FixLine }
+                if (($cmd1)) { Start-Process $cmd -ArgumentList $cmd1 -Verb RunAs; FixLine }
                 else { Start-Process $cmd -Verb RunAs; FixLine }
             }
             FixLine
@@ -408,10 +408,10 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "wsl.exe" -ArgumentList "-d Ubuntu"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "wsl.exe" -ArgumentList "-d Ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "wsl.exe" -Argumentlist "-d Fedora" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "pwsh.exe" -Argumentlist "-d Fedora" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "pwsh.exe" -Argumentlist "D:\bin\tc.ps1" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "wsl.exe" -ArgumentList "-d Fedora" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "pwsh.exe" -ArgumentList "-d Fedora" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "wt.exe"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6+") { Start-Process "wt.exe" -Verb RunAs; FixLine }
                 else {
@@ -422,9 +422,9 @@ While (1) {
         }
         elseif ($ans -eq "E") {
             FixLine
-            $Filetest = Test-Path -path $Filetmp
+            $Filetest = Test-Path -Path $Filetmp
             if (($Filetest)) { Remove-Item -Path $Filetmp }
-            Get-ChildItem -file $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
+            Get-ChildItem -File $Base -Filter "*.ps1" | ForEach-Object { [string]$_.name } | Sort-Object | Out-File $Filetmp
             Start-Process pwsh.exe -ArgumentList ($ScriptBase + "\BinScript.Ps1") -Verb RunAs; FixLine
             $ValidOption = "YES"
         }
@@ -441,21 +441,21 @@ While (1) {
                 if ($cmd -eq "clearlogs" -or $cmd -eq "reboot" -or $cmd -eq "Run-Ghost") { $OneShot = "YES" }
                 if ($OneShot -eq "YES") {
                     $cmd = ($cmd.split(".")[0] + ".PS1")
-                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    Start-Process "pwsh.exe" -ArgumentList $cmd -Verb RunAs
                     FixLine
                 }
-                elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\clearlogs.ps1") -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 REBOOT") -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 STOP") -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\reboot.ps1 LOGOFF") -Verb RunAs; FixLine; break }
-                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-Ghost.ps1") -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "pwsh.exe" -Argumentlist ($Base + "\Run-CheckDisk.ps1") -WindowStyle Hidden -Verb RunAs; FixLine; break }
+                elseif ($QM -eq "YES" -and $cmd -eq "1") { Start-Process "pwsh.exe" -ArgumentList $Base\clearlogs.ps1 -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "pwsh.exe" -ArgumentList $Base\reboot.ps1 REBOOT -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "pwsh.exe" -ArgumentList $Base\reboot.ps1 STOP -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -ArgumentList $Base\reboot.ps1 LOGOFF -Verb RunAs; FixLine; break }
+                elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList $Base\Run-Ghost.ps1 -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "pwsh.exe" -ArgumentList $Base\Run-CheckDisk.ps1 -WindowStyle Hidden -Verb RunAs; FixLine; break }
                 else {
                     $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Want any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                     FixLine
                     $cmd = ($cmd.split(".")[0] + ".PS1")
                     [string]$cmd = ("$cmd $cmd1")
-                    Start-Process "pwsh.exe" -Argumentlist $cmd -Verb RunAs
+                    Start-Process "pwsh.exe" -ArgumentList $cmd -Verb RunAs
                     FixLine
                 }
             }
@@ -463,7 +463,7 @@ While (1) {
             $ValidOption = "YES"
         }
         elseif ($ans -eq "Q") {
-            $Filetest = Test-Path -path $Filetmp
+            $Filetest = Test-Path -Path $Filetmp
             if (($Filetest)) { Remove-Item -Path $Filetmp }
             Clear-Host
             Return
@@ -488,5 +488,5 @@ While (1) {
         if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
     }
 }
-$Filetest = Test-Path -path $Filetmp
+$Filetest = Test-Path -Path $Filetmp
 if (($Filetest)) { Remove-Item -Path $Filetmp }

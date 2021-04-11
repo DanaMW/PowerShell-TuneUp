@@ -1,4 +1,4 @@
-$FileVersion = "3.0.20"
+$FileVersion = "3.0.22"
 $Base = $env:Base
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
@@ -10,19 +10,19 @@ Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
 Clear-Host
 $FileINI = ($ScriptBase + "\BinMenu.ini")
-$Filetest = Test-Path -path $FileINI
-if (($Filetest)) { Remove-Item –path $FileINI }
+$Filetest = Test-Path -Path $FileINI
+if (($Filetest)) { Remove-Item –Path $FileINI }
 $FileTXT = ($ScriptBase + "\BinMenu.txt")
-$Filetest = Test-Path -path $FileTXT
-if (($Filetest)) { Remove-Item –path $FileTXT }
+$Filetest = Test-Path -Path $FileTXT
+if (($Filetest)) { Remove-Item –Path $FileTXT }
 $FileCSv = ($ScriptBase + "\BinMenu.csv")
-$Filetest = Test-Path -path $FileCSV
-if (($Filetest)) { Remove-Item –path $FileCSV }
+$Filetest = Test-Path -Path $FileCSV
+if (($Filetest)) { Remove-Item –Path $FileCSV }
 Say $fileVersion "Reading in directory" $Base
 Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
 @{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
 Name,
-FullName | Export-Csv -path $FileTXT -NoTypeInformation
+FullName | Export-Csv -Path $FileTXT -NoTypeInformation
 Say "Writing raw files info, Reread and sorting file names, Exporting all file names"
 Import-Csv -Path $FileTXT | Sort-Object -Property "Foldername" | Export-Csv -NoTypeInformation $FileCSV
 $writer = [System.IO.file]::CreateText($FileINI)
@@ -90,10 +90,10 @@ finally { $writer.close() }
 Clear-Host
 Say "Done Writing EXE files to the Menu ini."
 Say ""
-$Filetest = Test-Path -path $FileTXT
-if (($Filetest)) { Remove-Item –path $FileTXT }
-$Filetest = Test-Path -path $FileCSV
-if (($Filetest)) { Remove-Item –path $FileCSV }
+$Filetest = Test-Path -Path $FileTXT
+if (($Filetest)) { Remove-Item –Path $FileTXT }
+$Filetest = Test-Path -Path $FileCSV
+if (($Filetest)) { Remove-Item –Path $FileCSV }
 Clear-Host
 Invoke-Item ($ScriptBase + "\BinMenu.lnk");
 return

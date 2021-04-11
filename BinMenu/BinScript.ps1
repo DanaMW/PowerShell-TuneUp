@@ -1,4 +1,4 @@
-$FileVersion = "3.0.20"
+$FileVersion = "3.0.22"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
@@ -18,7 +18,7 @@ if (!($Config)) {
     break
 }
 [string]$Filetmp = ($ScriptBase + "\BinTemp.del")
-$Filetest = Test-Path -path $Filetmp
+$Filetest = Test-Path -Path $Filetmp
 if (!($Filetest)) {
     Say -ForegroundColor RED "Error: This script must be called from BinMenu E menu option."
     Read-Host -Prompt "Hit a key to exit: "
@@ -64,7 +64,7 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, $pp)
 }
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 While (1) {
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     Clear-Host
@@ -142,21 +142,21 @@ While (1) {
                 $cmd2 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Enter Any Parameters For Script~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             }
             [string]$FileRun = ($ScriptBase + "\BSTempRun.ps1")
-            $Filetest = Test-Path -path $FileRun
+            $Filetest = Test-Path -Path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
             Write-Output "pwsh.exe $cmd1 $cmd2" > $FileRun
             Write-Output 'Put-Pause -Prompt "~darkcyan~[~~darkyellow~Press any key to return to  menu~~darkcyan~]~white~:~ " -Max 0 -Echo 1' >> $FileRun
             FixLine
             Start-Process pwsh.exe -ArgumentList $FileRun -Verb RunAs -Wait
             FixLine
-            $Filetest = Test-Path -path $FileRun
+            $Filetest = Test-Path -Path $FileRun
             if (($Filetest)) { Remove-Item $FileRun -Force }
             Set-Location $ScriptBase.substring(0, 3)
             Set-Location $ScriptBase
         }
     }
     elseif ($ans -eq "Q") {
-        $Filetest = Test-Path -path $Filetmp
+        $Filetest = Test-Path -Path $Filetmp
         if (($Filetest)) {
             Remove-Item $Filetmp
             Clear-Host
@@ -178,5 +178,5 @@ While (1) {
         if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     }
 }
-$Filetest = Test-Path -path $Filetmp
-if (($Filetest)) { Remove-Item -path $Filetmp }
+$Filetest = Test-Path -Path $Filetmp
+if (($Filetest)) { Remove-Item -Path $Filetmp }
