@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: January 25, 2021
+        Last Modified Date: April 24, 2021
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,28 +16,28 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "1.5.1"
+$FileVersion = "1.5.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
-if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
+if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
-    $MyConfig = (Split-Path -parent $PSCommandPath) + "\" + (Split-Path -leaf $PSCommandPath)
+    $MyConfig = (Split-Path -Parent $PSCommandPath) + "\" + (Split-Path -Leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
     $MyConfig
 }
 $ConfigFile = MyConfig
 try { $Config = Get-Content "$ConfigFile" -Raw | ConvertFrom-Json }
-catch { Write-Host -ForeGroundColor RED "The Base configuration file is missing!"; break }
+catch { Write-Host -ForegroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
-    Write-Host -ForeGroundColor RED "The Delay-StartUp.json configuration file is missing!"
-    Write-Host -ForeGroundColor RED "You need to create or edit Delay-StartUp.json in $BASE"
+    Write-Host -ForegroundColor RED "The Delay-StartUp.json configuration file is missing!"
+    Write-Host -ForegroundColor RED "You need to create or edit Delay-StartUp.json in $BASE"
     break
 }
 $BASE = $env:Base
 if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
-if (!($BASE)) { Write-Host -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+if (!($BASE)) { Write-Host -ForegroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-$ScriptBase = (Split-Path -parent $PSCommandPath)
+$ScriptBase = (Split-Path -Parent $PSCommandPath)
 [int]$StartDelay = ($Config.Setup.StartDelay)
 [int]$Delay = ($Config.Setup.Delay)
 [bool]$Prevent = ($Config.Setup.Prevent)
@@ -52,7 +52,7 @@ if (!($WinY)) { $WinY = 1 }
 [int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
-$PosTest = Test-Path -path ($Base + "\Put-WinPosition.ps1")
+$PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 Function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
@@ -170,7 +170,7 @@ while ($c -le $AddCount) {
     $Runname = ($Config.$RunItem).name
     $RunHost = ($Config.$RunItem).hostonly
     $RunPath = ($Config.$RunItem).runpath
-    $RunSplit = (Split-Path -parent $RunPath)
+    $RunSplit = (Split-Path -Parent $RunPath)
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ON" -or $RunHost -eq $env:USERDOMAIN) {
@@ -181,7 +181,7 @@ while ($c -le $AddCount) {
             if (($RunArg)) {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
                 [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                         "
-                $Filetest = Test-Path -path $RunPath
+                $Filetest = Test-Path -Path $RunPath
                 [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg"
                 if ($Filetest -ne $True) {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
@@ -196,7 +196,7 @@ while ($c -le $AddCount) {
             else {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
                 [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                          "
-                $Filetest = Test-Path -path $RunPath
+                $Filetest = Test-Path -Path $RunPath
                 [Console]::SetCursorPosition(0, 0); Write-Host -Message "Start-Process -FilePath $RunPath"
                 if ($Filetest -ne $True) {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
@@ -213,11 +213,11 @@ while ($c -le $AddCount) {
         else {
             if (($RunArg)) {
                 try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                catch { Write-Host -ForeGroundColor RED "Could not run" $RunPath }
+                catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
             }
             else {
                 try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                catch { Write-Host -ForeGroundColor RED "Could not run" $RunPath }
+                catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
             }
             #$IsRunning = Get-Process $Runpath -ErrorAction SilentlyContinue
             #if (!($IsRunning)) { Write-Host -ForeGroundColor RED "$RunPath did not start correctly. Give a Look-See" }

@@ -1,7 +1,7 @@
-$FileVersion = "1.5.0"
+$FileVersion = "1.5.2"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
-if (!($ScriptBase)) { $ScriptBase = (Split-Path -parent $PSCommandPath) }
-Function Get-ScriptDir { Split-Path -parent $PSCommandPath }
+if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
+Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
 Function MyConfig {
     $Script:MyConfig = ($ScriptBase + "\Delay-StartUp.json")
     $MyConfig
@@ -19,7 +19,7 @@ if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Globa
 if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
-$ScriptBase = (Split-Path -parent $PSCommandPath)
+$ScriptBase = (Split-Path -Parent $PSCommandPath)
 [string]$Editor = ($Config.Setup.Editor)
 [bool]$TestRun = ($Config.Setup.TestRun)
 [int]$WinX = ($Config.Setup.WinX)
@@ -36,13 +36,14 @@ $ScriptBase = (Split-Path -parent $PSCommandPath)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
 if (!($BWHeight)) { $BWHeight = "37" }
-if (!($BWWidth)) { $BWWidth = "66" }
-$PosTest = Test-Path -path ($BASE + "\Put-WinPosition.ps1")
+if (!($BWWidth)) { $BWWidth = "70" }
+$PosTest = Test-Path -Path ($BASE + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 690 }
 if (!($WinSMY)) { $WinSMY = 205 }
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 800 -Height 800 | Out-Null }
-[string]$NormalLine = "~RED~#~~DARKRED~===============================================================~~RED~#~"
-[string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-<~~DARKRED~|~"
+# Bad Error caused by below
+# if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 800 -Height 800 | Out-Null }
+[string]$NormalLine = "~RED~#~~DARKRED~===================================================================~~RED~#~"
+[string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-<~~DARKRED~|~"
 [string]$LeftLine = "~DARKRED~|~"
 [string]$RightLine = "~DARKRED~|~"
 while (1) {
@@ -50,7 +51,7 @@ while (1) {
         $SaveError = $ErrorActionPreference
         $ErrorActionPreference = "SilentlyContinue"
         if (!($BWHeight)) { $BWHeight = "37" }
-        if (!($BWWidth)) { $BWWidth = "90" }
+        if (!($BWWidth)) { $BWWidth = "94" }
         $pshost = Get-Host
         $pswindow = $pshost.ui.rawui
         $newsize = $pswindow.buffersize
@@ -89,7 +90,7 @@ while (1) {
     }
     SpinItems
     Function PrettyLine {
-        [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                             "
+        [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                                                       "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
         # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
@@ -130,9 +131,6 @@ while (1) {
         $Fight3
         $Fight4
     }
-    #$Filechk = Test-Path -path ($ScriptBase + "\Delay-temp.tmp")
-    #if (($filechk)) { Remove-Item ($ScriptBase + "\Delay-temp.tmp") }
-    # Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User | Format-List | Out-File ($ScriptBase + "\Delay-temp.tmp")
     Clear-Host
     SpinItems
     [int]$l = 0
@@ -167,7 +165,6 @@ while (1) {
     while ($i -le $su) {
         $SUItem = $StartUp[$i]
         $su1 = $SUItem.name
-        #$su2 = $SUItem.location
         $su2 = "System"
         $su3 = $SUItem.command
         $su3 = "$su3".split('\')[-1]
@@ -202,7 +199,7 @@ while (1) {
     }
     [int]$v = 3
     [int]$u = ($pp - 2)
-    [int]$w = 64
+    [int]$w = 68
     While ($v -le $u) {
         [Console]::SetCursorPosition($w, $v); WC $RightLine
         $v++
@@ -210,8 +207,8 @@ while (1) {
     [int]$pp = ($l + 1)
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
-    FlexWindow
-    FlexWindow
+    # FlexWindow
+    # FlexWindow
     [Console]::SetCursorPosition($w, $pp)
     if (($Drop2Edit)) {
         $Pop = "E"
@@ -499,7 +496,7 @@ while (1) {
             if (($TestRun2)) { $GTG2 = "YES" }
             else { $GTG2 = "NO" }
             if (($TestRun3)) {
-                $Filetest = Test-Path -path $TestRun3
+                $Filetest = Test-Path -Path $TestRun3
                 if ($Filetest -eq $true) { $GTG3 = "YES" }
                 else { $GTG3 = "NO" }
             }
