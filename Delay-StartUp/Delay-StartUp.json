@@ -59,27 +59,21 @@
     "Argument": ""
   },
   "RunItem-4": {
-    "HostOnly": "TorchLight",
-    "Name": "OneDrive",
-    "RunPath": "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe",
-    "Argument": "/background"
+    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+    "Name": "Ditto",
+    "HostOnly": "ON",
+    "Argument": ""
   },
   "RunItem-5": {
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
+    "Name": "Redragon Griffin Mouse",
     "HostOnly": "ON",
-    "Name": "Ditto",
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Argument": ""
   },
   "RunItem-6": {
-    "HostOnly": "ON",
-    "Name": "Redragon Griffin Mouse",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
-    "Argument": ""
-  },
-  "RunItem-7": {
     "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
-    "HostOnly": "TinMan",
+    "HostOnly": "ON",
     "Argument": "/background"
   }
 }
