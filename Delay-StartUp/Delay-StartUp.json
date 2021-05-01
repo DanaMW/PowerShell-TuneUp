@@ -75,5 +75,11 @@
     "Name": "OneDrive",
     "HostOnly": "ON",
     "Argument": "/background"
+  },
+  "RunItem-7": {
+    "HostOnly": "ON",
+    "Name": "Google Sync",
+    "Argument": "/autostart",
+    "RunPath": "C:\\Program Files\\Google\\Drive\\googledrivesync.exe"
   }
 }
