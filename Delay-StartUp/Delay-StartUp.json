@@ -18,7 +18,7 @@
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
     "StartDelay": "0",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "5",
+    "Delay": "1",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": 1,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
@@ -73,11 +73,11 @@
   "RunItem-6": {
     "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
-    "HostOnly": "OFF",
+    "HostOnly": "ON",
     "Argument": "/background"
   },
   "RunItem-7": {
-    "HostOnly": "OFF",
+    "HostOnly": "ON",
     "Name": "Google Sync",
     "Argument": "/autostart",
     "RunPath": "C:\\Program Files\\Google\\Drive\\googledrivesync.exe"
