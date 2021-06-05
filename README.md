@@ -219,9 +219,9 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Put-Pause
 
-<a><p align=center>*I Use this A LOT* I Wanted something to replace Read-Host that timed out for my scripts. Added -Max 0 When you use -Max 0 the prompt does not time out and continues to wait for a keypress. -Default is disabled and -Echo is set to True. Added a clear keyboard buffer to catch extra input and throw it away. It now uses the color method Write-ColorPrompt (WCP) Changed the Separator from # to ~.</p></a>
+<a><p align=center>*I Use this A LOT* I Wanted something to replace Read-Host that timed out for my scripts. Added -Max 0 When you use -Max 0 the prompt does not time out and continues to wait for a keypress. -Default is disabled and -Echo is set to True. Added a clear keyboard buffer to catch extra input and throw it away. It now uses the color method Write-ColorPrompt (WCP) (This is a function in my profile above) Changed the Separator from # to ~.</p></a>
 
-- Usage: `Put-Pause -Prompt <String> -Max <Milliseconds> -Default <single key default>`
+- Usage: `Put-Pause -Prompt <String> -Max <Milliseconds> -Default <single key default> -Echo <Boolean>`
 - Usage: `Put-Pause -Prompt "[Make A Selection]: "`
 - Usage: `$a = Put-Pause -Prompt "Do you seem interested? (Y/N): " -Default "N"`
 - Color Usage: `Put-Pause -Prompt "~white~Clear the Screen?~ ~cyan~(~~white~Y~~cyan~/~~white~N~~cyan~)~~white~:~ "`
