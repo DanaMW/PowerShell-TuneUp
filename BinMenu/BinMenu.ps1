@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: April 13, 2021
+        Last Modified Date: June 06, 2021
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.23"
+$FileVersion = "3.0.24"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -406,10 +406,10 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "1+") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "wsl.exe" -ArgumentList "-d Ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "wsl.exe" -ArgumentList "-d Ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "wsl.exe" -ArgumentList "-d Fedora" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "pwsh.exe" -ArgumentList "-d Fedora" -Verb RunAs; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "ubuntu"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "ubuntu"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "Fedora"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "Fedora"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "wt.exe"; FixLine }
