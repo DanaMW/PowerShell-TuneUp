@@ -44,7 +44,7 @@
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "ON"
+    "HostOnly": "OFF"
   },
   "RunItem-2": {
     "HostOnly": "ON",
@@ -61,7 +61,7 @@
   "RunItem-4": {
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Argument": ""
   },
   "RunItem-5": {
