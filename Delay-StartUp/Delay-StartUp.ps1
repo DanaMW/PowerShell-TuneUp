@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: April 24, 2021
+        Last Modified Date: Sept 01, 2021
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "1.5.2"
+$FileVersion = "1.5.3"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -91,16 +91,16 @@ if (($WPosition)) {
 if ($Prevent -eq $True) {
     Clear-Host
     Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
-    Write-Host "   Delay-StartUp Program Launcher  "
+    Write-Host " | Delay-StartUp Program Launcher |"
     Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
     Write-Host " >-=- Prevent set to: 1 [True] -=-<"
-    Write-Host " -=-=-=-=-=-<[ Options ]>-=-=-=-=-="
+    Write-Host " -=-=-=-=-=<[ Options ]>=-=-=-=-=-="
     Write-Host " "
-    Write-Host " [0] PREVENT: 1 run Delay-StartUp."
-    Write-Host " [1] PREVENT: 0 then exit."
-    Write-Host " [2] PREVENT: 0 run Delay-StartUp."
-    Write-Host " [3] Exit, run Settings Manager."
-    Write-Host " [4] or ENTER just exit do nothing."
+    Write-Host " [0] Set PREVENT to 1 then run Delay-StartUp."
+    Write-Host " [1] Set PREVENT to 0 then exit."
+    Write-Host " [2] Set PREVENT to 0 then run Delay-StartUp."
+    Write-Host " [3] Exit this then run Settings Manager."
+    Write-Host " [4] or ENTER just exit. Do nothing."
     $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]"
     $ans = Read-Host -Prompt $DSPrompt
     if ($ans -eq "0") { Write-Host "Running Delay-StartUp for you now" }
@@ -108,7 +108,8 @@ if ($Prevent -eq $True) {
         [bool]$Prevent = 0
         $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        Write-Host 'Ok all set to run next time.[Run ($ScriptBase + "\Delay-StartUp.ps1") to run now.]'
+        # Write-Host 'Ok all set to run next time.[Run ($ScriptBase + "\Delay-StartUp.ps1") to run now.]'
+        break
         return
     }
     if ($ans -eq "2") {
