@@ -214,7 +214,7 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~white~Run~ ~DARKYELLOW~Delay-StartUp, Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad, ~DARKRED~(~~WHITE~#~~DARKRED~)~~DARKYELLOW~Number to view or ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKRED~(~~WHITE~Run~~DARKRED~)~ ~DARKYELLOW~Delay-StartUp, Re~~DARKRED~(~~WHITE~L~~DARKRED~)~~DARKYELLOW~oad, ~~DARKRED~(~~WHITE~##~~DARKRED~)~~DARKYELLOW~ to run or view ~~DARKRED~(~~WHITE~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($pop, [ref]$OutNumber)) {
         $MaxYes = $AddCount
