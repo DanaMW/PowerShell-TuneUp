@@ -61,7 +61,7 @@
   "RunItem-4": {
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
-    "HostOnly": "OFF",
+    "HostOnly": "ON",
     "Argument": ""
   },
   "RunItem-5": {
