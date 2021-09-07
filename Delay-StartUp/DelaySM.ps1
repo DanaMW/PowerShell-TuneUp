@@ -1,4 +1,4 @@
-$FileVersion = "1.5.3"
+$FileVersion = "1.5.4"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -35,13 +35,13 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
-if (!($BWHeight)) { $BWHeight = "37" }
+if (!($BWHeight)) { $BWHeight = "40" }
 if (!($BWWidth)) { $BWWidth = "70" }
 $PosTest = Test-Path -Path ($BASE + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 690 }
 if (!($WinSMY)) { $WinSMY = 205 }
-# Bad Error caused by below
-# if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 800 -Height 800 | Out-Null }
+# Bad Error caused by below before/ Working now
+if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width "100" -Height "50" | Out-Null }
 [string]$NormalLine = "~RED~#~~DARKRED~===================================================================~~RED~#~"
 [string]$TitleLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-<~~DARKRED~|~"
 [string]$LeftLine = "~DARKRED~|~"
@@ -50,7 +50,7 @@ while (1) {
     Function FlexWindow {
         $SaveError = $ErrorActionPreference
         $ErrorActionPreference = "SilentlyContinue"
-        if (!($BWHeight)) { $BWHeight = "37" }
+        if (!($BWHeight)) { $BWHeight = "40" }
         if (!($BWWidth)) { $BWWidth = "94" }
         $pshost = Get-Host
         $pswindow = $pshost.ui.rawui
@@ -207,8 +207,8 @@ while (1) {
     [int]$pp = ($l + 1)
     [int]$w = 0
     [Console]::SetCursorPosition($w, $pp)
-    # FlexWindow
-    # FlexWindow
+    FlexWindow
+    FlexWindow
     [Console]::SetCursorPosition($w, $pp)
     if (($Drop2Edit)) {
         $Pop = "E"
