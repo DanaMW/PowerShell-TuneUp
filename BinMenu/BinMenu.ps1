@@ -408,8 +408,8 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "ubuntu"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "kali-linux"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "kali-linux"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "Kali"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "Kali"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "wt.exe"; FixLine }
