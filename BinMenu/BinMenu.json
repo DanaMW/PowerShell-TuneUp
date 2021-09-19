@@ -115,12 +115,12 @@
   },
   "AddItem-15": {
     "Name": "VMWare",
-    "Command": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
-    "Argument": ""
+    "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "Argument": "D:\\bin\\Run-VMware.ps1"
   },
   "AddItem-16": {
     "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-    "Argument": "D:\\bin\\VS.ps1 INSTALLER",
+    "Argument": "D:\\bin\\Run-VisualStudios.ps1",
     "Name": "Visual Studios"
   }
 }
