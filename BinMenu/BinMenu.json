@@ -120,7 +120,7 @@
     },
     "AddItem-16": {
         "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-        "Argument": "D:\\bin\\Run-VisualStudios.ps1",
-        "Name": "Visual Studios"
+        "Argument": "D:\\bin\\Run-VisualStudio.ps1",
+        "Name": "Visual Studio"
     }
 }
