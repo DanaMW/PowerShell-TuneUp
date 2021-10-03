@@ -75,5 +75,11 @@
     "Name": "OneDrive",
     "HostOnly": "ON",
     "Argument": "/background"
+  },
+  "RunItem-7": {
+    "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
+    "HostOnly": "ON",
+    "Name": "MegaSync",
+    "Argument": ""
   }
 }
