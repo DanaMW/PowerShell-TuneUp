@@ -20,7 +20,7 @@
     "_Delay": "[int] Defines the delay between each program run.",
     "Delay": "1",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
-    "Prevent": 1,
+    "Prevent": false,
     "_Notify": "[bool] If Notifications should be sent to asay/notify.",
     "Notify": 0,
     "_TestRun": "[bool] 0 for normal 1 to test run script without loading any programs.",
