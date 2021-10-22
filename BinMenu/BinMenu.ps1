@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli
         Created Date: April, 2018
-        Last Modified Date: September 19, 2021
+        Last Modified Date: October 21, 2021
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.26"
+$FileVersion = "3.0.27"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -393,7 +393,7 @@ While (1) {
         elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "D") {
             FixLine
-            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~ ~GREEN~PowerShell ~~DARKRED~(~~WHITE~2~~DARKRED~)~ ~GREEN~CMD ~~DARKRED~(~~WHITE~3~~DARKRED~)~ ~GREEN~Ubuntu ~~DARKRED~(~~WHITE~4~~DARKRED~)~ ~GREEN~Kali ~~DARKRED~(~~WHITE~5~~DARKRED~)~ ~GREEN~Total Commander ~~DARKRED~(~~WHITE~6~~DARKRED~)~ ~GREEN~Windows Terminal~"
+            WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~ ~GREEN~PowerShell ~~DARKRED~(~~WHITE~2~~DARKRED~)~ ~GREEN~CMD ~~DARKRED~(~~WHITE~3~~DARKRED~)~ ~GREEN~Ubuntu ~~DARKRED~(~~WHITE~4~~DARKRED~)~ ~GREEN~Fedora ~~DARKRED~(~~WHITE~5~~DARKRED~)~ ~GREEN~Total Commander ~~DARKRED~(~~WHITE~6~~DARKRED~)~ ~GREEN~Windows Terminal~"
             $cmd = $null; $cmd1 = $null
             $cmd = $($RMenu = WCP "~DARKCYAN~[~~DARKYELLOW~Type a QuickMenu option or Enter to Cancel~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $RMenu)
             FixLine
@@ -408,8 +408,8 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "ubuntu"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "Kali"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "Kali"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "fedoraremix"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "fedoraremix"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5+") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "6") { Start-Process "wt.exe"; FixLine }

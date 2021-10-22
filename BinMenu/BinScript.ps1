@@ -1,4 +1,4 @@
-$FileVersion = "3.0.26"
+$FileVersion = "3.0.27"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
