@@ -134,7 +134,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><p align=center>Functions added To Profile For New Coloring Method. I use the `~` now. Not the `#`. The funtion is shown above.</p></a>
 
-- Usage: `WC "#red~Word 1~ ~green~Word 2~"`
+- Usage: `WC "~red~Word 1~ ~green~Word 2~"`
 
 ---
 
