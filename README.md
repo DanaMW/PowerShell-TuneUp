@@ -132,7 +132,9 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Write-Color (WC) and Write-ColorPrompt (WCP)
 
-<a><p align=center>Functions added To Profile For New Coloring Method. I use the `~` now. Not the `#` `WC "#red~word1~ ~green~word 2~"` The funtion is shown above.</p></a>
+<a><p align=center>Functions added To Profile For New Coloring Method. I use the `~` now. Not the `#`. The funtion is shown above.</p></a>
+
+- Usage: `WC "#red~Word 1~ ~green~Word 2~"`
 
 ---
 
