@@ -187,7 +187,13 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 - Usage: `CLEARLOGS -SILENT 1`
 
 ---
+## Cycle-Background
 
+<a><p align=center>Working on a background script because i have 470 backgrounds and I want to control the minutes between. Windows 10 does not seem to display all the images and this stupid thing might help me figure out why.</p></a>
+
+- Usage: `Cycle-background`
+
+---
 ## Get-Files
 
 <a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors. I call it from the root group files. It works but is a very old and simple example.</p></a>
