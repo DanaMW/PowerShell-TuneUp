@@ -3,7 +3,7 @@
         Clearlogs (Clear Windows Logs)
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: September 01, 2021
+        Last Modified Date: October 31, 2021
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -12,18 +12,19 @@
         Command Line: ClearLogs.ps1 [[-loud] <bool>] [[-Silent] <bool>]
 
 .EXAMPLE
-        ClearLogs.ps1 (Normal operation)
-        ClearLogs.ps1 -loud 1
-        ClearLogs.ps1 -Silent 1
+        ClearLogs (Normal operation)
+        ClearLogs -loud 1
+        ClearLogs -Silent 1
+        Clearlogs -Hidden 1
 
 .NOTES
         Still under development.
 
 #>
-Param([bool]$loud, [bool]$Silent)
+Param([bool]$loud, [bool]$Silent, [bool]$Hidden)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "0.2.22"
+$FileVersion = "0.2.23"
 $host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -34,6 +35,12 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [Security.Principal.WindowsPrincipal] $identity
 if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))) {
     Start-Process "pwsh.exe" -ArgumentList ($env:BASE + "\ClearLogs.ps1") -Verb RunAs
+    return
+}
+if (($Hidden)) {
+    Say "Running Clearlogs in hidden mode."
+    wevtutil el | ForEach-Object { wevtutil cl "$_" }
+    Say "Clearlogs complete"
     return
 }
 if (!($WinWidth)) {
