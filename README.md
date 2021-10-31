@@ -182,11 +182,12 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Clearlogs
 
-<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). I use this every day in my clean up routine. Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $true. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2. If you want fast do it silently its pretty damn fast then without all the drawing stuff.</p></a>
+<a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). I use this every day in my clean up routine. Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $true. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2. If you want fast do it silently its pretty damn fast then without all the drawing stuff. I added a "hidden" mode so you can run it from any console. I doesn't resize and runs faster since there is limited info to the screen.</p></a>
 
 - Usage: `CLEARLOGS`
 - Usage: `CLEARLOGS -LOUD 1`
 - Usage: `CLEARLOGS -SILENT 1`
+- Usage: `CLEARLOGS -HIDDEN 1`
 
 ---
 ## Cycle-Background
