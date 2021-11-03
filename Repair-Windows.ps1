@@ -1,6 +1,6 @@
 Param([string]$RunFix)
-$FileVersion = "0.2.2"
-$host.ui.RawUI.WindowTitle = "Fix Windows Version " + $FileVersion
+$FileVersion = "0.2.3"
+$host.ui.RawUI.WindowTitle = "Repair Windows $FileVersion"
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -28,7 +28,7 @@ $tmpHeight = 22
 $tmpWidth = 72
 if ($tmpWidth -eq "") { $tmpWidth = 107 }
 if ($tmpHeight -eq "") { $tmpHeight = 45 }
-$pshost = (get-host)
+$pshost = (Get-Host)
 $pswindow = ($pshost.ui.rawui)
 $newsize = ($pswindow.buffersize)
 $newsize.height = "2000"
@@ -133,4 +133,4 @@ if ($RunFix -eq "IMAGE") { Invoke-Expression $Image }
 if ($RunFix -eq "Repair") { Invoke-Expression $Repair }
 if ($RunFix -eq "Reset") { Invoke-Expression $Reset }
 $menuPrompt = WCP "~CYAN~[~~darkyellow~Enter To Continue~~CYAN~]~~WHITE~:~ "
-Read-Host -prompt $menuPrompt
+Read-Host -Prompt $menuPrompt
