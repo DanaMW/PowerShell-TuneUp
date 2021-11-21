@@ -61,13 +61,13 @@
   "RunItem-4": {
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Argument": ""
   },
   "RunItem-5": {
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "Name": "Redragon Griffin Mouse",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Argument": ""
   },
   "RunItem-6": {
