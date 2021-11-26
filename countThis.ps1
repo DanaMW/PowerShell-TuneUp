@@ -1,2 +1,2 @@
 Say "$args".length
-$FileVersion = "0.0.2"
+$FileVersion = "0.0.3"

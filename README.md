@@ -80,6 +80,7 @@ Function Get-SmallVer {
     return WC "~darkcyan~[~~darkyellow~PowerShell $PSEdition $MyVer~~darkcyan~]~~white~ ~"
 }
 Set-Alias ghost Run-Ghost.ps1;
+Set-Alias count countThis.ps1;
 Set-Alias say Write-Host;
 Set-Alias sayout Write-Output;
 Set-Alias re Resolve-Error;
@@ -190,6 +191,15 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 - Usage: `CLEARLOGS -HIDDEN 1`
 
 ---
+
+## countThis
+
+<a><p align=center>It simply gives a count of characters between quotes</p></a>
+
+- Usage: `countThis "anything you want a count of."`
+
+---
+
 ## Cycle-Background
 
 <a><p align=center>Working on a background script because i have 470 backgrounds and I want to control the minutes between. Windows 10 does not seem to display all the images and this stupid thing might help me figure out why.</p></a>
@@ -197,6 +207,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 - Usage: `Cycle-background`
 
 ---
+
 ## Get-Files
 
 <a><p align=center>A script I call from the other scripts. Just a DIR sort of replacement. With colors. I call it from the root group files. It works but is a very old and simple example.</p></a>
@@ -328,6 +339,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 - Usage: `Edit-Config -Confile [string] -Count [string] -Read [string] -Write [string] -Section [string] -SValue [string] -BValue [bool] -Sub [int]`
 
 ---
+
 ## Edit-SiteHost
 
 <a><p align=center>This adds and removes and views contents of Windows HOSTS file. Great for quickly blocking/unblocking internet addresses like shitty facebook.</p></a>
