@@ -36,47 +36,54 @@
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
     "WinSMY": "200",
     "_WinWidth": "[int]",
-    "WinWidth": "50",
+    "WinWidth": "75",
     "_WinHeight": "[int]",
     "WinHeight": "20"
   },
   "RunItem-1": {
+    "goTime": "0",
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
     "Name": "RainMeter",
     "Argument": "",
     "HostOnly": "ON"
   },
   "RunItem-2": {
+    "goTime": "0",
     "HostOnly": "ON",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
   },
   "RunItem-3": {
+    "goTime": "0",
     "HostOnly": "ON",
     "Name": "Console Emulator",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Argument": ""
   },
   "RunItem-4": {
+    "goTime": "0",
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
     "HostOnly": "ON",
     "Argument": ""
   },
   "RunItem-5": {
+    "goTime": "0",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "Name": "Redragon Griffin Mouse",
     "HostOnly": "ON",
     "Argument": ""
   },
   "RunItem-6": {
+    "goTime": "0",
     "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
     "HostOnly": "ON",
     "Argument": "/background"
   },
   "RunItem-7": {
+    "goTime": "0",
     "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
     "HostOnly": "ON",
     "Name": "MegaSync",

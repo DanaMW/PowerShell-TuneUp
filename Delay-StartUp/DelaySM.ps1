@@ -1,4 +1,4 @@
-$FileVersion = "1.5.4"
+$FileVersion = "1.5.5"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -126,10 +126,17 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight4 = Read-Host -Prompt $boop
         PrettyLine
+        Say $Rich5A
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        Say $rich5B
+        [Console]::SetCursorPosition($w, ($pp + 2))
+        $Script:Fight5 = Read-Host -Prompt $boop
+        PrettyLine
         $Fight1
         $Fight2
         $Fight3
         $Fight4
+        $Fight5
     }
     Clear-Host
     SpinItems
@@ -180,8 +187,9 @@ while (1) {
         $it2 = ($Config.$RunItem).HostOnly
         $it3 = ($Config.$RunItem).RunPath
         $it3 = "$it3".split('\')[-1]
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        $it4 = ($Config.$RunItem).goTime
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $j++
         $a++
@@ -226,6 +234,7 @@ while (1) {
             $vt2 = ($Config.$RI).HostOnly
             $vt3 = ($Config.$RI).RunPath
             $vt4 = ($Config.$RI).Argument
+            $vt5 = ($Config.$RI).goTime
             $tw = 1
             $tp = 20
             [Console]::SetCursorPosition($tw, $tp)
@@ -240,6 +249,7 @@ while (1) {
             [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "     Run: $vt2"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "     Sec: $vt5"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "                                                               "
             [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++;
@@ -388,7 +398,7 @@ while (1) {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
-        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = "" }
+        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""; goTime = "" }
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
@@ -419,7 +429,8 @@ while (1) {
                 $f2 = ($Config.$RunFix).HostOnly
                 $f3 = ($Config.$RunFix).RunPath
                 $f4 = ($Config.$RunFix).Argument
-                $Fixer = @{ Argument = "$f4"; RunPath = "$f3"; HostOnly = "$f2"; Name = "$f1" }
+                $f5 = ($Config.$RunFix).goTime
+                $Fixer = @{ goTime = "$f5"; Argument = "$f4"; RunPath = "$f3"; HostOnly = "$f2"; Name = "$f1" }
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
@@ -445,6 +456,7 @@ while (1) {
             $Script:Fight2 = ($Config.$RunItem).HostOnly
             $Script:Fight3 = ($Config.$RunItem).RunPath
             $Script:Fight4 = ($Config.$RunItem).Argument
+            $Script:Fight5 = ($Config.$RunItem).goTime
             $rich1A = "Please enter the NAME or Title of the program for this entry."
             $rich1B = "Current Value: $Fight1"
             $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, ON or OFF]"
@@ -453,6 +465,8 @@ while (1) {
             $Rich3B = "Current Value: $Fight3"
             $rich4A = "Please enter any ARGUMENTS you need for this entry."
             $rich4B = "Current Value: $Fight4"
+            $rich5A = "Please enter SECONDS to run this entry in."
+            $rich5B = "Current Value: $Fight5"
             $boop = "[OK for No Change or - to Clear]"
             FightOn
             if (($Fight1)) {
@@ -475,6 +489,11 @@ while (1) {
                 $Config.$RunItem.Argument = $Fight4
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
+            if (($Fight5)) {
+                if ($Fight5 -eq "-") { $Fight5 = "" }
+                $Config.$RunItem.goTime = $Fight5
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
         }
         $Pop = ""
     }
@@ -491,6 +510,7 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             #$TestRun4 = ($Config.$RunItem).Argument
+            #$TestRun5 = ($Config.$RunItem).goTime
             if (($TestRun1)) { $GTG1 = "YES" }
             else { $GTG1 = "NO" }
             if (($TestRun2)) { $GTG2 = "YES" }
@@ -543,6 +563,7 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
+            $TestRun5 = ($Config.$RunItem).goTime
             if ($TestRun2 -ne $env:USERDOMAIN -and $TestRun2 -ne "ON") {
                 Say "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
                 [Console]::SetCursorPosition($w, ($pp + 1))
