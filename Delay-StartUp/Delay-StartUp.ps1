@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli
         Created Date: August, 2018
-        Last Modified Date: November 30, 2021
+        Last Modified Date: December 02, 2021
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
@@ -16,7 +16,7 @@
 .NOTES
         Still under development.
 #>
-$FileVersion = "1.5.5"
+$FileVersion = "1.5.7"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -176,7 +176,7 @@ while ($c -le $AddCount) {
     $RunSplit = ($RunSplit + "\")
     $RunArg = ($Config.$RunItem).argument
     if ($RunHost -eq "ON" -or $RunHost -eq $env:USERDOMAIN) {
-        & Write-Output " [$a] Starting $RunName [Run: $RunHost] [Seconds: $RunTime]"
+        & Write-Output " [$a] Starting $RunName [Run: $RunHost][Secs: $RunTime]"
         if ($TestRun -eq $True) {
             $X = $host.ui.rawui.CursorPosition.X
             $Y = $host.ui.rawui.CursorPosition.Y
@@ -215,6 +215,13 @@ while ($c -le $AddCount) {
         else {
             if (($RunArg)) {
                 if ($RunTime -gt "0") {
+                    # $job = Start-Job -Name "$RunName" -ScriptBlock {
+                    #    Start-Sleep -Seconds $RunTime
+                    #    try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                    #    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    #    break
+                    # }
+                    # & $job
                     Start-Sleep -Seconds $RunTime
                     try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
@@ -226,6 +233,13 @@ while ($c -le $AddCount) {
             }
             else {
                 if ($RunTime -gt "0") {
+                    # $job = Start-Job -Name "$RunName" -ScriptBlock {
+                    #    Start-Sleep -Seconds $RunTime
+                    #    try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                    #    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    #    break
+                    # }
+                    # & $job
                     Start-Sleep -Seconds $RunTime
                     try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
@@ -235,8 +249,13 @@ while ($c -le $AddCount) {
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
                 }
             }
-            #$IsRunning = Get-Process $Runpath -ErrorAction SilentlyContinue
-            #if (!($IsRunning)) { Write-Host -ForeGroundColor RED "$RunPath did not start correctly. Give a Look-See" }
+            <#
+            $job = Start-Job -Name "Job1" -ScriptBlock {Do {"Something"} Until ($False)}
+            Start-Sleep -s 10
+            Stop-Job $job
+            #>
+            # $IsRunning = Get-Process $Runpath -ErrorAction SilentlyContinue
+            # if (!($IsRunning)) { Write-Host -ForeGroundColor RED "$RunPath did not start correctly. Give a Look-See" }
         }
         & Set-Location $BASE.substring(0, 3)
         & Set-Location $BASE
