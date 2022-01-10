@@ -1,4 +1,4 @@
-$FileVersion = "3.0.27"
+$FileVersion = "3.0.28"
 $Base = $env:Base
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
