@@ -378,6 +378,12 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ---
 
+## Report
+<a><p align=center>This sends the contents of the directory you input to the text file you designate for you to share the contents or use in a report (doh).</p></a>
+
+- Usage: `REPORT -In "D:\Software\_Games" -Out "D:\Downloads\Games.Txt"`
+
+---
 ## Run-CheckDisk
 
 <a><p align=center>This script is my once a week CHKNTFS routine. It Sets drive C: and D: dirty then reboots to preform the disk check. I also call this script from the G QuickMenu of the BinMenu above. NOTE: Check out the script because it DOES NOT ask again it JUST RUNS. But it does what it should. It Will produce a message in Windows that you need to reboot to check the drives, which is the idea.</p></a>
