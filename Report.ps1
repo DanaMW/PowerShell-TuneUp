@@ -17,19 +17,21 @@
 
 #>
 param([string]$In, [string]$Out)
-$FileVersion = "0.0.2"
+$FileVersion = "0.0.3"
 Say "Report $FileVersion"
-return
 if (!($In)) {
         Say "What directory do you want to read into the text file?"
         Read-Host -Prompt "[Full Path to read in.]"
 }
 if (!($In)) { return }
+Say "IN set as $In"
 if (!($Out)) {
         Say "What File to write the output to?"
         Read-Host -Prompt "[Full Path/filename to write to.]"
 }
 if (!($Out)) { return }
+Say "OUT set as $Out"
 $Filetest = Test-Path -Path $Out
 if ($Filetest -eq $true) { Remove-Item –Path $Out }
+Say "Writing your output file for you."
 Get-ChildItem -Path $In -Name -Recurse | Sort-Object | Out-File $Out
