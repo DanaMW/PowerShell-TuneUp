@@ -1,4 +1,4 @@
-$FileVersion = "1.5.8"
+$FileVersion = "1.5.10"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -31,6 +31,7 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [int]$Delay = ($Config.Setup.Delay)
 [bool]$Prevent = ($Config.Setup.Prevent)
 [bool]$Notify = ($Config.Setup.Notify)
+[bool]$SysShow = ($Config.Setup.SysShow)
 [int]$WinWidth = ($Config.Setup.WinWidth)
 [int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
@@ -155,6 +156,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~.......: ~~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~T~~DARKRED~)~~DARKCYAN~est Run Shooting Blanks~~WHITE~......: ~~DARKRED~[~~WHITE~$TestRun~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~UP~~DARKRED~)~~DARKCYAN~Use Positioning for Window~~WHITE~..: ~~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~+~~DARKRED~)~~DARKCYAN~Toggle showing system Items~~WHITE~..: ~~DARKRED~[~~WHITE~$SysShow~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~......................: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~.....................: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~X~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
@@ -166,19 +168,21 @@ while (1) {
     [int]$v = 3
     [int]$w = 1
     [int]$i = 0
-    $StartUp = Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User; Start-Sleep -m 1000
-    $su = ($StartUp).count
-    $su = ($su - 1)
-    while ($i -le $su) {
-        $SUItem = $StartUp[$i]
-        $su1 = $SUItem.name
-        $su2 = "System"
-        $su3 = $SUItem.command
-        $su3 = "$su3".split('\')[-1]
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-        $i++
-        $a++
+    if ($SysShow) {
+        $StartUp = Get-CimInstance Win32_StartupCommand | Select-Object Name, command, Location, User; Start-Sleep -m 1000
+        $su = ($StartUp).count
+        $su = ($su - 1)
+        while ($i -le $su) {
+            $SUItem = $StartUp[$i]
+            $su1 = $SUItem.name
+            $su2 = "System"
+            $su3 = $SUItem.command
+            $su3 = "$su3".split('\')[-1]
+            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            $i++
+            $a++
+        }
     }
     [int]$i = 1
     while ($i -le $AddCount) {
@@ -290,6 +294,12 @@ while (1) {
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
         [int]$Delay = ($Config.Setup.Delay)
+    }
+    if ($pop -eq "+") {
+        if (($Config.Setup.SysShow) -eq 0) { $Config.Setup.SysShow = 1 }
+        else { $Config.Setup.SysShow = 0 }
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$SysShow = ($Config.Setup.SysShow)
     }
     if ($pop -eq "P") {
         if (($Config.Setup.Prevent) -eq 0) { $Config.Setup.Prevent = 1 }

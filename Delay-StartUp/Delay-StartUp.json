@@ -27,6 +27,8 @@
     "TestRun": 0,
     "_WPosition": "[bool] 0 for normal 1 to test run script without loading any programs.",
     "WPosition": 1,
+    "_SysShow": "[bool] 0 no show 1 to show the system boot items.",
+    "SysShow": 0,
     "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
     "WinX": "700",
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
@@ -94,6 +96,13 @@
     "Name": "Grammarly",
     "goTime": "0",
     "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
+    "Argument": ""
+  },
+  "RunItem-9": {
+    "Name": "Google Drive",
+    "HostOnly": "ON",
+    "goTime": "0",
+    "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\57.0.5.0\\GoogleDriveFS.exe",
     "Argument": ""
   }
 }
