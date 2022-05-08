@@ -81,18 +81,18 @@
     "goTime": "0",
     "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Argument": "/background"
   },
   "RunItem-7": {
     "goTime": "0",
     "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Name": "MegaSync",
     "Argument": ""
   },
   "RunItem-8": {
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "Name": "Grammarly",
     "goTime": "0",
     "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
@@ -100,7 +100,7 @@
   },
   "RunItem-9": {
     "Name": "Google Drive",
-    "HostOnly": "ON",
+    "HostOnly": "OFF",
     "goTime": "0",
     "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\57.0.5.0\\GoogleDriveFS.exe",
     "Argument": ""
