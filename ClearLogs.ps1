@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
         Clearlogs (Clear Windows Logs)
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: August, 2018
         Last Modified Date: October 31, 2021
 

@@ -1,7 +1,7 @@
 <#
   .SYNOPSIS
         Put-WinPosition.ps1
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: June, 2019
         Last Modified Date: June 03, 2019
 
@@ -26,7 +26,7 @@
 
   .NOTES
         Name: Put-WinPosition
-        Author: Dana Meli
+        Author: Dana Meli-Wischman
 
   .EXAMPLE
         Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>

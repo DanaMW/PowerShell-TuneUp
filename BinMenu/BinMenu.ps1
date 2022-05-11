@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
         BinMenu
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: January 10, 2022
+        Last Modified Date: May 11, 2022
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.28"
+$FileVersion = "3.0.29"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `

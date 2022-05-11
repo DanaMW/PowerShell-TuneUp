@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
         Get-Files
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: August, 2018
         Last Modified Date: September 22, 2021
 .DESCRIPTION

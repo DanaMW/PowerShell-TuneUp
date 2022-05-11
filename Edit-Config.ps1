@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
         Edit-Config
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: December, 2019
         Last Modified Date: March 21, 2021
 

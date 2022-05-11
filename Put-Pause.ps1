@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
         Put-Pause
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: May, 2019
         Last Modified Date: March 28, 2020
 

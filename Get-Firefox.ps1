@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
         Get-Firefox
-        Created By: Dana Meli
+        Created By: Dana Meli-Wischman
         Created Date: September, 2018
         Last Modified Date: March 21, 2021
 .DESCRIPTION
