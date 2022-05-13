@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: May 11, 2022
+        Last Modified Date: May 13, 2022
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.11"
+$FileVersion = "1.5.12"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -94,16 +94,14 @@ if (($WPosition)) {
 }
 if ($Prevent -eq $True) {
     Clear-Host
-    Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
-    Write-Host " | Delay-StartUp Program Launcher |"
-    Write-Host " -=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-"
-    Write-Host " >-=- Prevent set to: 1 [True] -=-<"
-    Write-Host " -=-=-=-=-=<[ Options ]>=-=-=-=-=-="
     Write-Host " "
-    Write-Host " [0] Set PREVENT to 1 then run Delay-StartUp."
-    Write-Host " [1] Set PREVENT to 0 then exit."
-    Write-Host " [2] Set PREVENT to 0 then run Delay-StartUp."
-    Write-Host " [3] Exit this then run Settings Manager."
+    Write-Host " Delay-StartUp Slow Down Program Launcher"
+    Write-Host " Prevent is set to 1, true, thats why the slow down."
+    Write-Host " Options:"
+    Write-Host " [0] Set PREVENT to true then run Delay-StartUp. (Default)"
+    Write-Host " [1] Set PREVENT to false then exit."
+    Write-Host " [2] Set PREVENT to false then run Delay-StartUp."
+    Write-Host " [3] Exit slow down then run Settings Manager."
     Write-Host " [4] or ENTER just exit. Do nothing."
     $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]"
     $ans = Read-Host -Prompt $DSPrompt
