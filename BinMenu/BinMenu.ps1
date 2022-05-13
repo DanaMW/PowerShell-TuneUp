@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: May 11, 2022
+        Last Modified Date: May 12, 2022
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.29"
+$FileVersion = "3.0.30"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -29,7 +29,7 @@ Function MyConfig {
     $MyConfig
 }
 [string]$ConfigFile = MyConfig
-Say "Reading from config files."
+Say "Reading from config files. Should just be a second."
 try { $Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
 if (!($Config)) {
