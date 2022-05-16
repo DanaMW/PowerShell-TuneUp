@@ -230,7 +230,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Put-Input
 
-<a><p align=center>This is new for PowerShell Core 7 and allows you to have a WinForm dialog for input. Make sure you have the newest DotNet SDK's.</p></a>
+<a><p align=center>This is new for PowerShell 7 and allows you to have a WinForm dialog for input. Make sure you have the newest DotNet SDK's.</p></a>
 
 - Usage: `Put-Input`
 - Usage: `Put-Input "Any text you want on the dialog:"`
@@ -262,7 +262,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><p align=center>My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.</p></a>
 
-- Usage: Paste into your script file as a function and call to it.`
+- Usage: Paste into your script file as a function and call to it.
 
 ---
 
