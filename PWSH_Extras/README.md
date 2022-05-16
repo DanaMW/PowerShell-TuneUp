@@ -1,5 +1,6 @@
 # PowerShell Extras
 
 ```
-This directory is imported from other open and free repo's expecting that many of them will be useful to me and therefore possibly you too. Everything is MIT License
+This whole directory is imported exactly as it was, from another person's repo a few years ago. I do not remember who it was but it is stock files done well that are useful to people that do things like they should be done. I use them from time to time so they are here if you need them. Forgotten if you don't.
+Everything is MIT License
 ```

@@ -1,6 +1,6 @@
 # Repository Information
 
-For help and/or information on my PowerShell Core setup head to the Development tab on my site: <https://danamw.github.io>. You will also always find me (*recess*) on IRC at `irc.dal.net` or `irc.libera.chat` in room #StrangeScript. My discord server is <https://discord.gg/zH252Xd9U3>
+For help and/or information on my PowerShell setup head to the Development tab on my site: <https://danamw.github.io>. You will also always find me (*recess*) on IRC at `irc.dal.net` or `irc.libera.chat` in room #StrangeScript. My discord server is <https://discord.gg/zH252Xd9U3>
 Another note: Windows positioning does not work on the new tabbed Windows Terminal yet. But I am working on including it in all the scripts. (or disabling if detected) Not to long. Also proudest of my script Put-Pause.ps1 (below). This is something Powershell should have built in.
 
 ---
