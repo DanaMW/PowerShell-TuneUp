@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: May 13, 2022
+        Last Modified Date: May 18, 2022
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.12"
+$FileVersion = "1.5.13"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -158,12 +158,10 @@ if (($WPosition)) {
 }
 if ($StartDelay -eq "0") {
     Clear-Host
-    [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning StartUp-delay"
+    [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning the end of the delays"
 }
-[Console]::SetCursorPosition(0, 3); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
-[Console]::SetCursorPosition(0, 5); & Write-Output "#==================================#"
-[Console]::SetCursorPosition(0, 6); & Write-Output "  Startup Delay: $StartDelay - Run Delay: $Delay"
+[Console]::SetCursorPosition(0, 3); & Write-Output "Running Slow Down Program Launcher."
+[Console]::SetCursorPosition(0, 5); & Write-Output "  Startup Delay: $StartDelay - Run Delay: $Delay"
 [int]$c = 1
 [int]$a = 1
 SpinItems
