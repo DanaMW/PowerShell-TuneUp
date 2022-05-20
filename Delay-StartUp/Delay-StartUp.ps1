@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.13"
+$FileVersion = "1.5.14"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -139,8 +139,8 @@ if ($Prevent -eq $True) {
 }
 if ($StartDelay -ne "0") {
     Clear-Host
-    [Console]::SetCursorPosition(0, 1); & Write-Output "You have StartDelay Set."
-    [Console]::SetCursorPosition(0, 2); & Write-Output "Holding startup for $StartDelay"
+    [Console]::SetCursorPosition(0, 1); & Write-Output " You have StartDelay Set."
+    [Console]::SetCursorPosition(0, 2); & Write-Output " Holding startup for $StartDelay"
     [int]$c = $StartDelay
     while ($c -gt 0) {
         [Console]::SetCursorPosition(20, 2); & Write-Output "      "
@@ -150,7 +150,7 @@ if ($StartDelay -ne "0") {
         [Console]::SetCursorPosition(0, 5); & Write-Output "                                               "
     }
     [Console]::SetCursorPosition(20, 2); & Write-Output "      "
-    [Console]::SetCursorPosition(20, 2); & Write-Output "Done!"
+    [Console]::SetCursorPosition(20, 2); & Write-Output " Done!"
 }
 if (($WPosition)) {
     FlexWindow
@@ -158,10 +158,10 @@ if (($WPosition)) {
 }
 if ($StartDelay -eq "0") {
     Clear-Host
-    [Console]::SetCursorPosition(0, 2); & Write-Output "Without delay, beginning the end of the delays"
+    [Console]::SetCursorPosition(0, 3); & Write-Output " Without delay, beginning the end of the delays"
 }
-[Console]::SetCursorPosition(0, 3); & Write-Output "Running Slow Down Program Launcher."
-[Console]::SetCursorPosition(0, 5); & Write-Output "  Startup Delay: $StartDelay - Run Delay: $Delay"
+[Console]::SetCursorPosition(0, 4); & Write-Output " Running Slow Down Program Launcher."
+[Console]::SetCursorPosition(0, 5); & Write-Output " Startup Delay: $StartDelay - Run Delay: $Delay"
 [int]$c = 1
 [int]$a = 1
 SpinItems
@@ -184,31 +184,31 @@ while ($c -le $AddCount) {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
                 [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                         "
                 $Filetest = Test-Path -Path $RunPath
-                [Console]::SetCursorPosition(0, 0); Write-Host "Start-Process -FilePath $RunPath -ArgumentList $RunArg"
+                [Console]::SetCursorPosition(0, 0); Write-Host " Start-Process -FilePath $RunPath -ArgumentList $RunArg"
                 if ($Filetest -ne $True) {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
-                    [Console]::SetCursorPosition(0, 3); Write-Host "#==================================# File Was NOT Found!"
+                    [Console]::SetCursorPosition(0, 3); Write-Host " File Was NOT Found!"
                 }
                 else {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
-                    [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================# File OK!"
+                    [Console]::SetCursorPosition(0, 3); & Write-Output " File Setup OK."
                 }
-                [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
+                [Console]::SetCursorPosition(0, 4); & Write-Output " Running Delay-Startup Launcher"
             }
             else {
                 [Console]::SetCursorPosition(0, 0); Write-Host "                                                                                                                                                                                                                                                    "
                 [Console]::SetCursorPosition(0, 1); Write-Host "                                                                                                                                                                                                                                          "
                 $Filetest = Test-Path -Path $RunPath
-                [Console]::SetCursorPosition(0, 0); Write-Host -Message "Start-Process -FilePath $RunPath"
+                [Console]::SetCursorPosition(0, 0); Write-Host -Message " Start-Process -FilePath $RunPath"
                 if ($Filetest -ne $True) {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
-                    [Console]::SetCursorPosition(0, 3); Write-Host "#==================================# File Was NOT Found!"
+                    [Console]::SetCursorPosition(0, 3); Write-Host " File Was NOT Found!"
                 }
                 Else {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
-                    [Console]::SetCursorPosition(0, 3); & Write-Output "#==================================# File OK!"
+                    [Console]::SetCursorPosition(0, 3); & Write-Output " File Setup OK."
                 }
-                [Console]::SetCursorPosition(0, 4); & Write-Output "|-<Running Delay-Startup Launcher>-|"
+                [Console]::SetCursorPosition(0, 4); & Write-Output " Running Delay-Startup Launcher"
             }
             [Console]::SetCursorPosition($X, $Y)
         }
