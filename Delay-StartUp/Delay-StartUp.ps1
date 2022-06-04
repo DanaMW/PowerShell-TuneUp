@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: May 18, 2022
+        Last Modified Date: June 04, 2022
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.14"
+$FileVersion = "1.5.15"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -103,14 +103,17 @@ if ($Prevent -eq $True) {
     Write-Host " [2] Set PREVENT to false then run Delay-StartUp."
     Write-Host " [3] Exit slow down then run Settings Manager."
     Write-Host " [4] or ENTER just exit. Do nothing."
-    $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]"
-    $ans = Read-Host -Prompt $DSPrompt
+    Write-Host " Set to auto proceed in 30 seconds."
+    $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]: "
+    # Add command line for this
+    $ans = Put-Pause -Prompt $DSPrompt -Max 30000 -Default "0" -Echo 1
+    # Below If normal
+    # $ans = Read-Host -Prompt $DSPrompt
     if ($ans -eq "0") { Write-Host "Running Delay-StartUp for you now" }
     if ($ans -eq "1") {
         [bool]$Prevent = 0
         $Config.Setup.Prevent = [bool]$Prevent
         $Config | ConvertTo-Json | Set-Content $ConfigFile
-        # Write-Host 'Ok all set to run next time.[Run ($ScriptBase + "\Delay-StartUp.ps1") to run now.]'
         break
         return
     }
