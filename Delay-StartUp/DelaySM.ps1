@@ -1,4 +1,4 @@
-$FileVersion = "1.5.15"
+$FileVersion = "1.5.16"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -32,6 +32,9 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [bool]$Prevent = ($Config.Setup.Prevent)
 [bool]$Notify = ($Config.Setup.Notify)
 [bool]$SysShow = ($Config.Setup.SysShow)
+[bool]$Pause = ($Config.Setup.Pause)
+[int]$PauseSec = ($Config.Setup.PauseSec)
+[string]$PauseOpt = ($Config.Setup.PauseOpt)
 [int]$WinWidth = ($Config.Setup.WinWidth)
 [int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
@@ -157,6 +160,9 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~T~~DARKRED~)~~DARKCYAN~est Run Shooting Blanks~~WHITE~......: ~~DARKRED~[~~WHITE~$TestRun~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~UP~~DARKRED~)~~DARKCYAN~Use Positioning for Window~~WHITE~..: ~~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~+~~DARKRED~)~~DARKCYAN~Toggle showing system Items~~WHITE~..: ~~DARKRED~[~~WHITE~$SysShow~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~Pause~~DARKRED~)~~DARKCYAN~ internal pause then run~~WHITE~.: ~~DARKRED~[~~WHITE~$Pause~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~PS~~DARKRED~)~~DARKCYAN~ Pause Seconds~~WHITE~..............: ~~DARKRED~[~~WHITE~$PauseSec~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~PO~~DARKRED~)~~DARKCYAN~ Pause Option~~WHITE~...............: ~~DARKRED~[~~WHITE~$PauseOpt~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~......................: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~.....................: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~X~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
@@ -294,6 +300,32 @@ while (1) {
             $Config | ConvertTo-Json | Set-Content $ConfigFile
         }
         [int]$Delay = ($Config.Setup.Delay)
+    }
+    if ($pop -eq "PAUSE") {
+        if (($Config.Setup.Pause) -eq 0) { $Config.Setup.Pause = 1 }
+        else { $Config.Setup.Pause = 0 }
+        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        [bool]$Pause = ($Config.Setup.Pause)
+    }
+    if ($pop -eq "PS") {
+        $blah = "Please enter the seconds to Pause Internally."
+        $boop = "Seconds to pause internally or ENTER to cancel"
+        FuckOff
+        if (($Fixer)) {
+            $Config.Setup.PauseSec = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [int]$PauseSec = ($Config.Setup.PauseSec)
+    }
+    if ($pop -eq "PO") {
+        $blah = "Please enter the Default Option to run."
+        $boop = "Default option to run or ENTER to cancel"
+        FuckOff
+        if (($Fixer)) {
+            $Config.Setup.PauseOpt = $Fixer
+            $Config | ConvertTo-Json | Set-Content $ConfigFile
+        }
+        [string]$PauseOpt = ($Config.Setup.PauseOpt)
     }
     if ($pop -eq "+") {
         if (($Config.Setup.SysShow) -eq 0) { $Config.Setup.SysShow = 1 }

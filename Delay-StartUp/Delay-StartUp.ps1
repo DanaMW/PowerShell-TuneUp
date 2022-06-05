@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: June 04, 2022
+        Last Modified Date: June 06, 2022
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.15"
+$FileVersion = "1.5.16"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -47,6 +47,9 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [bool]$Prevent = ($Config.Setup.Prevent)
 [bool]$Notify = ($Config.Setup.Notify)
 [bool]$TestRun = ($Config.Setup.TestRun)
+[bool]$Pause = ($Config.Setup.Pause)
+[int]$PauseSec = ($Config.Setup.PauseSec)
+[string]$PauseOpt = ($Config.Setup.PauseOpt)
 [int]$WinX = ($Config.Setup.WinX)
 if (!($WinX)) { $WinX = 1 }
 [int]$WinY = ($Config.Setup.WinY)
@@ -92,7 +95,7 @@ if (($WPosition)) {
     FlexWindow
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
 }
-if ($Prevent -eq $True) {
+if (($Prevent)) {
     Clear-Host
     Write-Host " "
     Write-Host " Delay-StartUp Slow Down Program Launcher"
@@ -103,12 +106,10 @@ if ($Prevent -eq $True) {
     Write-Host " [2] Set PREVENT to false then run Delay-StartUp."
     Write-Host " [3] Exit slow down then run Settings Manager."
     Write-Host " [4] or ENTER just exit. Do nothing."
-    Write-Host " Set to auto proceed in 30 seconds."
+    if (($Pause)) { Write-Host " Set to auto proceed in $PauseSec seconds." }
     $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]: "
-    # Add command line for this
-    $ans = Put-Pause -Prompt $DSPrompt -Max 30000 -Default "0" -Echo 1
-    # Below If normal
-    # $ans = Read-Host -Prompt $DSPrompt
+    if (($Pause)) { $ans = Put-Pause -Prompt $DSPrompt -Max 30000 -Default "0" -Echo 1 }
+    if (!($Pause)) { $ans = Read-Host -Prompt $DSPrompt }
     if ($ans -eq "0") { Write-Host "Running Delay-StartUp for you now" }
     if ($ans -eq "1") {
         [bool]$Prevent = 0
@@ -218,13 +219,6 @@ while ($c -le $AddCount) {
         else {
             if (($RunArg)) {
                 if ($RunTime -gt "0") {
-                    # $job = Start-Job -Name "$RunName" -ScriptBlock {
-                    #    Start-Sleep -Seconds $RunTime
-                    #    try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                    #    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
-                    #    break
-                    # }
-                    # & $job
                     Start-Sleep -Seconds $RunTime
                     try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
@@ -236,13 +230,6 @@ while ($c -le $AddCount) {
             }
             else {
                 if ($RunTime -gt "0") {
-                    # $job = Start-Job -Name "$RunName" -ScriptBlock {
-                    #    Start-Sleep -Seconds $RunTime
-                    #    try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                    #    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
-                    #    break
-                    # }
-                    # & $job
                     Start-Sleep -Seconds $RunTime
                     try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
@@ -252,13 +239,6 @@ while ($c -le $AddCount) {
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
                 }
             }
-            <#
-            $job = Start-Job -Name "Job1" -ScriptBlock {Do {"Something"} Until ($False)}
-            Start-Sleep -s 10
-            Stop-Job $job
-            #>
-            # $IsRunning = Get-Process $Runpath -ErrorAction SilentlyContinue
-            # if (!($IsRunning)) { Write-Host -ForeGroundColor RED "$RunPath did not start correctly. Give a Look-See" }
         }
         & Set-Location $BASE.substring(0, 3)
         & Set-Location $BASE
