@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: May 12, 2022
+        Last Modified Date: June 05, 2022
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.30"
+$FileVersion = "3.0.31"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -102,7 +102,7 @@ Function DeBug {
     Say "C" $c
     Say "ROW" $Row
     Say "COL" $Col
-    Say "PP" $pp
+    Say "PP" $GLOBAL:pp
     Say "PMENU" $PMenu
     Say "WORK" $Work
     Say "WINHEIGHT" $WinHeight
@@ -114,13 +114,13 @@ Function DeBug {
 #if (($DeBug)) { DeBug }
 Function FixLine {
     Say "                                                                                                       "
-    [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($pp + 1)); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 1)); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($pp + 2)); Say "                                                                                                       "
-    [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
-    [Console]::SetCursorPosition(0, $pp)
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 2)); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
 }
 Clear-Host
 [string]$FileINI = ($ScriptBase + "\BinMenu.ini")
@@ -181,128 +181,133 @@ if (!($MenuAdds)) {
         }
     }
 }
-$ptemp = ($Base + "\*.ps1")
-[int]$PCount = (Get-ChildItem -Path $ptemp).count
-[string]$NormalLine = "~RED~#~~DARKRED~=====================================================================================================~~RED~#~"
-[string]$FancyLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<~~CYAN~[~ ~RED~My BinMenu III~ ~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<~~DARKRED~|~"
-[string]$PrettyLine = "~DARKRED~|~~WHITE~=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=~~DARKRED~|~"
-[string]$SpacerLine = "~DARKRED~|                                                                                                     |~"
-[string]$ProgramLine = "~RED~#~~CYAN~[~~DARKYELLOW~Program Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
-[string]$Menu1Line = "~RED~#~~CYAN~[~~DARKYELLOW~Built-in Menu~~CYAN~]~~DARKRED~========================================================================~~CYAN~[~~DARKYELLOW~Scripts:~    ~CYAN~]~~RED~#~"
-[string]$ScriptLine = "~RED~#~~CYAN~[~~DARKYELLOW~Scripts Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
-[int]$pp = 0
-[int]$LineCount = 0
-[int]$LineCount = (Get-Content $FileINI).count
-if ($LineCount -eq 0) { $LineCount = 1 }
-$temp = ($LineCount / 3)
-$Work = $temp
-$a = ($temp / 3)
-$a = [int][Math]::Ceiling($a)
-$temp = ($Work / 3)
-$PMenu = [int][Math]::Ceiling($temp)
-[int]$b = ($a * 2)
-[int]$c = ($Work - $b)
-$Row = @($a, $b, $c)
-$Col = @(1, 34, 69)
-[int]$pp = ($PMenu + 9)
-[Console]::SetCursorPosition(0, $pp)
-$WinHeight = ($pp + 4)
-$BuffHeight = $WinHeight
-if (($WPosition)) { FlexWindow }
-if (($DeBug)) { DeBug }
-[Console]::SetCursorPosition(0, 0); WC $NormalLine; $pp++
-[Console]::SetCursorPosition(0, 1); WC $FancyLine; $pp++
-[Console]::SetCursorPosition(0, 2); WC $Menu1Line; $pp++
-[Console]::SetCursorPosition(98, 2); Say $PCount
-[Console]::SetCursorPosition(0, 3); WC $SpacerLine; $pp++
-[Console]::SetCursorPosition(0, 4); WC $SpacerLine; $pp++
-[Console]::SetCursorPosition(0, 5); WC $SpacerLine; $pp++
-[Console]::SetCursorPosition(1, 0)
-WC "~CYAN~[~~WHITE~ $FileVersion ~~CYAN~]~"
-[Console]::SetCursorPosition(0, 6)
-$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-$principal = [Security.Principal.WindowsPrincipal] $identity
-if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    [Console]::SetCursorPosition(85, 0)
-    WC "~CYAN~[~~WHITE~ Administrator ~~CYAN~]~"
-    [Console]::SetCursorPosition(0, 6)
-}
-[int]$l = 3
-$d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
-$f = @("Run any program", "Reload BinMenu (R also)", "Run BinMenu INI Maker", "Pick an OS console", "Script Window", "Run VS Code", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
-[int]$w = $Col[0]
-[int]$c = 0
-while ($c -le 8) {
-    [Console]::SetCursorPosition($w, $l)
-    [string]$tmp = $d[$c]
-    [string]$tmpf = $f[$c]
-    WC "~DARKRED~[~~WHITE~$tmp~~DARKRED~]~ ~MAGENTA~$tmpf~"
-    if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
-    if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
-    $l++
-    $c++
-}
-[int]$pp = 6
-[Console]::SetCursorPosition(0, $pp)
-WC $ProgramLine
-$pp++
-if ($PMenu -lt $a) { $PMenu = $a }
-[int]$i = 0
-[int]$l = $pp
-while ($i -lt $PMenu) {
-    [Console]::SetCursorPosition(0, $l)
-    WC $SpacerLine
-    $i++
-    $l++
-}
-WC $NormalLine
-[Console]::SetCursorPosition(0, $pp)
-[int]$l = $pp
-[int]$c = 0
-[int]$w = $col[0]
-[int]$i = 1
-$Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
-While ($i -le $Work) {
-    if ($i -le $Work) {
-        $Line = $Reader.ReadLine()
-        if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-        $moo = $line.split("=")
-        [string]$tmpm = $moo[1]
-        if ($i -le 9) { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
-        else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
-        $ltwo = $Reader.ReadLine()
-        if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-        $lthree = $Reader.ReadLine()
-        if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-    }
-    if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
-    if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
-    $i++
-    $c = ($c + 3)
-    $L++
-}
-$Reader.close()
-$pp = ($a + 8)
-[Console]::SetCursorPosition(0, $pp)
-$WinHeight = ($pp + 4)
-$BuffHeight = $WinHeight
-if (($WPosition)) { FlexWindow }
-[Console]::SetCursorPosition(0, $pp)
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
-    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+
+# Set-Variable -Name $GLOBAL:pp -Value 1 -Scope Global
+Function Draw-Window {
+    $ptemp = ($Base + "\*.ps1")
+    [int]$PCount = (Get-ChildItem -Path $ptemp).count
+    [string]$NormalLine = "~RED~#~~DARKRED~=====================================================================================================~~RED~#~"
+    [string]$FancyLine = "~DARKRED~|~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-<~~CYAN~[~ ~RED~My BinMenu III~ ~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-<~~DARKRED~|~"
+    [string]$PrettyLine = "~DARKRED~|~~WHITE~=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=~~DARKRED~|~"
+    [string]$SpacerLine = "~DARKRED~|                                                                                                     |~"
+    [string]$ProgramLine = "~RED~#~~CYAN~[~~DARKYELLOW~Program Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
+    [string]$Menu1Line = "~RED~#~~CYAN~[~~DARKYELLOW~Built-in Menu~~CYAN~]~~DARKRED~========================================================================~~CYAN~[~~DARKYELLOW~Scripts:~    ~CYAN~]~~RED~#~"
+    [string]$ScriptLine = "~RED~#~~CYAN~[~~DARKYELLOW~Scripts Menu~~CYAN~]~~DARKRED~=======================================================================================~~RED~#~"
+    [int]$GLOBAL:pp = 0
+    [int]$LineCount = 0
+    [int]$LineCount = (Get-Content $FileINI).count
+    if ($LineCount -eq 0) { $LineCount = 1 }
+    $temp = ($LineCount / 3)
+    $Work = $temp
+    $a = ($temp / 3)
+    $a = [int][Math]::Ceiling($a)
+    $temp = ($Work / 3)
+    $PMenu = [int][Math]::Ceiling($temp)
+    [int]$b = ($a * 2)
+    [int]$c = ($Work - $b)
+    $Row = @($a, $b, $c)
+    $Col = @(1, 34, 69)
+    [int]$GLOBAL:pp = ($PMenu + 9)
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    $WinHeight = ($GLOBAL:pp + 4)
+    $BuffHeight = $WinHeight
+    if (($WPosition)) { FlexWindow }
+    if (($DeBug)) { DeBug }
+    [Console]::SetCursorPosition(0, 0); WC $NormalLine; $GLOBAL:pp++
+    [Console]::SetCursorPosition(0, 1); WC $FancyLine; $GLOBAL:pp++
+    [Console]::SetCursorPosition(0, 2); WC $Menu1Line; $GLOBAL:pp++
+    [Console]::SetCursorPosition(98, 2); Say $PCount
+    [Console]::SetCursorPosition(0, 3); WC $SpacerLine; $GLOBAL:pp++
+    [Console]::SetCursorPosition(0, 4); WC $SpacerLine; $GLOBAL:pp++
+    [Console]::SetCursorPosition(0, 5); WC $SpacerLine; $GLOBAL:pp++
+    [Console]::SetCursorPosition(1, 0)
+    WC "~CYAN~[~~WHITE~ $FileVersion ~~CYAN~]~"
+    [Console]::SetCursorPosition(0, 6)
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = [Security.Principal.WindowsPrincipal] $identity
+    if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        [Console]::SetCursorPosition(85, 0)
+        WC "~CYAN~[~~WHITE~ Administrator ~~CYAN~]~"
+        [Console]::SetCursorPosition(0, 6)
+    }
+    [int]$l = 3
+    $d = @("A", "B", "C", "D", "E", "F", "G", "Z", "Q")
+    $f = @("Run any program", "Reload BinMenu (R also)", "Run BinMenu INI Maker", "Pick an OS console", "Script Window", "Run VS Code", "Run a PS1 script", "Run Settings Manager", "Quit BinMenu")
+    [int]$w = $Col[0]
+    [int]$c = 0
+    while ($c -le 8) {
+        [Console]::SetCursorPosition($w, $l)
+        [string]$tmp = $d[$c]
+        [string]$tmpf = $f[$c]
+        WC "~DARKRED~[~~WHITE~$tmp~~DARKRED~]~ ~MAGENTA~$tmpf~"
+        if ($c -eq 2) { [int]$l = ($l - 3); [int]$w = $Col[1] }
+        if ($c -eq 5) { [int]$l = ($l - 3); [int]$w = $Col[2] }
+        $l++
+        $c++
+    }
+    [int]$GLOBAL:pp = 6
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    WC $ProgramLine
+    $GLOBAL:pp++
+    if ($PMenu -lt $a) { $PMenu = $a }
+    [int]$i = 0
+    [int]$l = $GLOBAL:pp
+    while ($i -lt $PMenu) {
+        [Console]::SetCursorPosition(0, $l)
+        WC $SpacerLine
+        $i++
+        $l++
+    }
+    WC $NormalLine
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    [int]$l = $GLOBAL:pp
+    [int]$c = 0
+    [int]$w = $col[0]
+    [int]$i = 1
+    $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
+    While ($i -le $Work) {
+        if ($i -le $Work) {
+            $Line = $Reader.ReadLine()
+            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+            $moo = $line.split("=")
+            [string]$tmpm = $moo[1]
+            if ($i -le 9) { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
+            else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
+            $ltwo = $Reader.ReadLine()
+            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+            $lthree = $Reader.ReadLine()
+            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
+        }
+        if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
+        if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
+        $i++
+        $c = ($c + 3)
+        $L++
+    }
+    $Reader.close()
+    $GLOBAL:pp = ($a + 8)
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    $WinHeight = ($GLOBAL:pp + 4)
+    $BuffHeight = $WinHeight
+    if (($WPosition)) { FlexWindow }
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
+    if (($WPosition)) { FlexWindow }
+    $ValidOption = "NO"
 }
 Function MyMaker {
     Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinIM.ps1") -Verb RunAs
     break
 }
-if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
-if (($WPosition)) { FlexWindow }
-$ValidOption = "NO"
 <# ########## Begin The Menu Loop ########## #>
 While (1) {
-    [Console]::SetCursorPosition(0, $pp)
-    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Make A Selection~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt)
+    Draw-Window
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
+    $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Make A Selection~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt )
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($ans, [ref]$OutNumber)) {
         FixLine
@@ -473,16 +478,17 @@ While (1) {
         else {
             if ($ValidOption -eq "NO") {
                 FixLine
-                [Console]::SetCursorPosition(0, $pp)
+                [Console]::SetCursorPosition(0, $GLOBAL:pp)
                 Say -NoNewLine -ForeGroundColor Yellow "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
                 if (($WPosition)) { FlexWindow }
+                Draw-Window
             }
             else { FixLine }
         }
     }
-    [Console]::SetCursorPosition(0, $pp)
+    [Console]::SetCursorPosition(0, $GLOBAL:pp)
     if (($WPosition)) {
         FlexWindow
         if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
