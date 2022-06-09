@@ -113,13 +113,13 @@ Function DeBug {
 }
 #if (($DeBug)) { DeBug }
 Function FixLine {
-    Say "                                                                           "
-    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                           "
+    Say "                                                                                                        "
+    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                        "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 1)); Say "                                                                           "
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 1)); Say "                                                                                                        "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 2)); Say "                                                                           "
-    # [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                           "
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 2)); Say "                                                                                                        "
+    # [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                        "
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
 }
 Clear-Host
