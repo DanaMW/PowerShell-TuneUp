@@ -23,7 +23,7 @@
     "_Notify": "[bool] Determines if Notifications are sent using asay/notify",
     "Notify": 1,
     "_WPosition": "[bool] Turns both inner and outer script console window positioning 1-on or 0-off.",
-    "WPosition": 1,
+    "WPosition": 0,
     "_WinHeight": "[int] How tall to draw the inner window.",
     "WinHeight": "47",
     "_WinWidth": "[int] How wide to draw the inner window.",
@@ -39,9 +39,7 @@
     "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
     "WinSX": "275",
     "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSY": "125",
-    "_DeBug": "[bool] My Internal script debug information.",
-    "DeBug": false
+    "WinSY": "125"
   },
   "AddItem-1": {
     "Name": "RegEdit",

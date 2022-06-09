@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.32"
+$FileVersion = "3.0.35"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -49,8 +49,6 @@ if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your 
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
-[string]$Editor = ($Config.Setup.Editor)
-[bool]$DeBug = ($Config.Setup.DeBug)
 [bool]$Notify = ($Config.Setup.Notify)
 [bool]$MenuAdds = ($Config.Setup.MenuAdds)
 [bool]$WPosition = ($Config.Setup.WPosition)
@@ -78,10 +76,8 @@ Function FlexWindow {
     $pswindow.windowsize = $newsize
     $ErrorActionPreference = $SaveError
 }
-if (($WPosition)) {
-    FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
-}
+FlexWindow
+if (($WPosition)) { if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
 Function SpinItems {
     $si = 1
     $Sc = 50
@@ -94,24 +90,6 @@ Function SpinItems {
     }
 }
 SpinItems
-Function DeBug {
-    Say "LineCount" $LineCount
-    Say "A" $a
-    Say "Temp" $temp
-    Say "B" $b
-    Say "C" $c
-    Say "ROW" $Row
-    Say "COL" $Col
-    Say "PP" $GLOBAL:pp
-    Say "PMENU" $PMenu
-    Say "WORK" $Work
-    Say "WINHEIGHT" $WinHeight
-    Say "BUFFHEIGHT" $BuffHeight
-    Say "DeBug" $DeBug
-    Read-Host -Prompt "Enter to leave DeBug"
-    Clear-Host
-}
-#if (($DeBug)) { DeBug }
 Function FixLine {
     Say "                                                                                                        "
     [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                        "
@@ -185,8 +163,6 @@ function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
 (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-
-# Set-Variable -Name $GLOBAL:pp -Value 1 -Scope Global
 Function Draw-Window {
     $ptemp = ($Base + "\*.ps1")
     [int]$PCount = (Get-ChildItem -Path $ptemp).count
@@ -215,8 +191,7 @@ Function Draw-Window {
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     $WinHeight = ($GLOBAL:pp + 4)
     $BuffHeight = $WinHeight
-    if (($WPosition)) { FlexWindow }
-    if (($DeBug)) { DeBug }
+    FlexWindow
     [Console]::SetCursorPosition(0, 0); WC $NormalLine; $GLOBAL:pp++
     [Console]::SetCursorPosition(0, 1); WC $FancyLine; $GLOBAL:pp++
     [Console]::SetCursorPosition(0, 2); WC $Menu1Line; $GLOBAL:pp++
@@ -293,10 +268,10 @@ Function Draw-Window {
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     $WinHeight = ($GLOBAL:pp + 4)
     $BuffHeight = $WinHeight
-    if (($WPosition)) { FlexWindow }
+    FlexWindow
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
-    if (($WPosition)) { FlexWindow }
+    FlexWindow
     $ValidOption = "NO"
 }
 Function MyMaker {
@@ -370,7 +345,7 @@ While (1) {
                 Say -NoNewLine "Not a valid option. Try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) { FlexWindow }
+                FlexWindow
             }
             else { FixLine }
         }
@@ -482,17 +457,15 @@ While (1) {
                 Say -NoNewLine -ForeGroundColor Yellow "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                if (($WPosition)) { FlexWindow }
+                FlexWindow
                 Draw-Window
             }
             else { FixLine }
         }
     }
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
-    if (($WPosition)) {
-        FlexWindow
-        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
-    }
+    FlexWindow
+    if (($WPosition)) { if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
 }
 $Filetest = Test-Path -Path $Filetmp
 if (($Filetest)) { Remove-Item -Path $Filetmp }

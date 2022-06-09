@@ -1,4 +1,4 @@
-$FileVersion = "3.0.32"
+$FileVersion = "3.0.35"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -23,7 +23,6 @@ if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your 
 [string]$ScriptBase = ($Config.Setup.ScriptBase)
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
-[bool]$DeBug = ($Config.Setup.DeBug)
 [string]$Editor = ($Config.Setup.Editor)
 [bool]$MenuAdds = ($Config.Setup.MenuAdds)
 [bool]$Notify = ($Config.Setup.Notify)
@@ -131,7 +130,6 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.................:~ ~DARKRED~[~~WHITE~$Base~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Set Ed~~DARKRED~(~~WHITE~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~..................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~S~~DARKRED~)~~DARKCYAN~cript Base~~WHITE~.................:~ ~DARKRED~[~~WHITE~$ScriptBase~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Debu~~DARKRED~(~~WHITE~G~~DARKRED~)~~WHITE~.......................:~ ~DARKRED~[~WHITE~$Debug~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~WHITE~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~.....:~ ~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Use Win ~~DARKRED~(~~WHITE~P~~DARKRED~)~~DARKCYAN~ositioning~~WHITE~.........:~ ~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
