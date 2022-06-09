@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: June 05, 2022
+        Last Modified Date: June 09, 2022
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.31"
+$FileVersion = "3.0.32"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -113,13 +113,13 @@ Function DeBug {
 }
 #if (($DeBug)) { DeBug }
 Function FixLine {
-    Say "                                                                                                       "
-    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                       "
+    Say "                                                                           "
+    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                           "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 1)); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 1)); Say "                                                                           "
     [Console]::SetCursorPosition(0, 0); Say ""
-    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 2)); Say "                                                                                                       "
-    [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                       "
+    [Console]::SetCursorPosition(0, ($GLOBAL:pp + 2)); Say "                                                                           "
+    # [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                           "
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
 }
 Clear-Host
