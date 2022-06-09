@@ -457,7 +457,7 @@ While (1) {
                 Say -NoNewLine -ForeGroundColor Yellow "Sorry, that is not an option. Feel free to try again."
                 Start-Sleep -Milliseconds 500
                 FixLine
-                FlexWindow
+                if (($WPosition)) { FlexWindow }
                 Draw-Window
             }
             else { FixLine }
