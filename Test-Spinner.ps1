@@ -1,4 +1,5 @@
-$FileVersion = "0.0.1"
+We have to fix the cursor on exit it is a mess.
+$FileVersion = "0.0.2"
 $X = $host.ui.rawui.CursorPosition.X;
 $Y = $host.ui.rawui.CursorPosition.Y;
 $PShost = Get-Host
