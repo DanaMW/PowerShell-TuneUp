@@ -108,7 +108,7 @@
     "Name": "Google Drive",
     "HostOnly": "ON",
     "goTime": "0",
-    "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\58.0.3.0\\GoogleDriveFS.exe",
+    "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\launch.bat",
     "Argument": ""
   }
 }
