@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: June 26, 2022
+        Last Modified Date: March 09, 2023
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.18"
+$FileVersion = "1.5.19"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -171,13 +171,14 @@ SpinItems
 [Console]::SetCursorPosition(0, 7)
 while ($c -le $AddCount) {
     $RunItem = "RunItem-$c"
-    $Runname = ($Config.$RunItem).name
-    $RunHost = ($Config.$RunItem).hostonly
+    $Runname = ($Config.$RunItem).Name
+    $RunHost = ($Config.$RunItem).HostOnly
     $RunTime = ($Config.$RunItem).goTime
-    $RunPath = ($Config.$RunItem).runpath
+    $isAdmin = ($Config.$RunItem).Admin
+    $RunPath = ($Config.$RunItem).RunPath
     $RunSplit = (Split-Path -Parent $RunPath)
     $RunSplit = ($RunSplit + "\")
-    $RunArg = ($Config.$RunItem).argument
+    $RunArg = ($Config.$RunItem).Argument
     if ($RunHost -eq "ON" -or $RunHost -eq $env:USERDOMAIN) {
         & Write-Output " [$a] Starting $RunName [Run: $RunHost][Secs: $RunTime]"
         if ($TestRun -eq $True) {
@@ -230,12 +231,24 @@ while ($c -le $AddCount) {
             else {
                 if ($RunTime -gt "0") {
                     Start-Sleep -Seconds $RunTime
-                    try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    if ($isAdmin -eq "ON") {
+                        try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -Verb RunAs -ErrorAction SilentlyContinue }
+                        catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    }
+                    else {
+                        try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                        catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    }
                 }
                 else {
-                    try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
-                    catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    if ($isAdmin -eq "ON") {
+                        try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -Verb RunAs -ErrorAction SilentlyContinue }
+                        catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    }
+                    else {
+                        try { & Start-Process -FilePath "$RunPath" -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
+                        catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
+                    }
                 }
             }
         }

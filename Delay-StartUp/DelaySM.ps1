@@ -1,4 +1,4 @@
-$FileVersion = "1.5.16"
+$FileVersion = "1.5.19"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -136,11 +136,18 @@ while (1) {
         [Console]::SetCursorPosition($w, ($pp + 2))
         $Script:Fight5 = Read-Host -Prompt $boop
         PrettyLine
+        Say $Rich6A
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        Say $rich6B
+        [Console]::SetCursorPosition($w, ($pp + 2))
+        $Script:Fight6 = Read-Host -Prompt $boop
+        PrettyLine
         $Fight1
         $Fight2
         $Fight3
         $Fight4
         $Fight5
+        $Fight6
     }
     Clear-Host
     SpinItems
@@ -169,7 +176,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~~DARKRED~, (~~WHITE~ADMIN~~DARKRED~)~~DARKCYAN~toggle.~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$w = 1
@@ -184,8 +191,8 @@ while (1) {
             $su2 = "System"
             $su3 = $SUItem.command
             $su3 = "$su3".split('\')[-1]
-            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$su2~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~/~GREEN~$it5 ~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~/~GREEN~$it5 ~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
             $i++
             $a++
         }
@@ -198,8 +205,9 @@ while (1) {
         $it3 = ($Config.$RunItem).RunPath
         $it3 = "$it3".split('\')[-1]
         $it4 = ($Config.$RunItem).goTime
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        $it5 = ($Config.$RunItem).Admin
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~/~GREEN~$it5 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~ ~GREEN~$it2~~DARKRED~/~GREEN~$it5 ~~DARKRED~][~~yellow~Sec:~~GREEN~ $it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $j++
         $a++
@@ -245,6 +253,7 @@ while (1) {
             $vt3 = ($Config.$RI).RunPath
             $vt4 = ($Config.$RI).Argument
             $vt5 = ($Config.$RI).goTime
+            $vt6 = ($Config.$RI).Admin
             $tw = 1
             $tp = 20
             [Console]::SetCursorPosition($tw, $tp)
@@ -259,8 +268,8 @@ while (1) {
             [Console]::SetCursorPosition($tw, $tp); $tp++; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "    Name: $vt1"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "     Run: $vt2"; $tp++
+            [Console]::SetCursorPosition($tw, $tp); Say "   Admin: $vt6"; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "     Sec: $vt5"; $tp++
-            [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
             [Console]::SetCursorPosition($tw, $tp); Say "                                                               "
             [Console]::SetCursorPosition($tw, $tp); Say " Program: $vt3"; $tp++;
             [Console]::SetCursorPosition($tw, $tp); Say "                                                               "; $tp++
@@ -440,7 +449,7 @@ while (1) {
         SpinItems
         $qq = ($AddCount + 1)
         $RunItem = "RunItem-$qq"
-        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""; goTime = "" }
+        $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""; goTime = ""; Admin = "" }
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
         $Config | ConvertTo-Json | Set-Content $ConfigFile
@@ -472,7 +481,8 @@ while (1) {
                 $f3 = ($Config.$RunFix).RunPath
                 $f4 = ($Config.$RunFix).Argument
                 $f5 = ($Config.$RunFix).goTime
-                $Fixer = @{ goTime = "$f5"; Argument = "$f4"; RunPath = "$f3"; HostOnly = "$f2"; Name = "$f1" }
+                $f6 = ($Config.$RunFix).Admin
+                $Fixer = @{ Admin = "$f6"; goTime = "$f5"; Argument = "$f4"; RunPath = "$f3"; HostOnly = "$f2"; Name = "$f1" }
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
@@ -499,6 +509,7 @@ while (1) {
             $Script:Fight3 = ($Config.$RunItem).RunPath
             $Script:Fight4 = ($Config.$RunItem).Argument
             $Script:Fight5 = ($Config.$RunItem).goTime
+            $Script:Fight6 = ($Config.$RunItem).Admin
             $rich1A = "Please enter the NAME or Title of the program for this entry."
             $rich1B = "Current Value: $Fight1"
             $rich2A = "Enter the HOSTNAME that this will run on. [Hostname, ON or OFF]"
@@ -509,6 +520,8 @@ while (1) {
             $rich4B = "Current Value: $Fight4"
             $rich5A = "Please enter SECONDS to run this entry in."
             $rich5B = "Current Value: $Fight5"
+            $rich6A = "Enter if it will run with ADMIN privileges [ON or OFF]."
+            $rich6B = "Current Value: $Fight6"
             $boop = "[OK for No Change or - to Clear]"
             FightOn
             if (($Fight1)) {
@@ -534,6 +547,11 @@ while (1) {
             if (($Fight5)) {
                 if ($Fight5 -eq "-") { $Fight5 = "" }
                 $Config.$RunItem.goTime = $Fight5
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if (($Fight6)) {
+                if ($Fight6 -eq "-") { $Fight6 = "" }
+                $Config.$RunItem.Admin = $Fight6
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }
@@ -588,6 +606,33 @@ while (1) {
             if ($toggle -eq $env:USERDOMAIN) {
                 $Fight = "OFF"
                 $Config.$RunItem.HostOnly = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+        }
+        $Pop = ""
+    }
+    if ($pop -eq "ADMIN") {
+        PrettyLine
+        Say "Enter the Number of RunItem to Toggle ADMIN Off/ON."
+        [Console]::SetCursorPosition($w, ($pp + 1))
+        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
+        PrettyLine
+        if (($q1)) {
+            $RunItem = "RunItem-$q1"
+            $Toggle = ($Config.$RunItem).Admin
+            if ($toggle -eq "OFF") {
+                $Fight = "ON"
+                $Config.$RunItem.Admin = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($toggle -eq "ON") {
+                $Fight = "OFF"
+                $Config.$RunItem.Admin = $Fight
+                $Config | ConvertTo-Json | Set-Content $ConfigFile
+            }
+            if ($null -eq $toggle) {
+                $Fight = "OFF"
+                $Config.$RunItem.Admin = $Fight
                 $Config | ConvertTo-Json | Set-Content $ConfigFile
             }
         }

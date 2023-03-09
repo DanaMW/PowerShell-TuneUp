@@ -51,26 +51,30 @@
   "RunItem-1": {
     "goTime": "0",
     "RunPath": "D:\\bin\\Rainmeter\\RainMeter.exe",
+    "Admin": "ON",
     "Name": "RainMeter",
     "Argument": "",
-    "HostOnly": "OFF"
+    "HostOnly": "ON"
   },
   "RunItem-2": {
     "goTime": "0",
     "HostOnly": "ON",
     "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
+    "Admin": "OFF",
     "Name": "uGet Download Manager",
     "Argument": "--Quiet"
   },
   "RunItem-3": {
     "goTime": "0",
     "HostOnly": "ON",
+    "Admin": "OFF",
     "Name": "Console Emulator",
     "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
     "Argument": ""
   },
   "RunItem-4": {
     "goTime": "0",
+    "Admin": "OFF",
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
     "HostOnly": "ON",
@@ -78,6 +82,7 @@
   },
   "RunItem-5": {
     "goTime": "0",
+    "Admin": "OFF",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "Name": "Redragon Griffin Mouse",
     "HostOnly": "ON",
@@ -87,11 +92,13 @@
     "goTime": "0",
     "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
     "Name": "OneDrive",
+    "Admin": "OFF",
     "HostOnly": "ON",
     "Argument": "/background"
   },
   "RunItem-7": {
     "goTime": "0",
+    "Admin": "OFF",
     "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
     "HostOnly": "ON",
     "Name": "MegaSync",
@@ -100,6 +107,7 @@
   "RunItem-8": {
     "HostOnly": "ON",
     "Name": "Grammarly",
+    "Admin": "OFF",
     "goTime": "0",
     "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
     "Argument": ""
@@ -107,6 +115,7 @@
   "RunItem-9": {
     "Name": "Google Drive",
     "HostOnly": "ON",
+    "Admin": "OFF",
     "goTime": "0",
     "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\71.0.3.0\\GoogleDriveFS.exe",
     "Argument": ""
