@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.19"
+$FileVersion = "1.5.20"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
