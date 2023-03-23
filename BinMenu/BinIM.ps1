@@ -1,4 +1,4 @@
-$FileVersion = "3.0.37"
+$FileVersion = "3.0.38"
 $Base = $env:Base
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
@@ -43,6 +43,8 @@ try {
         if ($tmpfolder -eq "uget" -and $tmpname -ne ($tmpbase + "\uget\bin\uget.exe")) { return }
         if ($tmpfolder -eq "wscc" -and $tmpname -ne ($tmpbase + "\wscc\wscc.exe")) { return }
         if ($tmpfolder -eq "yakyak" -and $tmpname -ne ($tmpbase + "\yakyak\yakyak.exe")) { return }
+        if ($tmpfolder -eq "ImageMagick" -and $tmpname -ne ($tmpbase + "\ImageMagick\magick.exe")) { return }
+        if ($tmpfolder -eq "HandBrake" -and $tmpname -ne ($tmpbase + "\HandBrake\HandBrake.exe")) { return }
         $NameFix = Split-Path $tmpname -Leaf
         #$NameFix = $NameFix.tolower()
         $namesplit = $NameFix.split(" ")
@@ -62,6 +64,7 @@ try {
         if ($NameFix -eq "Totalcmd64.exe") { $NameFix = "Total Commander.exe" }
         if ($NameFix -eq "conemu64.exe") { $NameFix = "Console Emulator.exe" }
         if ($NameFix -eq "yakyak.exe") { $NameFix = "YakYak.exe" }
+        if ($NameFix -eq "magick.exe") { $NameFix = "ImageMagick.exe" }
         $Decidep = "Add $NameFix ? (Y/N/Q/(E)dit)[Enter is No]"
         Say "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
         Say $_
