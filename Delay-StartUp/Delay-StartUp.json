@@ -74,7 +74,7 @@
   },
   "RunItem-4": {
     "goTime": "0",
-    "Admin": "ON",
+    "Admin": "OFF",
     "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
     "Name": "Ditto",
     "HostOnly": "ON",
