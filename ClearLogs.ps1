@@ -24,7 +24,7 @@
 Param([bool]$loud, [bool]$Silent, [bool]$Hidden)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "0.2.24"
+$FileVersion = "0.2.25"
 $host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
