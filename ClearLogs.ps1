@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
         Clearlogs (Clear Windows Logs)
-        Created By: Dana Meli-Wischman
+        Created By: Dana L. Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: October 31, 2021
+        Last Modified Date: July 27, 2023
 
 .DESCRIPTION
         This is a simple script to clear all your windows logs. (That are not in use.)
@@ -24,7 +24,7 @@
 Param([bool]$loud, [bool]$Silent, [bool]$Hidden)
 $HoldError = "$ErrorActionPreference"
 $ErrorActionPreference = "SilentlyContinue"
-$FileVersion = "0.2.23"
+$FileVersion = "0.2.24"
 $host.ui.RawUI.WindowTitle = "Clear Windows Logs $FileVersion"
 <# Test and if needed run as admin #>
 Function Test-Administrator {
@@ -77,7 +77,7 @@ FlexWindow
 $ClearSet = ($ClearSet / 100)
 $i = 0
 if (($loud)) {
-    [Console]::SetCursorPosition(0, 5)
+    [Console]::SetCursorPosition(0, 5); Say "Hold on a minute, running Clearlogs..."
     wevtutil.exe el | ForEach-Object {
         Say "Deleting: " $_
         wevtutil.exe cl $_
@@ -88,7 +88,7 @@ if (($loud)) {
     return
 }
 elseif (($Silent)) {
-    [Console]::SetCursorPosition(0, 5)
+    [Console]::SetCursorPosition(0, 5); Say "Hold on a minute, running Clearlogs..."
     wevtutil.exe el | ForEach-Object {
         wevtutil.exe cl $_
         $i++
