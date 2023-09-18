@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "0.0.11"
+$FileVersion = "0.0.12"
 Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
@@ -46,8 +46,8 @@ else {
     Say "I did not locate any usable Vivaldi application folder."
     return
 }
-$Edit1 = Get-ChildItem -Path $VPath -filter "browser.html" -recurse -Name -Force
-$Edit2 = Get-ChildItem -Path $VPath -filter "common.css" -recurse -Name -Force
+$Edit1 = Get-ChildItem -Path $VPath -Filter "browser.html" -Recurse -Name -Force
+$Edit2 = Get-ChildItem -Path $VPath -Filter "common.css" -Recurse -Name -Force
 if (($edit1)) {
     $Success1 = [bool]1
     Say ($VPAth + "\" + $Edit1)
@@ -56,7 +56,7 @@ if (($edit1)) {
     $i = 0
     $lines = (Get-Content $Temp1).count
     while ($i -le $Lines) {
-        [string]$Read = (Get-content $Temp1)[$i]
+        [string]$Read = (Get-Content $Temp1)[$i]
         if ($null -eq $Read) { $i = $Lines }
         if ($Read -match '<link rel="stylesheet" href="style/CustomVivaldi.css" />') {
             $Success1 = [bool]2
@@ -73,18 +73,18 @@ if (($edit1)) {
     Start-Sleep -S 1
     Remove-Item $TempW1
 }
-else { Say "Could not find browser.html" }
+else { Say "Could not find browser.html. It may not be used any more." }
 $Success2 = [bool]0
 if (($edit2)) {
     $Success2 = [bool]1
     $Temp2 = ($VPAth + "\" + $Edit2)
     Say $Temp2
-    $Copy2 = split-path $temp2 -Parent
+    $Copy2 = Split-Path $temp2 -Parent
     if ($HOME -match 'C:\\Users\\') { $Copy2 = ($Copy2 + "\") }
     if ($env:HOME -match "/home/dana" -or $env:HOME -match "/root") { $Copy2 = ($Copy2 + "/") }
     Say "Copying your ModFile into ViValdi."
     Copy-Item $ModFile -Destination $Copy2 -Force
-    $Read2 = (Get-content $Temp2)[0]
+    $Read2 = (Get-Content $Temp2)[0]
     if ($Read2 -ne '@Import url("CustomVivaldi.css");') {
         @('@Import url("CustomVivaldi.css");') + (Get-Content $Temp2) | Set-Content $Temp2
     }
@@ -95,11 +95,11 @@ if (($edit2)) {
 else { Say "Could not find common.css" }
 if ($Success1 -eq 1) { Say "Successfully patched Browser.html." }
 elseif ($Success1 -eq 2) { Say "Browser.html is already patched." }
-else { Say -ForegroundColor RED  "Failed to patch Browser.html." }
+else { Say -ForegroundColor RED "Browser.html patch failed. It may not be used any longer." }
 if ($Success2 -eq 1) { Say "Successfully patched common.css." }
 elseif ($Success2 -eq 2) { Say "common.css is already patched." }
-else { Say -ForegroundColor RED  "Failed to patch common.css." }
-if ($Success1 -eq 0 -or $Success2 -eq 0) { Say -ForegroundColor Red "Something failed" }
+else { Say -ForegroundColor RED "Failed to patch common.css." }
+if ($Success1 -eq 0 -or $Success2 -eq 0) { Say -ForegroundColor Red "Something failed. If it is browser.html, no worries it is not used any more." }
 elseif ($Success1 -eq 1 -and $Success2 -eq 1) { Say "All Done, Completed Both patches and copy." }
 elseif ($Success1 -eq 2 -and $Success2 -eq 2) { Say "All Done, Both previously patched." }
 else { Say "All Done, Check results." }
