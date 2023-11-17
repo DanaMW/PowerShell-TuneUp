@@ -117,7 +117,7 @@
     "HostOnly": "ON",
     "Admin": "OFF",
     "goTime": "0",
-    "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\83.0.2.0\\GoogleDriveFS.exe",
+    "RunPath": "C:\\Program Files\\Google\\Drive File Stream\\84.0.2.0\\GoogleDriveFS.exe",
     "Argument": ""
   }
 }
