@@ -115,15 +115,5 @@
     "Argument": "D:\\bin\\Run-VisualStudio.ps1",
     "Name": "Visual Studio",
     "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
-  },
-  "AddItem-16": {
-    "Argument": "",
-    "Command": "D:\\bin\\SP Toolbox\\SP Toolbox.exe",
-    "Name": "SP Toolbox"
-  },
-  "AddItem-17": {
-    "Command": "D:\\bin\\Kate\\bin\\kate.exe",
-    "Name": "Kate",
-    "Argument": ""
   }
 }
