@@ -3,7 +3,7 @@
         Env
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: January 15, 2019
+        Last Modified Date: December 15, 2023
 .DESCRIPTION
         This returns the value of your environment variables.
 .EXAMPLE
@@ -13,7 +13,7 @@
         Still under development.
 #>
 param([string]$myargs)
-$FileVersion = "0.1.3"
+$FileVersion = "0.1.4"
 if (!($myargs)) {
     Say "Environment Lister $FileVersion"
     Say ""
@@ -24,12 +24,13 @@ if (!($myargs)) {
     Say ""
     Say "These are your variables on the Variable: Drive"
     Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-    Get-Childitem variable: | Sort-Object Name | Format-Table -Wrap -AutoSize
-    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-    Say "Use ENV VAR for normal variables"
-    Say "Use ENV `'`$VAR`' for Env. Drive variables"
-    Say "OK to use Wildcards ENV *VAR* on variables"
-    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+    Get-ChildItem variable: | Sort-Object Name | Format-Table -Wrap -AutoSize
+    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+    Say "Use `'ENV VAR`' for normal variables"
+    Say "Use `'ENV `$VAR`' for environment drive variables"
+    Say "It is okay to use Wildcards `'ENV *VAR*`' on normal variables"
+    Say "(The * will not expand inside of the `' single quote used on drive variables.)"
+    Say "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
     return
 }
 #$TheArgs = "$myargs $args"
