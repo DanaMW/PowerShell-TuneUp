@@ -2,8 +2,8 @@
 #
 # This just kills and restarts rainmeter for me because the skin (Gadgets) locks up on my machine sometimes.
 #
-$FileVersion = "0.0.5"
-Say "Restart Rainmeter " $+ $FileVersion $+ ", for when that fucker jams up!."
+$FileVersion = "0.0.6"
+Say "Restart Rainmeter  $FileVersion, for when that fucker jams up!."
 Say "Checking for Rainmeter.exe"
 #
 #if (Get-Process | Where-Object { $_.name -eq "Rainmeter" }) {
