@@ -1,4 +1,4 @@
-$FileVersion = "3.0.38"
+$FileVersion = "3.0.39"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -16,7 +16,7 @@ if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Globa
 if (!($Base)) {
     #$ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
     $ans = Put-Input "Enter your Base directory (no trailing slash): "
-    if ($ans -eq "") { EXIT }
+    if ($ans -eq "") { exit }
     Set-Variable -Name Base -Value $ans -Scope Global
 }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
