@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
         BinMenu
-        Created By: Dana Meli-Wischman
+        Created By: Dana l. Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: March 23, 2023
+        Last Modified Date: May 28, 2024
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,7 +17,7 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.38"
+$FileVersion = "3.0.40"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -386,8 +386,8 @@ While (1) {
                 elseif ($QM -eq "YES" -and $cmd -eq "1+") { Start-Process "pwsh.exe" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "2+") { Start-Process "cmd.exe" -ArgumentList "/k autoexec.bat" -Verb RunAs; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "ubuntu"; FixLine }
-                elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "ubuntu"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3") { Start-Process "fedora"; FixLine }
+                elseif ($QM -eq "YES" -and $cmd -eq "3+") { Start-Process "fedora"; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\fedora.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "4+") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\fedora.ps1" -Verb RunAs; FixLine }
                 elseif ($QM -eq "YES" -and $cmd -eq "5") { Start-Process "pwsh.exe" -ArgumentList "D:\bin\tc.ps1" -Verb RunAs; FixLine }
