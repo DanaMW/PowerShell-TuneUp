@@ -3,7 +3,7 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: March 09, 2023
+        Last Modified Date: June 13, 2024
 
 .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
@@ -20,7 +20,7 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.20"
+$FileVersion = "1.5.21"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function MyConfig {
@@ -106,7 +106,7 @@ if (($Prevent)) {
     Write-Host " [2] Set PREVENT to false then run Delay-StartUp."
     Write-Host " [3] Exit slow down then run Settings Manager."
     Write-Host " [4] or ENTER just exit. Do nothing."
-    if (($Pause)) { Write-Host " Set to auto proceed in $PauseSec seconds." }
+    if (($Pause)) { Write-Host " Set to auto proceed in $PauseSec seconds with option 0." }
     $DSPrompt = " [0, 1, 2, 3, 4 or ENTER to EXIT]: "
     if (($Pause)) { $ans = Put-Pause -Prompt $DSPrompt -Max 30000 -Default "0" -Echo 1 }
     if (!($Pause)) { $ans = Put-Pause -Prompt $DSPrompt -Max 0 -Default "0" }
