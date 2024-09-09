@@ -3,7 +3,7 @@
         Reboot
         Created By: Dana Meli-Wischman
         Created Date: May, 2019
-        Last Modified Date: Nov 12, 2022
+        Last Modified Date: Sep 09, 2024
 
 .DESCRIPTION
         This script is designed to be sort of like linux reboot.
@@ -14,6 +14,9 @@
 
 .EXAMPLE
         Reboot.ps1 (Reboot alone times out to no reboot but you can trigger one.)
+
+.EXAMPLE
+        Reboot.ps1 ? (new) (Is a reboot required.)
 
 .EXAMPLE
         Reboot.ps1 S
@@ -57,6 +60,7 @@ if ($DoWhat -eq "HELP" -or $DoWhat -eq "H") {
         Say "Reboot REBOOT"
         Say "Reboot L"
         Say "Reboot LOGOFF"
+        Say "Reboot ? (Is reboot required.)"
         Say "Reboot H"
         Say "Reboot HELP"
         Say ""
@@ -116,6 +120,14 @@ if ($DoWhat -eq "LOGOFF") {
         Start-Sleep -s 1
         Say "Reboot $FileVersion is logging you off this machine"
         & shutdown.exe /L
+        return
+}
+if ($DoWhat -eq "?") {
+        Pending.ps1
+        return
+}
+if ($DoWhat -eq "PENDING") {
+        Pending.ps1
         return
 }
 $Ans = Put-Pause -Prompt "(Y)es to reboot: " -Max 3000 -Echo 1
