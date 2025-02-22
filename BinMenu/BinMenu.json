@@ -115,5 +115,10 @@
     "Argument": "D:\\bin\\Run-VisualStudio.ps1",
     "Name": "Visual Studio",
     "Command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+  },
+  "AddItem-16": {
+    "Argument": "",
+    "Command": "d:\\bin\\Opal\\Opal.exe",
+    "Name": "Opal"
   }
 }

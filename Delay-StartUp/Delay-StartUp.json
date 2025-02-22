@@ -57,67 +57,67 @@
     "HostOnly": "ON"
   },
   "RunItem-2": {
-    "goTime": "0",
     "HostOnly": "ON",
-    "RunPath": "D:\\bin\\uget\\bin\\uget.exe",
+    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
+    "goTime": "0",
+    "Argument": "",
     "Admin": "OFF",
-    "Name": "uGet Download Manager",
-    "Argument": "--Quiet"
+    "Name": "Console Emulator"
   },
   "RunItem-3": {
-    "goTime": "0",
     "HostOnly": "ON",
+    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
+    "goTime": "0",
+    "Argument": "",
     "Admin": "OFF",
-    "Name": "Console Emulator",
-    "RunPath": "D:\\bin\\ConEmu\\ConEmu64.exe",
-    "Argument": ""
+    "Name": "Ditto"
   },
   "RunItem-4": {
-    "goTime": "0",
-    "Admin": "OFF",
-    "RunPath": "D:\\bin\\Ditto\\Ditto.exe",
-    "Name": "Ditto",
     "HostOnly": "ON",
-    "Argument": ""
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
+    "goTime": "0",
+    "Argument": "",
+    "Admin": "OFF",
+    "Name": "Redragon Griffin Mouse"
   },
   "RunItem-5": {
-    "goTime": "0",
-    "Admin": "OFF",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
-    "Name": "Redragon Griffin Mouse",
     "HostOnly": "ON",
-    "Argument": ""
+    "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
+    "goTime": "0",
+    "Argument": "/background",
+    "Admin": "OFF",
+    "Name": "One Drive"
   },
   "RunItem-6": {
-    "goTime": "0",
-    "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
-    "Name": "OneDrive",
-    "Admin": "OFF",
     "HostOnly": "ON",
-    "Argument": "/background"
+    "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
+    "goTime": "0",
+    "Argument": "",
+    "Admin": "OFF",
+    "Name": "MegaSync"
   },
   "RunItem-7": {
-    "goTime": "0",
-    "Admin": "OFF",
-    "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
     "HostOnly": "ON",
-    "Name": "MegaSync",
-    "Argument": ""
+    "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
+    "goTime": "0",
+    "Argument": "",
+    "Admin": "OFF",
+    "Name": "Grammarly"
   },
   "RunItem-8": {
     "HostOnly": "ON",
-    "Name": "Grammarly",
-    "Admin": "OFF",
+    "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk",
     "goTime": "0",
-    "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
-    "Argument": ""
+    "Argument": "",
+    "Admin": "OFF",
+    "Name": "Google Drive"
   },
   "RunItem-9": {
-    "Name": "Google Drive",
     "HostOnly": "ON",
-    "Admin": "OFF",
+    "RunPath": "C:\\Users\\dana\\AppData\\Local\\Discord\\Update.exe",
     "goTime": "0",
-    "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk",
-    "Argument": ""
+    "Argument": "--processStart Discord.exe",
+    "Admin": "OFF",
+    "Name": "Discord"
   }
 }
