@@ -73,12 +73,12 @@
     "Name": "Ditto"
   },
   "RunItem-4": {
-    "HostOnly": "ON",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
+    "HostOnly": "Brutus",
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON Gaming Mouse\\RDCfg.exe",
     "goTime": "0",
     "Argument": "",
     "Admin": "OFF",
-    "Name": "Redragon Griffin Mouse"
+    "Name": "Redragon Gaming Mouse"
   },
   "RunItem-5": {
     "HostOnly": "ON",
@@ -117,7 +117,22 @@
     "RunPath": "C:\\Users\\dana\\AppData\\Local\\Discord\\Update.exe",
     "goTime": "0",
     "Argument": "--processStart Discord.exe",
+    "Name": "Discord",
+    "Admin": "OFF"
+  },
+  "RunItem-10": {
+    "Argument": "",
+    "goTime": "0",
+    "HostOnly": "Tank",
+    "Name": "Camera Client",
+    "Admin": "OFF"
+  },
+    "RunItem-11": {
+    "HostOnly": "TinMan",
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
+    "goTime": "0",
+    "Argument": "",
     "Admin": "OFF",
-    "Name": "Discord"
+    "Name": "Redragon Gaming Mouse"
   }
 }

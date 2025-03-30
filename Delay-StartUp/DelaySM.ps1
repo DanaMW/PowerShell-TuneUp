@@ -1,4 +1,4 @@
-$FileVersion = "1.5.20"
+$FileVersion = "1.5.21"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -191,8 +191,8 @@ while (1) {
             $su2 = "System"
             $su3 = $SUItem.command
             $su3 = "$su3".split('\')[-1]
-            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
             $i++
             $a++
         }
@@ -206,8 +206,8 @@ while (1) {
         $it3 = "$it3".split('\')[-1]
         $it4 = ($Config.$RunItem).goTime
         $it5 = ($Config.$RunItem).Admin
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $j++
         $a++
