@@ -74,7 +74,7 @@
   },
   "RunItem-4": {
     "HostOnly": "Brutus",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON Gaming Mouse\\RDCfg.exe",
+    "RunPath": "C:\\Program Files (x86)\\Redragon M910-KS\\OemDrv.exe",
     "goTime": "0",
     "Argument": "",
     "Admin": "OFF",
@@ -127,7 +127,7 @@
     "Name": "Camera Client",
     "Admin": "OFF"
   },
-    "RunItem-11": {
+  "RunItem-11": {
     "HostOnly": "TinMan",
     "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "goTime": "0",
