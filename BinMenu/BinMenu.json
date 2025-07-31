@@ -120,5 +120,10 @@
     "Argument": "",
     "Command": "d:\\bin\\Opal\\Opal.exe",
     "Name": "Opal"
+  },
+  "AddItem-17": {
+    "Name": "Crystal Disk Info",
+    "Command": "D:\\bin\\CrystalDiskInfo\\DiskInfo64.exe",
+    "Argument": ""
   }
 }
