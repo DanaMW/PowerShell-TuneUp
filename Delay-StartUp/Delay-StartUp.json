@@ -136,7 +136,7 @@
     "Name": "Redragon Gaming Mouse"
   },
   "RunItem-12": {
-    "Admin": "ON",
+    "Admin": "OFF",
     "Argument": "/background",
     "goTime": "0",
     "HostOnly": "TinMan",

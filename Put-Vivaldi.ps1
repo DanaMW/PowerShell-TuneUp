@@ -1,7 +1,7 @@
 <#
 
 #>
-$FileVersion = "0.0.12"
+$FileVersion = "0.0.13"
 Say -ForegroundColor Gray "Put-Vivaldi $FileVersion"
 Say -ForegroundColor Red "#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#"
 Say -ForegroundColor Red -NoNewline "|"
@@ -93,13 +93,14 @@ if (($edit2)) {
     }
 }
 else { Say "Could not find common.css" }
-if ($Success1 -eq 1) { Say "Successfully patched Browser.html." }
-elseif ($Success1 -eq 2) { Say "Browser.html is already patched." }
-else { Say -ForegroundColor RED "Browser.html patch failed. It may not be used any longer." }
+# if ($Success1 -eq 1) { Say "Successfully patched Browser.html." }
+# elseif ($Success1 -eq 2) { Say "Browser.html is already patched." }
+# else { Say -ForegroundColor RED "Browser.html patch failed. It may not be used any longer." }
 if ($Success2 -eq 1) { Say "Successfully patched common.css." }
 elseif ($Success2 -eq 2) { Say "common.css is already patched." }
 else { Say -ForegroundColor RED "Failed to patch common.css." }
-if ($Success1 -eq 0 -or $Success2 -eq 0) { Say -ForegroundColor Red "Something failed. If it is browser.html, no worries it is not used any more." }
-elseif ($Success1 -eq 1 -and $Success2 -eq 1) { Say "All Done, Completed Both patches and copy." }
-elseif ($Success1 -eq 2 -and $Success2 -eq 2) { Say "All Done, Both previously patched." }
+# if ($Success1 -eq 0 -or $Success2 -eq 0) { Say -ForegroundColor Red "Something failed. If it is browser.html, no worries it is not used any more." }
+# elseif ($Success1 -eq 1 -and $Success2 -eq 1) { Say "All Done, Completed patch and copy." }
+# elseif ($Success1 -eq 2 -and $Success2 -eq 2) { Say "All Done, previously patched." }
+if ($Success2 -eq 1) { Say "All Done. Completed patch and copy." }
 else { Say "All Done, Check results." }
