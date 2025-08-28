@@ -137,7 +137,7 @@
   },
   "RunItem-12": {
     "Admin": "OFF",
-    "Argument": "/background",
+    "Argument": "",
     "goTime": "0",
     "HostOnly": "TinMan",
     "Name": "Sound Blaster",
