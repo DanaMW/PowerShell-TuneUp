@@ -105,7 +105,7 @@
     "Name": "Grammarly"
   },
   "RunItem-8": {
-    "HostOnly": "ON",
+    "HostOnly": "TinMan",
     "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk",
     "goTime": "0",
     "Argument": "",
@@ -142,5 +142,13 @@
     "HostOnly": "TinMan",
     "Name": "Sound Blaster",
     "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe"
+  },
+  "RunItem-13": {
+    "Admin": "OFF",
+    "goTime": "0",
+    "Name": "Google Drive 2",
+    "HostOnly": "Titan",
+    "RunPath": "C:\\Users\\danam\\Desktop\\My Google Drive.lnk",
+    "Argument": ""
   }
 }
