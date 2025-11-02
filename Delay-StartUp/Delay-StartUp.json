@@ -121,34 +121,35 @@
     "Admin": "OFF"
   },
   "RunItem-10": {
+    "Admin": "OFF",
+    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
     "Argument": "",
+    "Name": "Redragon Gaming Mouse",
     "goTime": "0",
-    "HostOnly": "Tank",
-    "Name": "Camera Client",
-    "Admin": "OFF"
+    "HostOnly": "TinMan"
   },
   "RunItem-11": {
-    "HostOnly": "TinMan",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
-    "goTime": "0",
-    "Argument": "",
     "Admin": "OFF",
-    "Name": "Redragon Gaming Mouse"
+    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe",
+    "Argument": "",
+    "Name": "Sound Blaster",
+    "goTime": "0",
+    "HostOnly": "TinMan"
   },
   "RunItem-12": {
     "Admin": "OFF",
+    "RunPath": "C:\\Users\\danam\\Desktop\\My Google Drive.lnk",
     "Argument": "",
+    "Name": "Google Drive 2",
     "goTime": "0",
-    "HostOnly": "TinMan",
-    "Name": "Sound Blaster",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe"
+    "HostOnly": "Titan"
   },
   "RunItem-13": {
-    "Admin": "OFF",
     "goTime": "0",
-    "Name": "Google Drive 2",
-    "HostOnly": "Titan",
-    "RunPath": "C:\\Users\\danam\\Desktop\\My Google Drive.lnk",
-    "Argument": ""
+    "Admin": "OFF",
+    "RunPath": "D:\\bin\\CoreTemp\\Core Temp.exe",
+    "Argument": "",
+    "Name": "CoreTemp",
+    "HostOnly": "ON"
   }
 }

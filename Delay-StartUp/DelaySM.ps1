@@ -1,8 +1,8 @@
-$FileVersion = "1.5.21"
+$FileVersion = "1.5.22"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
-Function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
-Function MyConfig {
+function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
+function MyConfig {
     $Script:MyConfig = ($ScriptBase + "\Delay-StartUp.json")
     $MyConfig
 }
@@ -39,8 +39,8 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [int]$WinHeight = ($Config.Setup.WinHeight)
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
-if (!($BWHeight)) { $BWHeight = "40" }
-if (!($BWWidth)) { $BWWidth = "70" }
+if (!($BWHeight)) { $BWHeight = "42" }
+if (!($BWWidth)) { $BWWidth = "72" }
 $PosTest = Test-Path -Path ($BASE + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 690 }
 if (!($WinSMY)) { $WinSMY = 205 }
@@ -51,7 +51,7 @@ if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $Win
 [string]$LeftLine = "~DARKRED~|~"
 [string]$RightLine = "~DARKRED~|~"
 while (1) {
-    Function FlexWindow {
+    function FlexWindow {
         $SaveError = $ErrorActionPreference
         $ErrorActionPreference = "SilentlyContinue"
         if (!($BWHeight)) { $BWHeight = "40" }
@@ -71,7 +71,7 @@ while (1) {
     FlexWindow
     if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     FlexWindow
-    Function FuckOff {
+    function FuckOff {
         PrettyLine
         Say $blah
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -80,11 +80,11 @@ while (1) {
         PrettyLine
         $Fixer
     }
-    Function SpinItems {
+    function SpinItems {
         $si = 1
         $Sc = 20
         $Script:AddCount = 0
-        While ($si -lt $sc) {
+        while ($si -lt $sc) {
             $RunItem = "RunItem-$si"
             $Spin = ($Config.$RunItem.name)
             if ($null -ne $Spin) { $Script:AddCount++; $si++ }
@@ -93,7 +93,7 @@ while (1) {
         $Script:AddCount
     }
     SpinItems
-    Function PrettyLine {
+    function PrettyLine {
         [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                                                       "
         [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
@@ -104,7 +104,7 @@ while (1) {
         # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
         [Console]::SetCursorPosition($w, $pp)
     }
-    Function FightOn {
+    function FightOn {
         PrettyLine
         Say $Rich1A
         [Console]::SetCursorPosition($w, ($pp + 1))
@@ -170,14 +170,14 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~Pause~~DARKRED~)~~DARKCYAN~ internal pause then run~~WHITE~.: ~~DARKRED~[~~WHITE~$Pause~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~PS~~DARKRED~)~~DARKCYAN~ Pause Seconds~~WHITE~..............: ~~DARKRED~[~~WHITE~$PauseSec~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~(~~WHITE~PO~~DARKRED~)~~DARKCYAN~ Pause Option~~WHITE~...............: ~~DARKRED~[~~WHITE~$PauseOpt~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~......................: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~.....................: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~X~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~~DARKRED~, (~~WHITE~ADMIN~~DARKRED~)~~DARKCYAN~toggle.~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~WHITE~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~......................: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~WHITE~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~.....................: ~~DARKRED~[~~WHITE~$WinHeight~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window Position ~~DARKRED~(~~WHITE~X~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window Position ~~DARKRED~(~~WHITE~Y~~DARKRED~)~~WHITE~.................: ~~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Manager (this) Window Position ~~DARKRED~(~~WHITE~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Manager (this) Window Position ~~DARKRED~(~~WHITE~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~WHITE~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~~DARKRED~, (~~WHITE~ADMIN~~DARKRED~)~~DARKCYAN~toggle.~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Options~~white~: ~~DARKRED~(~~WHITE~J~~DARKRED~)~~DARKCYAN~SON ~~DARKRED~(~~WHITE~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~WHITE~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~WHITE~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~WHITE~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~WHITE~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$w = 1
     [int]$i = 0
@@ -187,12 +187,12 @@ while (1) {
         $su = ($su - 1)
         while ($i -le $su) {
             $SUItem = $StartUp[$i]
-            $su1 = $SUItem.name
+            $su1 = $SUItem.name0
             $su2 = "System"
             $su3 = $SUItem.command
             $su3 = "$su3".split('\')[-1]
-            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
-            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~ +~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~~yellow~Adm:~~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
+            if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~cyan~+~~DARKRED~]~~WHITE~.: $su1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~~yellow~Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~DARKCYAN~$su3~~DARKRED~]~"; $l++ }
             $i++
             $a++
         }
@@ -206,8 +206,8 @@ while (1) {
         $it3 = "$it3".split('\')[-1]
         $it4 = ($Config.$RunItem).goTime
         $it5 = ($Config.$RunItem).Admin
-        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
-        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run/Adm:~~GREEN~$it2~~DARKRED~/~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -lt "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~~yellow~Adm:~~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
+        if ($i -ge "10") { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~~WHITE~.: $it1~ ~DARKRED~[~~yellow~Run:~~GREEN~$it2~~DARKRED~/~~yellow~Adm:~~GREEN~$it5~~DARKRED~][~~yellow~Sec:~~GREEN~$it4~~DARKRED~][~~DARKCYAN~$it3~~DARKRED~]~"; $l++ }
         $i++
         $j++
         $a++
@@ -219,14 +219,14 @@ while (1) {
     $BWHeight = ($pp + 5)
     PrettyLine
     [int]$u = ($pp - 2)
-    While ($v -le $u) {
+    while ($v -le $u) {
         [Console]::SetCursorPosition($w, $v); WC $LeftLine
         $v++
     }
     [int]$v = 3
     [int]$u = ($pp - 2)
     [int]$w = 68
-    While ($v -le $u) {
+    while ($v -le $u) {
         [Console]::SetCursorPosition($w, $v); WC $RightLine
         $v++
     }
