@@ -1,7 +1,7 @@
 # Repository Information
 
 For help and/or information on my PowerShell setup head to the Development tab on my site: <https://danamw.github.io>. You will also always find me (*recess*) on IRC at `irc.dal.net` or `irc.libera.chat` in room #StrangeScript. My discord server is <https://discord.gg/zH252Xd9U3>
-Another note: Windows positioning does not work on the new tabbed Windows Terminal yet. But I am working on including it in all the scripts. (or disabling if detected) Not to long. Also proudest of my script Put-Pause.ps1 (below). This is something Powershell should have built in.
+Another note: Windows positioning does not work perfectly on the new tabbed Windows Terminal yet. But I am working on including it in all the scripts. (or disabling if detected) Not to long. Also proudest of my script Put-Pause.ps1 (below). This is something Powershell should have built in.
 
 ---
 
@@ -122,9 +122,9 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## BinMenu
 
-<a><p align=center>I Still Use This Menu Every Day (09-05-24)</p></a>
+<a><p align=center>I Still Use This Menu Every Day (06-02-26)</p></a>
 
-<a><p align=center>Bin Menu is a simple console based menu that reads in what EXE's are in the base sub-folders and which _PS1's are in the base and lists them on a menu for you. Comes with a Settings Manager script that's deals with the BinMenu.json settings and Adds. You can add your own entries to the end of the program menu list if you want up to 100. There is a toggle to show the add entries or not. Edit the json put the bin_ files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works I use it EVERY day. (Structure of my bin folder is c:\bin is in my path and contains all my ps1 scripts. Then in all the sub folders of bin are all my programs I use that are portable. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder. The second image is the Scripts option (e) on the menu.</p></a>
+<a><p align=center>Bin Menu is a simple console based menu. The setup reads in what EXE's are in the base sub-folder and which _PS1's are in the base and lists them on a menu for you. It also comes with a Settings Manager script that's deals with the BinMenu.json for settings and adds. You can add your own entries to the end of the program menu list if you want. Up to 100. There is a toggle to show the add entries or not. To use it, edit the json, put the bin_ files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works. I use it EVERY day. (Structure of my bin folder is d:\bin and it is in my path. Besides containing all my portable software ion folders it also and contains all my ps1 scripts. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder. The second image is the Scripts option (e) on the menu.</p></a>
 <a><p align=center>A couple notes to save you some hair pulling. You need to edit the BinMenu.lnk since BinMenu uses it to reload. It will crash out if it is not the right folder. Also if BinMenu says it is missing the ini but you know it is there run BinMenu settings manager and set the script base. Thats the normal place to look for that problem if you have created the ini already.</p></a>
 
 - Usage: `BINMENU`
@@ -262,7 +262,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Put-WinSize (Formally Set-WinSize)
 
-<a><p align=center>My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.</p></a>
+<a><p align=center>*I use this every day* My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.</p></a>
 
 - Usage: Paste into your script file as a function and call to it.
 
