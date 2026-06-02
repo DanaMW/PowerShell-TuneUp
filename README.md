@@ -205,7 +205,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Cycle-Background
 
-<a><p align=center>Working on a background script because i have 470 backgrounds and I want to control the minutes between. Windows 10 does not seem to display all the images and this stupid thing might help me figure out why.</p></a>
+<a><p align=center>Working on a background script because i have 470 backgrounds and I want to control the minutes between. Windows does not seem to display all the images and this stupid thing might help me figure out why.</p></a>
 
 - Usage: `Cycle-background`
 
@@ -307,7 +307,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Remove-WindowsApps
 
-<a><p align=center>Remove-WindowsApps deletes Windows 10 apps from your system. Edit it to comment out ones you want. Also makes it so they shouldn't reinstall by removing AppX Provisioning. Edit the file and comment out those that you want to keep.</p></a>
+<a><p align=center>Remove-WindowsApps deletes Windows apps from your system. Edit it to comment out ones you want. Also makes it so they shouldn't reinstall by removing AppX Provisioning. Edit the file and comment out those that you want to keep.</p></a>
 
 - Usage: `REMOVE-WINDOWSAPPS`
 
@@ -319,7 +319,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><center><https://www.powershellgallery.com/packages/BurntToast></center></a>
 
-<a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on windows 10. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
+<a><p align=center>ASAY and NOTIFY are really the same file. They will send a notification to the standard windows notification center. I use it in my scripts to let me know when any event has happened I might want to see. The format is simple, without quote ASAY <any text you want to send to the notify> or WITH quotes if you use punctuation ASAY "This text, and that text" I also call these scripts from a LOT of my scripts to give notifications on Windows. There is also a Linux and Dos version. The Linux files you need to edit and put your username over mine and edit atune to set the path to a valid sound file.</p></a>
 
 - Usage: `NOTIFY or ASAY message to send to output`
 - Usage: `NOTIFY or ASAY "message to send, include punctuation, to output"`
@@ -397,7 +397,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Repair-windows
 
-<a><p align=center>This is just a pretty console menu for SCF and DISM. I wrote it for my family and friends with plenty of help and explanations to get them through running it correctly. It includes the 4 normal possibilities. And we all have used it hundreds of times to make sure our Windows 10 was operating well.</p></a>
+<a><p align=center>This is just a pretty console menu for SCF and DISM. I wrote it for my family and friends with plenty of help and explanations to get them through running it correctly. It includes the 4 normal possibilities. And we all have used it hundreds of times to make sure our Windows was operating well.</p></a>
 
 - Usage: `REPAIR-WINDOWS` (Runs Menu)
 - Usage: `REPAIR-WINDOWS SCAN`
