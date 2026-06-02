@@ -7,7 +7,7 @@ Another note: Windows positioning does not work on the new tabbed Windows Termin
 
 ## PowerShell-TuneUp - Or as I like to say - I Love PowerShell
 
-<a><p align=center>A couple notes about my scripts. I use `SET-ALIAS SAY WRITE-HOST` in *_all_* my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment \$ENV:BASE in all my scripts. This is your base \*.ps1 script folder. Feel free to write me at DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to yours.</p></a>
+<a><p align=center>A couple notes about my scripts. I use `SET-ALIAS SAY WRITE-HOST`, so, "Say Whatever" in *_all_* my scripts. So include that in your profile or edit all the SAY to WRITE-HOST, and edit out all the color codes. Lastly I Use the PowerShell environment \$ENV:BASE in all my scripts. This is your base \*.ps1 script folder. Feel free to write me at DanaMW at gmail.com if you want help. But I think just checking out the script will do it for ya. I wanted to mention that BinSM and DelaySM are a good example for writing to and reading from json files with PowerShell. Instructions on the net sucked but I worked it out and those two files work perfectly so you should have what you need to clip them and add them to yours.</p></a>
 
 ## My Profile Functions
 
