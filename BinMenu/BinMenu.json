@@ -29,17 +29,17 @@
     "_WinWidth": "[int] How wide to draw the inner window.",
     "WinWidth": "104",
     "_WinX": "[int] Position from the LEFT of the actual outer window. Use to position window on screen",
-    "WinX": "540",
+    "WinX": "500",
     "_WinY": "[int] Position from the TOP of the actual outer window. Use to position window on screen",
     "WinY": "150",
     "_WinSMX": "[int] Position from the LEFT of the Settings Manager outer window. Use to position window on screen",
-    "WinSMX": "600",
+    "WinSMX": "500",
     "_WinSMY": "[int] Position from the TOP of the Settings Manager outer window. Use to position window on screen",
-    "WinSMY": "150",
+    "WinSMY": "100",
     "_WinSX": "[int] Position from the LEFT of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSX": "275",
+    "WinSX": "200",
     "_WinSY": "[int] Position from the TOP of the actual outer SCRIPTS window. (E option - BinScript.ps1)",
-    "WinSY": "125"
+    "WinSY": "25"
   },
   "AddItem-1": {
     "Name": "RegEdit",
