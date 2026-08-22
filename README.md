@@ -176,7 +176,9 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 <a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
 
-<a><p align=center>It is a PowerShell script written to allow you to have a huge collection of desktops and have all of them served up. It is duel monitor and has a control for most everything at the menu. Just run it and enjoy.</p></a>
+<a><p align=center>It is a PowerShell script written to allow you to have a huge collection of desktops and have all of them served up. It is duel monitor and has a control for most everything at the menu. Just run it and enjoy.
+
+Would someone look at this and show me how they would display the information yet cut back on the screen stutter? I don't use much CPU but I would like to make the display smoother but still retain all the functions of that menu. What ideas do yo have? </p></a>
 
 - Usage: `Desktop-Switcher`
 
