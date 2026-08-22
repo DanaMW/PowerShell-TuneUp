@@ -1,4 +1,4 @@
-# Repository Information
+ # Repository Information
 
 For help and/or information on my PowerShell setup head to the Development tab on my site: <https://danamw.github.io>. You will also always find me (*recess*) on IRC at `irc.dal.net` or `irc.libera.chat` in room #StrangeScript. My discord server is <https://discord.gg/zH252Xd9U3>
 Another note: Windows positioning does not work perfectly on the new tabbed Windows Terminal yet. But I am working on including it in all the scripts. (or disabling if detected) Not to long. Also proudest of my script Put-Pause.ps1 (below). This is something Powershell should have built in.
@@ -12,12 +12,12 @@ Another note: Windows positioning does not work perfectly on the new tabbed Wind
 ## My Profile Functions
 
 ```
-Import-Module posh-git;
-Import-Module oh-my-posh;
-Import-Module Get-ChildItemColor;
-Import-Module -Name PSReadline;
-Import-Module PsGet;
-Add-WindowsPSModulePath;
+
+if (!(Get-Module -Name posh-git)) { Import-Module posh-git };
+if (!(Get-Module -Name Get-ChildItemColor)) { Import-Module Get-ChildItemColor };
+if (!(Get-Module -Name PSReadline)) { Import-Module -Name PSReadline };
+if (!(Get-Module -Name PsGet)) { Import-Module PsGet };
+# Add-WindowsPSModulePath;
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent()
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -46,11 +46,11 @@ function Write-Color($message = "") {
         foreach ( $string in $message ) {
             if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
             else {
-                write-host -NoNewLine -f $CurrentColor $string
+                Write-Host -NoNewline -f $CurrentColor $string
                 $CurrentColor = $defaultFGColor
             }
         }
-        write-host
+        Write-Host
     }
 }
 function Write-ColorPrompt($message = "") {
@@ -68,37 +68,64 @@ function Write-ColorPrompt($message = "") {
         foreach ( $string in $message ) {
             if ( $colors -contains $string.Tolower() -and $CurrentColor -eq $defaultFGColor ) { $CurrentColor = $string }
             else {
-                write-host -NoNewLine -f $CurrentColor $string
+                Write-Host -NoNewline -f $CurrentColor $string
                 $CurrentColor = $defaultFGColor
             }
         }
-        write-host -NoNewline
+        Write-Host -NoNewline
     }
 }
 Function Get-SmallVer {
-    $MyVer = $PSVersiontable | Select-Object -property PSVERSION | Format-Table -HideTableheader | Out-String -NoNewLine
+    $MyVer = $PSVersiontable | Select-Object -Property PSVERSION | Format-Table -HideTableheader | Out-String -NoNewline
     return WC "~darkcyan~[~~darkyellow~PowerShell $PSEdition $MyVer~~darkcyan~]~~white~ ~"
 }
+
+$isTerminal = {
+    $p = Get-CimInstance -ClassName Win32_Process -Filter ProcessID=$PID
+    while ($p) {
+        ($p = Get-CimInstance -ClassName Win32_Process -Filter ProcessID=$($p.ParentProcessID) -ErrorAction Ignore)
+    }
+}.Invoke().Name -contains 'WindowsTerminal.exe'
+
+#Adapted from https://gist.github.com/altrive/5329377
+function Test-PendingReboot {
+    if (Get-ChildItem "HKLM:\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending" -EA Ignore) { return $true }
+    if (Get-Item "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired" -EA Ignore) { return $true }
+    if (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager" -Name PendingFileRenameOperations -EA Ignore) { return $true }
+    try {
+        $util = [wmiclass]"\\.\root\ccm\clientsdk:CCM_ClientUtilities"
+        $status = $util.DetermineIfRebootPending()
+        if (($null -ne $status) -and $status.RebootPending) {
+            return $true
+        }
+    }
+    catch {}
+    return $false
+}
+
 Set-Alias ghost Run-Ghost.ps1;
 Set-Alias count countThis.ps1;
 Set-Alias say Write-Host;
 Set-Alias sayout Write-Output;
 Set-Alias re Resolve-Error;
 Set-Alias ge Get-Error;
-Set-Alias l Get-ChildItemColor -option AllScope;
-Set-Alias ls Get-ChildItemColorFormatWide -option AllScope;
+Set-Alias l Get-ChildItemColor -Option AllScope;
+Set-Alias ls Get-ChildItemColorFormatWide -Option AllScope;
 Set-Alias la Get-Files.ps1;
 Set-Alias cc D:\bin\ccleaner\ccleaner64.exe;
 Set-Alias whois "D:\bin\wscc\SysInternals Suite\WhoIs64.exe";
 Set-Alias wc Write-Color;
 Set-Alias wcp Write-ColorPrompt;
-Set-Alias ClearRecycle Clear-RecycleBin;
+Set-Alias ClearRecycle "Clear-RecycleBin -Force";
 Set-Alias ssh-agent "D:\bin\git\usr\bin\ssh-agent.exe";
 Set-Alias ssh-add "D:\bin\git\usr\bin\ssh-add.exe";
 Set-Alias wget Invoke-WebRequest;
 Set-Alias mods Get-InstalledModule;
+Set-Alias ditto "D:\bin\Ditto\Ditto.exe"
+Set-Alias binm "D:\bin\BinMenu\BinMenu.PS1"
 Set-Variable -Name BASE -Value D:\bin -Scope Global;
 Set-Variable -Name ShellSpec -Value 'C:\Program Files\PowerShell\7\pwsh.exe' -Scope Global;
+Set-Variable -Name UserModuleBasePath -Value 'C:\Users\dana\Documents\PowerShell\Modules' -Scope Global;
 $agent_is_running = Get-Process | Where-Object { $_.ProcessName -like "ssh-agent*" };
 if (!($agent_is_running)) { Start-SshAgent -Quiet; };
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete;
@@ -110,8 +137,9 @@ $Global:GetChildItemColorVerticalSpace = 0;
 $Env:POWERSHELL_UPDATECHECK = 'GA';
 # $ErrorView = 'CategoryView';
 $Errorview = 'ConciseView';
-D:\bin\repair-netloc.ps1;
+D:\bin\Repair-Netloc.ps1;
 WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkcyan~]~~white~: Loaded all Functions and Aliases~";
+
 ```
 
 <a><p align=center>PowerShell Scripts and snips for the learning curve. ALL are working in PowerShell 7.x.x unless they say otherwise. If you have improvements to them please share them with me, thats what this is about for me. Hope they help someone else. Enjoy. **NOTE: In a lot of the scripts here I use console window resizing code. If you get weird error(s) just make the window larger than the displayed script and hit enter. In a perfect world will resize to the size of the script display. Same thing with the Settings Managers
@@ -122,7 +150,7 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## BinMenu
 
-<a><p align=center>I Still Use This Menu Every Day (06-02-26)</p></a>
+<a><p align=center>I Still Use This Menu Every Day (08-22-26)</p></a>
 
 <a><p align=center>Bin Menu is a simple console based menu. The setup reads in what EXE's are in the base sub-folder and which _PS1's are in the base and lists them on a menu for you. It also comes with a Settings Manager script that's deals with the BinMenu.json for settings and adds. You can add your own entries to the end of the program menu list if you want. Up to 100. There is a toggle to show the add entries or not. To use it, edit the json, put the bin_ files in your base folder and run it. It will automatically run you through creating the INI it uses to store the Program Menu file list in. Have fun I did. And it works. I use it EVERY day. (Structure of my bin folder is d:\bin and it is in my path. Besides containing all my portable software ion folders it also and contains all my ps1 scripts. The list in the picture below sums it up.) See more extensive description in the readme in the folder. For Updates check the description in the readme in the BinMenu folder. The second image is the Scripts option (e) on the menu.</p></a>
 <a><p align=center>A couple notes to save you some hair pulling. You need to edit the BinMenu.lnk since BinMenu uses it to reload. It will crash out if it is not the right folder. Also if BinMenu says it is missing the ini but you know it is there run BinMenu settings manager and set the script base. Thats the normal place to look for that problem if you have created the ini already.</p></a>
@@ -136,6 +164,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Write-Color (WC) and Write-ColorPrompt (WCP)
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>Functions added To Profile For New Coloring Method. I use the `~` now. Not the `#`. The funtion is shown above.</p></a>
 
 - Usage: `WC "~red~Word 1~ ~green~Word 2~"`
@@ -144,9 +174,13 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Desktop-Switcher
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>It is a PowerShell script written to allow you to have a huge collection of desktops and have all of them served up. It is duel monitor and has a control for most everything at the menu. Just run it and enjoy.</p></a>
 
 - Usage: `Desktop-Switcher`
+
+<img src="/img/Desktop-Switcher.png" alt="Desktop-Switcher"/>
 
 ---
 
@@ -194,6 +228,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Clearlogs
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>This clears most to all of your windows logs for you. (All of them except locked or in use as we fly by them). I use this every day in my clean up routine. Update: Added Write Progress to the script so that there is some interaction with users in the form of a Progress Bar. Added the [bool] $Loud so that you can see the Verbose output. Clearlogs -Loud 1 or -Loud $true. It now gets the total number of log files, sets the math for the Progress bar and runs the routines. It also checks if it is ADMIN (Elevated) and if not, Elevates and runs. (It needs to be admin to delete clear logs). Should work for everyone well now. Added my own super simple progress bar that you can change the progress character. Updated to Version 2. If you want fast do it silently its pretty damn fast then without all the drawing stuff. I added a "hidden" mode so you can run it from any console. I doesn't resize and runs faster since there is limited info to the screen.</p></a>
 
 - Usage: `CLEARLOGS`
@@ -208,14 +244,6 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 <a><p align=center>It simply gives a count of characters between quotes</p></a>
 
 - Usage: `countThis "anything you want a count of."`
-
----
-
-## Cycle-Background
-
-<a><p align=center>Working on a background script because i have 470 backgrounds and I want to control the minutes between. Windows does not seem to display all the images and this stupid thing might help me figure out why.</p></a>
-
-- Usage: `Cycle-background`
 
 ---
 
@@ -270,6 +298,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Put-WinSize (Formally Set-WinSize)
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>*I use this every day* My script paste-in that allows the console buffer and window to be resized. I tried 3 or 4 from others and they didn't work so I put this together and use it because it simply works. (Going to turn it into a Function soon) Update: Moved it closer to a function, Working well.</p></a>
 
 - Usage: Paste into your script file as a function and call to it.
@@ -277,6 +307,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 ---
 
 ## Put-Winposition
+
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
 
 <a><p align=center>*I call this* This will set a named window to the desired position.</p></a>
 
@@ -323,6 +355,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## ASAY and NOTIFY
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>*I call this* This now uses BurntToast from the PowerShellGallery</p></a>
 
 <a><center><https://www.powershellgallery.com/packages/BurntToast></center></a>
@@ -363,6 +397,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ## Env (environment)
 
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
+
 <a><p align=center>This is my script to list a (one) environment variable from system ENV variable (no quotes) or from the variable drive ENV 'variable' (single quote) If you just do ENV it will list ALL variable</p></a>
 
 - Usage: `ENV` (Does all variables)
@@ -380,6 +416,8 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 ---
 
 ## Reboot
+
+<a><p align=center>I Still Use This Every Day (08-22-26)</p></a>
 
 <a><p align=center>I wanted (needed) a reboot command in windows. So TaDA :) It is used REBOOT.PS1 STOP|SHUTDOWN|RESTART|REBOOT Just REBOOT alone is the same as REBOOT RESTART I also call this script from the BinMenu above. I removed rebooting on REBOOT with no parameter. REBOOT.ps1 REBOOT is now required.</p></a>
 
