@@ -142,6 +142,14 @@ WC "~darkcyan~[~~darkyellow~PowerShell Core~~darkcyan~][~~red~Profile.ps1~~darkc
 
 ---
 
+## Desktop-Switcher
+
+<a><p align=center>It is a PowerShell script written to allow you to have a huge collection of desktops and have all of them served up. It is duel monitor and has a control for most everything at the menu. Just run it and enjoy.</p></a>
+
+- Usage: `Desktop-Switcher`
+
+---
+
 ## MiniMenu
 
 <a><p align=center>This is a simple menu that you just edit in the options and then the commands to run. Then you just run the menu and pick the option. You should be able to easily figure this one out.</p></a>
