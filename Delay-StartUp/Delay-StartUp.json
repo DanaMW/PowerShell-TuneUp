@@ -151,5 +151,13 @@
     "Argument": "",
     "Name": "CoreTemp",
     "HostOnly": "ON"
+  },
+  "RunItem-14": {
+    "Argument": "--background",
+    "Name": "ABDL Manager",
+    "HostOnly": "ON",
+    "goTime": "0",
+    "Admin": "OFF",
+    "RunPath": "D:\\bin\\ABDownloadManager\\ABDownloadManager.exe"
   }
 }

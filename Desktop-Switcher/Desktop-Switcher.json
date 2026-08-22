@@ -1,0 +1,27 @@
+{
+  "WallpaperSource": "D:\\Pictures\\Desktop",
+  "ChangeIntervalSeconds": 60,
+  "WallpaperStyle": 10,
+  "LogToFile": false,
+  "LogFilePath": "D:\\bin\\Desktop-Switcher\\Desktop-Switcher.log",
+  "LogToEventLog": false,
+  "Monitors": [
+    {
+      "ID": "Monitor 1",
+      "Source": "D:\\Pictures\\Desktop",
+      "Interval": 60,
+      "Style": 10,
+      "LastImage": "D:\\Pictures\\Desktop\\DeskTop_SpotLight_121.JPG",
+      "LastChange": "2026-08-22T02:23:01.8593686-07:00"
+    },
+    {
+      "ID": "Monitor 2",
+      "Source": "D:\\Pictures\\Desktop",
+      "Interval": 75,
+      "Style": 10,
+      "LastImage": "D:\\Pictures\\Desktop\\DeskTop_Space_66.jpg",
+      "LastChange": "2026-08-22T02:22:31.8935014-07:00"
+    }
+  ],
+  "HistoryPercentage": 60
+}
