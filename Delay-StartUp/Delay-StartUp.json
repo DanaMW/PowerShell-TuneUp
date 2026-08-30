@@ -151,5 +151,13 @@
     "RunPath": "D:\\bin\\ABDownloadManager\\ABDownloadManager.exe",
     "Argument": "--background",
     "goTime": "0"
+  },
+  "RunItem-14": {
+    "HostOnly": "ON",
+    "RunPath": "Run-Discord.ps1",
+    "Admin": "OFF",
+    "Argument": "",
+    "goTime": "0",
+    "Name": "Discord"
   }
 }

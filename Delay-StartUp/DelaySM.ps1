@@ -1,4 +1,5 @@
-$FileVersion = "1.5.23"
+$FileVersion = "1.5.24"
+$FileDate = "08-30-2026"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -45,12 +46,12 @@ $PosTest = Test-Path -Path ($BASE + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 690 }
 if (!($WinSMY)) { $WinSMY = 205 }
 # Bad Error caused by below before/ Working now
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width "100" -Height "50" | Out-Null }
+if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width "100" -Height "50" | Out-Null }
 [string]$NormalLine = "~RED~#~~DARKRED~=================================================================================================~~RED~#~"
 [string]$TitleLine = "~DARKRED~|~~WHITE~>=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~CYAN~[~~RED~Delay-StartUp Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~DARKRED~|~"
 [string]$LeftLine = "~DARKRED~|~"
 [string]$RightLine = "~DARKRED~|~"
- while (1) {
+while (1) {
     function FlexWindow {
         $SaveError = $ErrorActionPreference
         $ErrorActionPreference = "SilentlyContinue"
@@ -69,7 +70,7 @@ if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $Win
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     FlexWindow
     function FuckOff {
         PrettyLine
@@ -82,7 +83,7 @@ if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $Win
     }
     function SpinItems {
         $si = 1
-        $Sc =  20
+        $Sc = 20
         $Script:AddCount = 0
         while ($si -lt $sc) {
             $RunItem = "RunItem-$si"

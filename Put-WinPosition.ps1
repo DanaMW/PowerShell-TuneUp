@@ -25,40 +25,41 @@
         Set the bottom position of the window in pixels from Y.
 
   .NOTES
-        Name: Put-WinPosition
+        Name: Put-WinPosition.ps1
         Author: Dana Meli-Wischman
 
   .EXAMPLE
-        Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>
+        Put-WinPosition.ps1 -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>
         Optionally
-        Put-WinPosition -WinName <[String]> -WinX <[int]> -WinY <[int]> -Width <[int]> -Height <[int]>
+        Put-WinPosition.ps1 -WinName <[String]> -WinX <[int]> -WinY <[int]> -Width <[int]> -Height <[int]>
 
         Set the coordinates of the window for the process you name.
 
 #>
-Param(
-    [Parameter(Position = 0, mandatory = $true)]
-    [String]$WinName,
-    [Parameter(Position = 1, mandatory = $true)]
-    [int]$WinX,
-    [Parameter(Position = 2, mandatory = $true)]
-    [int]$WinY,
-    [Parameter(Position = 3, mandatory = $false)]
-    [int]$Width,
-    [Parameter(Position = 4, mandatory = $false)]
-    [int]$height)
-$FileVersion = "0.0.3"
+param(
+      [Parameter(Position = 0, mandatory = $true)]
+      [String]$WinName,
+      [Parameter(Position = 1, mandatory = $true)]
+      [int]$WinX,
+      [Parameter(Position = 2, mandatory = $true)]
+      [int]$WinY,
+      [Parameter(Position = 3, mandatory = $false)]
+      [int]$Width,
+      [Parameter(Position = 4, mandatory = $false)]
+      [int]$height)
+$FileVersion = "0.0.4"
+$FileDate = "08-30-2026"
 if (!($WinName)) {
-    Say "Usage: Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
-    return
+      Say "Usage: Put-WinPosition.ps1 -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
+      return
 }
 if (!($WinX)) {
-    Say "Usage: Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
-    return
+      Say "Usage: Put-WinPosition.ps1 -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
+      return
 }
 if (!($WinY)) {
-    Say "Usage: Put-WinPosition -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
-    return
+      Say "Usage: Put-WinPosition.ps1 -WinName <[String] window title> -WinX <[int] position from left> -WinY <[int] position from top>"
+      return
 }
 Add-Type @"
   using System;

@@ -17,12 +17,13 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.40"
+$FileVersion = "3.0.41"
+$FileDate = "08-30-2026"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
 # { Clear-Host; return }
-Function MyConfig {
+function MyConfig {
     $MyConfig = (Split-Path -Parent $PSCommandPath) + "\" + (Split-Path -Leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
     $MyConfig = $MyConfig.trimstart(" ")
@@ -41,7 +42,7 @@ $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
 if (!($Base)) {
     $ans = Put-Input "Enter your Base directory (no trailing slash): "
-    if ($ans -eq "") { EXIT }
+    if ($ans -eq "") { exit }
     Set-Variable -Name Base -Value $ans -Scope Global
 }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your profiles or in the json. This shit uses that!"; break }
@@ -61,7 +62,7 @@ if (!($WinX)) { $WinX = 1 }
 [int]$WinY = ($Config.Setup.WinY)
 if (!($WinY)) { $WinY = 1 }
 $PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
-Function FlexWindow {
+function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
@@ -77,12 +78,12 @@ Function FlexWindow {
     $ErrorActionPreference = $SaveError
 }
 FlexWindow
-if (($WPosition)) { if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
-Function SpinItems {
+if (($WPosition)) { if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
+function SpinItems {
     $si = 1
     $Sc = 50
     $Script:AddCount = 0
-    While ($si -lt $sc) {
+    while ($si -lt $sc) {
         $AddItem = "AddItem-$si"
         $Spin = ($Config.$AddItem).name
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
@@ -90,7 +91,7 @@ Function SpinItems {
     }
 }
 SpinItems
-Function FixLine {
+function FixLine {
     Say "                                                                                                        "
     [Console]::SetCursorPosition(0, $GLOBAL:pp); Say "                                                                                                        "
     [Console]::SetCursorPosition(0, 0); Say ""
@@ -149,7 +150,7 @@ if (!($MenuAdds)) {
         if (($it)) {
             $it = ($it - 1)
             $q = 0
-            While ($q -lt $it) {
+            while ($q -lt $it) {
                 $tr = (Get-Content $FileINI)[$q]
                 (Add-Content ./BinMenu.no $tr)
                 $q++
@@ -161,9 +162,9 @@ if (!($MenuAdds)) {
 }
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
-(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-Function Draw-Window {
+function Draw-Window {
     $ptemp = ($Base + "\*.ps1")
     [int]$PCount = (Get-ChildItem -Path $ptemp).count
     [string]$NormalLine = "~RED~#~~DARKRED~=====================================================================================================~~RED~#~"
@@ -244,7 +245,7 @@ Function Draw-Window {
     [int]$w = $col[0]
     [int]$i = 1
     $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
-    While ($i -le $Work) {
+    while ($i -le $Work) {
         if ($i -le $Work) {
             $Line = $Reader.ReadLine()
             if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
@@ -274,12 +275,12 @@ Function Draw-Window {
     FlexWindow
     $ValidOption = "NO"
 }
-Function MyMaker {
+function MyMaker {
     Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinIM.ps1") -Verb RunAs
     break
 }
 <# ########## Begin The Menu Loop ########## #>
-While (1) {
+while (1) {
     Draw-Window
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Make A Selection~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt )
@@ -446,7 +447,7 @@ While (1) {
             $Filetest = Test-Path -Path $Filetmp
             if (($Filetest)) { Remove-Item -Path $Filetmp }
             Clear-Host
-            Return
+            return
         }
         elseif ($ans -eq "R") { Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
         elseif ($ans -eq "Z") { Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + '\BinSM.ps1') -Verb RunAs; FixLine; $ValidOption = "YES" }
@@ -465,7 +466,7 @@ While (1) {
     }
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     FlexWindow
-    if (($WPosition)) { if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
+    if (($WPosition)) { if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null } }
 }
 $Filetest = Test-Path -Path $Filetmp
 if (($Filetest)) { Remove-Item -Path $Filetmp }

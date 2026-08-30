@@ -20,10 +20,11 @@
         Still under development.
 
 #>
-$FileVersion = "1.5.21"
+$FileVersion = "1.5.22"
+$FileDate = "08-30-2026"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
-Function MyConfig {
+function MyConfig {
     $MyConfig = (Split-Path -Parent $PSCommandPath) + "\" + (Split-Path -Leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
     $MyConfig
@@ -60,7 +61,7 @@ if (!($WinY)) { $WinY = 1 }
 [int]$BuffWidth = $WinWidth
 [int]$BuffHeight = $WinHeight
 $PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
-Function FlexWindow {
+function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
@@ -78,13 +79,13 @@ Function FlexWindow {
 
 if (($WPosition)) {
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
 }
-Function SpinItems {
+function SpinItems {
     $si = 1
     $Sc = 20
     $Script:AddCount = 0
-    While ($si -lt $sc) {
+    while ($si -lt $sc) {
         $RunItem = "RunItem-$si"
         $Spin = ($Config.$RunItem.name)
         if ($null -ne $Spin) { $Script:AddCount++; $si++ }
@@ -93,7 +94,7 @@ Function SpinItems {
 }
 if (($WPosition)) {
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
 }
 if (($Prevent)) {
     Clear-Host
@@ -157,7 +158,7 @@ if ($StartDelay -ne "0") {
 }
 if (($WPosition)) {
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinX -WinY $WinY | Out-Null }
 }
 if ($StartDelay -eq "0") {
     Clear-Host
@@ -208,7 +209,7 @@ while ($c -le $AddCount) {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
                     [Console]::SetCursorPosition(0, 3); Write-Host " File Was NOT Found!"
                 }
-                Else {
+                else {
                     [Console]::SetCursorPosition(0, 3); Write-Host "                                                                     "
                     [Console]::SetCursorPosition(0, 3); & Write-Output " File Setup OK."
                 }
@@ -223,7 +224,7 @@ while ($c -le $AddCount) {
                     try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
                 }
-                Else {
+                else {
                     try { & Start-Process -FilePath "$RunPath" -ArgumentList $RunArg -WorkingDirectory $RunSplit -ErrorAction SilentlyContinue }
                     catch { Write-Host -ForegroundColor RED "Could not run" $RunPath }
                 }

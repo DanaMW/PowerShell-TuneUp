@@ -1,10 +1,11 @@
-$FileVersion = "3.0.38"
+$FileVersion = "3.0.39"
+$FileDate = "08-30-2026"
 $host.ui.RawUI.WindowTitle = ("BinMenu Script Window " + $FileVersion)
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value "D:\bin" -Scope Global }
 if (!($Base)) { Say -ForeGroundColor RED "SET Base environment variable in your Setup, profiles or in this Script. This shit uses that!"; break }
 $ScriptBase = ($Base + "\BinMenu")
-Function MyConfig {
+function MyConfig {
     $MyConfig = ($ScriptBase + "\BinMenu.json")
     $MyConfig
 }
@@ -38,7 +39,7 @@ if (!($WinHeight)) {
     $WinHeight = 100
     $BuffHeight = $WinHeight
 }
-Function FlexWindow {
+function FlexWindow {
     $SaveError = $ErrorActionPreference
     $ErrorActionPreference = "SilentlyContinue"
     $pshost = Get-Host
@@ -54,7 +55,7 @@ Function FlexWindow {
     $ErrorActionPreference = $SaveError
 }
 FlexWindow
-Function FixLine {
+function FixLine {
     Say "                                                                                                       "
     [Console]::SetCursorPosition(0, $pp); Say "                                                                                                       "
     [Console]::SetCursorPosition(0, 0); Say ""
@@ -65,8 +66,8 @@ Function FixLine {
     [Console]::SetCursorPosition(0, $pp)
 }
 $PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
-While (1) {
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
+while (1) {
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     Clear-Host
     FlexWindow
     [int]$pp = 0
@@ -98,7 +99,7 @@ While (1) {
     FlexWindow
     $header = "Base.ps1 Edit.ps1 Find.ps1 Get.ps1 Go.ps1 Out.ps1 Put.ps1 Remove.ps1 Repair.ps1 Run.ps1 Test.ps1 Update.ps1 Write.ps1"
     $Reader = New-Object IO.StreamReader ($filetmp, [Text.Encoding]::UTF8, $true, 4MB)
-    While ($i -le $Work) {
+    while ($i -le $Work) {
         $Line = $Reader.ReadLine()
         if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
         [Console]::SetCursorPosition($w, $l)
@@ -160,7 +161,7 @@ While (1) {
         if (($Filetest)) {
             Remove-Item $Filetmp
             Clear-Host
-            Return
+            return
         }
     }
     elseif ($ans -eq "R") {
@@ -175,7 +176,7 @@ While (1) {
         Start-Sleep -Milliseconds 500
         FixLine
         FlexWindow
-        if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
+        if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $POSX -WinY $POSY | Out-Null }
     }
 }
 $Filetest = Test-Path -Path $Filetmp

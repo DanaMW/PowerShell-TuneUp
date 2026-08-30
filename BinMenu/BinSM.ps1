@@ -1,4 +1,5 @@
-$FileVersion = "3.0.42 "
+$FileVersion = "3.0.43"
+$FileDate = "08-30-2026"
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
 function Get-ScriptDir { Split-Path -Parent $PSCommandPath }
@@ -48,9 +49,9 @@ if (!($AWinWidth)) {
 $PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 1 }
 if (!($WinSMX)) { $WinSMY = 1 }
-if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 650 | Out-Null }
+if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 650 | Out-Null }
 while (1) {
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     function SpinItems {
         $si = 1
         $Sc = 50
@@ -80,7 +81,7 @@ while (1) {
         $ErrorActionPreference = $SaveError
     }
     FlexWindow
-    if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
+    if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     [string]$NormalLine = "~RED~#~~DARKRED~=================================================================================================~~RED~#~"
     [string]$TitleLine = "~DARKRED~|~~WHITE~>=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~CYAN~[~~RED~BinMenu Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~DARKRED~|~"
     [string]$LeftLine = "~DARKRED~|~"
@@ -287,7 +288,7 @@ while (1) {
         [bool]$MenuAdds = ($Config.Setup.MenuAdds)
         if ($MenuAdds -eq 1) {
             $AWinHeight = 46
-            if (($PosTest)) { Put-WinPosition -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 800 | Out-Null }
+            if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 800 | Out-Null }
         }
         $pop = ""
     }
