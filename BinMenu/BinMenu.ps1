@@ -3,7 +3,7 @@
         BinMenu
         Created By: Dana l. Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: May 28, 2024
+        Last Modified Date: Sept 20, 2026
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,8 +17,8 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.41"
-$FileDate = "08-30-2026"
+$FileVersion = "3.0.44"
+$FileDate = "09-20-2026"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -37,6 +37,7 @@ if (!($Config)) {
     Say -ForeGroundColor RED "The BinMenu.json configuration file is missing!"
     Say -ForeGroundColor RED "You need to create or edit BinMenu.json in Base directory"
     break
+
 }
 $Base = $env:Base
 if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
@@ -280,8 +281,10 @@ function MyMaker {
     break
 }
 <# ########## Begin The Menu Loop ########## #>
+$ans = " "
 while (1) {
     Draw-Window
+    $ans = $ans.Trim()
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     $ans = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Make A Selection~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt )
     [Int32]$OutNumber = $null
