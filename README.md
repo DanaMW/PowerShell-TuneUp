@@ -456,3 +456,9 @@ Would someone look at this and show me how they would display the information ye
 
 <img src="/img/Repair-Windows1.png" alt="Repair-Windows"/>
 <img src="/img/Repair-Windows2.png" alt="Repair-Windows"/>
+
+---
+
+## Copy-Bin
+
+<a><p align=center>Just an example copy file with a couple options for file correction. Simple and it gets the job of syncing my bin folder over to my duplicate drives when I need to.</p></a>
