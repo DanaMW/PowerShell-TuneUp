@@ -125,5 +125,10 @@
     "Name": "Crystal Disk Info",
     "Command": "D:\\bin\\CrystalDiskInfo\\DiskInfo64.exe",
     "Argument": ""
+  },
+  "AddItem-18": {
+    "Argument": "",
+    "Command": "D:\\bin\\Desktop Frames\\Desktop Frames.exe",
+    "Name": "Desktop Frames +"
   }
 }

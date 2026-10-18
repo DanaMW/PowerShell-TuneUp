@@ -3,25 +3,20 @@
         Delay-StartUp
         Created By: Dana Meli-Wischman
         Created Date: August, 2018
-        Last Modified Date: June 13, 2024
-
-.DESCRIPTION
+ .DESCRIPTION
         This is just a way to delay the startup of programs in your startups.
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
         Command Line: pwsh.exe -File ($env:Base + "\Delay-StartUp.ps1")
-
 .EXAMPLE
         You look up your startups in the task manager and as you add them here you disable them there.
         You would place a shortcut for this script in c:\Users\$username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
         Command Line: pwsh.exe -File ($env:Base + "\Delay-StartUp.ps1")
-
 .NOTES
         Still under development.
-
 #>
-$FileVersion = "1.5.22"
-$FileDate = "08-30-2026"
+$FileVersion = "1.5.23"
+$FileDate = "10-16-2026"
 $host.ui.RawUI.WindowTitle = "Delay-StartUp $FileVersion on $env:USERDOMAIN"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
 function MyConfig {
