@@ -16,9 +16,9 @@
     "_Editor": "[string] The Text Editor you would like to use.",
     "Editor": "C:\\Windows\\System32\\notepad.exe",
     "_StartDelay": "[int] Determines How many seconds to delay the start of loading.",
-    "StartDelay": "20",
+    "StartDelay": "0",
     "_Delay": "[int] Defines the delay between each program run.",
-    "Delay": "10",
+    "Delay": "2",
     "_Prevent": "[bool] If true skips running completely (in case your working on the system.",
     "Prevent": 1,
     "_Pause": "[bool] If true waits a set period then runs a default option.",
@@ -73,91 +73,59 @@
     "Name": "Ditto"
   },
   "RunItem-4": {
-    "HostOnly": "Brutus",
-    "RunPath": "C:\\Program Files (x86)\\Redragon M910-KS\\OemDrv.exe",
-    "goTime": "0",
-    "Argument": "",
+    "HostOnly": "ON",
+    "Name": "One Drive",
     "Admin": "OFF",
-    "Name": "Redragon Gaming Mouse"
+    "Argument": "/background",
+    "goTime": "0",
+    "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe"
   },
   "RunItem-5": {
     "HostOnly": "ON",
-    "RunPath": "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe",
-    "goTime": "0",
-    "Argument": "/background",
+    "Name": "MegaSync",
     "Admin": "OFF",
-    "Name": "One Drive"
+    "Argument": "",
+    "goTime": "0",
+    "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe"
   },
   "RunItem-6": {
     "HostOnly": "ON",
-    "RunPath": "C:\\ProgramData\\MEGAsync\\MEGAsync.exe",
-    "goTime": "0",
-    "Argument": "",
+    "Name": "Grammarly",
     "Admin": "OFF",
-    "Name": "MegaSync"
+    "Argument": "",
+    "goTime": "0",
+    "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe"
   },
   "RunItem-7": {
     "HostOnly": "ON",
-    "RunPath": "C:\\Users\\dana\\AppData\\Local\\Grammarly\\DesktopIntegrations\\Grammarly.Desktop.exe",
-    "goTime": "0",
-    "Argument": "",
+    "Name": "Google Drive",
     "Admin": "OFF",
-    "Name": "Grammarly"
+    "Argument": "",
+    "goTime": "0",
+    "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk"
   },
   "RunItem-8": {
-    "HostOnly": "TinMan",
-    "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk",
-    "goTime": "0",
-    "Argument": "",
+    "HostOnly": "ON",
+    "Name": "CoreTemp",
     "Admin": "OFF",
-    "Name": "Google Drive"
+    "Argument": "",
+    "goTime": "0",
+    "RunPath": "D:\\bin\\CoreTemp\\Core Temp.exe"
   },
   "RunItem-9": {
+    "HostOnly": "ON",
+    "Name": "ABDL Manager",
     "Admin": "OFF",
-    "Name": "Redragon Gaming Mouse",
-    "HostOnly": "TinMan",
-    "RunPath": "C:\\Program Files (x86)\\REDRAGON GRIFFIN Gaming Mouse\\hid.exe",
-    "Argument": "",
-    "goTime": "0"
+    "Argument": "--background",
+    "goTime": "0",
+    "RunPath": "D:\\bin\\ABDownloadManager\\ABDownloadManager.exe"
   },
   "RunItem-10": {
-    "Admin": "OFF",
-    "Name": "Sound Blaster",
-    "HostOnly": "TinMan",
-    "RunPath": "C:\\Program Files (x86)\\Creative\\Sound Blaster Command\\Creative.SBCommand.exe",
-    "Argument": "",
-    "goTime": "0"
-  },
-  "RunItem-11": {
-    "Admin": "OFF",
-    "Name": "Google Drive 2",
-    "HostOnly": "Titan",
-    "RunPath": "C:\\Users\\dana\\Desktop\\My Google Drive.lnk",
-    "Argument": "",
-    "goTime": "0"
-  },
-  "RunItem-12": {
-    "Admin": "OFF",
-    "Name": "CoreTemp",
     "HostOnly": "ON",
-    "RunPath": "D:\\bin\\CoreTemp\\Core Temp.exe",
-    "Argument": "",
-    "goTime": "0"
-  },
-  "RunItem-13": {
-    "Admin": "OFF",
-    "Name": "ABDL Manager",
-    "HostOnly": "ON",
-    "RunPath": "D:\\bin\\ABDownloadManager\\ABDownloadManager.exe",
-    "Argument": "--background",
-    "goTime": "0"
-  },
-  "RunItem-14": {
-    "HostOnly": "ON",
-    "RunPath": "Run-Discord.ps1",
+    "Name": "Discord",
     "Admin": "OFF",
     "Argument": "",
     "goTime": "0",
-    "Name": "Discord"
+    "RunPath": "Run-Discord.ps1"
   }
 }

@@ -1,6 +1,7 @@
-Param([string]$RunFix)
-$FileVersion = "0.2.3"
-$host.ui.RawUI.WindowTitle = "Repair Windows $FileVersion"
+param([string]$RunFix)
+$FileVersion = "0.2.4"
+$FileDate = "11-18-2026"
+$host.ui.RawUI.WindowTitle = "Repair Windows $FileVersion $fileDate"
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
     (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -13,10 +14,10 @@ if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator
     break
 }
 $Scan = "SFC.EXE /SCANNOW"
-$Check = "DISM.EXE /Online /Cleanup-Image /ScanHealth"
+$Check = "DISM.EXE /Online /Cleanup-Image /ScanHealth" # That works by scanning the Windows system image files for corruption.
 $Image = "DISM /Online /Cleanup-Image /CheckHealth" # That works by repairing the Windows system image files.
-$Repair = "DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\sources\install.wim:1"
-$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\sources\install.wim:1"
+$Repair = "DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\sources\install.wim:1" # Mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
+$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\sources\install.wim:1" # mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
 Set-Location "C:"; Set-Location "C:\Windows"
 $nline = "~RED~+=====================================================================+~"
 $dline = "~RED~| ~~WHITE~| ~~RED~+=============================================================+ ~~WHITE~| ~~RED~|~"
@@ -60,7 +61,7 @@ if ($RunFix -eq "HelpOnly") {
     WC $fline
     WC $nline
     [Console]::SetCursorPosition(7, 3); WC "~WHITE~OK, This Script is Designed to help you~"
-    [Console]::SetCursorPosition(7, 4); WC "~WHITE~Scan, Check and/or Repair your Windows 10 PC.~"
+    [Console]::SetCursorPosition(7, 4); WC "~WHITE~Scan, Check and/or Repair your Windows 11 PC.~"
     [Console]::SetCursorPosition(7, 5); WC "~WHITE~If this is your first time running it you~"
     [Console]::SetCursorPosition(7, 6); WC "~WHITE~need to run it in a certain order. The order is:~"
     [Console]::SetCursorPosition(7, 7); WC "~WHITE~(1)Scan, (2)Check, (3)Image, (4)Repair, (5)Reset~"
@@ -77,7 +78,7 @@ if ($RunFix -eq "HelpOnly") {
     $menuPrompt = WCP "~CYAN~[~~darkyellow~Enter to Continue~~CYAN~]~~WHITE~:~ "
     Read-Host -Prompt $menuPrompt
 }
-If ($RunFix -eq "") {
+if ($RunFix -eq "") {
     Clear-Host
     [Console]::SetCursorPosition(0, 0)
     WC $nline
