@@ -1,6 +1,6 @@
 param([string]$RunFix)
-$FileVersion = "0.2.4"
-$FileDate = "11-18-2026"
+$FileVersion = "0.2.5"
+$FileDate = "11-19-2026"
 $host.ui.RawUI.WindowTitle = "Repair Windows $FileVersion $fileDate"
 function Test-Administrator {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
@@ -16,8 +16,8 @@ if (!($principal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator
 $Scan = "SFC.EXE /SCANNOW"
 $Check = "DISM.EXE /Online /Cleanup-Image /ScanHealth" # That works by scanning the Windows system image files for corruption.
 $Image = "DISM /Online /Cleanup-Image /CheckHealth" # That works by repairing the Windows system image files.
-$Repair = "DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:E:\sources\install.wim:1" # Mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
-$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:E:\sources\install.wim:1" # mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
+$Repair = "DISM.EXE /Online /Cleanup-Image /RestoreHealth /Source:WIM:F:\sources\install.wim:1" # Mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
+$Reset = "DISM.EXE /Online /Cleanup-Image /StartComponentCleanup /Source:WIM:F:\sources\install.wim:1" # mount the Windows 11 ISO and change the drive letter to match your system. The install.wim file is located in the sources folder of the ISO.
 Set-Location "C:"; Set-Location "C:\Windows"
 $nline = "~RED~+=====================================================================+~"
 $dline = "~RED~| ~~WHITE~| ~~RED~+=============================================================+ ~~WHITE~| ~~RED~|~"
