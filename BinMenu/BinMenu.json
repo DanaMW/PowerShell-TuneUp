@@ -17,7 +17,7 @@
     "_Base": "[string] The base folder containing all your PS1 scripts.",
     "Base": "D:\\bin",
     "_Editor": "[string] Defines a text editor to use from BinMenu",
-    "Editor": "D:\\bin\\NPP\\NotePad++.exe",
+    "Editor": "C:\\Windows\\System32\\notepad.exe",
     "_MenuAdds": "[bool] Determines if the menu adds are used or not",
     "MenuAdds": 1,
     "_Notify": "[bool] Determines if Notifications are sent using asay/notify",

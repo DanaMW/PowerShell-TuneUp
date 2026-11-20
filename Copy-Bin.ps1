@@ -14,8 +14,8 @@ param(
         [string]$SingleFolder
 )
 
-$FileVersion = "0.0.19"
-$FileDate = "10-06-2026"
+$FileVersion = "0.0.20"
+$FileDate = "11-20-2026"
 
 # Helper wrapper fallback if custom 'Say' is not loaded in current scope
 function Invoke-Say {
@@ -38,7 +38,7 @@ try {
 
         if ([string]::IsNullOrWhiteSpace($myargs)) {
                 Invoke-Say ""
-                Invoke-Say "Copy-Bin $FileVersion $FileDate"
+                Invoke-Say "Copy-Bin $FileVersion ($FileDate)"
                 Invoke-Say ""
                 Invoke-Say "Usage: Copy-Bin D: [-FixCorrupt] [-SingleFolder <FolderName>]"
                 Invoke-Say "       Include -FixCorrupt to overwrite identical/corrupt files."
