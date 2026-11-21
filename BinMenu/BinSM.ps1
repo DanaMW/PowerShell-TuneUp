@@ -78,95 +78,95 @@ if (!($AWinWidth)) {
     $AWinWidth = 100
     $ABuffWidth = $AWinWidth
 }
+function FightOn {
+    PrettyLine; Say $Rich1
+    [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight1
+    [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Put-Input $boop
+    if ($Fight1 -eq "") { Clear-Variable -Name Fight1 -Force -Scope Script }
+    PrettyLine; Say $Rich2
+    [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight2
+    [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Put-Input $boop
+    if ($Fight2 -eq "") { Clear-Variable -Name Fight2 -Force -Scope Script }
+    PrettyLine; Say $Rich3
+    [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight3
+    [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Put-Input $boop
+    if ($Fight3 -eq "") { Clear-Variable -Name Fight3 -Force -Scope Script }
+    PrettyLine
+    if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
+    PrettyLine
+    $Fight1; $Fight2; $Fight3
+}
+function PrettyLine {
+    [Console]::SetCursorPosition($w, $pp); Say -NoNewLine ""
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
+    #[Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    #[Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, $pp)
+}
+function FuckOff {
+    PrettyLine
+    Say $blah
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    #$Script:Fixer = Read-Host -Prompt $boop
+    $Script:Fixer = Put-Input $boop
+    if ($Fixer -eq "") { Clear-Variable -Name Fixer -Force -Scope Script }
+    PrettyLine
+    $Fixer
+}
+function FlexWindow {
+    $SaveError = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
+    $pshost = Get-Host
+    $pswindow = $pshost.ui.rawui
+    $newsize = $pswindow.buffersize
+    [int]$newsize.height = $ABuffHeight
+    [int]$newsize.width = $ABuffWidth
+    $pswindow.buffersize = $newsize
+    $newsize = $pswindow.windowsize
+    [int]$newsize.height = $AWinHeight
+    [int]$newsize.width = $AWinWidth
+    $pswindow.windowsize = $newsize
+    $ErrorActionPreference = $SaveError
+}
+function SpinItems {
+    $si = 1
+    $Sc = 50
+    $Script:AddCount = 0
+    while ($si -lt $sc) {
+        $AddItem = "AddItem-$si"
+        $Spin = ($Config.$AddItem).name
+        if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+        else { $si = 50 }
+    }
+    $Script:AddCount
+}
 $PosTest = Test-Path -Path ($Base + "\Put-WinPosition.ps1")
 if (!($WinSMX)) { $WinSMX = 1 }
 if (!($WinSMX)) { $WinSMY = 1 }
 if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY -Width 550 -Height 650 | Out-Null }
 while (1) {
     if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
-    function SpinItems {
-        $si = 1
-        $Sc = 50
-        $Script:AddCount = 0
-        while ($si -lt $sc) {
-            $AddItem = "AddItem-$si"
-            $Spin = ($Config.$AddItem).name
-            if ($null -ne $Spin) { $Script:AddCount++; $si++ }
-            else { $si = 50 }
-        }
-        $Script:AddCount
-    }
     SpinItems
-    function FlexWindow {
-        $SaveError = $ErrorActionPreference
-        $ErrorActionPreference = "SilentlyContinue"
-        $pshost = Get-Host
-        $pswindow = $pshost.ui.rawui
-        $newsize = $pswindow.buffersize
-        [int]$newsize.height = $ABuffHeight
-        [int]$newsize.width = $ABuffWidth
-        $pswindow.buffersize = $newsize
-        $newsize = $pswindow.windowsize
-        [int]$newsize.height = $AWinHeight
-        [int]$newsize.width = $AWinWidth
-        $pswindow.windowsize = $newsize
-        $ErrorActionPreference = $SaveError
-    }
     FlexWindow
     if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     [string]$NormalLine = "~RED~#~~DARKRED~=================================================================================================~~RED~#~"
     [string]$TitleLine = "~DARKRED~|~~WHITE~>=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~CYAN~[~~RED~BinMenu Settings Manager~~CYAN~]~~WHITE~>-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=<~~DARKRED~|~"
     [string]$LeftLine = "~DARKRED~|~"
     [string]$RightLine = "~DARKRED~|~"
-    function FuckOff {
-        PrettyLine
-        Say $blah
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        #$Script:Fixer = Read-Host -Prompt $boop
-        $Script:Fixer = Put-Input $boop
-        if ($Fixer -eq "") { Clear-Variable -Name Fixer -Force -Scope Script }
-        PrettyLine
-        $Fixer
-    }
-    function PrettyLine {
-        [Console]::SetCursorPosition($w, $pp); Say -NoNewLine ""
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
-        #[Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        #[Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, $pp)
-    }
-    function FightOn {
-        PrettyLine; Say $Rich1
-        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight1
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight1 = Put-Input $boop
-        if ($Fight1 -eq "") { Clear-Variable -Name Fight1 -Force -Scope Script }
-        PrettyLine; Say $Rich2
-        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight2
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight2 = Put-Input $boop
-        if ($Fight2 -eq "") { Clear-Variable -Name Fight2 -Force -Scope Script }
-        PrettyLine; Say $Rich3
-        [Console]::SetCursorPosition($w, ($pp + 1)); Say "Current Value:" $Fight3
-        [Console]::SetCursorPosition($w, ($pp + 2)); $Script:Fight3 = Put-Input $boop
-        if ($Fight3 -eq "") { Clear-Variable -Name Fight3 -Force -Scope Script }
-        PrettyLine
-        if ($Fight3 -eq "") { $Fight3 = "[No Argument]" }
-        PrettyLine
-        $Fight1; $Fight2; $Fight3
-    }
     Clear-Host
     WC $NormalLine; WC $TitleLine; WC $NormalLine
     [int]$w = "1"; [int]$l = "3"; [int]$v = "3"
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~......................:~ ~DARKRED~[~~WHITE~$Base~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Set Ed~~DARKRED~(~~MAGENTA~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~.......................:~ ~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~S~~DARKRED~)~~DARKCYAN~cript Base~~WHITE~......................:~ ~DARKRED~[~~WHITE~$ScriptBase~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~MAGENTA~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~..........:~ ~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~N~~DARKRED~)~~DARKCYAN~otify with asay/notify~~WHITE~..........:~ ~DARKRED~[~~WHITE~$Notify~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Use Win ~~DARKRED~(~~MAGENTA~P~~DARKRED~)~~DARKCYAN~ositioning~~WHITE~..............:~ ~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~.....................:~ ~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~H~~DARKRED~)~DARKCYAN~eight~~WHITE~....................:~ ~DARKRED~[~~WHITE~$WinHeight~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~H~~DARKRED~)~~DARKCYAN~eight~~WHITE~....................:~ ~~DARKRED~[~~WHITE~$WinHeight~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~U~~DARKRED~)~~DARKCYAN~se Add Entries~~WHITE~..................:~ ~DARKRED~[~~WHITE~$MenuAdds~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~X~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~Y~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~................:~ ~DARKRED~[~~WHITE~$WinY~~DARKRED~]~"; $l++
@@ -175,7 +175,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Scripts Window ~~DARKRED~(~~MAGENTA~XXX~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~......:~ ~DARKRED~[~~WHITE~$WinSX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Scripts Window ~~DARKRED~(~~MAGENTA~YYY~~DARKRED~)~ ~DARKCYAN~Position~~WHITE~......:~ ~DARKRED~[~~WHITE~$WinSY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Number of Program Adds in JSON~~WHITE~.....: ~~DARKRED~[~~WHITE~$AddCount~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Options~~white~: ~~DARKRED~(~~MAGENTA~J~~DARKRED~)~~DARKCYAN~son~ ~DARKRED~(~~MAGENTA~A~~DARKRED~)~~DARKCYAN~dd~DARKRED~ (~~MAGENTA~D~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~MAGENTA~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~ (~~MAGENTA~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~MAGENTA~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Options~~white~: ~~DARKRED~(~~MAGENTA~J~~DARKRED~)~~DARKCYAN~son~ ~DARKRED~(~~MAGENTA~A~~DARKRED~)~~DARKCYAN~dd~DARKRED~ (~~MAGENTA~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~MAGENTA~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~ (~~MAGENTA~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~MAGENTA~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$i = 1; [int]$w = 1
     if ($MenuAdds -eq $True) {
         while ($i -le $AddCount) {
@@ -184,7 +184,7 @@ while (1) {
             $it2 = ($Config.$AddItem).Command
             $it2 = "$it2".split('\')[-1]
             if ($i -ge 10) { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~$i~~DARKRED~)~~WHITE~.:~ ~DARKRED~[~~WHITE~$it1~~DARKRED~] [~~GREEN~$it2~~DARKRED~]~" ; $l++ }
-            else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~MAGENTA~ $i~~DARKRED~)~~WHITE~.:~ ~DARKRED~[~~WHITE~$it1~~DARKRED~] [~~GREEN~$it2~~DARKRED~]~" ; $l++ }
+            else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~ $i~~DARKRED~)~~WHITE~.:~ ~DARKRED~[~~WHITE~$it1~~DARKRED~] [~~GREEN~$it2~~DARKRED~]~" ; $l++ }
             $i++
             $a++
         }
@@ -208,7 +208,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $pp)
     PrettyLine
     if ($ReRun -eq 1) { $ReRun = 0 }
-    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~ [~~MAGENTA~Run~ ~DARKYELLOW~BinMenu, Re~~DARKRED~(~~MAGENTA~L~~DARKRED~)~~DARKYELLOW~oad, ~DARKRED~(~~MAGENTA~#~~DARKRED~)~~DARKYELLOW~Number to view or ~~DARKRED~(~~MAGENTA~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~ [~~MAGENTA~Run~ ~DARKYELLOW~BinMenu, Re~~DARKRED~(~~MAGENTA~L~~DARKRED~)~~DARKYELLOW~oad, ~DARKRED~(~~WHITE~##~~DARKRED~)~~DARKYELLOW~Number to view or ~~DARKRED~(~~MAGENTA~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($pop, [ref]$OutNumber)) {
         $MaxYes = $AddCount
@@ -407,9 +407,7 @@ while (1) {
         PrettyLine
         Say "Enter the Number of AddItem to Delete."
         [Console]::SetCursorPosition($w, ($pp + 1))
-        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
-        PrettyLine
-        if ($q1 -eq "") { $q1 = $qq }
+        [Int]::TryParse($q1) = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]" PrettyLine if ($q1 -eq "") { $q1 = $qq }
         $AddItem = "AddItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config = $Config | Select-Object -Property * -ExcludeProperty $AddItem
@@ -419,7 +417,7 @@ while (1) {
             $Fix1 = ($q1 + 1)
             $AddFix = "AddItem-$Fix1"
             $fixcheck = ($Config.$AddFix).Name
-            if (($fixcheck)) {
+            if ($null -ne $Config.$AddFix) {
                 <# Read #>
                 $f1 = ($Config.$AddFix).Name
                 $f2 = ($Config.$AddFix).Command
@@ -472,6 +470,8 @@ while (1) {
         PrettyLine
     }
     if ($pop -eq "V") {
+        $GTG1 = "NO"
+        $GTG2 = "NO"
         PrettyLine; Say "Enter the Number of RunItem to Verify."; [Console]::SetCursorPosition($w, ($pp + 1))
         [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter to Cancel]"
         [Console]::SetCursorPosition($w, $pp); Say "                                                               "

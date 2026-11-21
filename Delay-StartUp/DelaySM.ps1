@@ -16,15 +16,15 @@ if ($Hwnd -ne [IntPtr]::Zero) {
 }
 $TrayIcon = New-Object System.Windows.Forms.NotifyIcon
 $TrayIcon.Icon = $Icon
-$TrayIcon.Text = "BinSM"
+$TrayIcon.Text = "Delay-StartUp"
 $TrayIcon.Visible = $true
 Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
     $TrayIcon.Visible = $false
     $TrayIcon.Dispose()
 } | Out-Null
 #
-$FileVersion = "1.5.27"
-$FileDate = "11-20-2026"
+$FileVersion = "1.5.28"
+$FileDate = "11-21-2026"
 #
 $host.ui.RawUI.WindowTitle = "Delay-StartUp Settings Manager $FileVersion"
 if (!($ScriptBase)) { $ScriptBase = (Split-Path -Parent $PSCommandPath) }
@@ -34,16 +34,16 @@ function MyConfig {
     $MyConfig
 }
 $Script:ConfigFile = MyConfig
-try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
-catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; break }
+try { $Config = Get-Content "$ConfigFile" -Raw -ErrorAction Stop | ConvertFrom-Json }
+catch { Say -ForeGroundColor RED "The Base configuration file is missing!"; exit 1 }
 if (!($Config)) {
     Say -ForeGroundColor RED "The Delay-StartUp.json configuration file is missing!"
     Say -ForeGroundColor RED "You need to create or edit DelayStartUp.json in $BASE"
-    break
+    exit 1
 }
 $BASE = $env:Base
-if (!($BASE)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
-if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; break }
+if (!($BASE)) { $BASE = $Config.Setup.Base }
+if (!($BASE)) { Say -ForeGroundColor RED "SET BASE environment variable in your profiles or in the json. This shit uses that!"; exit 1 }
 Set-Location $BASE.substring(0, 3)
 Set-Location $BASE
 $ScriptBase = (Split-Path -Parent $PSCommandPath)
@@ -59,7 +59,7 @@ $ScriptBase = (Split-Path -Parent $PSCommandPath)
 [bool]$Prevent = ($Config.Setup.Prevent)
 [bool]$Notify = ($Config.Setup.Notify)
 [bool]$SysShow = ($Config.Setup.SysShow)
-[bool]$Pause = ($Config.Setup.Pause)
+[bool]$PreventPause = ($Config.Setup.Pause)
 [int]$PauseSec = ($Config.Setup.PauseSec)
 [string]$PauseOpt = ($Config.Setup.PauseOpt)
 [int]$WinWidth = ($Config.Setup.WinWidth)
@@ -83,105 +83,109 @@ function IOut {
     $Icon.Dispose()
     return
 }
-while (1) {
-    function FlexWindow {
-        $SaveError = $ErrorActionPreference
-        $ErrorActionPreference = "SilentlyContinue"
-        if (!($BWHeight)) { $BWHeight = "42" }
-        if (!($BWWidth)) { $BWWidth = "100" }
-        $pshost = Get-Host
-        $pswindow = $pshost.ui.rawui
-        $newsize = $pswindow.buffersize
-        $newsize.height = $BWHeight
-        $newsize.width = $BWWidth
-        $pswindow.buffersize = $newsize
-        $newsize = $pswindow.windowsize
-        $newsize.height = $BWHeight
-        $newsize.width = $BWWidth
-        $pswindow.windowsize = $newsize
-        $ErrorActionPreference = $SaveError
+function SpinItems {
+    $si = 1
+    $Sc = 20
+    $Script:AddCount = 0
+    while ($si -lt $sc) {
+        $RunItem = "RunItem-$si"
+        $Spin = ($Config.$RunItem.name)
+        if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+        else { $si = 20 }
     }
+    $Script:AddCount
+}
+function FlexWindow {
+    $SaveError = $ErrorActionPreference
+    $ErrorActionPreference = "SilentlyContinue"
+    if (!($BWHeight)) { $BWHeight = "42" }
+    if (!($BWWidth)) { $BWWidth = "100" }
+    $pshost = Get-Host
+    $pswindow = $pshost.ui.rawui
+    $newsize = $pswindow.buffersize
+    $newsize.height = $BWHeight
+    $newsize.width = $BWWidth
+    $pswindow.buffersize = $newsize
+    $newsize = $pswindow.windowsize
+    $newsize.height = $BWHeight
+    $newsize.width = $BWWidth
+    $pswindow.windowsize = $newsize
+    $ErrorActionPreference = $SaveError
+}
+function FightOn {
+    PrettyLine
+    Say $Rich1A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich1B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight1 = Read-Host -Prompt $boop
+    PrettyLine
+    Say $Rich2A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich2B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight2 = Read-Host -Prompt $boop
+    PrettyLine
+    Say $Rich3A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich3B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight3 = Read-Host -Prompt $boop
+    PrettyLine
+    Say $Rich4A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich4B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight4 = Read-Host -Prompt $boop
+    PrettyLine
+    Say $Rich5A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich5B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight5 = Read-Host -Prompt $boop
+    PrettyLine
+    Say $Rich6A
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    Say $rich6B
+    [Console]::SetCursorPosition($w, ($pp + 2))
+    $Script:Fight6 = Read-Host -Prompt $boop
+    PrettyLine
+}
+function PrettyLine {
+    [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                                                       "
+    [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
+    # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
+    # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    # [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
+    # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
+    [Console]::SetCursorPosition($w, $pp)
+}
+function FuckOff {
+    PrettyLine
+    Say $blah
+    [Console]::SetCursorPosition($w, ($pp + 1))
+    $Script:Fixer = Read-Host -Prompt $boop
+    if (!($Fixer)) { }
+    PrettyLine
+}
+function SpinItems {
+    $si = 1
+    $Sc = 20
+    $Script:AddCount = 0
+    while ($si -lt $sc) {
+        $RunItem = "RunItem-$si"
+        $Spin = ($Config.$RunItem.name)
+        if ($null -ne $Spin) { $Script:AddCount++; $si++ }
+        else { $si = 20 }
+    }
+}
+while (1) {
     FlexWindow
     if (($PosTest)) { Put-WinPosition.ps1 -WinName $host.ui.RawUI.WindowTitle -WinX $WinSMX -WinY $WinSMY | Out-Null }
     FlexWindow
-    function FuckOff {
-        PrettyLine
-        Say $blah
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        $Script:Fixer = Read-Host -Prompt $boop
-        if (!($Fixer)) { }
-        PrettyLine
-        $Fixer
-    }
-    function SpinItems {
-        $si = 1
-        $Sc = 20
-        $Script:AddCount = 0
-        while ($si -lt $sc) {
-            $RunItem = "RunItem-$si"
-            $Spin = ($Config.$RunItem.name)
-            if ($null -ne $Spin) { $Script:AddCount++; $si++ }
-            else { $si = 20 }
-        }
-        $Script:AddCount
-    }
     SpinItems
-    function PrettyLine {
-        [Console]::SetCursorPosition($w, $pp); Say -NoNewLine "                                                                                       "
-        [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 1)); Say -NoNewLine "                                                                                         "
-        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, ($pp + 2)); Say -NoNewLine "                                                                                         "
-        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        # [Console]::SetCursorPosition($w, ($pp + 3)); Say -NoNewLine "                                                                                         "
-        # [Console]::SetCursorPosition(0, 0); Say -NoNewLine ""
-        [Console]::SetCursorPosition($w, $pp)
-    }
-    function FightOn {
-        PrettyLine
-        Say $Rich1A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich1B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight1 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich2A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich2B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight2 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich3A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich3B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight3 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich4A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich4B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight4 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich5A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich5B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight5 = Read-Host -Prompt $boop
-        PrettyLine
-        Say $Rich6A
-        [Console]::SetCursorPosition($w, ($pp + 1))
-        Say $rich6B
-        [Console]::SetCursorPosition($w, ($pp + 2))
-        $Script:Fight6 = Read-Host -Prompt $boop
-        PrettyLine
-        $Fight1
-        $Fight2
-        $Fight3
-        $Fight4
-        $Fight5
-        $Fight6
-    }
     Clear-Host
     SpinItems
     [int]$l = 0
@@ -192,7 +196,7 @@ while (1) {
     [int]$w = 1
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~B~~DARKRED~)~~DARKCYAN~ase Folder~~WHITE~.......................: ~~DARKRED~[~~WHITE~$BASE~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Delay-Startup Base Folder~~WHITE~...........: ~~DARKRED~[~~WHITE~$ScriptBase~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Set Ed~~DARKRED~(~~MAGENTA~I~~DARKRED~)~~DARKCYAN~tor~WHITE~........................: ~~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Set Ed~~DARKRED~(~~MAGENTA~I~~DARKRED~)~~DARKCYAN~tor~~WHITE~........................: ~~DARKRED~[~~WHITE~$Editor~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~S~~DARKRED~)~~DARKCYAN~tartUp Delay (Secs)~~WHITE~..............: ~~DARKRED~[~~WHITE~$StartDelay~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~DELAY~~DARKRED~)~~DARKCYAN~ Between Program Runs~~WHITE~........: ~~DARKRED~[~~WHITE~$Delay~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~P~~DARKRED~)~~DARKCYAN~revent Run Toggle~~WHITE~................: ~~DARKRED~[~~WHITE~$Prevent~~DARKRED~]~"; $l++
@@ -200,7 +204,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~T~~DARKRED~)~~DARKCYAN~est Run Shooting Blanks~~WHITE~..........: ~~DARKRED~[~~WHITE~$TestRun~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~UP~~DARKRED~)~~DARKCYAN~ Use Positioning for Window~~WHITE~.....: ~~DARKRED~[~~WHITE~$WPosition~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~+~~DARKRED~)~~DARKCYAN~ Toggle Showing System Items~~WHITE~.....: ~~DARKRED~[~~WHITE~$SysShow~~DARKRED~]~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~Pause~~DARKRED~)~~DARKCYAN~ Initial Pause Then Run~~WHITE~......: ~~DARKRED~[~~WHITE~$Pause~~DARKRED~]~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~Pause~~DARKRED~)~~DARKCYAN~ Prevent Pause - Then Run~~WHITE~....: ~~DARKRED~[~~WHITE~$PreventPause~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~PS~~DARKRED~)~~DARKCYAN~ Pause Seconds~~WHITE~..................: ~~DARKRED~[~~WHITE~$PauseSec~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKRED~ (~~MAGENTA~PO~~DARKRED~)~~DARKCYAN~ Pause Option~~WHITE~...................: ~~DARKRED~[~~WHITE~$PauseOpt~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Window ~~DARKRED~(~~MAGENTA~W~~DARKRED~)~~DARKCYAN~idth~~WHITE~......................: ~~DARKRED~[~~WHITE~$WinWidth~~DARKRED~]~"; $l++
@@ -210,7 +214,7 @@ while (1) {
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Manager (this) Window Position ~~DARKRED~(~~MAGENTA~XX~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMX~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Manager (this) Window Position ~~DARKRED~(~~MAGENTA~YY~~DARKRED~)~~WHITE~.: ~~DARKRED~[~~WHITE~$WinSMY~~DARKRED~]~"; $l++
     [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Programs in JSON~ ~DARKRED~[~~WHITE~$AddCount~~DARKRED~], (~~MAGENTA~TOG~~DARKRED~)~~DARKCYAN~gle ON~~darkred~/~~darkcyan~OFF~~DARKRED~, (~~MAGENTA~ADMIN~~DARKRED~)~~DARKCYAN~toggle.~"; $l++
-    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Options~~white~: ~~DARKRED~(~~MAGENTA~J~~DARKRED~)~~DARKCYAN~SON Edit ~~DARKRED~(~~MAGENTA~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~MAGENTA~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~MAGENTA~E~~DARKRED~)~DARKCYAN~dit~~DARKRED~ (~~MAGENTA~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~MAGENTA~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
+    [Console]::SetCursorPosition($w, $l); WC "~DARKCYAN~ Options~~white~: ~~DARKRED~(~~MAGENTA~J~~DARKRED~)~~DARKCYAN~SON Edit ~~DARKRED~(~~MAGENTA~A~~DARKRED~)~~DARKCYAN~dd~~DARKRED~ (~~MAGENTA~D~~DARKRED~)~~DARKCYAN~elete~~DARKRED~ (~~MAGENTA~E~~DARKRED~)~~DARKCYAN~dit~~DARKRED~ (~~MAGENTA~V~~DARKRED~)~~DARKCYAN~erify~~DARKRED~ (~~MAGENTA~R~~DARKRED~)~~DARKCYAN~un Entry~"; $l++
     [int]$v = 3
     [int]$w = 1
     [int]$i = 0
@@ -220,7 +224,7 @@ while (1) {
         $su = ($su - 1)
         while ($i -le $su) {
             $SUItem = $StartUp[$i]
-            $su1 = $SUItem.name0
+            $su1 = $SUItem.name
             $su2 = "System"
             $su3 = $SUItem.command
             $su3 = "$su3".split('\')[-1]
@@ -273,7 +277,7 @@ while (1) {
         $Pop = "E"
         $Drop2Edit = 0
     }
-    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~ [~~DARKRED~(~~MAGENTA~Run~~DARKRED~)~ ~DARKYELLOW~Delay-StartUp, Re~~DARKRED~(~~MAGENTA~L~~DARKRED~)~~DARKYELLOW~oad, ~~DARKRED~(~~WHITE~##~~DARKRED~)~~DARKYELLOW~ to run or view ~~DARKRED~(~~MAGENTA~Q~~DARKRED~)~~DARKYELLOW~uit~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
+    else { $pop = $($MenuPrompt = WCP "~DARKCYAN~ [~~DARKRED~(~~MAGENTA~Run~~DARKRED~)~ ~DARKYELLOW~Delay-StartUp, Re~~DARKRED~(~~MAGENTA~L~~DARKRED~)~~DARKYELLOW~oad, ~~DARKRED~(~~WHITE~##~~DARKRED~)~~DARKYELLOW~ to run or view ~~DARKRED~(~~MAGENTA~Q~~DARKRED~)~~DARKYELLOW~uit~~DARKCYAN~]~~WHITE~: "; Read-Host -Prompt $menuPrompt) }
     [Int32]$OutNumber = $null
     if ([Int32]::TryParse($pop, [ref]$OutNumber)) {
         $MaxYes = $AddCount
@@ -319,7 +323,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.Base = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global
     }
@@ -329,7 +333,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.StartDelay = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$StartDelay = ($Config.Setup.StartDelay)
     }
@@ -339,15 +343,15 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.Delay = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$Delay = ($Config.Setup.Delay)
     }
     if ($pop -eq "PAUSE") {
         if (($Config.Setup.Pause) -eq 0) { $Config.Setup.Pause = 1 }
         else { $Config.Setup.Pause = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
-        [bool]$Pause = ($Config.Setup.Pause)
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
+        [bool]$PreventPause = ($Config.Setup.Pause)
     }
     if ($pop -eq "PS") {
         $blah = "Please enter the seconds to Pause Internally."
@@ -355,7 +359,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.PauseSec = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$PauseSec = ($Config.Setup.PauseSec)
     }
@@ -365,38 +369,38 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.PauseOpt = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [string]$PauseOpt = ($Config.Setup.PauseOpt)
     }
     if ($pop -eq "+") {
         if (($Config.Setup.SysShow) -eq 0) { $Config.Setup.SysShow = 1 }
         else { $Config.Setup.SysShow = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         [bool]$SysShow = ($Config.Setup.SysShow)
     }
     if ($pop -eq "P") {
         if (($Config.Setup.Prevent) -eq 0) { $Config.Setup.Prevent = 1 }
         else { $Config.Setup.Prevent = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         [bool]$Prevent = ($Config.Setup.Prevent)
     }
     if ($pop -eq "N") {
         if (($Config.Setup.Notify) -eq 0) { $Config.Setup.Notify = 1 }
         else { $Config.Setup.Notify = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         [bool]$Notify = ($Config.Setup.Notify)
     }
     if ($pop -eq "T") {
         if (($Config.Setup.TestRun) -eq 0) { $Config.Setup.TestRun = 1 }
         else { $Config.Setup.TestRun = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         [bool]$TestRun = ($Config.Setup.TestRun)
     }
     if ($pop -eq "UP") {
         if (($Config.Setup.WPosition) -eq 0) { $Config.Setup.WPosition = 1 }
         else { $Config.Setup.WPosition = 0 }
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         [bool]$WPosition = ($Config.Setup.WPosition)
     }
     if ($pop -eq "W") {
@@ -405,9 +409,9 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.BuffWidth = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             $Config.Setup.WinWidth = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinWidth = ($Config.Setup.WinWidth)
     }
@@ -417,9 +421,9 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.BuffHeight = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             $Config.Setup.WinHeight = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinHeight = ($Config.Setup.WinHeight)
     }
@@ -429,7 +433,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.Editor = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [string]$Editor = ($Config.Setup.Editor)
     }
@@ -444,7 +448,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.WinX = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinX = ($Config.Setup.WinX)
     }
@@ -454,7 +458,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.WinY = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinY = ($Config.Setup.WinY)
     }
@@ -464,7 +468,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.WinSMX = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinSMX = ($Config.Setup.WinSMX)
     }
@@ -474,7 +478,7 @@ while (1) {
         FuckOff
         if (($Fixer)) {
             $Config.Setup.WinSMY = $Fixer
-            $Config | ConvertTo-Json | Set-Content $ConfigFile
+            $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         }
         [int]$WinSMY = ($Config.Setup.WinSMY)
     }
@@ -485,7 +489,7 @@ while (1) {
         $test = @{Name = ""; HostOnly = ""; RunPath = ""; Argument = ""; goTime = ""; Admin = "" }
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $test
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         SpinItems
         $Drop2Edit = 1
     }
@@ -495,19 +499,18 @@ while (1) {
         PrettyLine
         Say "Enter the Number of RunItem to remove."
         [Console]::SetCursorPosition($w, ($pp + 1))
-        [int]$q1 = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
+        [Int]::TryParse($q1) = Read-Host -Prompt "Enter NUMBER of entry or [Enter for $qq]"
         PrettyLine
         if (!($q1)) { $q1 = $qq }
         $RunItem = "RunItem-$q1"
         $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
         $Config = $Config | Select-Object -Property * -ExcludeProperty $RunItem
-        $Config | ConvertTo-Json | Set-Content $ConfigFile
+        $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
         while ($q1 -le $AddCount) {
             $RunItem = "RunItem-$q1"
             $Fix1 = ($q1 + 1)
             $RunFix = "RunItem-$Fix1"
-            $fixcheck = ($Config.$RunFix).Name
-            if (($fixcheck)) {
+            if ($null -ne $Config.$RunFix) {
                 <# Read #>
                 $f1 = ($Config.$RunFix).Name
                 $f2 = ($Config.$RunFix).HostOnly
@@ -519,11 +522,11 @@ while (1) {
                 <# Write #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config | Add-Member -Type NoteProperty -Name $RunItem -Value $Fixer
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
                 <# Delete #>
                 $Config = Get-Content $ConfigFile | Out-String | ConvertFrom-Json
                 $Config = $Config | Select-Object -Property * -ExcludeProperty $RunFix
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             $q1++
         }
@@ -560,32 +563,32 @@ while (1) {
             if (($Fight1)) {
                 if ($Fight1 -eq "-") { $Fight1 = "" }
                 $Config.$RunItem.Name = $Fight1
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if (($Fight2)) {
                 if ($Fight2 -eq "-") { $Fight2 = "" }
                 $Config.$RunItem.HostOnly = $Fight2
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if (($Fight3)) {
                 if ($Fight3 -eq "-") { $Fight3 = "" }
                 $Config.$RunItem.RunPath = $Fight3
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if (($Fight4)) {
                 if ($Fight4 -eq "-") { $Fight4 = "" }
                 $Config.$RunItem.Argument = $Fight4
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if (($Fight5)) {
                 if ($Fight5 -eq "-") { $Fight5 = "" }
                 $Config.$RunItem.goTime = $Fight5
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if (($Fight6)) {
                 if ($Fight6 -eq "-") { $Fight6 = "" }
                 $Config.$RunItem.Admin = $Fight6
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
         }
         $Pop = ""
@@ -608,6 +611,7 @@ while (1) {
             else { $GTG1 = "NO" }
             if (($TestRun2)) { $GTG2 = "YES" }
             else { $GTG2 = "NO" }
+            $GTG3 = "NO"
             if (($TestRun3)) {
                 $Filetest = Test-Path -Path $TestRun3
                 if ($Filetest -eq $true) { $GTG3 = "YES" }
@@ -629,17 +633,17 @@ while (1) {
             if ($toggle -eq "OFF") {
                 $Fight = "ON"
                 $Config.$RunItem.HostOnly = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if ($toggle -eq "ON") {
                 $Fight = "OFF"
                 $Config.$RunItem.HostOnly = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if ($toggle -eq $env:USERDOMAIN) {
                 $Fight = "OFF"
                 $Config.$RunItem.HostOnly = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
         }
         $Pop = ""
@@ -656,17 +660,17 @@ while (1) {
             if ($toggle -eq "OFF") {
                 $Fight = "ON"
                 $Config.$RunItem.Admin = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
             if ($toggle -eq "ON") {
                 $Fight = "OFF"
                 $Config.$RunItem.Admin = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
-            if ($null -eq $toggle) {
+            if ([string]::IsNullOrWhiteSpace($toggle)) {
                 $Fight = "OFF"
                 $Config.$RunItem.Admin = $Fight
-                $Config | ConvertTo-Json | Set-Content $ConfigFile
+                $Config | ConvertTo-Json -Depth 5 | Set-Content $ConfigFile
             }
         }
         $Pop = ""
@@ -683,28 +687,50 @@ while (1) {
             $TestRun2 = ($Config.$RunItem).HostOnly
             $TestRun3 = ($Config.$RunItem).RunPath
             $TestRun4 = ($Config.$RunItem).Argument
-            $TestRun5 = ($Config.$RunItem).goTime
+            $TestRun6 = ($Config.$RunItem).Admin
+            $RunSplit = (Split-Path -Parent $TestRun3) + "\"
+            $ShouldRun = $true
             if ($TestRun2 -ne $env:USERDOMAIN -and $TestRun2 -ne "ON") {
                 Say "You are running this on $env:USERDOMAIN and it is configured for $TestRun2..."
                 [Console]::SetCursorPosition($w, ($pp + 1))
                 $fool = Read-Host -Prompt "Y to continue this foolishness or [Enter to Cancel]"
                 PrettyLine
-                if ($Fool -eq "Y") {
-                    Say "Test Running Entry $q1 $TestRun1"
-                    if (($TestRun4)) { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
-                    else { Start-Process -FilePath $TestRun3 }
-                }
+                $ShouldRun = ($fool -eq "Y")
             }
-            else {
+            if ($ShouldRun) {
                 Say "Test Running Entry $q1 $TestRun1"
-                if (($TestRun4)) { Start-Process -FilePath "$TestRun3" -ArgumentList $TestRun4 }
-                else { Start-Process -FilePath $TestRun3 }
+                $procParams = @{
+                    FilePath         = $TestRun3
+                    WorkingDirectory = $RunSplit
+                    ErrorAction      = 'Stop'
+                }
+                if ($TestRun4) { $procParams.ArgumentList = $TestRun4 }
+                if ($TestRun6 -eq "ON") { $procParams.Verb = 'RunAs' }
+
+                try {
+                    Start-Process @procParams
+                }
+                catch {
+                    Say -ForeGroundColor RED "Could not run $TestRun3"
+                }
             }
         }
     }
     PrettyLine
-    if ($pop -eq "L") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\DelaySM.ps1 -NoLogo"; IOut; exit }
-    if ($pop -eq "RUN") { PrettyLine; & Start-Process "pwsh.exe" -ArgumentList "$PSScriptRoot\Delay-StartUp.ps1 -NoLogo -NoProfile"; IOut; return }
+    if ($pop -eq "L") {
+        PrettyLine
+        $argList = @("-NoLogo", "-File", "`"$PSScriptRoot\DelaySM.ps1`"")
+        & Start-Process "pwsh.exe" -ArgumentList $argList
+        IOut
+        exit
+    }
+    if ($pop -eq "RUN") {
+        PrettyLine;
+        $argList = @("-NoLogo", "-File", "`"$PSScriptRoot\Delay-Startup.ps1`"")
+        & Start-Process "pwsh.exe" -ArgumentList $argList
+        IOut
+        return
+    }
     if ($pop -eq "Q") {
         IOut; return
         $Pop = ""
