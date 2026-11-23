@@ -16,12 +16,9 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.45"
+$FileVersion = "3.0.46"
 $FileDate = "11-23-2026"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
-# Register-EngineEvent PowerShell.Exiting -Action { exit }
-# Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
-# { Clear-Host; return }
 function MyConfig {
     $MyConfig = (Split-Path -Parent $PSCommandPath) + "\" + (Split-Path -Leaf $PSCommandPath)
     $MyConfig = ($MyConfig -replace ".ps1", ".json")
@@ -371,7 +368,7 @@ while (1) {
             $ValidOption = "YES"
         }
         elseif ($ans -eq "B") { Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
-        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; return }
+        elseif ($ans -eq "C") { FixLine; MyMaker; Clear-Host; Invoke-Item ($ScriptBase + "\BinMenu.lnk"); Clear-Host; exit }
         elseif ($ans -eq "D") {
             FixLine
             WC "~DARKCYAN~[~~DARKYELLOW~QuickMenu~~DARKCYAN~]~~DARKRED~(~~WHITE~1~~DARKRED~)~ ~GREEN~PowerShell ~~DARKRED~(~~WHITE~2~~DARKRED~)~ ~GREEN~CMD ~~DARKRED~(~~WHITE~3~~DARKRED~)~ ~GREEN~Ubuntu ~~DARKRED~(~~WHITE~4~~DARKRED~)~ ~GREEN~Fedora ~~DARKRED~(~~WHITE~5~~DARKRED~)~ ~GREEN~Total Commander ~~DARKRED~(~~WHITE~6~~DARKRED~)~ ~GREEN~Windows Terminal~"
