@@ -1,8 +1,36 @@
-$FileVersion = "3.0.38"
-$Base = $env:Base
+Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
+$Win32 = Add-Type -MemberDefinition @'
+[DllImport("kernel32.dll")]
+public static extern IntPtr GetConsoleWindow();
+[DllImport("user32.dll", CharSet = CharSet.Auto)]
+public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+'@ -Name "ConsoleIcon" -Namespace "Win32" -PassThru
+$IconPath = "$PSScriptRoot\BinSM.ico"
+$Icon = New-Object System.Drawing.Icon($IconPath)
+$Hwnd = $Win32::GetConsoleWindow()
+if ($Hwnd -ne [IntPtr]::Zero) {
+    $WM_SETICON = 0x0080
+    [void]$Win32::SendMessage($Hwnd, $WM_SETICON, [IntPtr]0, $Icon.Handle) # Small icon (title bar)
+    [void]$Win32::SendMessage($Hwnd, $WM_SETICON, [IntPtr]1, $Icon.Handle) # Large icon (Alt+Tab / taskbar)
+}
+$TrayIcon = New-Object System.Windows.Forms.NotifyIcon
+$TrayIcon.Icon = $Icon
+$TrayIcon.Text = "BinIM"
+$TrayIcon.Visible = $true
+Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
+    $TrayIcon.Visible = $false
+    $TrayIcon.Dispose()
+} | Out-Null
+#
+$FileVersion = "3.0.40"
+$FileDate = "11-23-2026"
+#
+$BASE = $env:Base
+if (!($BASE)) { $BASE = $Config.Setup.Base }
 if (!($Base)) {
     $Base = Put-Input "Enter the path to make your Base directory (No trailing slash)"
-    if ($Base -eq "") { EXIT }
+    if ($Base -eq "") { exit 1 }
 }
 if (!($Base)) { Say -ForeGroundColor RED "The Environment Variable Base must be set or this will not run, Set it or edit this script"; break }
 $ScriptBase = ($Base + "\BinMenu")
@@ -20,7 +48,7 @@ $Filetest = Test-Path -Path $FileCSV
 if (($Filetest)) { Remove-Item –Path $FileCSV }
 Say $fileVersion "Reading in directory" $Base
 Get-ChildItem -Path $Base -Recurse -Include "*.exe" | Select-Object `
-@{ n = 'Foldername'; e = { ($_.PSPath -split '[\\]')[3] } } ,
+@{ n = 'Foldername'; e = { ([System.IO.Path]::GetRelativePath($Base, $_.FullName) -split '[\\]')[0] } },
 Name,
 FullName | Export-Csv -Path $FileTXT -NoTypeInformation
 Say "Writing raw files info, Reread and sorting file names, Exporting all file names"
@@ -45,25 +73,12 @@ try {
         if ($tmpfolder -eq "yakyak" -and $tmpname -ne ($tmpbase + "\yakyak\yakyak.exe")) { return }
         if ($tmpfolder -eq "ImageMagick" -and $tmpname -ne ($tmpbase + "\ImageMagick\magick.exe")) { return }
         if ($tmpfolder -eq "HandBrake" -and $tmpname -ne ($tmpbase + "\HandBrake\HandBrake.exe")) { return }
-        $NameFix = Split-Path $tmpname -Leaf
-        #$NameFix = $NameFix.tolower()
-        $namesplit = $NameFix.split(" ")
-        if (($namesplit[2])) {
-            $namesplit[0].substring(0, 1).toupper() + $namesplit[0].substring(1) | Out-Null
-            $namesplit[1].substring(0, 1).toupper() + $namesplit[1].substring(1) | Out-Null
-            $namesplit[2].substring(0, 1).toupper() + $namesplit[2].substring(1) | Out-Null
-            $NameFix = ($namesplit[0] + " " + $namesplit[1] + " " + $namesplit[2])
-        }
-        elseif (($namesplit[1])) {
-            $namesplit[0].substring(0, 1).toupper() + $namesplit[0].substring(1) | Out-Null
-            $namesplit[1].substring(0, 1).toupper() + $namesplit[1].substring(1) | Out-Null
-            $NameFix = ($namesplit[0] + " " + $namesplit[1])
-        }
-        else { $NameFix = $NameFix.substring(0, 1).toupper() + $NameFix.substring(1) }
+        $NameFix = (Split-Path $tmpname -Leaf).ToLower()
+        $NameFix = ($NameFix -replace '\s+', ' ').Trim()
+        $NameFix = [regex]::Replace($NameFix, '(?<=^|[\s_-])[a-z]', { $args[0].Value.ToUpper() })
         if ($NameFix -eq "bash.exe") { $NameFix = "Git Bash.exe" }
         if ($NameFix -eq "Totalcmd64.exe") { $NameFix = "Total Commander.exe" }
         if ($NameFix -eq "conemu64.exe") { $NameFix = "Console Emulator.exe" }
-        if ($NameFix -eq "yakyak.exe") { $NameFix = "YakYak.exe" }
         if ($NameFix -eq "magick.exe") { $NameFix = "ImageMagick.exe" }
         $Decidep = "Add $NameFix ? (Y/N/Q/(E)dit)[Enter is No]"
         Say "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
@@ -78,7 +93,7 @@ try {
             $Decide = "Y"
         }
         if ($Decide -eq "Y") {
-            $NameFix = $NameFix.replace(".exe", "")
+            $NameFix = $NameFix -replace '\.exe$', ''
             Say "Adding to Menu: $NameFix"
             $Writer.WriteLine("[" + $i + "A]=" + $NameFix)
             $Writer.WriteLine("[" + $i + "B]=" + $_.fullname)
@@ -99,4 +114,5 @@ $Filetest = Test-Path -Path $FileCSV
 if (($Filetest)) { Remove-Item –Path $FileCSV }
 Clear-Host
 Invoke-Item ($ScriptBase + "\BinMenu.lnk");
+$TrayIcon.Dispose()
 return

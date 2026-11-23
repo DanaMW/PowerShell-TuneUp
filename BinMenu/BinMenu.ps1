@@ -3,7 +3,6 @@
         BinMenu
         Created By: Dana l. Meli-Wischman
         Created Date: April, 2018
-        Last Modified Date: Sept 20, 2026
 
 .DESCRIPTION
         This script is designed to create a menu of all exe files in subfolders off a set base.
@@ -17,8 +16,8 @@
         Still under development.
 
 #>
-$FileVersion = "3.0.44"
-$FileDate = "09-20-2026"
+$FileVersion = "3.0.45"
+$FileDate = "11-23-2026"
 $host.ui.RawUI.WindowTitle = "My BinMenu $FileVersion on $env:USERDOMAIN"
 # Register-EngineEvent PowerShell.Exiting -Action { exit }
 # Register-EngineEvent PowerShell.Exiting -SupportEvent -Action `
@@ -110,13 +109,17 @@ if (($Filetest)) { Remove-Item -Path $Filetmp }
 Set-Location $ScriptBase.substring(0, 3)
 Set-Location $ScriptBase
 SpinItems
+function MyMaker {
+    Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinIM.ps1") -Verb RunAs
+    return
+}
 $Filetest = Test-Path -Path $FileINI
 if (!($Filetest)) {
     Say "The File $FileINI is missing. We Can not continue without it."
     Say "We are going to run the INI creator function now"
     Read-Host -Prompt "[Enter to continue]"
     [bool]$NoINI = $True
-    My-Maker
+    MyMaker
 }
 <# ########## MenuAdds Toggles ON ########## #>
 if (($MenuAdds)) {
@@ -127,15 +130,14 @@ if (($MenuAdds)) {
     while ($j -le $AddCount) {
         $AddItem = "AddItem-$j"
         $k = ($Config.$AddItem).name
-        $t = $(Select-String -Pattern $k $FileINI)
+        $t = $(Select-String -Pattern $k -SimpleMatch $FileINI)
         if ($null -eq $t) {
             $value1 = ("[" + $temp2 + "A]=") + ($Config.$AddItem).name
             (Add-Content $FileINI $value1)
             $value2 = ("[" + $temp2 + "B]=") + ($Config.$AddItem).command
             (Add-Content $FileINI $value2)
             $value3 = ("[" + $temp2 + "C]=") + ($Config.$AddItem).argument
-            if (!($value3)) { (Add-Content $FileINI $value3) }
-            else { (Add-Content $FileINI $value3) }
+            (Add-Content $FileINI $value3)
             $Temp2++
         }
         $j++
@@ -147,17 +149,12 @@ if (!($MenuAdds)) {
     $wow = ($Config.$AddItem).name
     if (($wow)) {
         $name = "=" + ($Config.$AddItem).name
-        [int]$it = (Select-String -SimpleMatch $name $FileINI).linenumber
-        if (($it)) {
-            $it = ($it - 1)
-            $q = 0
-            while ($q -lt $it) {
-                $tr = (Get-Content $FileINI)[$q]
-                (Add-Content ./BinMenu.no $tr)
-                $q++
-            }
-            Remove-Item $FileINI
-            Rename-Item -Path ./BinMenu.no -NewName $FileINI
+        [int]$it = (Select-String -SimpleMatch $name $FileINI).LineNumber
+        if ($it -gt 1) {
+            (Get-Content $FileINI)[0..($it - 2)] | Set-Content $FileINI
+        }
+        elseif ($it -eq 1) {
+            Clear-Content $FileINI
         }
     }
 }
@@ -245,27 +242,26 @@ function Draw-Window {
     [int]$c = 0
     [int]$w = $col[0]
     [int]$i = 1
-    $Reader = New-Object IO.StreamReader ($fileINI, [Text.Encoding]::UTF8, $true, 4MB)
+    $Reader = New-Object IO.StreamReader ($FileINI, [Text.Encoding]::UTF8, $true, 4MB)
     while ($i -le $Work) {
-        if ($i -le $Work) {
-            $Line = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-            $moo = $line.split("=")
-            [string]$tmpm = $moo[1]
-            if ($i -le 9) { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
-            else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
-            $ltwo = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-            $lthree = $Reader.ReadLine()
-            if (($read.EndOfStream)) { $i = $Work; $Reader.close() }
-        }
+        if ($Reader.EndOfStream) { break }
+        $Line = $Reader.ReadLine()
+        if ($null -eq $Line) { break }
+        $moo = $Line.Split("=", 2)
+        [string]$tmpm = $moo[1]
+        if ($i -le 9) { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~ $i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
+        else { [Console]::SetCursorPosition($w, $l); WC "~DARKRED~[~~WHITE~$i~~DARKRED~]~ ~DARKCYAN~$tmpm~" }
+        if ($Reader.EndOfStream) { break }
+        $ltwo = $Reader.ReadLine()
+        if ($Reader.EndOfStream) { break }
+        $lthree = $Reader.ReadLine()
         if ($i -eq $Row[0]) { [int]$l = 6; [int]$w = $Col[1] }
         if ($i -eq $Row[1]) { [int]$l = 6; [int]$w = $Col[2] }
         $i++
         $c = ($c + 3)
-        $L++
+        $l++
     }
-    $Reader.close()
+    $Reader.Close()
     $GLOBAL:pp = ($a + 8)
     [Console]::SetCursorPosition(0, $GLOBAL:pp)
     $WinHeight = ($GLOBAL:pp + 4)
@@ -275,10 +271,6 @@ function Draw-Window {
     if (($NoINI)) { [bool]$NoINI = $False; MyMaker }
     FlexWindow
     $ValidOption = "NO"
-}
-function MyMaker {
-    Start-Process "pwsh.exe" -ArgumentList ($ScriptBase + "\BinIM.ps1") -Verb RunAs
-    break
 }
 <# ########## Begin The Menu Loop ########## #>
 $ans = " "
@@ -327,9 +319,13 @@ while (1) {
                     $bus = $car -split "="
                     $truck = $bus[1]
                     if (($truck)) {
-                        [string]$MakeMove = Split-Path $truck
-                        try { Start-Process "$horn" -ArgumentList "$truck" -Verb RunAs -WorkingDirectory "$MakeMove" }
-                        catch { continue }
+                        $MakeMove = if (Test-Path $truck) { Split-Path $truck } else { $null }
+                        if ($MakeMove) {
+                            Start-Process $horn -ArgumentList $truck -Verb RunAs -WorkingDirectory $MakeMove
+                        }
+                        else {
+                            Start-Process $horn -ArgumentList $truck -Verb RunAs
+                        }
                         $ValidOption = "YES"
                         $DidIt = "YES"
                     }
@@ -363,7 +359,8 @@ while (1) {
             $cmd = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~What EXE to run?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter to Cancel~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
             FixLine
             if (($cmd)) {
-                $cmd = ($cmd.split(".")[0] + ".EXE")
+                # $cmd = ($cmd.split(".")[0] + ".EXE")
+                if ($cmd -notmatch '\.exe$') { $cmd += '.EXE' }
                 FixLine
                 $cmd1 = $($MenuPrompt = WCP "~DARKCYAN~[~~DARKYELLOW~Add any parameters?~~DARKCYAN~]~ ~DARKRED~(~~WHITE~Enter for none~~DARKRED~)~~WHITE~: "; Read-Host -Prompt $menuPrompt)
                 FixLine

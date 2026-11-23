@@ -23,8 +23,8 @@ Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
     $TrayIcon.Dispose()
 } | Out-Null
 #
-$FileVersion = "3.0.45"
-$FileDate = "11-20-2026"
+$FileVersion = "3.0.47"
+$FileDate = "11/23/2026"
 #
 $host.ui.RawUI.WindowTitle = ("BinMenu Settings Manager " + $FileVersion)
 if (!($ReRun)) { $ReRun = 0 }
@@ -44,8 +44,8 @@ Say "Reading from $Script:ConfigFile"
 try { $Script:Config = Get-Content $ConfigFile -Raw | ConvertFrom-Json }
 catch { Write-Error -Message "The Base configuration file is missing!" }
 if (!($Config)) { Write-Error -Message "The Base configuration file is missing!" }
-$Base = $env:Base
-if (!($Base)) { Set-Variable -Name Base -Value ($Config.Setup.Base) -Scope Global }
+$BASE = $env:Base
+if (!($BASE)) { $BASE = $Config.Setup.Base }
 if (!($Base)) {
     #$ans = Read-Host -Prompt "Enter your Base directory (no trailing slash): "
     $ans = Put-Input "Enter your Base directory (no trailing slash): "
